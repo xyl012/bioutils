@@ -6,4 +6,4 @@ Utilities for working with UTF8 encoded biological sequences. Functionality is v
   <ul>does what you expect over punctuation and special characters </ul>
 
 
-The main use case for this crate is to preprocess and annotate problematic sequences for other Rust libraries at the string level. These sequences may then be turned into u8 representations for processing, etc.
+The main use case for this crate is to preprocess and annotate problematic sequences for other Rust libraries which assume ASCII or IUPAC encoding at the string level. These sequences may then be turned into u8 representations for processing, etc.

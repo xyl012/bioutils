@@ -7,3 +7,10 @@ Utilities for working with biological sequences. Functionality is very similar t
 
 
 The main use case for this crate is to preprocess and annotate sequences while being robust to errors caused by assuming ASCII or IUPAC encoding. If the sequence has a new or corrupt character, these utilities may be able to replace them. Sequences can then be turned into u8 representations for downstream processes.
+
+Currently functionality is based on return values: 
+
+Replace UTF8 characters with pseudorandom nucleotides (ACTG, case-sensitive) (returns a string or str)
+Check whether the sequence is a homopolymer, palindrome, etc. based on input value (boolean)
+Convert string/str to u8 or u8 to string/str (ASCII is same as UTF8 for ASCII characters)
+

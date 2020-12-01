@@ -1,5 +1,5 @@
 # bioutils
-Utilities for working with UTF8 encoded biological sequences. Functionality is very similar to biopython, with additional functionality to work with u8 data downstream. This crate is probably:
+Utilities for working with UTF8 encoded biological sequences. Functionality is very similar to biopython (utf8 encoding), with additional functionality to work with u8 data downstream. This crate is probably:
 
   <ul>Slower than u8 based counterparts </ul>
   <ul>tolerant of errors in strings, variable CIGAR/name strings </ul>

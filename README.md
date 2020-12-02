@@ -1,4 +1,4 @@
-# bioutils
+# Bioutils
 Utilities for working with biological sequences. Functionality is very similar to biopython. This crate is probably:
 
   <ul>Slower than pure u8 based counterparts </ul>

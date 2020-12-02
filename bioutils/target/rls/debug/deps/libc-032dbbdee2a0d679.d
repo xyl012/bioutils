@@ -1,0 +1,13 @@
+/Users/l/Desktop/projects/bioutils/bioutils/target/rls/debug/deps/libc-032dbbdee2a0d679.rmeta: /Users/l/.cargo/registry/src/github.com-1ecc6299db9ec823/libc-0.2.80/src/lib.rs /Users/l/.cargo/registry/src/github.com-1ecc6299db9ec823/libc-0.2.80/src/macros.rs /Users/l/.cargo/registry/src/github.com-1ecc6299db9ec823/libc-0.2.80/src/fixed_width_ints.rs /Users/l/.cargo/registry/src/github.com-1ecc6299db9ec823/libc-0.2.80/src/unix/mod.rs /Users/l/.cargo/registry/src/github.com-1ecc6299db9ec823/libc-0.2.80/src/unix/bsd/mod.rs /Users/l/.cargo/registry/src/github.com-1ecc6299db9ec823/libc-0.2.80/src/unix/bsd/apple/mod.rs /Users/l/.cargo/registry/src/github.com-1ecc6299db9ec823/libc-0.2.80/src/unix/bsd/apple/b64/mod.rs /Users/l/.cargo/registry/src/github.com-1ecc6299db9ec823/libc-0.2.80/src/unix/bsd/apple/b64/align.rs /Users/l/.cargo/registry/src/github.com-1ecc6299db9ec823/libc-0.2.80/src/unix/align.rs
+
+/Users/l/Desktop/projects/bioutils/bioutils/target/rls/debug/deps/libc-032dbbdee2a0d679.d: /Users/l/.cargo/registry/src/github.com-1ecc6299db9ec823/libc-0.2.80/src/lib.rs /Users/l/.cargo/registry/src/github.com-1ecc6299db9ec823/libc-0.2.80/src/macros.rs /Users/l/.cargo/registry/src/github.com-1ecc6299db9ec823/libc-0.2.80/src/fixed_width_ints.rs /Users/l/.cargo/registry/src/github.com-1ecc6299db9ec823/libc-0.2.80/src/unix/mod.rs /Users/l/.cargo/registry/src/github.com-1ecc6299db9ec823/libc-0.2.80/src/unix/bsd/mod.rs /Users/l/.cargo/registry/src/github.com-1ecc6299db9ec823/libc-0.2.80/src/unix/bsd/apple/mod.rs /Users/l/.cargo/registry/src/github.com-1ecc6299db9ec823/libc-0.2.80/src/unix/bsd/apple/b64/mod.rs /Users/l/.cargo/registry/src/github.com-1ecc6299db9ec823/libc-0.2.80/src/unix/bsd/apple/b64/align.rs /Users/l/.cargo/registry/src/github.com-1ecc6299db9ec823/libc-0.2.80/src/unix/align.rs
+
+/Users/l/.cargo/registry/src/github.com-1ecc6299db9ec823/libc-0.2.80/src/lib.rs:
+/Users/l/.cargo/registry/src/github.com-1ecc6299db9ec823/libc-0.2.80/src/macros.rs:
+/Users/l/.cargo/registry/src/github.com-1ecc6299db9ec823/libc-0.2.80/src/fixed_width_ints.rs:
+/Users/l/.cargo/registry/src/github.com-1ecc6299db9ec823/libc-0.2.80/src/unix/mod.rs:
+/Users/l/.cargo/registry/src/github.com-1ecc6299db9ec823/libc-0.2.80/src/unix/bsd/mod.rs:
+/Users/l/.cargo/registry/src/github.com-1ecc6299db9ec823/libc-0.2.80/src/unix/bsd/apple/mod.rs:
+/Users/l/.cargo/registry/src/github.com-1ecc6299db9ec823/libc-0.2.80/src/unix/bsd/apple/b64/mod.rs:
+/Users/l/.cargo/registry/src/github.com-1ecc6299db9ec823/libc-0.2.80/src/unix/bsd/apple/b64/align.rs:
+/Users/l/.cargo/registry/src/github.com-1ecc6299db9ec823/libc-0.2.80/src/unix/align.rs:

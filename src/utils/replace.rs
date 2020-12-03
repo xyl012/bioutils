@@ -160,9 +160,9 @@ pub fn replace_all_lowercase(nucl: String, mut rng: ThreadRng) -> String {
     nucl
 }
 
-#[test]
-fn test_rand_replace() {
-    let mut rng = rand::thread_rng();
-    let test = replace_all("ACTGuyUNn.-@<^>".to_string());
-    assert_eq!(test.len(), "ACTGuyUNn.-@<^>".to_string().len());
-}
+// #[test]
+// fn test_rand_replace() {
+//     let mut rng = rand::thread_rng();
+//     let test = replace_all("ACTGuyUNn.-@<^>".to_string());
+//     assert_eq!(test.len(), "ACTGuyUNn.-@<^>".to_string().len());
+// }

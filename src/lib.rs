@@ -1,6 +1,7 @@
 
 
 pub mod utils;
+pub mod charsets;
 
 #[cfg(test)]
 mod tests {

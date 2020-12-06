@@ -1,42 +1,39 @@
 // Copyright 2020 Christopher Sugai
 
 //! Quality character (sub-)sets including Phred33, Phred64, and Solexa/Illumina 1.0 (for compatibility)
-//! Written explicitly for clarity. Characters which require escape have been replaced with their hex counterpart
 
 // Phred33 charset: ASCII 33-126
-pub const PHRED33: [u8; 94] = [b'!', b'"', b'#', b'$', b'%', b'&', 0x0027, b'(', b')', b'*', b'+', b',', b'-', b'.', b'/', b'0', b'1', b'2', b'3', b'4', b'5', b'6', b'7', b'8', b'9', b':', b';', b'<', b'=', b'>', b'?', b'@', b'A', b'B', b'C', b'D', b'E', b'F', b'G', b'H', b'I', b'J', b'K', b'L', b'M', b'N', b'O', b'P', b'Q', b'R', b'S', b'T', b'U', b'V', b'W', b'X', b'Y', b'Z', 0x005B, 0x005C, 0x005D, b'^', b'_', b'`', b'a', b'b', b'c', b'd', b'e', b'f', b'g', b'h', b'i', b'j', b'k', b'l', b'm', b'n', b'o', b'p', b'q', b'r', b's', b't', b'u', b'v', b'w', b'x', b'y', b'z', b'{', b'|', b'}', b'~'];
+pub const PHRED33_CHARSET_U8: [u8; 94] = [b'!', b'"', b'#', b'$', b'%', b'&', 0x0027, b'(', b')', b'*', b'+', b',', b'-', b'.', b'/', b'0', b'1', b'2', b'3', b'4', b'5', b'6', b'7', b'8', b'9', b':', b';', b'<', b'=', b'>', b'?', b'@', b'A', b'B', b'C', b'D', b'E', b'F', b'G', b'H', b'I', b'J', b'K', b'L', b'M', b'N', b'O', b'P', b'Q', b'R', b'S', b'T', b'U', b'V', b'W', b'X', b'Y', b'Z', 0x005B, 0x005C, 0x005D, b'^', b'_', b'`', b'a', b'b', b'c', b'd', b'e', b'f', b'g', b'h', b'i', b'j', b'k', b'l', b'm', b'n', b'o', b'p', b'q', b'r', b's', b't', b'u', b'v', b'w', b'x', b'y', b'z', b'{', b'|', b'}', b'~'];
+pub const PHRED33_CHARSET_STR: [&str; 94] = [r#"!"#, r#"""#, r##"#"##, r#"$"#, r#"%"#, r#"&"#, r#"'"#, r#"("#, r#")"#, r#"*"#, r#"+"#, r#","#, r#"-"#, r#"."#, r#"/"#, r#"0"#, r#"1"#, r#"2"#, r#"3"#, r#"4"#, r#"5"#, r#"6"#, r#"7"#, r#"8"#, r#"9"#, r#":"#, r#";"#, r#"<"#, r#"="#, r#">"#, r#"?"#, r#"@"#, r#"A"#, r#"B"#, r#"C"#, r#"D"#, r#"E"#, r#"F"#, r#"G"#, r#"H"#, r#"I"#, r#"J"#, r#"K"#, r#"L"#, r#"M"#, r#"N"#, r#"O"#, r#"P"#, r#"Q"#, r#"R"#, r#"S"#, r#"T"#, r#"U"#, r#"V"#, r#"W"#, r#"X"#, r#"Y"#, r#"Z"#, r#"["#, r#"\"#, r#"]"#, r#"^"#, r#"_"#, r#"`"#, r#"a"#, r#"b"#, r#"c"#, r#"d"#, r#"e"#, r#"f"#, r#"g"#, r#"h"#, r#"i"#, r#"j"#, r#"k"#, r#"l"#, r#"m"#, r#"n"#, r#"o"#, r#"p"#, r#"q"#, r#"r"#, r#"s"#, r#"t"#, r#"u"#, r#"v"#, r#"w"#, r#"x"#, r#"y"#, r#"z"#, r#"{"#, r#"|"#, r#"}"#, r#"~"#];
 
 // Phred64 charset: ASCII 64-126
-pub const PHRED64: [u8; 63] = [b'@', b'A', b'B', b'C', b'D', b'E', b'F', b'G', b'H', b'I', b'J', b'K', b'L', b'M', b'N', b'O', b'P', b'Q', b'R', b'S', b'T', b'U', b'V', b'W', b'X', b'Y', b'Z', 0x005B, 0x005C, 0x005D, b'^', b'_', b'`', b'a', b'b', b'c', b'd', b'e', b'f', b'g', b'h', b'i', b'j', b'k', b'l', b'm', b'n', b'o', b'p', b'q', b'r', b's', b't', b'u', b'v', b'w', b'x', b'y', b'z', b'{', b'|', b'}', b'~'];
+pub const PHRED64_CHARSET_U8: [u8; 63] = [b'@', b'A', b'B', b'C', b'D', b'E', b'F', b'G', b'H', b'I', b'J', b'K', b'L', b'M', b'N', b'O', b'P', b'Q', b'R', b'S', b'T', b'U', b'V', b'W', b'X', b'Y', b'Z', 0x005B, 0x005C, 0x005D, b'^', b'_', b'`', b'a', b'b', b'c', b'd', b'e', b'f', b'g', b'h', b'i', b'j', b'k', b'l', b'm', b'n', b'o', b'p', b'q', b'r', b's', b't', b'u', b'v', b'w', b'x', b'y', b'z', b'{', b'|', b'}', b'~'];
+pub const PHRED64_CHARSET_STR: [&str; 63] = [r#"@"#, r#"A"#, r#"B"#, r#"C"#, r#"D"#, r#"E"#, r#"F"#, r#"G"#, r#"H"#, r#"I"#, r#"J"#, r#"K"#, r#"L"#, r#"M"#, r#"N"#, r#"O"#, r#"P"#, r#"Q"#, r#"R"#, r#"S"#, r#"T"#, r#"U"#, r#"V"#, r#"W"#, r#"X"#, r#"Y"#, r#"Z"#, r#"["#, r#"\"#, r#"]"#, r#"^"#, r#"_"#, r#"`"#, r#"a"#, r#"b"#, r#"c"#, r#"d"#, r#"e"#, r#"f"#, r#"g"#, r#"h"#, r#"i"#, r#"j"#, r#"k"#, r#"l"#, r#"m"#, r#"n"#, r#"o"#, r#"p"#, r#"q"#, r#"r"#, r#"s"#, r#"t"#, r#"u"#, r#"v"#, r#"w"#, r#"x"#, r#"y"#, r#"z"#, r#"{"#, r#"|"#, r#"}"#, r#"~"#];
 
 // Solexa/Illumina 1.0 charset: ASCII 59-126
-pub const SOLEXA: [u8; 68] = [b';', b'<', b'=', b'>', b'?', b'@', b'A', b'B', b'C', b'D', b'E', b'F', b'G', b'H', b'I', b'J', b'K', b'L', b'M', b'N', b'O', b'P', b'Q', b'R', b'S', b'T', b'U', b'V', b'W', b'X', b'Y', b'Z', 0x005B, 0x005C, 0x005D, b'^', b'_', b'`', b'a', b'b', b'c', b'd', b'e', b'f', b'g', b'h', b'i', b'j', b'k', b'l', b'm', b'n', b'o', b'p', b'q', b'r', b's', b't', b'u', b'v', b'w', b'x', b'y', b'z', b'{', b'|', b'}', b'~'];
-
-
+pub const SOLEXA_CHARSET_U8: [u8; 68] = [b';', b'<', b'=', b'>', b'?', b'@', b'A', b'B', b'C', b'D', b'E', b'F', b'G', b'H', b'I', b'J', b'K', b'L', b'M', b'N', b'O', b'P', b'Q', b'R', b'S', b'T', b'U', b'V', b'W', b'X', b'Y', b'Z', 0x005B, 0x005C, 0x005D, b'^', b'_', b'`', b'a', b'b', b'c', b'd', b'e', b'f', b'g', b'h', b'i', b'j', b'k', b'l', b'm', b'n', b'o', b'p', b'q', b'r', b's', b't', b'u', b'v', b'w', b'x', b'y', b'z', b'{', b'|', b'}', b'~'];
+pub const SOLEXA_CHARSET_STR: [&str; 68] = [r#";"#, r#"<"#, r#"="#, r#">"#, r#"?"#, r#"@"#, r#"A"#, r#"B"#, r#"C"#, r#"D"#, r#"E"#, r#"F"#, r#"G"#, r#"H"#, r#"I"#, r#"J"#, r#"K"#, r#"L"#, r#"M"#, r#"N"#, r#"O"#, r#"P"#, r#"Q"#, r#"R"#, r#"S"#, r#"T"#, r#"U"#, r#"V"#, r#"W"#, r#"X"#, r#"Y"#, r#"Z"#, r#"["#, r#"\"#, r#"]"#, r#"^"#, r#"_"#, r#"`"#, r#"a"#, r#"b"#, r#"c"#, r#"d"#, r#"e"#, r#"f"#, r#"g"#, r#"h"#, r#"i"#, r#"j"#, r#"k"#, r#"l"#, r#"m"#, r#"n"#, r#"o"#, r#"p"#, r#"q"#, r#"r"#, r#"s"#, r#"t"#, r#"u"#, r#"v"#, r#"w"#, r#"x"#, r#"y"#, r#"z"#, r#"{"#, r#"|"#, r#"}"#, r#"~"#];
 
 #[cfg(test)]
 mod tests {
-    use super::{PHRED33, PHRED64, SOLEXA};
+    use super::{PHRED33_CHARSET_U8, PHRED64_CHARSET_U8, SOLEXA_CHARSET_U8};
     #[test]
     fn test_phred33() {
-        let mut dec: [u8; 94] = [0..93; 94];
-        // let test = dec.map(|v| v + 1);
-        // let dec: [u8; 94] = [33..126; 94];
-        assert_eq!(dec, PHRED33);
+        let dec: Vec<u8> = (33..127).collect();
+        assert_eq!(dec, PHRED33_CHARSET_U8);
+    }
+    #[test]
+    fn test_phred64() {
+        let dec: Vec<u8> = (64..127).collect();
+        assert_eq!(dec, PHRED64_CHARSET_U8);
+    }
+    #[test]
+    fn test_solexa() {
+        let dec: Vec<u8> = (59..127).collect();
+        assert_eq!(dec, SOLEXA_CHARSET_U8);
     }
 }
 
-// #[test]
-// fn test_phred64() {
-//     let dec = [33..126];
-//     assert_eq!(dec, PHRED64);
-// }
-
-// #[test]
-// fn test_solexa() {
-//     let dec = [33..126];
-//     assert_eq!(dec, SOLEXA);
-// }
 // if non-ascii found, will replace with !, a q score of 0 by default. May also return error.
 
 // ASCII Codes:

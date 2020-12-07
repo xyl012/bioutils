@@ -8,7 +8,7 @@
 use crate::charsets::iupac::*;
 use crate::charsets::quality::*;
 use std::str::from_utf8;
-
+use std::convert::From;
 trait CheckSequence<T: From<u8>> {
 
     // // sequence checks
@@ -41,8 +41,9 @@ trait CheckSequence<T: From<u8>> {
 
 impl<T> dyn CheckSequence<T> where T: From<u8> {
     fn is_iupac_nucleotide(&self) -> bool {
-        if IUPAC_NUCLEOTIDE_U8.contains(self as u8) {true} else{false}
-        // if self.iter().any(|&IUPAC_NUCLwEOTIDE_U8| IUPAC_NUCLEOTIDE_U8==self) {
+        let u: u8 = self;
+        if IUPAC_NUCLEOTIDE_U8.contains(&u) {true} else{false}
+        // if self.iter().any(|&IUPAC_NUCLEOTIDE_U8| IUPAC_NUCLEOTIDE_U8==self) {
         //     true
         }
     // fn is_iupac_amino_acid(&self) -> bool {

@@ -3,6 +3,9 @@
 pub mod utils;
 pub mod charsets;
 
+#[macro_use] extern crate lazy_static;
+
+
 #[cfg(test)]
 mod tests {
     #[test]

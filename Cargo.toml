@@ -10,3 +10,4 @@ edition = "2018"
 
 unicode-segmentation = "1.7.1"
 rand = "0.7.3"
+lazy_static = "1.4.0"

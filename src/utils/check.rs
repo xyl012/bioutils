@@ -39,20 +39,21 @@ trait CheckSequence<T: From<u8>> {
     // fn is_inexact_palindrome(&self) -> bool;
 }
 
-impl<T> dyn CheckSequence<T> where T: From<u8> {
-    fn is_iupac_nucleotide(&self) -> bool {
-        let u: u8 = self;
-        if IUPAC_NUCLEOTIDE_U8.contains(&u) {true} else{false}
-        // if self.iter().any(|&IUPAC_NUCLEOTIDE_U8| IUPAC_NUCLEOTIDE_U8==self) {
-        //     true
-        }
-    // fn is_iupac_amino_acid(&self) -> bool {
-    //     true
-    // }
-    // fn is_basic_nucleotide(&self) -> bool {
-    //     true
-    // }
-    // fn is_basic_amino_acid(&self) -> bool {
-    //     true
-    // }
-}
+
+// impl<T> dyn CheckSequence<T> where T: From<u8> {
+//     fn is_iupac_nucleotide(&self) -> bool {
+//         let u: u8 = self;
+//         if IUPAC_NUCLEOTIDE_U8.contains(&u) {true} else{false}
+//         // if self.iter().any(|&IUPAC_NUCLEOTIDE_U8| IUPAC_NUCLEOTIDE_U8==self) {
+//         //     true
+//         }
+//     // fn is_iupac_amino_acid(&self) -> bool {
+//     //     true
+//     // }
+//     // fn is_basic_nucleotide(&self) -> bool {
+//     //     true
+//     // }
+//     // fn is_basic_amino_acid(&self) -> bool {
+//     //     true
+//     // }
+// }

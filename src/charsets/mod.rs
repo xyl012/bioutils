@@ -1,3 +1,5 @@
+// Copyright 2020 Christopher Sugai
+
 pub mod iupac;
 pub mod quality;
 

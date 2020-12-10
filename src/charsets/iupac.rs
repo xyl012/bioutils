@@ -88,6 +88,13 @@ lazy_static! {
     };
 }
 
+// Only gap charset
+pub const GAP_U8: [u8; 2] = [b'.', b'-'];
+pub const GAP_STR: [&str; 2] = [".", "-"];
+
+// Only N charset
+pub const N_U8: [u8; 2] = [b'N', b'n'];
+pub const N_STR: [&str; 2] = ["N", "n"];
 
 #[cfg(test)]
 mod tests {

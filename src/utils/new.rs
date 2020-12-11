@@ -3,8 +3,6 @@
 use rand::seq::SliceRandom;
 use rand::rngs::ThreadRng;
 
-const DNA_NUCLEOTIDES: [u8; 4] = [b'A', b'C', b'G', b'T'];
-const RNA_NUCLEOTIDES: [u8; 4] = [b'A', b'C', b'G', b'U'];
 
 
 

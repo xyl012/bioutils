@@ -4,8 +4,14 @@
 //! Additional functionality for common checks including has_n, has_gap, is_homopolymer, is_palindrome, etc.
 //! # Examples
 //! ```
-//! 
+//! use bioutils::charsets::*;
+//! use bioutils::utils::*;
+//! use bioutils::utils::check::Check;
+//! let dna = b"ACTG";
+//! println!("{}", dna.is_iupac());
 //! ```
+// bioutils::utils::new();
+
 
 
 /// Trait for checking specific criteria for a [u8] of biological file origin. Types include sequence (nucleotide/amino acid) and quality (phred33/64/solexa, solexa being all printable ascii). 
@@ -57,7 +63,13 @@ pub trait Check<T> {
     // fn is_inexact_palindrome(&self) -> bool;
 }
 
-impl<T> Check<T> for [u8] where for<'a> &'a T: IntoIterator<Item = &'a T> {
+
+// impl<T> Check<T> for <u8> where for<'a> &'a T: IntoIterator<Item = &'a T> {
+    // where
+    //     C: Borrow<u8>,
+    //     T: IntoIterator<Item = <u8>>
+
+impl<T> Check<T> for T where for<'a> &'a T: IntoIterator<Item = &'a u8> {
 
     /// Checks if [u8] contains only iupac including nucleotide, amino acid, punctuation.
     fn is_iupac(&self) -> bool {

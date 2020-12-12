@@ -32,7 +32,7 @@ lazy_static! {
     };
 }
 
-// Solexa/Illumina 1.0 charset: ASCII 59-126
+// Solexa/Illumina 1.0 charset: ASCII 59-126.
 pub const SOLEXA_U8: [u8; 68] = [b';', b'<', b'=', b'>', b'?', b'@', b'A', b'B', b'C', b'D', b'E', b'F', b'G', b'H', b'I', b'J', b'K', b'L', b'M', b'N', b'O', b'P', b'Q', b'R', b'S', b'T', b'U', b'V', b'W', b'X', b'Y', b'Z', 0x005B, 0x005C, 0x005D, b'^', b'_', b'`', b'a', b'b', b'c', b'd', b'e', b'f', b'g', b'h', b'i', b'j', b'k', b'l', b'm', b'n', b'o', b'p', b'q', b'r', b's', b't', b'u', b'v', b'w', b'x', b'y', b'z', b'{', b'|', b'}', b'~'];
 pub const SOLEXA_STR: [&str; 68] = [r#";"#, r#"<"#, r#"="#, r#">"#, r#"?"#, r#"@"#, r#"A"#, r#"B"#, r#"C"#, r#"D"#, r#"E"#, r#"F"#, r#"G"#, r#"H"#, r#"I"#, r#"J"#, r#"K"#, r#"L"#, r#"M"#, r#"N"#, r#"O"#, r#"P"#, r#"Q"#, r#"R"#, r#"S"#, r#"T"#, r#"U"#, r#"V"#, r#"W"#, r#"X"#, r#"Y"#, r#"Z"#, r#"["#, r#"\"#, r#"]"#, r#"^"#, r#"_"#, r#"`"#, r#"a"#, r#"b"#, r#"c"#, r#"d"#, r#"e"#, r#"f"#, r#"g"#, r#"h"#, r#"i"#, r#"j"#, r#"k"#, r#"l"#, r#"m"#, r#"n"#, r#"o"#, r#"p"#, r#"q"#, r#"r"#, r#"s"#, r#"t"#, r#"u"#, r#"v"#, r#"w"#, r#"x"#, r#"y"#, r#"z"#, r#"{"#, r#"|"#, r#"}"#, r#"~"#];
 lazy_static! {

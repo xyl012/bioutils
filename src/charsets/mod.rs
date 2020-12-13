@@ -1,5 +1,6 @@
 // Copyright 2020 Christopher Sugai
 
+pub mod ascii;
 pub mod iupac;
 pub mod quality;
 

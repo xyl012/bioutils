@@ -2,7 +2,6 @@
 //! IUPAC character (sub-)sets including basic and full sets. Provided as u8 and str arrays.
 
 use super::*;
-use std::collections::HashSet;
 
 // Full IUPAC charset including nucleotides and amino acids
 pub const IUPAC_U8: [u8; 46] = [b'A', b'a', b'C', b'c', b'G', b'g', b'T', b't', b'U', b'u', b'R', b'r', b'Y', b'y', b'S', b's', b'W', b'w', b'K', b'k', b'M', b'm', b'B', b'b', b'D', b'd', b'H', b'h', b'V', b'v', b'N', b'n', b'-', b'.', b'F', b'f', b'G', b'g', b'I', b'i', b'L', b'l', b'P', b'p', b'Q', b'q'];

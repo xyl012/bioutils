@@ -175,23 +175,21 @@ impl<T> Check<T> for T where for<'a> &'a T: IntoIterator<Item = &'a u8> {
     }
 }
 
-/// Trait implementing DoubleEndedIterator for checking palindromes
-pub trait CheckDoubleEndedIterator<T: Iterator + DoubleEndedIterator + Copy + PartialEq> {
-    /// Checks if u8 is a palindrome. Use to_uppercase or lowercase prior if mixed case.
-    fn is_palindrome(&self) -> bool;
-}
+// /// Trait implementing DoubleEndedIterator for checking palindromes
+// pub trait CheckDoubleEndedIterator<T: Iterator + DoubleEndedIterator + Copy + PartialEq> {
+//     /// Checks if u8 is a palindrome. Use to_uppercase or lowercase prior if mixed case.
+//     fn is_palindrome(&self) -> bool;
+// }
 
-// impl<T> Check<T> for T where for<'a> &'a T: IntoIterator<Item = &'a u8> {
-
-impl<T: Iterator + DoubleEndedIterator + Copy + PartialEq> CheckDoubleEndedIterator<T> {
-// impl<T: DoubleEndedIterator> CheckDoubleEndedIterator<T> for T where for<'a> &'a T: DoubleEndedIterator<Item = &'a u8> {
-    /// Checks if u8 is a palindrome. Use to_uppercase or lowercase prior if mixed case.
-    fn is_palindrome(&self) -> bool {
-        true
-        // let test: Vec<u8> = self.into_iter().collect();
-        // let test2: Vec<u8> = self.into_iter().rev().collect();
-    }
-}
+// impl<T: Iterator + DoubleEndedIterator + Copy + PartialEq> CheckDoubleEndedIterator<T> for T where for<'a> &'a T: DoubleEndedIterator<Item = &'a T> + Iterator<Item = &'a T> + Copy + PartialEq {
+// // impl<T: DoubleEndedIterator> CheckDoubleEndedIterator<T> for T where for<'a> &'a T: DoubleEndedIterator<Item = &'a u8> {
+//     /// Checks if u8 is a palindrome. Use to_uppercase or lowercase prior if mixed case.
+//     fn is_palindrome(&self) -> bool {
+//         true
+//         // let test: Vec<u8> = self.into_iter().collect();
+//         // let test2: Vec<u8> = self.into_iter().rev().collect();
+//     }
+// }
 
     // /// Checks if u8 is mixed upper and lower case. Ignores non-letter u8. If checking specifically for upper or lower, use self.into_iter().all(|x| ASCII_LETTERS_UPPERCASE_U8.contains(&x) or lowercase respectively.
     // fn has_mixed_case(&self) -> bool {

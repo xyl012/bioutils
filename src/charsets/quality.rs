@@ -5,45 +5,74 @@
 use super::*;
 
 // Phred33 charset: ASCII 33-126
-pub const PHRED33_U8: [u8; 94] = [b'!', b'"', b'#', b'$', b'%', b'&', 0x0027, b'(', b')', b'*', b'+', b',', b'-', b'.', b'/', b'0', b'1', b'2', b'3', b'4', b'5', b'6', b'7', b'8', b'9', b':', b';', b'<', b'=', b'>', b'?', b'@', b'A', b'B', b'C', b'D', b'E', b'F', b'G', b'H', b'I', b'J', b'K', b'L', b'M', b'N', b'O', b'P', b'Q', b'R', b'S', b'T', b'U', b'V', b'W', b'X', b'Y', b'Z', 0x005B, 0x005C, 0x005D, b'^', b'_', b'`', b'a', b'b', b'c', b'd', b'e', b'f', b'g', b'h', b'i', b'j', b'k', b'l', b'm', b'n', b'o', b'p', b'q', b'r', b's', b't', b'u', b'v', b'w', b'x', b'y', b'z', b'{', b'|', b'}', b'~'];
-pub const PHRED33_STR: [&str; 94] = [r#"!"#, r#"""#, r##"#"##, r#"$"#, r#"%"#, r#"&"#, r#"'"#, r#"("#, r#")"#, r#"*"#, r#"+"#, r#","#, r#"-"#, r#"."#, r#"/"#, r#"0"#, r#"1"#, r#"2"#, r#"3"#, r#"4"#, r#"5"#, r#"6"#, r#"7"#, r#"8"#, r#"9"#, r#":"#, r#";"#, r#"<"#, r#"="#, r#">"#, r#"?"#, r#"@"#, r#"A"#, r#"B"#, r#"C"#, r#"D"#, r#"E"#, r#"F"#, r#"G"#, r#"H"#, r#"I"#, r#"J"#, r#"K"#, r#"L"#, r#"M"#, r#"N"#, r#"O"#, r#"P"#, r#"Q"#, r#"R"#, r#"S"#, r#"T"#, r#"U"#, r#"V"#, r#"W"#, r#"X"#, r#"Y"#, r#"Z"#, r#"["#, r#"\"#, r#"]"#, r#"^"#, r#"_"#, r#"`"#, r#"a"#, r#"b"#, r#"c"#, r#"d"#, r#"e"#, r#"f"#, r#"g"#, r#"h"#, r#"i"#, r#"j"#, r#"k"#, r#"l"#, r#"m"#, r#"n"#, r#"o"#, r#"p"#, r#"q"#, r#"r"#, r#"s"#, r#"t"#, r#"u"#, r#"v"#, r#"w"#, r#"x"#, r#"y"#, r#"z"#, r#"{"#, r#"|"#, r#"}"#, r#"~"#];
+pub const PHRED33_U8: [u8; 94] = [
+    b'!', b'"', b'#', b'$', b'%', b'&', 0x0027, b'(', b')', b'*', b'+', b',', b'-', b'.', b'/',
+    b'0', b'1', b'2', b'3', b'4', b'5', b'6', b'7', b'8', b'9', b':', b';', b'<', b'=', b'>', b'?',
+    b'@', b'A', b'B', b'C', b'D', b'E', b'F', b'G', b'H', b'I', b'J', b'K', b'L', b'M', b'N', b'O',
+    b'P', b'Q', b'R', b'S', b'T', b'U', b'V', b'W', b'X', b'Y', b'Z', 0x005B, 0x005C, 0x005D, b'^',
+    b'_', b'`', b'a', b'b', b'c', b'd', b'e', b'f', b'g', b'h', b'i', b'j', b'k', b'l', b'm', b'n',
+    b'o', b'p', b'q', b'r', b's', b't', b'u', b'v', b'w', b'x', b'y', b'z', b'{', b'|', b'}', b'~',
+];
+pub const PHRED33_STR: [&str; 94] = [
+    r#"!"#, r#"""#, r##"#"##, r#"$"#, r#"%"#, r#"&"#, r#"'"#, r#"("#, r#")"#, r#"*"#, r#"+"#,
+    r#","#, r#"-"#, r#"."#, r#"/"#, r#"0"#, r#"1"#, r#"2"#, r#"3"#, r#"4"#, r#"5"#, r#"6"#, r#"7"#,
+    r#"8"#, r#"9"#, r#":"#, r#";"#, r#"<"#, r#"="#, r#">"#, r#"?"#, r#"@"#, r#"A"#, r#"B"#, r#"C"#,
+    r#"D"#, r#"E"#, r#"F"#, r#"G"#, r#"H"#, r#"I"#, r#"J"#, r#"K"#, r#"L"#, r#"M"#, r#"N"#, r#"O"#,
+    r#"P"#, r#"Q"#, r#"R"#, r#"S"#, r#"T"#, r#"U"#, r#"V"#, r#"W"#, r#"X"#, r#"Y"#, r#"Z"#, r#"["#,
+    r#"\"#, r#"]"#, r#"^"#, r#"_"#, r#"`"#, r#"a"#, r#"b"#, r#"c"#, r#"d"#, r#"e"#, r#"f"#, r#"g"#,
+    r#"h"#, r#"i"#, r#"j"#, r#"k"#, r#"l"#, r#"m"#, r#"n"#, r#"o"#, r#"p"#, r#"q"#, r#"r"#, r#"s"#,
+    r#"t"#, r#"u"#, r#"v"#, r#"w"#, r#"x"#, r#"y"#, r#"z"#, r#"{"#, r#"|"#, r#"}"#, r#"~"#,
+];
 lazy_static! {
-    pub static ref PHRED33_HASHSET_U8: HashSet<u8> = {
-        new_u8_hashset(&PHRED33_U8)
-    };
+    pub static ref PHRED33_HASHSET_U8: HashSet<u8> = { new_u8_hashset(&PHRED33_U8) };
 }
 lazy_static! {
-    pub static ref PHRED33_HASHSET_STR: HashSet<&'static str> = {
-        new_str_hashset(&PHRED33_STR)
-    };
+    pub static ref PHRED33_HASHSET_STR: HashSet<&'static str> = { new_str_hashset(&PHRED33_STR) };
 }
 
 // Phred64 charset: ASCII 64-126
-pub const PHRED64_U8: [u8; 63] = [b'@', b'A', b'B', b'C', b'D', b'E', b'F', b'G', b'H', b'I', b'J', b'K', b'L', b'M', b'N', b'O', b'P', b'Q', b'R', b'S', b'T', b'U', b'V', b'W', b'X', b'Y', b'Z', 0x005B, 0x005C, 0x005D, b'^', b'_', b'`', b'a', b'b', b'c', b'd', b'e', b'f', b'g', b'h', b'i', b'j', b'k', b'l', b'm', b'n', b'o', b'p', b'q', b'r', b's', b't', b'u', b'v', b'w', b'x', b'y', b'z', b'{', b'|', b'}', b'~'];
-pub const PHRED64_STR: [&str; 63] = [r#"@"#, r#"A"#, r#"B"#, r#"C"#, r#"D"#, r#"E"#, r#"F"#, r#"G"#, r#"H"#, r#"I"#, r#"J"#, r#"K"#, r#"L"#, r#"M"#, r#"N"#, r#"O"#, r#"P"#, r#"Q"#, r#"R"#, r#"S"#, r#"T"#, r#"U"#, r#"V"#, r#"W"#, r#"X"#, r#"Y"#, r#"Z"#, r#"["#, r#"\"#, r#"]"#, r#"^"#, r#"_"#, r#"`"#, r#"a"#, r#"b"#, r#"c"#, r#"d"#, r#"e"#, r#"f"#, r#"g"#, r#"h"#, r#"i"#, r#"j"#, r#"k"#, r#"l"#, r#"m"#, r#"n"#, r#"o"#, r#"p"#, r#"q"#, r#"r"#, r#"s"#, r#"t"#, r#"u"#, r#"v"#, r#"w"#, r#"x"#, r#"y"#, r#"z"#, r#"{"#, r#"|"#, r#"}"#, r#"~"#];
+pub const PHRED64_U8: [u8; 63] = [
+    b'@', b'A', b'B', b'C', b'D', b'E', b'F', b'G', b'H', b'I', b'J', b'K', b'L', b'M', b'N', b'O',
+    b'P', b'Q', b'R', b'S', b'T', b'U', b'V', b'W', b'X', b'Y', b'Z', 0x005B, 0x005C, 0x005D, b'^',
+    b'_', b'`', b'a', b'b', b'c', b'd', b'e', b'f', b'g', b'h', b'i', b'j', b'k', b'l', b'm', b'n',
+    b'o', b'p', b'q', b'r', b's', b't', b'u', b'v', b'w', b'x', b'y', b'z', b'{', b'|', b'}', b'~',
+];
+pub const PHRED64_STR: [&str; 63] = [
+    r#"@"#, r#"A"#, r#"B"#, r#"C"#, r#"D"#, r#"E"#, r#"F"#, r#"G"#, r#"H"#, r#"I"#, r#"J"#, r#"K"#,
+    r#"L"#, r#"M"#, r#"N"#, r#"O"#, r#"P"#, r#"Q"#, r#"R"#, r#"S"#, r#"T"#, r#"U"#, r#"V"#, r#"W"#,
+    r#"X"#, r#"Y"#, r#"Z"#, r#"["#, r#"\"#, r#"]"#, r#"^"#, r#"_"#, r#"`"#, r#"a"#, r#"b"#, r#"c"#,
+    r#"d"#, r#"e"#, r#"f"#, r#"g"#, r#"h"#, r#"i"#, r#"j"#, r#"k"#, r#"l"#, r#"m"#, r#"n"#, r#"o"#,
+    r#"p"#, r#"q"#, r#"r"#, r#"s"#, r#"t"#, r#"u"#, r#"v"#, r#"w"#, r#"x"#, r#"y"#, r#"z"#, r#"{"#,
+    r#"|"#, r#"}"#, r#"~"#,
+];
 lazy_static! {
-    pub static ref PHRED64_HASHSET_U8: HashSet<u8> = {
-        new_u8_hashset(&PHRED64_U8)
-    };
+    pub static ref PHRED64_HASHSET_U8: HashSet<u8> = { new_u8_hashset(&PHRED64_U8) };
 }
 lazy_static! {
-    pub static ref PHRED64_HASHSET_STR: HashSet<&'static str> = {
-        new_str_hashset(&PHRED64_STR)
-    };
+    pub static ref PHRED64_HASHSET_STR: HashSet<&'static str> = { new_str_hashset(&PHRED64_STR) };
 }
 
 // Solexa/Illumina 1.0 charset: ASCII 59-126.
-pub const SOLEXA_U8: [u8; 68] = [b';', b'<', b'=', b'>', b'?', b'@', b'A', b'B', b'C', b'D', b'E', b'F', b'G', b'H', b'I', b'J', b'K', b'L', b'M', b'N', b'O', b'P', b'Q', b'R', b'S', b'T', b'U', b'V', b'W', b'X', b'Y', b'Z', 0x005B, 0x005C, 0x005D, b'^', b'_', b'`', b'a', b'b', b'c', b'd', b'e', b'f', b'g', b'h', b'i', b'j', b'k', b'l', b'm', b'n', b'o', b'p', b'q', b'r', b's', b't', b'u', b'v', b'w', b'x', b'y', b'z', b'{', b'|', b'}', b'~'];
-pub const SOLEXA_STR: [&str; 68] = [r#";"#, r#"<"#, r#"="#, r#">"#, r#"?"#, r#"@"#, r#"A"#, r#"B"#, r#"C"#, r#"D"#, r#"E"#, r#"F"#, r#"G"#, r#"H"#, r#"I"#, r#"J"#, r#"K"#, r#"L"#, r#"M"#, r#"N"#, r#"O"#, r#"P"#, r#"Q"#, r#"R"#, r#"S"#, r#"T"#, r#"U"#, r#"V"#, r#"W"#, r#"X"#, r#"Y"#, r#"Z"#, r#"["#, r#"\"#, r#"]"#, r#"^"#, r#"_"#, r#"`"#, r#"a"#, r#"b"#, r#"c"#, r#"d"#, r#"e"#, r#"f"#, r#"g"#, r#"h"#, r#"i"#, r#"j"#, r#"k"#, r#"l"#, r#"m"#, r#"n"#, r#"o"#, r#"p"#, r#"q"#, r#"r"#, r#"s"#, r#"t"#, r#"u"#, r#"v"#, r#"w"#, r#"x"#, r#"y"#, r#"z"#, r#"{"#, r#"|"#, r#"}"#, r#"~"#];
+pub const SOLEXA_U8: [u8; 68] = [
+    b';', b'<', b'=', b'>', b'?', b'@', b'A', b'B', b'C', b'D', b'E', b'F', b'G', b'H', b'I', b'J',
+    b'K', b'L', b'M', b'N', b'O', b'P', b'Q', b'R', b'S', b'T', b'U', b'V', b'W', b'X', b'Y', b'Z',
+    0x005B, 0x005C, 0x005D, b'^', b'_', b'`', b'a', b'b', b'c', b'd', b'e', b'f', b'g', b'h', b'i',
+    b'j', b'k', b'l', b'm', b'n', b'o', b'p', b'q', b'r', b's', b't', b'u', b'v', b'w', b'x', b'y',
+    b'z', b'{', b'|', b'}', b'~',
+];
+pub const SOLEXA_STR: [&str; 68] = [
+    r#";"#, r#"<"#, r#"="#, r#">"#, r#"?"#, r#"@"#, r#"A"#, r#"B"#, r#"C"#, r#"D"#, r#"E"#, r#"F"#,
+    r#"G"#, r#"H"#, r#"I"#, r#"J"#, r#"K"#, r#"L"#, r#"M"#, r#"N"#, r#"O"#, r#"P"#, r#"Q"#, r#"R"#,
+    r#"S"#, r#"T"#, r#"U"#, r#"V"#, r#"W"#, r#"X"#, r#"Y"#, r#"Z"#, r#"["#, r#"\"#, r#"]"#, r#"^"#,
+    r#"_"#, r#"`"#, r#"a"#, r#"b"#, r#"c"#, r#"d"#, r#"e"#, r#"f"#, r#"g"#, r#"h"#, r#"i"#, r#"j"#,
+    r#"k"#, r#"l"#, r#"m"#, r#"n"#, r#"o"#, r#"p"#, r#"q"#, r#"r"#, r#"s"#, r#"t"#, r#"u"#, r#"v"#,
+    r#"w"#, r#"x"#, r#"y"#, r#"z"#, r#"{"#, r#"|"#, r#"}"#, r#"~"#,
+];
 lazy_static! {
-    pub static ref SOLEXA_HASHSET_U8: HashSet<u8> = {
-        new_u8_hashset(&SOLEXA_U8)
-    };
+    pub static ref SOLEXA_HASHSET_U8: HashSet<u8> = { new_u8_hashset(&SOLEXA_U8) };
 }
 lazy_static! {
-    pub static ref SOLEXA_HASHSET_STR: HashSet<&'static str> = {
-        new_str_hashset(&SOLEXA_STR)
-    };
+    pub static ref SOLEXA_HASHSET_STR: HashSet<&'static str> = { new_str_hashset(&SOLEXA_STR) };
 }
 
 #[cfg(test)]
@@ -199,12 +228,10 @@ mod tests {
 // 126	7E	01111110	&#126;	~	Tilde
 // 127	7F	01111111	&#127;	DEL	Delete
 
-// Range 	Offset 	Type 	Range 
-// Sanger standard 	 	 	 	 
-//     fastq-sanger 	33–126 	33 	PHRED 	0 to 93 
-// Solexa/early Illumina 	 	 	 	 
-//     fastq-solexa 	59–126 	64 	Solexa 	−5 to 62 
-// Illumina 1.3+ 	 	 	 	 
-//     fastq-illumina 	64–126 	64 	PHRED 	0 to 62 
-
-
+// Range 	Offset 	Type 	Range
+// Sanger standard
+//     fastq-sanger 	33–126 	33 	PHRED 	0 to 93
+// Solexa/early Illumina
+//     fastq-solexa 	59–126 	64 	Solexa 	−5 to 62
+// Illumina 1.3+
+//     fastq-illumina 	64–126 	64 	PHRED 	0 to 62

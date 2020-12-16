@@ -8,7 +8,7 @@
 //! use bioutils::charsets::*;
 //! use bioutils::utils::*;
 //! use bioutils::utils::check::Check;
-//! 
+//!
 //! let dna = b"ACTG";
 //! let rna = b"ACUG";
 //! let homopolymerN = b"NNNN";
@@ -16,7 +16,7 @@
 //! let gapna = b"AC-G";
 //! let nna = b"ACnG";
 //! let quality = b"@ABC";
-//! 
+//!
 //! assert!(homopolymerN.is_homopolymer());
 //! assert!(homopolymerA.is_homopolymer_not_n());
 //! assert!(homopolymerN.is_homopolymer_n());
@@ -27,21 +27,19 @@
 //! assert!(quality.is_phred33());
 //! assert!(quality.is_phred64());
 //! assert!(quality.is_solexa());
-//! 
-//! 
-//! 
+//!
+//!
+//!
 //! ```
 
-/// Trait for checking specific criteria for a u8 of biological file origin. Types include sequence (nucleotide/amino acid) and quality (phred33/64/solexa, phred33 being all printable ascii). 
+use crate::charsets::ascii::*;
+/// Trait for checking specific criteria for a u8 of biological file origin. Types include sequence (nucleotide/amino acid) and quality (phred33/64/solexa, phred33 being all printable ascii).
 /// These should be used with closely with the is_ascii/make/to_ascii_lowercase/make/to_ascii_uppercase functions in standard rust.
 /// Additional functionality for common checks including has_n, has_gap, is_homopolymer, is_palindrome, etc.
-
 use crate::charsets::iupac::*;
 use crate::charsets::quality::*;
-use crate::charsets::ascii::*;
 
 pub trait Check<T> {
-
     /// Checks if u8 comprised completely of the iupac including nucleotide, amino acid, punctuation.
     fn is_iupac(&self) -> bool;
     /// Checks if u8 comprised completely of the iupac including nucleotide, punctuation.
@@ -75,16 +73,17 @@ pub trait Check<T> {
     fn is_homopolymer_not_n(&self) -> bool;
 
     /// Checks if u8 is ascii letters.
-    fn is_ascii_letters(&self) -> bool ;
+    fn is_ascii_letters(&self) -> bool;
     /// Checks if u8 is ascii letters uppercase only.
-    fn is_ascii_letters_uppercase(&self) -> bool ;
+    fn is_ascii_letters_uppercase(&self) -> bool;
     /// Checks if u8 is ascii letters lowercase only.
-    fn is_ascii_letters_lowercase(&self) -> bool ;
-
+    fn is_ascii_letters_lowercase(&self) -> bool;
 }
 
-impl<T> Check<T> for T where for<'a> &'a T: IntoIterator<Item = &'a u8> {
-
+impl<T> Check<T> for T
+where
+    for<'a> &'a T: IntoIterator<Item = &'a u8>,
+{
     /// Checks if u8 comprised completely of the iupac including nucleotide, amino acid, punctuation.
     fn is_iupac(&self) -> bool {
         self.into_iter().all(|x| IUPAC_U8.contains(&x))
@@ -137,22 +136,25 @@ impl<T> Check<T> for T where for<'a> &'a T: IntoIterator<Item = &'a u8> {
 
     /// Checks if u8 is completely comprised of non-N or non-n's. Use has_mixed_case and to_uppercase or lowercase prior if mixed case.
     fn is_homopolymer_not_n(&self) -> bool {
-        if self.has_n() {false}
-        else {self.is_homopolymer()}
+        if self.has_n() {
+            false
+        } else {
+            self.is_homopolymer()
+        }
     }
 
     /// Checks if u8 is completely comprised of phred33 characters (all printable ascii). Incorporates other character sets.
-    fn is_phred33(&self) -> bool{
+    fn is_phred33(&self) -> bool {
         self.into_iter().any(|x| PHRED33_U8.contains(&x))
     }
 
     /// Checks if u8 is completely comprised of phred64 characters.
-    fn is_phred64(&self) -> bool{
+    fn is_phred64(&self) -> bool {
         self.into_iter().any(|x| PHRED64_U8.contains(&x))
     }
 
     /// Checks if u8 is completely comprised of solexa characters.
-    fn is_solexa(&self) -> bool{
+    fn is_solexa(&self) -> bool {
         self.into_iter().any(|x| SOLEXA_U8.contains(&x))
     }
 
@@ -163,12 +165,14 @@ impl<T> Check<T> for T where for<'a> &'a T: IntoIterator<Item = &'a u8> {
 
     /// check if u8 is comprised completely of ascii letters A-Z
     fn is_ascii_letters_uppercase(&self) -> bool {
-        self.into_iter().all(|x| ASCII_LETTERS_UPPERCASE_U8.contains(&x))
+        self.into_iter()
+            .all(|x| ASCII_LETTERS_UPPERCASE_U8.contains(&x))
     }
 
     /// check if u8 is comprised completely of ascii lowercase letters a-z
     fn is_ascii_letters_lowercase(&self) -> bool {
-        self.into_iter().all(|x| ASCII_LETTERS_LOWERCASE_U8.contains(&x))
+        self.into_iter()
+            .all(|x| ASCII_LETTERS_LOWERCASE_U8.contains(&x))
     }
 }
 
@@ -188,25 +192,25 @@ impl<T> Check<T> for T where for<'a> &'a T: IntoIterator<Item = &'a u8> {
 //     }
 // }
 
-    // /// Checks if u8 is mixed upper and lower case. Ignores non-letter u8. If checking specifically for upper or lower, use self.into_iter().all(|x| ASCII_LETTERS_UPPERCASE_U8.contains(&x) or lowercase respectively.
-    // fn has_mixed_case(&self) -> bool {
-    //     // Check if all ascii letters, then check for if all upper or lower. If not, return true. If not all ascii letters filter for letters and check case of remaining
-    //     if self.is_ascii_letters() {
-    //         if self.is_ascii_letters_uppercase() {false}
-    //         else if self.is_ascii_letters_lowercase() {false}
-    //         else {true}
-    //     }
-    //     else {
-    //         if self.into_iter().filter_map(|x| ASCII_LETTERS_U8.contains(&x)).is_ascii_letters_uppercase() {false}
-    //         else if self.into_iter().filter_map(|x| ASCII_LETTERS_U8.contains(&x)).is_ascii_letters_lowercase() {false}
-    //         else {true}
-    //       }
-    // }
+// /// Checks if u8 is mixed upper and lower case. Ignores non-letter u8. If checking specifically for upper or lower, use self.into_iter().all(|x| ASCII_LETTERS_UPPERCASE_U8.contains(&x) or lowercase respectively.
+// fn has_mixed_case(&self) -> bool {
+//     // Check if all ascii letters, then check for if all upper or lower. If not, return true. If not all ascii letters filter for letters and check case of remaining
+//     if self.is_ascii_letters() {
+//         if self.is_ascii_letters_uppercase() {false}
+//         else if self.is_ascii_letters_lowercase() {false}
+//         else {true}
+//     }
+//     else {
+//         if self.into_iter().filter_map(|x| ASCII_LETTERS_U8.contains(&x)).is_ascii_letters_uppercase() {false}
+//         else if self.into_iter().filter_map(|x| ASCII_LETTERS_U8.contains(&x)).is_ascii_letters_lowercase() {false}
+//         else {true}
+//       }
+// }
 
-    // /// Checks if u8 contains the given sequence as u8 (same as .contains). Conversion between string slice and byte slice is available through the rust standard crate.
-    // fn has_u8(&self, slice: &[u8]) -> bool {
-    //     self.contains(slice)
-    // }
+// /// Checks if u8 contains the given sequence as u8 (same as .contains). Conversion between string slice and byte slice is available through the rust standard crate.
+// fn has_u8(&self, slice: &[u8]) -> bool {
+//     self.contains(slice)
+// }
 // #[cfg(test)]
 // mod tests {
 //     use super::{IUPAC_U8, IUPAC_NUCLEOTIDE_U8, IUPAC_AMINO_ACID_U8, BASIC_DNA_U8, BASIC_RNA_U8, BASIC_AMINO_ACID_U8};

@@ -59,6 +59,19 @@ lazy_static! {
     };
 }
 
+pub const BASIC_LOWERCASE_DNA_U8: [u8; 4] = [b'a', b'c', b'g', b't'];
+pub const BASIC_LOWERCASE_DNA_STR: [&str; 4] = ["a", "c", "g", "t"];
+lazy_static! {
+    pub static ref BASIC_LOWERCASE_DNA_HASHSET_U8: HashSet<u8> = {
+        new_u8_hashset(&BASIC_LOWERCASE_DNA_U8)
+    };
+}
+lazy_static! {
+    pub static ref BASIC_LOWERCASE_DNA_HASHSET_STR: HashSet<&'static str> = {
+        new_str_hashset(&BASIC_LOWERCASE_DNA_STR)
+    };
+}
+
 // Basic RNA charset
 pub const BASIC_RNA_U8: [u8; 4] = [b'A', b'C', b'G', b'U'];
 pub const BASIC_RNA_STR: [&str; 4] = ["A", "C", "G", "U"];
@@ -70,6 +83,19 @@ lazy_static! {
 lazy_static! {
     pub static ref BASIC_RNA_HASHSET_STR: HashSet<&'static str> = {
         new_str_hashset(&BASIC_RNA_STR)
+    };
+}
+
+pub const BASIC_LOWERCASE_RNA_U8: [u8; 4] = [b'a', b'c', b'g', b'u'];
+pub const BASIC_LOWERCASE_RNA_STR: [&str; 4] = ["a", "c", "g", "u"];
+lazy_static! {
+    pub static ref BASIC_LOWERCASE_RNA_HASHSET_U8: HashSet<u8> = {
+        new_u8_hashset(&BASIC_LOWERCASE_RNA_U8)
+    };
+}
+lazy_static! {
+    pub static ref BASIC_LOWERCASE_RNA_HASHSET_STR: HashSet<&'static str> = {
+        new_str_hashset(&BASIC_LOWERCASE_RNA_STR)
     };
 }
 

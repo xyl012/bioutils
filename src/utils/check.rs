@@ -8,7 +8,6 @@
 //! use bioutils::charsets::*;
 //! use bioutils::utils::*;
 //! use bioutils::utils::check::Check;
-//! use bioutils::utils::check::CheckDoubleEndedIterator;
 //! 
 //! let dna = b"ACTG";
 //! let rna = b"ACUG";
@@ -17,7 +16,6 @@
 //! let gapna = b"AC-G";
 //! let nna = b"ACnG";
 //! let quality = b"@ABC";
-//! let palindrome = b"ACTGGTCA";
 //! 
 //! assert!(homopolymerN.is_homopolymer());
 //! assert!(homopolymerA.is_homopolymer_not_n());
@@ -30,7 +28,6 @@
 //! assert!(quality.is_phred64());
 //! assert!(quality.is_solexa());
 //! 
-//! assert!(palindrome.is_palindrome());
 //! 
 //! 
 //! ```

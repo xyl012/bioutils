@@ -4,16 +4,17 @@ use rand::seq::SliceRandom;
 use rand::rngs::ThreadRng;
 
 
-pub trait New<T> {
+// pub static 
 
-}
-impl<T> New<T> for T where for<'a> &'a T: IntoIterator<Item = &'a u8> {
+// pub trait New<T> {
 
-}
+// }
+// impl<T> New<T> for T where for<'a> &'a T: IntoIterator<Item = &'a u8> {
+
+// }
 
 
 pub fn dna(length: u8, mut rng: ThreadRng) -> String {
-    let bases = ['A', 'C', 'T', 'G'];
     // let nucl: String = 
 
 };

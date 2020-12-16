@@ -38,24 +38,18 @@
 //! ```
 
 use rand::rngs::ThreadRng;
-use std::string::String;
 use rand::seq::SliceRandom;
-use core::iter::FromIterator;
 
 use crate::charsets::iupac::*;
-use crate::charsets::quality::*;
-use crate::charsets::ascii::*;
 
 trait ReplaceNucleotide <T> {
     fn to_upper_basic(&self) -> Vec<u8>;
     fn to_lower_basic(&self) -> Vec<u8>;
     fn replace_gap(&self, xna: &str, rng: ThreadRng) -> Vec<u8>;
     fn replace_n(&self, xna: &str, rng: ThreadRng) -> Vec<u8>;
-
-    // fn replace_gap_lowercase(&self, rng: ThreadRng) -> Self;
-    fn replace_iupac(&self, rng: ThreadRng) -> Vec<u8>;
-    // fn replace_lowercase_with_uppercase(&self, rng: ThreadRng) -> Self;
     fn replace_non_basic_with_uppercase(&self, xna: &str, rng: ThreadRng) -> Vec<u8>;
+    // fn replace_gap_lowercase(&self, rng: ThreadRng) -> Self;
+    fn replace_iupac(&self, xna: &str, rng: ThreadRng) -> Vec<u8>;
     // fn replace_all_other_with_lowercase(&self, rng: ThreadRng) -> Self;
 }
 
@@ -139,122 +133,99 @@ impl<T> ReplaceNucleotide<T> for T where for<'a> &'a T: IntoIterator<Item = &'a 
     }
 
     /// Replace all other than ACGTUactgu with pseudorandom nucleotides ACTGU. Should be used last after other functions or for cleanup of unknown characters.
-    fn replace_all_other_with_uppercase(&self, xna = &str, mut rng: ThreadRng) -> Vec<u8> {
+    fn replace_non_basic_with_uppercase(&self, xna: &str, mut rng: ThreadRng) -> Vec<u8> {
+        if xna == "RNA" {
         self.into_iter()
             .map(|&ch| match ch {
-                'A' => ch,
-                'a' => ch,
-                'C' => ch,
-                'c' => ch,
-                'T' => ch,
-                't' => ch,
-                'G' => ch,
-                'g' => ch,
-                'U' => ch,
-                'u' => ch,
-                _ => *bases.choose(&mut rng).unwrap(),
+                b'A' => ch,
+                b'a' => ch,
+                b'C' => ch,
+                b'c' => ch,
+                b'T' => ch,
+                b't' => ch,
+                b'G' => ch,
+                b'g' => ch,
+                b'U' => ch,
+                b'u' => ch,
+                _ => *BASIC_RNA_U8.choose(&mut rng).unwrap(),
             })
-            .collect::<Vec<u8>>()
+            .collect::<Vec<u8>>()} 
+        else {
+            self.into_iter()
+            .map(|&ch| match ch {
+                b'A' => ch,
+                b'a' => ch,
+                b'C' => ch,
+                b'c' => ch,
+                b'T' => ch,
+                b't' => ch,
+                b'G' => ch,
+                b'g' => ch,
+                b'U' => ch,
+                b'u' => ch,
+                _ => *BASIC_DNA_U8.choose(&mut rng).unwrap(),
+            })
+            .collect::<Vec<u8>>() 
+        }
     }
 
     /// Pseudorandom nucleotide replacements within IUPAC specifications, e.g. R: either A or G. Case specific, r: either a or g.
     fn replace_iupac(&self, xna: &str, mut rng: ThreadRng) -> Vec<u8> {
         if xna == "RNA" {
             self.into_iter()
-                .map(|ch| match ch {
-                    'R' => *r_bases.choose(&mut rng).unwrap(),
-                    'r' => *r_bases_lowercase.choose(&mut rng).unwrap(),
-                    'Y' => *y_bases.choose(&mut rng).unwrap(),
-                    'y' => *y_bases_lowercase.choose(&mut rng).unwrap(),
-                    'S' => *s_bases.choose(&mut rng).unwrap(),
-                    's' => *s_bases_lowercase.choose(&mut rng).unwrap(),
-                    'W' => *w_bases.choose(&mut rng).unwrap(),
-                    'w' => *w_bases_lowercase.choose(&mut rng).unwrap(),
-                    'K' => *k_bases.choose(&mut rng).unwrap(),
-                    'k' => *k_bases_lowercase.choose(&mut rng).unwrap(),
-                    'M' => *m_bases.choose(&mut rng).unwrap(),
-                    'm' => *m_bases_lowercase.choose(&mut rng).unwrap(),
-                    'B' => *b_bases.choose(&mut rng).unwrap(),
-                    'b' => *b_bases_lowercase.choose(&mut rng).unwrap(),
-                    'D' => *d_bases.choose(&mut rng).unwrap(),
-                    'd' => *d_bases_lowercase.choose(&mut rng).unwrap(),
-                    'H' => *h_bases.choose(&mut rng).unwrap(),
-                    'h' => *h_bases_lowercase.choose(&mut rng).unwrap(),
-                    'V' => *v_bases.choose(&mut rng).unwrap(),
-                    'v' => *v_bases_lowercase.choose(&mut rng).unwrap(),
+                .map(|&ch| match ch {
+                    b'R' => *R_BASES.choose(&mut rng).unwrap(),
+                    b'r' => *R_BASES_LOWERCASE.choose(&mut rng).unwrap(),
+                    b'Y' => *Y_BASES_RNA.choose(&mut rng).unwrap(),
+                    b'y' => *Y_BASES_LOWERCASE_RNA.choose(&mut rng).unwrap(),
+                    b'S' => *S_BASES.choose(&mut rng).unwrap(),
+                    b's' => *S_BASES_LOWERCASE.choose(&mut rng).unwrap(),
+                    b'W' => *W_BASES_RNA.choose(&mut rng).unwrap(),
+                    b'w' => *W_BASES_LOWERCASE_RNA.choose(&mut rng).unwrap(),
+                    b'K' => *K_BASES_RNA.choose(&mut rng).unwrap(),
+                    b'k' => *K_BASES_LOWERCASE_RNA.choose(&mut rng).unwrap(),
+                    b'M' => *M_BASES.choose(&mut rng).unwrap(),
+                    b'm' => *M_BASES_LOWERCASE.choose(&mut rng).unwrap(),
+                    b'B' => *B_BASES_RNA.choose(&mut rng).unwrap(),
+                    b'b' => *B_BASES_LOWERCASE_RNA.choose(&mut rng).unwrap(),
+                    b'D' => *D_BASES_RNA.choose(&mut rng).unwrap(),
+                    b'd' => *D_BASES_LOWERCASE_RNA.choose(&mut rng).unwrap(),
+                    b'H' => *H_BASES_RNA.choose(&mut rng).unwrap(),
+                    b'h' => *H_BASES_LOWERCASE_RNA.choose(&mut rng).unwrap(),
+                    b'V' => *V_BASES.choose(&mut rng).unwrap(),
+                    b'v' => *V_BASES_LOWERCASE.choose(&mut rng).unwrap(),
                     _ => ch,
                 })
-                .collect::<Vec<u8>>()}
-        } else {
+                .collect::<Vec<u8>>()} 
+        else {
             self.into_iter()
-                .map(|ch| match ch {
-                    'R' => *r_bases.choose(&mut rng).unwrap(),
-                    'r' => *r_bases_lowercase.choose(&mut rng).unwrap(),
-                    'Y' => *y_bases.choose(&mut rng).unwrap(),
-                    'y' => *y_bases_lowercase.choose(&mut rng).unwrap(),
-                    'S' => *s_bases.choose(&mut rng).unwrap(),
-                    's' => *s_bases_lowercase.choose(&mut rng).unwrap(),
-                    'W' => *w_bases.choose(&mut rng).unwrap(),
-                    'w' => *w_bases_lowercase.choose(&mut rng).unwrap(),
-                    'K' => *k_bases.choose(&mut rng).unwrap(),
-                    'k' => *k_bases_lowercase.choose(&mut rng).unwrap(),
-                    'M' => *m_bases.choose(&mut rng).unwrap(),
-                    'm' => *m_bases_lowercase.choose(&mut rng).unwrap(),
-                    'B' => *b_bases.choose(&mut rng).unwrap(),
-                    'b' => *b_bases_lowercase.choose(&mut rng).unwrap(),
-                    'D' => *d_bases.choose(&mut rng).unwrap(),
-                    'd' => *d_bases_lowercase.choose(&mut rng).unwrap(),
-                    'H' => *h_bases.choose(&mut rng).unwrap(),
-                    'h' => *h_bases_lowercase.choose(&mut rng).unwrap(),
-                    'V' => *v_bases.choose(&mut rng).unwrap(),
-                    'v' => *v_bases_lowercase.choose(&mut rng).unwrap(),
+                .map(|&ch| match ch {
+                    b'R' => *R_BASES.choose(&mut rng).unwrap(),
+                    b'r' => *R_BASES_LOWERCASE.choose(&mut rng).unwrap(),
+                    b'Y' => *Y_BASES.choose(&mut rng).unwrap(),
+                    b'y' => *Y_BASES_LOWERCASE.choose(&mut rng).unwrap(),
+                    b'S' => *S_BASES.choose(&mut rng).unwrap(),
+                    b's' => *S_BASES_LOWERCASE.choose(&mut rng).unwrap(),
+                    b'W' => *W_BASES.choose(&mut rng).unwrap(),
+                    b'w' => *W_BASES_LOWERCASE.choose(&mut rng).unwrap(),
+                    b'K' => *K_BASES.choose(&mut rng).unwrap(),
+                    b'k' => *K_BASES_LOWERCASE.choose(&mut rng).unwrap(),
+                    b'M' => *M_BASES.choose(&mut rng).unwrap(),
+                    b'm' => *M_BASES_LOWERCASE.choose(&mut rng).unwrap(),
+                    b'B' => *B_BASES.choose(&mut rng).unwrap(),
+                    b'b' => *B_BASES_LOWERCASE.choose(&mut rng).unwrap(),
+                    b'D' => *D_BASES.choose(&mut rng).unwrap(),
+                    b'd' => *D_BASES_LOWERCASE.choose(&mut rng).unwrap(),
+                    b'H' => *H_BASES.choose(&mut rng).unwrap(),
+                    b'h' => *H_BASES_LOWERCASE.choose(&mut rng).unwrap(),
+                    b'V' => *V_BASES.choose(&mut rng).unwrap(),
+                    b'v' => *V_BASES_LOWERCASE.choose(&mut rng).unwrap(),
                     _ => ch,
                 })
                 .collect::<Vec<u8>>()}
     }
 }
 
-const r_bases = ['A', 'G'];
-const r_bases_lowercase = ['a', 'g'];
-const y_bases = ['C', 'U'];
-const y_bases_lowercase = ['c', 'u'];
-const s_bases = ['C', 'G'];
-const s_bases_lowercase = ['c', 'g'];
-const w_bases = ['A', 'U'];
-const w_bases_lowercase = ['a', 'u'];
-const k_bases = ['U', 'G'];
-const k_bases_lowercase = ['u', 'g'];
-const m_bases = ['A', 'C'];
-const m_bases_lowercase = ['a', 'c'];
-const b_bases = ['C', 'U', 'G'];
-const b_bases_lowercase = ['c', 'u', 'g'];
-const d_bases = ['A', 'U', 'G'];
-const d_bases_lowercase = ['a', 'u', 'g'];
-const h_bases = ['A', 'C', 'U'];
-const h_bases_lowercase = ['a', 'c', 'u'];
-const v_bases = ['A', 'C', 'G'];
-const v_bases_lowercase = ['a', 'c', 'g'];
-
-const r_bases = ['A', 'G'];
-const r_bases_lowercase = ['a', 'g'];
-const y_bases = ['C', 'T'];
-const y_bases_lowercase = ['c', 't'];
-const s_bases = ['C', 'G'];
-const s_bases_lowercase = ['c', 'g'];
-const w_bases = ['A', 'T'];
-const w_bases_lowercase = ['a', 't'];
-const k_bases = ['T', 'G'];
-const k_bases_lowercase = ['t', 'g'];
-const m_bases = ['A', 'C'];
-const m_bases_lowercase = ['a', 'c'];
-const b_bases = ['C', 'T', 'G'];
-const b_bases_lowercase = ['c', 't', 'g'];
-const d_bases = ['A', 'T', 'G'];
-const d_bases_lowercase = ['a', 't', 'g'];
-const h_bases = ['A', 'C', 'T'];
-const h_bases_lowercase = ['a', 'c', 't'];
-const v_bases = ['A', 'C', 'G'];
-const v_bases_lowercase = ['a', 'c', 'g'];
 
     // /// Fill gaps {.,-} with pseudorandom nucleotides actg
     // fn replace_gap_lowercase(&self, mut rng: ThreadRng) -> Self {
@@ -453,23 +424,23 @@ const v_bases_lowercase = ['a', 'c', 'g'];
 
 
 
-#[cfg(test)]
-mod tests {
-    use crate::utils::replace::ReplaceNucleotide;
-    #[test]
-    fn test_replace_u_with_t() {
-    let mut rng = rand::thread_rng();
-    let mut test = *b"ACTG";
-    test.replace_u_with_t();
-    assert_eq!(test, b"ACUG");
-}
-fn test_replace_x_with_y() {
-    let mut rng = rand::thread_rng();
-    let mut test = *b"ACTG";
-    test.replace_x_with_y(b"T", b"U");
-    assert_eq!(test, b"ACUG");
-}
-}
+// #[cfg(test)]
+// mod tests {
+//     use crate::utils::replace::ReplaceNucleotide;
+//     #[test]
+//     fn test_replace_u_with_t() {
+//     let mut rng = rand::thread_rng();
+//     let mut test = b"ACTG";
+//     test.replace_u_with_t();
+//     assert_eq!(test, b"ACUG");
+// }
+// fn test_replace_x_with_y() {
+//     let mut rng = rand::thread_rng();
+//     let mut test = b"ACTG";
+//     test.replace_x_with_y(b"T", b"U");
+//     assert_eq!(test, b"ACUG");
+// }
+// }
 
 // #[test]
 // fn test_replace_gap() {
@@ -566,5 +537,4 @@ fn test_replace_x_with_y() {
 //             rx => *c = ry,
 //             _ => {}
 //         })
-//     }
-// }
+// //     }

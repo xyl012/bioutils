@@ -121,6 +121,42 @@ pub const GAP_STR: [&str; 2] = [".", "-"];
 pub const N_U8: [u8; 2] = [b'N', b'n'];
 pub const N_STR: [&str; 2] = ["N", "n"];
 
+// IUPAC equivalent charsets
+pub const Y_BASES_RNA: [u8; 2] = [b'C', b'U'];
+pub const Y_BASES_LOWERCASE_RNA: [u8; 2] = [b'c', b'u']; 
+pub const W_BASES_RNA: [u8; 2] = [b'A', b'U'];
+pub const W_BASES_LOWERCASE_RNA: [u8; 2] = [b'a', b'u'];
+pub const K_BASES_RNA: [u8; 2] = [b'U', b'G'];
+pub const K_BASES_LOWERCASE_RNA: [u8; 2] = [b'u', b'g'];
+pub const B_BASES_RNA: [u8; 3] = [b'C', b'U', b'G'];
+pub const B_BASES_LOWERCASE_RNA: [u8; 3] = [b'c', b'u', b'g'];
+pub const D_BASES_RNA: [u8; 3] = [b'A', b'U', b'G'];
+pub const D_BASES_LOWERCASE_RNA: [u8; 3] = [b'a', b'u', b'g'];
+pub const H_BASES_RNA: [u8; 3] = [b'A', b'C', b'U'];
+pub const H_BASES_LOWERCASE_RNA: [u8; 3] = [b'a', b'c', b'u'];
+
+pub const R_BASES: [u8; 2] = [b'A', b'G'];
+pub const R_BASES_LOWERCASE: [u8; 2] = [b'a', b'g'];
+pub const Y_BASES: [u8; 2] = [b'C', b'T'];
+pub const Y_BASES_LOWERCASE: [u8; 2] = [b'c', b't'];
+pub const S_BASES: [u8; 2] = [b'C', b'G'];
+pub const S_BASES_LOWERCASE: [u8; 2] = [b'c', b'g'];
+pub const W_BASES: [u8; 2] = [b'A', b'T'];
+pub const W_BASES_LOWERCASE: [u8; 2] = [b'a', b't'];
+pub const K_BASES: [u8; 2] = [b'T', b'G'];
+pub const K_BASES_LOWERCASE: [u8; 2] = [b't', b'g'];
+pub const M_BASES: [u8; 2] = [b'A', b'C'];
+pub const M_BASES_LOWERCASE: [u8; 2] = [b'a', b'c'];
+pub const B_BASES: [u8; 3] = [b'C', b'T', b'G'];
+pub const B_BASES_LOWERCASE: [u8; 3] = [b'c', b't', b'g'];
+pub const D_BASES: [u8; 3] = [b'A', b'T', b'G'];
+pub const D_BASES_LOWERCASE: [u8; 3] = [b'a', b't', b'g'];
+pub const H_BASES: [u8; 3] = [b'A', b'C', b'T'];
+pub const H_BASES_LOWERCASE: [u8; 3] = [b'a', b'c', b't'];
+pub const V_BASES: [u8; 3] = [b'A', b'C', b'G'];
+pub const V_BASES_LOWERCASE: [u8; 3] = [b'a', b'c', b'g'];
+
+
 #[cfg(test)]
 mod tests {
     use super::{IUPAC_U8, IUPAC_NUCLEOTIDE_U8, IUPAC_AMINO_ACID_U8, BASIC_DNA_U8, BASIC_RNA_U8, BASIC_AMINO_ACID_U8};

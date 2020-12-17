@@ -16,11 +16,11 @@ pub const ASCII_LETTERS_STR: [&str; 52] = [
     "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z",
 ];
 lazy_static! {
-    pub static ref ASCII_LETTERS_HASHSET_U8: HashSet<u8> = { new_u8_hashset(&ASCII_LETTERS_U8) };
+    pub static ref ASCII_LETTERS_HASHSET_U8: HashSet<u8> = new_u8_hashset(&ASCII_LETTERS_U8);
 }
 lazy_static! {
     pub static ref ASCII_LETTERS_HASHSET_STR: HashSet<&'static str> =
-        { new_str_hashset(&ASCII_LETTERS_STR) };
+        new_str_hashset(&ASCII_LETTERS_STR);
 }
 
 // Upper case
@@ -34,11 +34,11 @@ pub const ASCII_LETTERS_UPPERCASE_STR: [&str; 26] = [
 ];
 lazy_static! {
     pub static ref ASCII_LETTERS_UPPERCASE_HASHSET_U8: HashSet<u8> =
-        { new_u8_hashset(&ASCII_LETTERS_UPPERCASE_U8) };
+        new_u8_hashset(&ASCII_LETTERS_UPPERCASE_U8);
 }
 lazy_static! {
     pub static ref ASCII_LETTERS_UPPERCASE_HASHSET_STR: HashSet<&'static str> =
-        { new_str_hashset(&ASCII_LETTERS_UPPERCASE_STR) };
+        new_str_hashset(&ASCII_LETTERS_UPPERCASE_STR);
 }
 
 // Lower case
@@ -52,9 +52,9 @@ pub const ASCII_LETTERS_LOWERCASE_STR: [&str; 26] = [
 ];
 lazy_static! {
     pub static ref ASCII_LETTERS_LOWERCASE_HASHSET_U8: HashSet<u8> =
-        { new_u8_hashset(&ASCII_LETTERS_LOWERCASE_U8) };
+        new_u8_hashset(&ASCII_LETTERS_LOWERCASE_U8);
 }
 lazy_static! {
     pub static ref ASCII_LETTERS_LOWERCASE_HASHSET_STR: HashSet<&'static str> =
-        { new_str_hashset(&ASCII_LETTERS_LOWERCASE_STR) };
+        new_str_hashset(&ASCII_LETTERS_LOWERCASE_STR);
 }

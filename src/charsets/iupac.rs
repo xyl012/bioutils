@@ -15,10 +15,10 @@ pub const IUPAC_STR: [&str; 46] = [
     "g", "I", "i", "L", "l", "P", "p", "Q", "q",
 ];
 lazy_static! {
-    pub static ref IUPAC_HASHSET_U8: HashSet<u8> = { new_u8_hashset(&IUPAC_U8) };
+    pub static ref IUPAC_HASHSET_U8: HashSet<u8> = new_u8_hashset(&IUPAC_U8);
 }
 lazy_static! {
-    pub static ref IUPAC_HASHSET_STR: HashSet<&'static str> = { new_str_hashset(&IUPAC_STR) };
+    pub static ref IUPAC_HASHSET_STR: HashSet<&'static str> = new_str_hashset(&IUPAC_STR);
 }
 
 // Full IUPAC nucleotide charset including N,n,-,.
@@ -32,12 +32,11 @@ pub const IUPAC_NUCLEOTIDE_STR: [&str; 34] = [
     "k", "M", "m", "B", "b", "D", "d", "H", "h", "V", "v", "N", "n", r#"-"#, r#"."#,
 ];
 lazy_static! {
-    pub static ref IUPAC_NUCLEOTIDE_HASHSET_U8: HashSet<u8> =
-        { new_u8_hashset(&IUPAC_NUCLEOTIDE_U8) };
+    pub static ref IUPAC_NUCLEOTIDE_HASHSET_U8: HashSet<u8> = new_u8_hashset(&IUPAC_NUCLEOTIDE_U8);
 }
 lazy_static! {
     pub static ref IUPAC_NUCLEOTIDE_HASHSET_STR: HashSet<&'static str> =
-        { new_str_hashset(&IUPAC_NUCLEOTIDE_STR) };
+        new_str_hashset(&IUPAC_NUCLEOTIDE_STR);
 }
 
 // Full IUPAC amino acid charset
@@ -52,56 +51,53 @@ pub const IUPAC_AMINO_ACID_STR: [&str; 42] = [
     "W", "w", "Y", "y",
 ];
 lazy_static! {
-    pub static ref IUPAC_AMINO_ACID_HASHSET_U8: HashSet<u8> =
-        { new_u8_hashset(&IUPAC_AMINO_ACID_U8) };
+    pub static ref IUPAC_AMINO_ACID_HASHSET_U8: HashSet<u8> = new_u8_hashset(&IUPAC_AMINO_ACID_U8);
 }
 lazy_static! {
     pub static ref IUPAC_AMINO_ACID_HASHSET_STR: HashSet<&'static str> =
-        { new_str_hashset(&IUPAC_AMINO_ACID_STR) };
+        new_str_hashset(&IUPAC_AMINO_ACID_STR);
 }
 
 // Basic DNA charset
 pub const BASIC_DNA_U8: [u8; 4] = [b'A', b'C', b'G', b'T'];
 pub const BASIC_DNA_STR: [&str; 4] = ["A", "C", "G", "T"];
 lazy_static! {
-    pub static ref BASIC_DNA_HASHSET_U8: HashSet<u8> = { new_u8_hashset(&BASIC_DNA_U8) };
+    pub static ref BASIC_DNA_HASHSET_U8: HashSet<u8> = new_u8_hashset(&BASIC_DNA_U8);
 }
 lazy_static! {
-    pub static ref BASIC_DNA_HASHSET_STR: HashSet<&'static str> =
-        { new_str_hashset(&BASIC_DNA_STR) };
+    pub static ref BASIC_DNA_HASHSET_STR: HashSet<&'static str> = new_str_hashset(&BASIC_DNA_STR);
 }
 
 pub const BASIC_LOWERCASE_DNA_U8: [u8; 4] = [b'a', b'c', b'g', b't'];
 pub const BASIC_LOWERCASE_DNA_STR: [&str; 4] = ["a", "c", "g", "t"];
 lazy_static! {
     pub static ref BASIC_LOWERCASE_DNA_HASHSET_U8: HashSet<u8> =
-        { new_u8_hashset(&BASIC_LOWERCASE_DNA_U8) };
+        new_u8_hashset(&BASIC_LOWERCASE_DNA_U8);
 }
 lazy_static! {
     pub static ref BASIC_LOWERCASE_DNA_HASHSET_STR: HashSet<&'static str> =
-        { new_str_hashset(&BASIC_LOWERCASE_DNA_STR) };
+        new_str_hashset(&BASIC_LOWERCASE_DNA_STR);
 }
 
 // Basic RNA charset
 pub const BASIC_RNA_U8: [u8; 4] = [b'A', b'C', b'G', b'U'];
 pub const BASIC_RNA_STR: [&str; 4] = ["A", "C", "G", "U"];
 lazy_static! {
-    pub static ref BASIC_RNA_HASHSET_U8: HashSet<u8> = { new_u8_hashset(&BASIC_RNA_U8) };
+    pub static ref BASIC_RNA_HASHSET_U8: HashSet<u8> = new_u8_hashset(&BASIC_RNA_U8);
 }
 lazy_static! {
-    pub static ref BASIC_RNA_HASHSET_STR: HashSet<&'static str> =
-        { new_str_hashset(&BASIC_RNA_STR) };
+    pub static ref BASIC_RNA_HASHSET_STR: HashSet<&'static str> = new_str_hashset(&BASIC_RNA_STR);
 }
 
 pub const BASIC_LOWERCASE_RNA_U8: [u8; 4] = [b'a', b'c', b'g', b'u'];
 pub const BASIC_LOWERCASE_RNA_STR: [&str; 4] = ["a", "c", "g", "u"];
 lazy_static! {
     pub static ref BASIC_LOWERCASE_RNA_HASHSET_U8: HashSet<u8> =
-        { new_u8_hashset(&BASIC_LOWERCASE_RNA_U8) };
+        new_u8_hashset(&BASIC_LOWERCASE_RNA_U8);
 }
 lazy_static! {
     pub static ref BASIC_LOWERCASE_RNA_HASHSET_STR: HashSet<&'static str> =
-        { new_str_hashset(&BASIC_LOWERCASE_RNA_STR) };
+        new_str_hashset(&BASIC_LOWERCASE_RNA_STR);
 }
 
 // Basic AA charset
@@ -114,12 +110,11 @@ pub const BASIC_AMINO_ACID_STR: [&str; 21] = [
     "W", "Y",
 ];
 lazy_static! {
-    pub static ref BASIC_AMINO_ACID_HASHSET_U8: HashSet<u8> =
-        { new_u8_hashset(&BASIC_AMINO_ACID_U8) };
+    pub static ref BASIC_AMINO_ACID_HASHSET_U8: HashSet<u8> = new_u8_hashset(&BASIC_AMINO_ACID_U8);
 }
 lazy_static! {
     pub static ref BASIC_AMINO_ACID_HASHSET_STR: HashSet<&'static str> =
-        { new_str_hashset(&BASIC_AMINO_ACID_STR) };
+        new_str_hashset(&BASIC_AMINO_ACID_STR);
 }
 
 // Only gap charset

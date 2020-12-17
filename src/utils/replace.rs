@@ -10,7 +10,7 @@
 //! use rand::seq::SliceRandom;
 //!
 //! let mut rng = rand::thread_rng(); //create a random number generator
-//! let mut seq = b"acugqqq".to_upper_basic(); 
+//! let mut seq = b"acugqqq".to_upper_basic();
 //!
 //! assert_eq!(b"ACUGqqq", seq);
 //! ```
@@ -23,7 +23,6 @@ use rand::seq::SliceRandom;
 use crate::charsets::iupac::*;
 
 pub trait ReplaceNucleotide<T> {
-
     fn replace_n(&self, xna: &str, rng: ThreadRng) -> Vec<u8>;
     fn replace_gap(&self, xna: &str, rng: ThreadRng) -> Vec<u8>;
     fn replace_non_basic(&self, xna: &str, rng: ThreadRng) -> Vec<u8>;
@@ -37,7 +36,8 @@ pub trait ReplaceNucleotide<T> {
 //     for<'a> &'a T: IntoIterator<Item = &'a u8> + AsMut<&'a u8>,
 // {
 impl<T> ReplaceNucleotide<T> for T
-where T: IntoIterator<Item = u8> + AsMut<u8> + Copy,
+where
+    T: IntoIterator<Item = u8> + AsMut<u8> + Copy,
 {
     /// Fill {N,n} with pseudorandom nucleotides ACUG if xna is "RNA" or ACTG for all other xna.
     fn replace_n(&self, xna: &str, mut rng: ThreadRng) -> Vec<u8> {

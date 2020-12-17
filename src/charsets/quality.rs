@@ -23,10 +23,10 @@ pub const PHRED33_STR: [&str; 94] = [
     r#"t"#, r#"u"#, r#"v"#, r#"w"#, r#"x"#, r#"y"#, r#"z"#, r#"{"#, r#"|"#, r#"}"#, r#"~"#,
 ];
 lazy_static! {
-    pub static ref PHRED33_HASHSET_U8: HashSet<u8> = { new_u8_hashset(&PHRED33_U8) };
+    pub static ref PHRED33_HASHSET_U8: HashSet<u8> = new_u8_hashset(&PHRED33_U8);
 }
 lazy_static! {
-    pub static ref PHRED33_HASHSET_STR: HashSet<&'static str> = { new_str_hashset(&PHRED33_STR) };
+    pub static ref PHRED33_HASHSET_STR: HashSet<&'static str> = new_str_hashset(&PHRED33_STR);
 }
 
 // Phred64 charset: ASCII 64-126
@@ -45,10 +45,10 @@ pub const PHRED64_STR: [&str; 63] = [
     r#"|"#, r#"}"#, r#"~"#,
 ];
 lazy_static! {
-    pub static ref PHRED64_HASHSET_U8: HashSet<u8> = { new_u8_hashset(&PHRED64_U8) };
+    pub static ref PHRED64_HASHSET_U8: HashSet<u8> = new_u8_hashset(&PHRED64_U8);
 }
 lazy_static! {
-    pub static ref PHRED64_HASHSET_STR: HashSet<&'static str> = { new_str_hashset(&PHRED64_STR) };
+    pub static ref PHRED64_HASHSET_STR: HashSet<&'static str> = new_str_hashset(&PHRED64_STR);
 }
 
 // Solexa/Illumina 1.0 charset: ASCII 59-126.
@@ -68,10 +68,10 @@ pub const SOLEXA_STR: [&str; 68] = [
     r#"w"#, r#"x"#, r#"y"#, r#"z"#, r#"{"#, r#"|"#, r#"}"#, r#"~"#,
 ];
 lazy_static! {
-    pub static ref SOLEXA_HASHSET_U8: HashSet<u8> = { new_u8_hashset(&SOLEXA_U8) };
+    pub static ref SOLEXA_HASHSET_U8: HashSet<u8> = new_u8_hashset(&SOLEXA_U8);
 }
 lazy_static! {
-    pub static ref SOLEXA_HASHSET_STR: HashSet<&'static str> = { new_str_hashset(&SOLEXA_STR) };
+    pub static ref SOLEXA_HASHSET_STR: HashSet<&'static str> = new_str_hashset(&SOLEXA_STR);
 }
 
 #[cfg(test)]

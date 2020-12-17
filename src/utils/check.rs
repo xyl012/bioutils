@@ -20,12 +20,12 @@
 //! assert!(homopolymerN.is_homopolymer());
 //! assert!(homopolymerA.is_homopolymer_not_n());
 //! assert!(homopolymerN.is_homopolymer_n());
-//! 
+//!
 //! assert!(gapna.has_gap());
 //! assert!(nna.has_n());
 //! assert!(dna.is_iupac());
 //! assert!(rna.is_basic_rna());
-//! 
+//!
 //! assert!(quality.is_phred33());
 //! assert!(quality.is_phred64());
 //! assert!(quality.is_solexa());

@@ -2,7 +2,7 @@
 
 //! Trait for checking specific criteria for a u8 of biological file origin. Types include sequence (nucleotide/amino acid) and quality (phred33/64/solexa, phred33 being all printable ascii).
 //! See below examples for included functions. Note that quality alphabets overlap, and one quality line may be valid phred33,64, solexa, or any combination. Check with the manufacturer for which quality encoding your data has. If unsure, most data generated beyond 2016 is kept in phred33 encoding.
-//! Additional functionality for common checks including has_n, has_gap, is_homopolymer, is_palindrome, etc.
+//! Additional functionality for common checks including has_n, has_gap, is_homopolymer, etc.
 //! # Examples
 //! ```
 //! use bioutils::charsets::*;
@@ -20,10 +20,12 @@
 //! assert!(homopolymerN.is_homopolymer());
 //! assert!(homopolymerA.is_homopolymer_not_n());
 //! assert!(homopolymerN.is_homopolymer_n());
+//! 
 //! assert!(gapna.has_gap());
 //! assert!(nna.has_n());
 //! assert!(dna.is_iupac());
 //! assert!(rna.is_basic_rna());
+//! 
 //! assert!(quality.is_phred33());
 //! assert!(quality.is_phred64());
 //! assert!(quality.is_solexa());
@@ -176,41 +178,6 @@ where
     }
 }
 
-// /// Trait implementing DoubleEndedIterator for checking palindromes
-// pub trait CheckDoubleEndedIterator<T: Iterator + DoubleEndedIterator + Copy + PartialEq> {
-//     /// Checks if u8 is a palindrome. Use to_uppercase or lowercase prior if mixed case.
-//     fn is_palindrome(&self) -> bool;
-// }
-
-// impl<T: Iterator + DoubleEndedIterator + Copy + PartialEq> CheckDoubleEndedIterator<T> for T where for<'a> &'a T: DoubleEndedIterator<Item = &'a T> + Iterator<Item = &'a T> + Copy + PartialEq {
-// // impl<T: DoubleEndedIterator> CheckDoubleEndedIterator<T> for T where for<'a> &'a T: DoubleEndedIterator<Item = &'a u8> {
-//     /// Checks if u8 is a palindrome. Use to_uppercase or lowercase prior if mixed case.
-//     fn is_palindrome(&self) -> bool {
-//         true
-//         // let test: Vec<u8> = self.into_iter().collect();
-//         // let test2: Vec<u8> = self.into_iter().rev().collect();
-//     }
-// }
-
-// /// Checks if u8 is mixed upper and lower case. Ignores non-letter u8. If checking specifically for upper or lower, use self.into_iter().all(|x| ASCII_LETTERS_UPPERCASE_U8.contains(&x) or lowercase respectively.
-// fn has_mixed_case(&self) -> bool {
-//     // Check if all ascii letters, then check for if all upper or lower. If not, return true. If not all ascii letters filter for letters and check case of remaining
-//     if self.is_ascii_letters() {
-//         if self.is_ascii_letters_uppercase() {false}
-//         else if self.is_ascii_letters_lowercase() {false}
-//         else {true}
-//     }
-//     else {
-//         if self.into_iter().filter_map(|x| ASCII_LETTERS_U8.contains(&x)).is_ascii_letters_uppercase() {false}
-//         else if self.into_iter().filter_map(|x| ASCII_LETTERS_U8.contains(&x)).is_ascii_letters_lowercase() {false}
-//         else {true}
-//       }
-// }
-
-// /// Checks if u8 contains the given sequence as u8 (same as .contains). Conversion between string slice and byte slice is available through the rust standard crate.
-// fn has_u8(&self, slice: &[u8]) -> bool {
-//     self.contains(slice)
-// }
 // #[cfg(test)]
 // mod tests {
 //     use super::{IUPAC_U8, IUPAC_NUCLEOTIDE_U8, IUPAC_AMINO_ACID_U8, BASIC_DNA_U8, BASIC_RNA_U8, BASIC_AMINO_ACID_U8};

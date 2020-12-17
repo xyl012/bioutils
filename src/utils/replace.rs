@@ -1,9 +1,8 @@
 // Copyright 2020 Christopher Sugai
 
-//! Trait to remove or replace characters (u<->t,Nn->{ACTG}, etc.) with pseudorandom bases.
+//! Trait to replace characters with pseudorandom bases (Nn->{AC{TU}G}, IUPAC R to {AG}).
 //! # Examples
 //! ```
-//!
 //! extern crate rand;
 //!
 //! use rand::rngs::ThreadRng;
@@ -11,57 +10,40 @@
 //! use rand::seq::SliceRandom;
 //!
 //! let mut rng = rand::thread_rng(); //create a random number generator
-//! let x1 = "ACTGuyUNn.-@<^>".to_string(); //string
-//! let mut simple = "ACTG".to_string(); //string
-//! let mut simpleedit = simple.replace_u_with_t(); //string
+//! let mut seq = b"acugqqq".to_upper_basic(); 
 //!
-//! assert_eq!("ACUG", simpleedit);
-//!
-//! let y1 = x1.replace_gap(rng); //replace gap {.-} using the random number generator
-//!
-//! let x2 = "ACTGuyUNn.-@<^>"; //stringslice
-//! let y2 = x2.to_string(); //convert stringslice to String
-//! let y2 = y2.replace_n(rng); //replace ambiguous/uncalled base {nN}
-//!
-//! let y3 = std::str::from_utf8(x3).expect("Not valid UTF8").to_string(); //convert textslice to either Text or String but must be owned
-//! let y3 = y3; //replace all other text other than ACTGUactgu, does not take rng
-//!
-//! let y4 = x4.replace_all(rng); //replace u with t
-//! let y4 = std::string::String::from_utf8(y4).expect("Not valid UTF8");
-//!
-//! assert_eq!(y4.len(), "ACTGuyUNn.-@<^>".to_string().len());
-//!
-//!    // println!("{}", y1);
-//!    // println!("{}", y2);
-//!    // println!("{}", y3);
-//!    // println!("{}", y4);
+//! assert_eq!(b"ACUGqqq", seq);
 //! ```
+
+// // replace gap {.-} using the random number generator
 
 use rand::rngs::ThreadRng;
 use rand::seq::SliceRandom;
 
 use crate::charsets::iupac::*;
 
-trait ReplaceNucleotide<T> {
+pub trait ReplaceNucleotide<T> {
+
+    fn replace_n(&self, xna: &str, rng: ThreadRng) -> Vec<u8>;
+    fn replace_gap(&self, xna: &str, rng: ThreadRng) -> Vec<u8>;
+    fn replace_non_basic(&self, xna: &str, rng: ThreadRng) -> Vec<u8>;
+    fn replace_iupac(&self, xna: &str, rng: ThreadRng) -> Vec<u8>;
     fn to_upper_basic(&self) -> Vec<u8>;
     fn to_lower_basic(&self) -> Vec<u8>;
-    fn replace_gap(&self, xna: &str, rng: ThreadRng) -> Vec<u8>;
-    fn replace_n(&self, xna: &str, rng: ThreadRng) -> Vec<u8>;
-    fn replace_non_basic_with_uppercase(&self, xna: &str, rng: ThreadRng) -> Vec<u8>;
-    // fn replace_gap_lowercase(&self, rng: ThreadRng) -> Self;
-    fn replace_iupac(&self, xna: &str, rng: ThreadRng) -> Vec<u8>;
-    // fn replace_all_other_with_lowercase(&self, rng: ThreadRng) -> Self;
 }
 
+// impl<T> ReplaceNucleotide<T> for T
+// where
+//     for<'a> &'a T: IntoIterator<Item = &'a u8> + AsMut<&'a u8>,
+// {
 impl<T> ReplaceNucleotide<T> for T
-where
-    for<'a> &'a T: IntoIterator<Item = &'a u8>,
+where T: IntoIterator<Item = u8> + AsMut<u8> + Copy,
 {
     /// Fill {N,n} with pseudorandom nucleotides ACUG if xna is "RNA" or ACTG for all other xna.
     fn replace_n(&self, xna: &str, mut rng: ThreadRng) -> Vec<u8> {
         if xna == "RNA" {
             self.into_iter()
-                .map(|&ch| match ch {
+                .map(|ch| match ch {
                     b'N' => *BASIC_RNA_U8.choose(&mut rng).unwrap(),
                     b'n' => *BASIC_LOWERCASE_RNA_U8.choose(&mut rng).unwrap(),
                     _ => ch,
@@ -69,7 +51,7 @@ where
                 .collect::<Vec<u8>>()
         } else {
             self.into_iter()
-                .map(|&ch| match ch {
+                .map(|ch| match ch {
                     b'N' => *BASIC_DNA_U8.choose(&mut rng).unwrap(),
                     b'n' => *BASIC_LOWERCASE_DNA_U8.choose(&mut rng).unwrap(),
                     _ => ch,
@@ -82,7 +64,7 @@ where
     fn replace_gap(&self, xna: &str, mut rng: ThreadRng) -> Vec<u8> {
         if xna == "RNA" {
             self.into_iter()
-                .map(|&ch| match ch {
+                .map(|ch| match ch {
                     b'.' => *BASIC_RNA_U8.choose(&mut rng).unwrap(),
                     b'-' => *BASIC_RNA_U8.choose(&mut rng).unwrap(),
                     _ => ch,
@@ -90,7 +72,7 @@ where
                 .collect::<Vec<u8>>()
         } else {
             self.into_iter()
-                .map(|&ch| match ch {
+                .map(|ch| match ch {
                     b'.' => *BASIC_DNA_U8.choose(&mut rng).unwrap(),
                     b'-' => *BASIC_DNA_U8.choose(&mut rng).unwrap(),
                     _ => ch,
@@ -99,10 +81,47 @@ where
         }
     }
 
+    /// Replace all other than ACGTUactgu with pseudorandom nucleotides ACTGU. Should be used last after other functions or for cleanup of unknown characters.
+    fn replace_non_basic(&self, xna: &str, mut rng: ThreadRng) -> Vec<u8> {
+        if xna == "RNA" {
+            self.into_iter()
+                .map(|ch| match ch {
+                    b'A' => ch,
+                    b'a' => ch,
+                    b'C' => ch,
+                    b'c' => ch,
+                    b'T' => ch,
+                    b't' => ch,
+                    b'G' => ch,
+                    b'g' => ch,
+                    b'U' => ch,
+                    b'u' => ch,
+                    _ => *BASIC_RNA_U8.choose(&mut rng).unwrap(),
+                })
+                .collect::<Vec<u8>>()
+        } else {
+            self.into_iter()
+                .map(|ch| match ch {
+                    b'A' => ch,
+                    b'a' => ch,
+                    b'C' => ch,
+                    b'c' => ch,
+                    b'T' => ch,
+                    b't' => ch,
+                    b'G' => ch,
+                    b'g' => ch,
+                    b'U' => ch,
+                    b'u' => ch,
+                    _ => *BASIC_DNA_U8.choose(&mut rng).unwrap(),
+                })
+                .collect::<Vec<u8>>()
+        }
+    }
+
     /// Specifically make actgu into ACTGU
     fn to_upper_basic(&self) -> Vec<u8> {
         self.into_iter()
-            .map(|&ch| match ch {
+            .map(|ch| match ch {
                 b'A' => ch,
                 b'a' => b'A',
                 b'C' => ch,
@@ -121,7 +140,7 @@ where
     /// Specifically make ACTGU into actgu
     fn to_lower_basic(&self) -> Vec<u8> {
         self.into_iter()
-            .map(|&ch| match ch {
+            .map(|ch| match ch {
                 b'A' => ch,
                 b'a' => b'A',
                 b'C' => ch,
@@ -137,48 +156,11 @@ where
             .collect::<Vec<u8>>()
     }
 
-    /// Replace all other than ACGTUactgu with pseudorandom nucleotides ACTGU. Should be used last after other functions or for cleanup of unknown characters.
-    fn replace_non_basic_with_uppercase(&self, xna: &str, mut rng: ThreadRng) -> Vec<u8> {
-        if xna == "RNA" {
-            self.into_iter()
-                .map(|&ch| match ch {
-                    b'A' => ch,
-                    b'a' => ch,
-                    b'C' => ch,
-                    b'c' => ch,
-                    b'T' => ch,
-                    b't' => ch,
-                    b'G' => ch,
-                    b'g' => ch,
-                    b'U' => ch,
-                    b'u' => ch,
-                    _ => *BASIC_RNA_U8.choose(&mut rng).unwrap(),
-                })
-                .collect::<Vec<u8>>()
-        } else {
-            self.into_iter()
-                .map(|&ch| match ch {
-                    b'A' => ch,
-                    b'a' => ch,
-                    b'C' => ch,
-                    b'c' => ch,
-                    b'T' => ch,
-                    b't' => ch,
-                    b'G' => ch,
-                    b'g' => ch,
-                    b'U' => ch,
-                    b'u' => ch,
-                    _ => *BASIC_DNA_U8.choose(&mut rng).unwrap(),
-                })
-                .collect::<Vec<u8>>()
-        }
-    }
-
     /// Pseudorandom nucleotide replacements within IUPAC specifications, e.g. R: either A or G. Case specific, r: either a or g.
     fn replace_iupac(&self, xna: &str, mut rng: ThreadRng) -> Vec<u8> {
         if xna == "RNA" {
             self.into_iter()
-                .map(|&ch| match ch {
+                .map(|ch| match ch {
                     b'R' => *R_BASES.choose(&mut rng).unwrap(),
                     b'r' => *R_BASES_LOWERCASE.choose(&mut rng).unwrap(),
                     b'Y' => *Y_BASES_RNA.choose(&mut rng).unwrap(),
@@ -204,7 +186,7 @@ where
                 .collect::<Vec<u8>>()
         } else {
             self.into_iter()
-                .map(|&ch| match ch {
+                .map(|ch| match ch {
                     b'R' => *R_BASES.choose(&mut rng).unwrap(),
                     b'r' => *R_BASES_LOWERCASE.choose(&mut rng).unwrap(),
                     b'Y' => *Y_BASES.choose(&mut rng).unwrap(),
@@ -231,190 +213,6 @@ where
         }
     }
 }
-
-// /// Fill gaps {.,-} with pseudorandom nucleotides actg
-// fn replace_gap_lowercase(&self, mut rng: ThreadRng) -> Self {
-//     let bases = ['a', 'c', 't', 'g'];
-//     self.chars()
-//         .map(|ch| match ch {
-//             b'.' => *bases.choose(&mut rng).unwrap(),
-//             b'-' => *bases.choose(&mut rng).unwrap(),
-//             _ => ch,
-//         })
-//         .collect()
-// }
-
-// /// fill all other than ACGTUactgu with pseudorandom nucleotides actgu. Should be used last after other functions or for cleanup of unknown characters.
-// fn replace_all_other_with_lowercase(&self, mut rng: ThreadRng) -> Self {
-//     let bases = ['a', 'c', 't', 'g'];
-//     self.chars()
-//         .map(|ch| match ch {
-//             'A' => ch,
-//             'a' => ch,
-//             'C' => ch,
-//             'c' => ch,
-//             'T' => ch,
-//             't' => ch,
-//             'G' => ch,
-//             'g' => ch,
-//             'U' => ch,
-//             'u' => ch,
-//             _ => *bases.choose(&mut rng).unwrap(),
-//         })
-//         .collect()
-// }
-
-// impl ReplaceNucleotide<Text> for Text {
-//     /// Specifically replace Uu with Tt, lowercase to lowercase, uppercase to uppercase. Leaves all other characters in place.
-//     fn replace_u_with_t(&self) -> Self {
-//         std::string::String::from_utf8(self.to_owned()).expect("Not valid UTF8").chars()
-//             .map(|ch| match ch {
-//                 'U' => 'T',
-//                 'u' => 't',
-//                 _ => ch,
-//             })
-//             .collect::<String>().into_bytes()
-//     }
-
-//     /// Specifically fill lowercase actgu with ACTGU but leaves all other characters in place.
-//     fn replace_lowercase_with_uppercase(&self) -> Self {
-//         std::string::String::from_utf8(self.to_owned()).expect("Not valid UTF8").chars()
-//             .map(|ch| match ch {
-//                 'A' => ch,
-//                 'a' => 'A',
-//                 'C' => ch,
-//                 'c' => 'C',
-//                 'T' => ch,
-//                 't' => 'T',
-//                 'G' => ch,
-//                 'g' => 'G',
-//                 'U' => ch,
-//                 'u' => 'U',
-//                 _ => ch,
-//             }
-//     }
-
-//     /// Fill gaps {.,-} with pseudorandom nucleotides ACTG
-//     fn replace_gap(&self, mut rng: ThreadRng) -> Self {
-//         let bases = ['A', 'C', 'T', 'G'];
-//         std::string::String::from_utf8(self.to_owned()).expect("Not valid UTF8").chars()
-//             .map(|ch| match ch {
-//                 '.' => *bases.choose(&mut rng).unwrap(),
-//                 '-' => *bases.choose(&mut rng).unwrap(),
-//                 _ => ch,
-//             })
-//             .collect::<String>().into_bytes()
-//     }
-//     /// Fill gaps {.,-} with pseudorandom nucleotides actg
-//     fn replace_gap_lowercase(&self, mut rng: ThreadRng) -> Self {
-//         let bases = ['a', 'c', 't', 'g'];
-//         std::string::String::from_utf8(self.to_owned()).expect("Not valid UTF8").chars()
-//             .map(|ch| match ch {
-//                 '.' => *bases.choose(&mut rng).unwrap(),
-//                 '-' => *bases.choose(&mut rng).unwrap(),
-//                 _ => ch,
-//             })
-//             .collect::<String>().into_bytes()
-//     }
-//     /// Fill N with pseudorandom nucleotides ACTG and n with actg
-//     fn replace_n(&self, mut rng: ThreadRng) -> Self {
-//         let bases = ['A', 'C', 'T', 'G'];
-//         let lowercase_bases = ['a', 'c', 't', 'g'];
-//         std::string::String::from_utf8(self.to_owned()).expect("Not valid UTF8").chars()
-//             .map(|ch| match ch {
-//                 'N' => *bases.choose(&mut rng).unwrap(),
-//                 'n' => *lowercase_bases.choose(&mut rng).unwrap(),
-//                 _ => ch,
-//             })
-//             .collect::<String>().into_bytes()
-//     }
-//     /// Pseudorandom nucleotide replacements within IUPAC specifications, e.g. R: either A or G. Case specific, r: either a or g.
-//     fn replace_iupac(&self, mut rng: ThreadRng) -> Self {
-//         let r_bases = ['A', 'G'];
-//         let r_bases_lowercase = ['a', 'g'];
-//         let y_bases = ['C', 'T'];
-//         let y_bases_lowercase = ['c', 't'];
-//         let s_bases = ['C', 'G'];
-//         let s_bases_lowercase = ['c', 'g'];
-//         let w_bases = ['A', 'T'];
-//         let w_bases_lowercase = ['a', 't'];
-//         let k_bases = ['T', 'G'];
-//         let k_bases_lowercase = ['t', 'g'];
-//         let m_bases = ['A', 'C'];
-//         let m_bases_lowercase = ['a', 'c'];
-//         let b_bases = ['C', 'T', 'G'];
-//         let b_bases_lowercase = ['c', 't', 'g'];
-//         let d_bases = ['A', 'T', 'G'];
-//         let d_bases_lowercase = ['a', 't', 'g'];
-//         let h_bases = ['A', 'C', 'T'];
-//         let h_bases_lowercase = ['a', 'c', 't'];
-//         let v_bases = ['A', 'C', 'G'];
-//         let v_bases_lowercase = ['a', 'c', 'g'];
-//         std::string::String::from_utf8(self.to_owned()).expect("Not valid UTF8").chars()
-//             .map(|ch| match ch {
-//                 'R' => *r_bases.choose(&mut rng).unwrap(),
-//                 'r' => *r_bases_lowercase.choose(&mut rng).unwrap(),
-//                 'Y' => *y_bases.choose(&mut rng).unwrap(),
-//                 'y' => *y_bases_lowercase.choose(&mut rng).unwrap(),
-//                 'S' => *s_bases.choose(&mut rng).unwrap(),
-//                 's' => *s_bases_lowercase.choose(&mut rng).unwrap(),
-//                 'W' => *w_bases.choose(&mut rng).unwrap(),
-//                 'w' => *w_bases_lowercase.choose(&mut rng).unwrap(),
-//                 'K' => *k_bases.choose(&mut rng).unwrap(),
-//                 'k' => *k_bases_lowercase.choose(&mut rng).unwrap(),
-//                 'M' => *m_bases.choose(&mut rng).unwrap(),
-//                 'm' => *m_bases_lowercase.choose(&mut rng).unwrap(),
-//                 'B' => *b_bases.choose(&mut rng).unwrap(),
-//                 'b' => *b_bases_lowercase.choose(&mut rng).unwrap(),
-//                 'D' => *d_bases.choose(&mut rng).unwrap(),
-//                 'd' => *d_bases_lowercase.choose(&mut rng).unwrap(),
-//                 'H' => *h_bases.choose(&mut rng).unwrap(),
-//                 'h' => *h_bases_lowercase.choose(&mut rng).unwrap(),
-//                 'V' => *v_bases.choose(&mut rng).unwrap(),
-//                 'v' => *v_bases_lowercase.choose(&mut rng).unwrap(),
-//                 _ => ch,
-//             })
-//             .collect::<String>().into_bytes()
-//     }
-//     /// fill all other than ACGTUactgu with pseudorandom nucleotides ACTGU. Should be used last after other functions or for cleanup of unknown characters.
-//     fn replace_all_other_with_uppercase(&self, mut rng: ThreadRng) -> Self {
-//         let bases = ['A', 'C', 'T', 'G'];
-//         std::string::String::from_utf8(self.to_owned()).expect("Not valid UTF8").chars()
-//             .map(|ch| match ch {
-//                 'A' => ch,
-//                 'a' => ch,
-//                 'C' => ch,
-//                 'c' => ch,
-//                 'T' => ch,
-//                 't' => ch,
-//                 'G' => ch,
-//                 'g' => ch,
-//                 'U' => ch,
-//                 'u' => ch,
-//                 _ => *bases.choose(&mut rng).unwrap(),
-//             })
-//             .collect::<String>().into_bytes()
-//     }
-//     /// fill all other than ACGTUactgu with pseudorandom nucleotides actgu. Should be used last after other functions or for cleanup of unknown characters.
-//     fn replace_all_other_with_lowercase(&self, mut rng: ThreadRng) -> Self {
-//         let bases = ['a', 'c', 't', 'g'];
-//         std::string::String::from_utf8(self.to_owned()).expect("Not valid UTF8").chars()
-//             .map(|ch| match ch {
-//                 'A' => ch,
-//                 'a' => ch,
-//                 'C' => ch,
-//                 'c' => ch,
-//                 'T' => ch,
-//                 't' => ch,
-//                 'G' => ch,
-//                 'g' => ch,
-//                 'U' => ch,
-//                 'u' => ch,
-//                 _ => *bases.choose(&mut rng).unwrap(),
-//             })
-//             .collect::<String>().into_bytes()
-//     }
-// }
 
 // #[cfg(test)]
 // mod tests {

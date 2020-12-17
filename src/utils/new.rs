@@ -1,39 +1,56 @@
 // Copyright 2020 Christopher Sugai
-
+//! Functions to make new random u8 biological sequences. Includes dna,rna,aa,quality functions to create u8 vectors.
+//! # Examples
+//! ```
+//! 
+//! ```
 use rand::seq::SliceRandom;
 use rand::rngs::ThreadRng;
+use crate::charsets::iupac::*;
+use crate::charsets::quality::*;
 
+pub trait New<T> {
+    /// Create new random DNA sequence with specified number of bases.
+    fn random_dna(nbases: usize, rng: ThreadRng) -> Vec<u8>;
+    /// Create new random RNA sequence with specified number of bases.
+    fn random_rna(nbases: usize, rng: ThreadRng) -> Vec<u8>;
+    /// Create new random amino acid sequence with specified number of amino acids.
+    fn random_aa(nbases: usize, rng: ThreadRng) -> Vec<u8>;
+    /// Create new random quality sequence with specified number of characters.
+    fn random_quality(nbases: usize, rng: ThreadRng) -> Vec<u8>;
+}
 
-// pub static 
-
-// pub trait New<T> {
-
-// }
-// impl<T> New<T> for T where for<'a> &'a T: IntoIterator<Item = &'a u8> {
-
-// }
-
-
-pub fn dna(length: u8, mut rng: ThreadRng) -> String {
-    // let nucl: String = 
-
-};
-
-// In this random generator, we assume 50/50 chance of U vs T. Refer to base_percents function to specify percentages of bases.
-pub fn rna(length: u8, mut rng: ThreadRng) -> String {
-    let bases = ['A', 'C', 'T', 'G'];
-};
-
-pub fn aa(length: u8, mut rng: ThreadRng) -> String {
-
-};
-
-fn new_seq(n_bases: u8) -> String {
-    let mut rng = rand::thread_rng();
-    let bases = ['A', 'C', 'T', 'G'];
-    let seq = String::new();
-    for n_bases in 1u8..=n_bases{
-        seq.push(bases.choose(&mut rng).unwrap())
+impl<T> New<T> for T where for<'a> &'a T: IntoIterator<Item = &'a u8> {
+    /// Create new random DNA sequence with specified number of bases.
+    fn random_dna(nbases: usize, mut rng: ThreadRng) -> Vec<u8> {
+        let mut vec = Vec::with_capacity(nbases);
+        for base in 0..nbases {
+            vec.push(*BASIC_DNA_U8.choose(&mut rng).unwrap())
+        };
+        vec
     }
-seq
+    /// Create new random RNA sequence with specified number of bases.
+    fn random_rna(nbases: usize, mut rng: ThreadRng) -> Vec<u8> {
+        let mut vec = Vec::with_capacity(nbases);
+        for base in 0..nbases {
+            vec.push(*BASIC_RNA_U8.choose(&mut rng).unwrap())
+        };
+        vec
+    }
+    /// Create new random amino acid sequence with specified number of amino acids.
+    fn random_aa(nbases: usize, mut rng: ThreadRng) -> Vec<u8> {
+        let mut vec = Vec::with_capacity(nbases);
+        for base in 0..nbases {
+            vec.push(*BASIC_AMINO_ACID_U8.choose(&mut rng).unwrap())
+        };
+        vec
+    }
+    /// Create new random quality sequence with specified number of characters.
+    fn random_quality(nbases: usize, mut rng: ThreadRng) -> Vec<u8> {
+        let mut vec = Vec::with_capacity(nbases);
+        for base in 0..nbases {
+            vec.push(*PHRED33_U8.choose(&mut rng).unwrap())
+        };
+        vec
+    }
 }

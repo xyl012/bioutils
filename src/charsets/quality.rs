@@ -1,5 +1,4 @@
 // Copyright 2020 Christopher Sugai
-
 //! Quality character (sub-)sets including Phred33, Phred64, and Solexa/Illumina 1.0 (for compatibility). Provided as u8 and str arrays.
 
 use super::*;

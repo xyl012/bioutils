@@ -29,9 +29,6 @@
 //! assert!(quality.is_phred33());
 //! assert!(quality.is_phred64());
 //! assert!(quality.is_solexa());
-//!
-//!
-//!
 //! ```
 
 use crate::charsets::ascii::*;

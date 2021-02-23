@@ -10,9 +10,8 @@ The main use case for this crate is to preprocess and annotate sequences while b
 
 Current functionality is based on return values: 
 
-  <ul>Replace UTF8 characters with pseudorandom nucleotides (ACTG, case-sensitive) (returns a string or str) </ul>
-  <ul>Check whether the sequence is a homopolymer, palindrome, etc. based on input value (boolean) </ul>
-  <ul>Convert string/str to u8 or u8 to string/str (ASCII is same as UTF8 for ASCII characters) </ul>
+  <ul>Replace UTF8 characters with pseudorandom nucleotides (ACTG, case-sensitive)</ul>
+  <ul>Check whether the sequence is a homopolymer based on input value (boolean) </ul>
   <ul>create new pseudorandom sequences based on IUPAC designations </ul>
   
 Current [IUPAC](https://www.bioinformatics.org/sms/iupac.html) designations

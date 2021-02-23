@@ -1,13 +1,16 @@
 [package]
-name = "bioutils"
+name = "BioUtils"
 version = "0.1.0"
 authors = ["Christopher Sugai <christophersugai@gmail.com>"]
 edition = "2018"
+description = "A crate containing simple alphabets and utilities for biological sequence data."
+license = "MIT OR Apache-2.0"
+readme = "README.md"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
 
 unicode-segmentation = "1.7.1"
-rand = "0.7.3"
+rand = "0.8.3"
 lazy_static = "1.4.0"

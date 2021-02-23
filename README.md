@@ -1,4 +1,5 @@
 # Bioutils
+
 Utilities for working with biological sequences. The overall goal of this create is to have functionality similar to biopython. This crate will probably be:
 
   <ul>Slower than pure u8 based counterparts </ul>

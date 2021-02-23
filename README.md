@@ -1,14 +1,14 @@
 # Bioutils
-Utilities for working with biological sequences. Functionality is very similar to biopython. This crate is probably:
+Utilities for working with biological sequences. Functionality is similar to biopython. This crate is probably:
 
   <ul>Slower than pure u8 based counterparts </ul>
   <ul>tolerant of errors in strings, variable CIGAR/name strings </ul>
   <ul>does what you expect over punctuation and special characters </ul>
 
 
-The main use case for this crate is to preprocess and annotate sequences while being robust to errors caused by assuming ASCII or IUPAC encoding. If the sequence has a new or corrupt character, these utilities may be able to replace them. Sequences can then be turned into u8 representations for downstream processes.
+The main use case for this crate is to preprocess and annotate sequences while being robust to errors caused by assuming ASCII or IUPAC encoding. If the sequence has a new or corrupt character, these utilities may be able to check for or replace them. Sequences can then be turned into u8 representations for downstream processes.
 
-Currently functionality is based on return values: 
+Current functionality is based on return values: 
 
   <ul>Replace UTF8 characters with pseudorandom nucleotides (ACTG, case-sensitive) (returns a string or str) </ul>
   <ul>Check whether the sequence is a homopolymer, palindrome, etc. based on input value (boolean) </ul>

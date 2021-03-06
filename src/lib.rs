@@ -14,6 +14,7 @@
 
 pub mod charsets;
 pub mod utils;
+pub mod references;
 
 #[macro_use]
 extern crate lazy_static;

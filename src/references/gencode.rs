@@ -13,31 +13,76 @@ use url::{Url, ParseError};
 // Base url
 pub const BASE_URL: &str = "ftp://ftp.ebi.ac.uk/pub/databases/gencode/Gencode_human/latest_release/";
 // Arrays of file names by type within the base url
-// TODO: change from hardcoded names, as this will break when a new version is released
-pub const GFF_FILENAMES: [&str; 1] = ["gencode.v37.primary_assembly.annotation.gff3.gz"];
-pub const GTF_FILENAMES: [&str; 1] = ["gencode.v37.primary_assembly.annotation.gtf.gz"];
-pub const FASTA_FILENAMES: [&str; 2] = ["GRCh38.primary_assembly.genome.fa.gz", "gencode.v37.annotation.gtf.gz"];
-// pub const METADATA_FILENAMES: [&str; 2] = ["GRCh38.primary_assembly.genome.fa.gz", "gencode.v37.annotation.gtf.gz"];
 
-// Downloads primary reference file and gtf as targeted in 
-// Annotation Type | Genomic Regions Included | File Content Description | File Type
-// Genome sequence, primary assembly (GRCh38) | PRI | Nucleotide sequence of the GRCh38 primary genome assembly (chromosomes and scaffolds). The sequence region names are the same as in the GTF/GFF3 files | Fasta
-pub fn download_grch38_primary_fasta_gtf(){
-    download_reference(BASE_URL, FASTA_FILENAMES[0]);
-    download_reference(BASE_URL, GTF_FILENAMES[0]);
-}
+/////////////////////////////////////////
+// TODO: change from hardcoded names, as this will break when a new version is released since the latest release folder may or may not hold the version we have here. 
+pub const VERSION: &str = "v37";
+/////////////////////////////////////////
+
+// pub const GFF_FILENAMES: [&str; 1] = ["gencode.v37.primary_assembly.annotation.gff3.gz"];
+// pub const GTF_FILENAMES: [&str; 1] = ["gencode.v37.primary_assembly.annotation.gtf.gz"];
+pub const FASTA_FILENAMES: [&str; 6] = [];
+
+// gencode.v37.transcripts.fa.gz
+// gencode.v37.pc_transcripts.fa.gz
+// gencode.v37.pc_translations.fa.gz
+// gencode.v37.lncRNA_transcripts.fa.gz
+// GRCh38.p13.genome.fa.gz
+// GRCh38.primary_assembly.genome.fa.gz
+
+// pub const METADATA_FILENAMES: [&str; 2] = ["GRCh38.primary_assembly.genome.fa.gz", "gencode.v37.annotation.gtf.gz"];
 
 // Annotation Type | Genomic Regions Included | File Content Description | File Type
 // Genome sequence, primary assembly (GRCh38) | PRI | Nucleotide sequence of the GRCh38 primary genome assembly (chromosomes and scaffolds). The sequence region names are the same as in the GTF/GFF3 files | Fasta
 pub fn download_grch38_primary_assembly_genome_fa_gz() {
-    download_reference(BASE_URL, FASTA_FILENAMES[0]);
+    let prefix: &str = "gencode.";
+    let suffix: &str = ".primary_assembly.annotation.gff3.gz";
+    let file_name: String = paste_file_name(prefix, suffix);
+    download_reference(BASE_URL, &file_name);
 }
 
 pub fn download_grch38_vxx_annotation_gtf_gz() {
     download_reference(BASE_URL, FASTA_FILENAMES[1]);
 }
 
+pub fn download_gencode_vxx_primary_assembly_annotation_gff3_gz() {
+    let prefix: &str = "gencode.";
+    let suffix: &str = ".primary_assembly.annotation.gff3.gz";
+    let file_name: String = paste_file_name(prefix, suffix);
+    download_reference(BASE_URL, &file_name);
+}
 
+/////////////////////////////////////////
+// TODO: change from hardcoded names, as this will break when a new version is released since the latest release folder may or may not hold the version we have here.
+// Paste file names together with changeable version.
+pub fn paste_file_name(prefix: &str, suffix: &str) -> String {
+    let mut fname: String = prefix.to_owned();
+    fname.push_str(VERSION); fname.push_str(suffix); fname
+}
+
+// TODO: make fasta file names and make array for download functions
+// Generate Fasta file names
+pub fn make_fasta_file_names(){
+
+}
+
+
+/////////////////////////////////////////
+
+
+
+
+
+// Downloads primary reference file and gtf
+// Annotation Type | Genomic Regions Included | File Content Description | File Type
+// Genome sequence, primary assembly (GRCh38) | PRI | Nucleotide sequence of the GRCh38 primary genome assembly (chromosomes and scaffolds). The sequence region names are the same as in the GTF/GFF3 files | Fasta
+// pub fn download_grch38_primary_fasta_gtf(){
+//     download_reference(BASE_URL, FASTA_FILENAMES[0]);
+//     download_reference(BASE_URL, GTF_FILENAMES[0]);
+// }
+// Version
+// pub const VERSION: &str = "v37"
+// pub const x: &str = "gencode.",VERSION.as_str(), ".primary_assembly.annotation.gff3.gz";
 
 // pub fn download_all_grch38_gtf_files(){}
 // pub fn download_all_grch38_fasta_files(){}
@@ -101,6 +146,14 @@ pub fn download_grch38_vxx_annotation_gtf_gz() {
 // Long non-coding RNA transcript sequences | CHR | Nucleotide sequences of long non-coding RNA transcripts on the reference chromosomes | Fasta
 // Genome sequence (GRCh38.p13) | ALL | Nucleotide sequence of the GRCh38.p13 genome assembly version on all regions, including reference chromosomes, scaffolds, assembly patches and haplotypes. The sequence region names are the same as in the GTF/GFF3 files | Fasta
 // Genome sequence, primary assembly (GRCh38) | PRI | Nucleotide sequence of the GRCh38 primary genome assembly (chromosomes and scaffolds). The sequence region names are the same as in the GTF/GFF3 files | Fasta
+
+// gencode.v37.transcripts.fa.gz
+// gencode.v37.pc_transcripts.fa.gz
+// gencode.v37.pc_translations.fa.gz
+// gencode.v37.lncRNA_transcripts.fa.gz
+// GRCh38.p13.genome.fa.gz
+// GRCh38.primary_assembly.genome.fa.gz
+
 
 // Metadata files
 

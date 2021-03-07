@@ -32,7 +32,7 @@ pub fn download_reference(url: &str, filename: &str) {
         Ok(data.len())
     }).unwrap();
     easy.perform().unwrap();
-    println!("{}", easy.response_code().unwrap());
+    // println!("{}", easy.response_code().unwrap());
 }
 
 // /// Function to read a downloaded reference as a [u8]. Please run download_reference() prior to using this method. download_reference() only needs to be completed once for the reference of choice.

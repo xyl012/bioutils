@@ -1,6 +1,7 @@
 // Copyright 2021 Christopher Sugai
 
-//! Downloads the latest Gencode reference files. Currently includes all GRCh38 files. Each function downloads a specific file, the most popular being FASTA and GFF/GTF files related to GRCh38 primary assembly or GRCh38 reference chromosomes
+//! Downloads the latest Gencode reference files. In addition to functions for downloading reference files, this file includes the gencode file names and base url as an array. 
+//! Each function downloads a specific file, the most popular being FASTA and GFF/GTF files related to GRCh38 primary assembly or GRCh38 reference chromosomes.
 
 use crate::references::functions::*;
 
@@ -11,18 +12,37 @@ use url::{Url, ParseError};
 
 // Base url
 pub const BASE_URL: &str = "ftp://ftp.ebi.ac.uk/pub/databases/gencode/Gencode_human/latest_release/";
-// Vector of file names within the base url
-pub const FILENAMES: Vec<&str> = vec!["GRCh38.primary_assembly.genome.fa.gz", "gencode.v37.annotation.gtf.gz"];
+// Arrays of file names by type within the base url
+// TODO: change from hardcoded names, as this will break when a new version is released
+pub const GFF_FILENAMES: [&str; 1] = ["gencode.v37.primary_assembly.annotation.gff3.gz"];
+pub const GTF_FILENAMES: [&str; 1] = ["gencode.v37.primary_assembly.annotation.gtf.gz"];
+pub const FASTA_FILENAMES: [&str; 2] = ["GRCh38.primary_assembly.genome.fa.gz", "gencode.v37.annotation.gtf.gz"];
+// pub const METADATA_FILENAMES: [&str; 2] = ["GRCh38.primary_assembly.genome.fa.gz", "gencode.v37.annotation.gtf.gz"];
 
-// Comprehensive gene annotation on the reference chromosomes only. Main annotation file for most users.
-
-pub fn download_grch38_primary_assembly_genome_fa_gz() {
-    download_reference(url: BASE_URL, filename: FILENAMES[1]);
+// Downloads primary reference file and gtf as targeted in 
+// Annotation Type | Genomic Regions Included | File Content Description | File Type
+// Genome sequence, primary assembly (GRCh38) | PRI | Nucleotide sequence of the GRCh38 primary genome assembly (chromosomes and scaffolds). The sequence region names are the same as in the GTF/GFF3 files | Fasta
+pub fn download_grch38_primary_fasta_gtf(){
+    download_reference(BASE_URL, FASTA_FILENAMES[0]);
+    download_reference(BASE_URL, GTF_FILENAMES[0]);
 }
 
-// pub fn download_gencode_vxx_annotation_gtf_gz() {
-//     download_reference(url: BASE_URL, filename: FILENAMES[2]);
-// }
+// Annotation Type | Genomic Regions Included | File Content Description | File Type
+// Genome sequence, primary assembly (GRCh38) | PRI | Nucleotide sequence of the GRCh38 primary genome assembly (chromosomes and scaffolds). The sequence region names are the same as in the GTF/GFF3 files | Fasta
+pub fn download_grch38_primary_assembly_genome_fa_gz() {
+    download_reference(BASE_URL, FASTA_FILENAMES[0]);
+}
+
+pub fn download_grch38_vxx_annotation_gtf_gz() {
+    download_reference(BASE_URL, FASTA_FILENAMES[1]);
+}
+
+
+
+// pub fn download_all_grch38_gtf_files(){}
+// pub fn download_all_grch38_fasta_files(){}
+// pub fn download_all_grch38_metadata_files(){}
+
 
 
 

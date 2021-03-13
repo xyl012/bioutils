@@ -49,16 +49,7 @@ pub fn download_gencode_vxx_primary_assembly_annotation_gff3_gz() {
     download_reference(BASE_URL, &file_name);
 }
 
-// Paste file names together with changeable version.
-pub fn paste_prefix_suffix(prefix: &str, suffix: &str) -> String {
-    let mut fname: String = prefix.to_owned();
-    fname.push_str(suffix); fname
-}
 
-pub fn paste_prefix_version_suffix(prefix: &str, suffix: &str) -> String {
-    let mut fname: String = prefix.to_owned();
-    fname.push_str(VERSION); fname.push_str(suffix); fname
-}
 
 
 // pub const GFF_FILENAMES: [&str; 1] = ["gencode.v37.primary_assembly.annotation.gff3.gz"];

@@ -2,6 +2,7 @@
 
 //! Functions to download genome references. These are used to download specific references and do not need to be used directly.
 
+use crate::references::gencode::VERSION;
 use std::io::{Write};
 use std::fs::File;
 use curl::easy::Easy;
@@ -33,6 +34,17 @@ pub fn download_reference(url: &str, filename: &str) {
     }).unwrap();
     easy.perform().unwrap();
     // println!("{}", easy.response_code().unwrap());
+}
+
+// Paste file names together with changeable version.
+pub fn paste_prefix_suffix(prefix: &str, suffix: &str) -> String {
+    let mut fname: String = prefix.to_owned();
+    fname.push_str(suffix); fname
+}
+
+pub fn paste_prefix_version_suffix(prefix: &str, suffix: &str) -> String {
+    let mut fname: String = prefix.to_owned();
+    fname.push_str(VERSION); fname.push_str(suffix); fname
 }
 
 // /// Function to read a downloaded reference as a [u8]. Please run download_reference() prior to using this method. download_reference() only needs to be completed once for the reference of choice.

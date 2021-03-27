@@ -27,39 +27,239 @@ pub const FTP_SITE: &str = "ftp.ebi.ac.uk:21";
 
 // Convenience functions for each file type.
 
-// Downloads the latest version of GRCh38.primary_assembly.genome.fa.gz
-// Annotation Type | Genomic Regions Included | File Content Description | File Type
-// Genome sequence, primary assembly (GRCh38) | PRI | Nucleotide sequence of the GRCh38 primary genome assembly (chromosomes and scaffolds). The sequence region names are the same as in the GTF/GFF3 files | Fasta
+/// Downloads the latest version of GRCh38.primary_assembly.genome.fa.gz
+/// Annotation Type | Genomic Regions Included | File Content Description | File Type
+/// Genome sequence, primary assembly (GRCh38) | PRI | Nucleotide sequence of the GRCh38 primary genome assembly (chromosomes and scaffolds). The sequence region names are the same as in the GTF/GFF3 files | Fasta
 pub fn download_grch38_primary_assembly_genome_fa_gz() {
     let regex = r"GRCh38.primary_assembly.genome.fa.gz";
     download_reference_file(regex);
 }
 
-// Downloads the latest version of gencode.vxx.primary_assembly.annotation.gtf.gz
-// Annotation Type | Genomic Regions Included | File Content Description | File Type
-// Comprehensive gene annotation | PRI | It contains the comprehensive gene annotation on the primary assembly (chromosomes and scaffolds) sequence regions. This is a superset of the main annotation file. | GTF
+/// Downloads the latest version of gencode.vxx.primary_assembly.annotation.gtf.gz
+/// Annotation Type | Genomic Regions Included | File Content Description | File Type
+/// Comprehensive gene annotation | PRI | It contains the comprehensive gene annotation on the primary assembly (chromosomes and scaffolds) sequence regions. This is a superset of the main annotation file. | GTF
 pub fn download_gencode_vxx_primary_assembly_annotation_gtf_gz() {
     let regex = r"gencode.v\d{2}.primary_assembly.annotation.gtf.gz";
     download_reference_file(regex)
 }
 
-// Downloads the latest version of gencode.v37.primary_assembly.annotation.gff3.gz
-// Annotation Type | Genomic Regions Included | File Content Description | File Type
-// Comprehensive gene annotation | PRI | It contains the comprehensive gene annotation on the primary assembly (chromosomes and scaffolds) sequence regions. This is a superset of the main annotation file. | GFF3
+/// Downloads the latest version of gencode.v37.primary_assembly.annotation.gff3.gz
+/// Annotation Type | Genomic Regions Included | File Content Description | File Type
+/// Comprehensive gene annotation | PRI | It contains the comprehensive gene annotation on the primary assembly (chromosomes and scaffolds) sequence regions. This is a superset of the main annotation file. | GFF3
 pub fn download_gencode_vxx_primary_assembly_annotation_gff3_gz() {
     let regex = r"gencode.v\d{2}.primary_assembly.annotation.gff3.gz";
     download_reference_file(regex)
 }
 
-// Downloads the latest version of GRCh38.p13.genome.fa.gz
+/// Downloads the latest version of GRCh38.p13.genome.fa.gz
 pub fn download_grch38_p13_genome_fa_gz() {
     let regex = r"GRCh38.p13.genome.fa.gz";
     download_reference_file(regex)
 }
 
+/// Downloads the latest version of gencode.vxx.2wayconspseudos.gff3.gz
+pub fn download_gencode_vxx_2wayconspseudos_gff3_gz() {
+    let regex = r"gencode.v\d{2}.2wayconspseudos.gff3.gz";
+    download_reference_file(regex)
+}
 
+/// Downloads the latest version of gencode.vxx.2wayconspseudos.gtf.gz
+pub fn download_gencode_vxx_2wayconspseudos_gtf_gz() {
+    let regex = r"gencode.v\d{2}.2wayconspseudos.gtf.gz";
+    download_reference_file(regex)
+}
 
+/// Downloads the latest version of gencode.vxx.annotation.gff3.gz
+pub fn download_gencode_vxx_annotation_gff3_gz() {
+    let regex = r"gencode.v\d{2}.annotation.gff3.gz";
+    download_reference_file(regex)
+}
 
+/// Downloads the latest version of gencode.vxx.annotation.gtf.gz
+pub fn download_gencode_vxx_annotation_gtf_gz() {
+    let regex = r"gencode.v\d{2}.annotation.gtf.gz";
+    download_reference_file(regex)
+}
+
+/// Downloads the latest version of gencode.vxx.basic.annotation.gff3.gz
+pub fn download_gencode_vxx_basic_annotation_gff3_gz() {
+    let regex = r"gencode.v\d{2}.basic.annotation.gff3.gz";
+    download_reference_file(regex)
+}
+
+/// Downloads the latest version of gencode.vxx.basic.annotation.gtf.gz
+pub fn download_gencode_vxx_basic_annotation_gtf_gz() {
+    let regex = r"gencode.v\d{2}.basic.annotation.gtf.gz";
+    download_reference_file(regex)
+}
+
+/// Downloads the latest version of gencode.vxx.chr_patch_hapl_scaff.annotation.gff3.gz
+pub fn download_gencode_vxx_chr_patch_hapl_scaff_annotation_gff3_gz() {
+    let regex = r"gencode.v\d{2}.chr_patch_hapl_scaff.annotation.gff3.gz";
+    download_reference_file(regex)
+}
+
+/// Downloads the latest version of gencode.vxx.chr_patch_hapl_scaff.annotation.gtf.gz
+pub fn download_gencode_vxx_chr_patch_hapl_scaff_annotation_gtf_gz() {
+    let regex = r"gencode.v\d{2}.chr_patch_hapl_scaff.annotation.gtf.gz";
+    download_reference_file(regex)
+}
+
+/// Downloads the latest version of gencode.vxx.chr_patch_hapl_scaff.basic.annotation.gff3.gz
+pub fn download_gencode_vxx_chr_patch_hapl_scaff_basic_annotation_gff3_gz() {
+    let regex = r"gencode.v\d{2}.chr_patch_hapl_scaff.basic.annotation.gff3.gz";
+    download_reference_file(regex)
+}
+
+/// Downloads the latest version of gencode.vxx.chr_patch_hapl_scaff.basic.annotation.gtf.gz
+pub fn download_gencode_vxx_chr_patch_hapl_scaff_basic_annotation_gtf_gz() {
+    let regex = r"gencode.v\d{2}.chr_patch_hapl_scaff.basic.annotation.gtf.gz";
+    download_reference_file(regex)
+}
+
+/// Downloads the latest version of gencode.vxx.lncRNA_transcripts.fa.gz
+pub fn download_gencode_vxx_lncRNA_transcripts_fa_gz() {
+    let regex = r"gencode.v\d{2}.lncRNA_transcripts.fa.gz";
+    download_reference_file(regex)
+}
+
+/// Downloads the latest version of gencode.vxx.long_noncoding_RNAs.gff3.gz
+pub fn download_gencode_vxx_long_noncoding_RNAs_gff3_gz() {
+    let regex = r"gencode.v\d{2}.long_noncoding_RNAs.gff3.gz";
+    download_reference_file(regex)
+}
+
+/// Downloads the latest version of gencode.vxx.long_noncoding_RNAs.gtf.gz
+pub fn download_gencode_vxx_long_noncoding_RNAs_gtf_gz() {
+    let regex = r"gencode.v\d{2}.long_noncoding_RNAs.gtf.gz";
+    download_reference_file(regex)
+}
+
+/// Downloads the latest version of gencode.vxx.metadata.Annotation_remark.gz
+pub fn download_gencode_vxx_metadata_Annotation_remark_gz() {
+    let regex = r"gencode.v\d{2}.metadata.Annotation_remark.gz";
+    download_reference_file(regex)
+}
+
+/// Downloads the latest version of gencode.vxx.metadata.EntrezGene.gz
+pub fn download_gencode_v37_metadata_EntrezGene_gz() {
+    let regex = r"gencode.v\d{2}.metadata.EntrezGene.gz";
+    download_reference_file(regex)
+}
+
+/// Downloads the latest version of gencode.vxx.metadata.Exon_supporting_feature.gz
+pub fn download_gencode_vxx_metadata_Exon_supporting_feature_gz() {
+    let regex = r"gencode.v\d{2}.metadata.Exon_supporting_feature.gz";
+    download_reference_file(regex)
+}
+
+/// Downloads the latest version of gencode.vxx.metadata.Gene_source.gz
+pub fn download_gencode_vxx_metadata_Gene_source_gz() {
+    let regex = r"gencode.v\d{2}.metadata.Gene_source.gz";
+    download_reference_file(regex)
+}
+
+/// Downloads the latest version of gencode.vxx.metadata.HGNC.gz
+pub fn download_gencode_vxx_metadata_HGNC_gz() {
+    let regex = r"gencode.v\d{2}.metadata.HGNC.gz";
+    download_reference_file(regex)
+}
+
+/// Downloads the latest version of gencode.vxx.metadata.PDB.gz
+pub fn download_gencode_vxx_metadata_PDB_gz() {
+    let regex = r"gencode.v\d{2}.metadata.PDB.gz";
+    download_reference_file(regex)
+}
+
+/// Downloads the latest version of gencode.vxx.metadata.PolyA_feature.gz
+pub fn download_gencode_vxx_metadata_PolyA_feature_gz() {
+    let regex = r"gencode.v\d{2}.metadata.PolyA_feature.gz";
+    download_reference_file(regex)
+}
+
+/// Downloads the latest version of gencode.vxx.metadata.Pubmed_id.gz
+pub fn download_gencode_vxx_metadata_Pubmed_id_gz() {
+    let regex = r"gencode.v\d{2}.metadata.Pubmed_id.gz";
+    download_reference_file(regex)
+}
+
+/// Downloads the latest version of gencode.vxx.metadata.RefSeq.gz
+pub fn download_gencode_vxx_metadata_RefSeq_gz() {
+    let regex = r"gencode.v\d{2}.metadata.RefSeq.gz";
+    download_reference_file(regex)
+}
+
+/// Downloads the latest version of gencode.vxx.metadata.Selenocysteine.gz
+pub fn download_gencode_vxx_metadata_Selenocysteine_gz() {
+    let regex = r"gencode.v\d{2}.metadata.Selenocysteine.gz";
+    download_reference_file(regex)
+}
+
+/// Downloads the latest version of gencode.vxx.metadata.SwissProt.gz
+pub fn download_gencode_vxx_metadata_SwissProt_gz() {
+    let regex = r"gencode.v\d{2}.metadata.SwissProt.gz";
+    download_reference_file(regex)
+}
+
+/// Downloads the latest version of gencode.vxx.metadata.TrEMBL.gz
+pub fn download_gencode_vxx_metadata_TrEMBL_gz() {
+    let regex = r"gencode.v\d{2}.metadata.TrEMBL.gz";
+    download_reference_file(regex)
+}
+
+/// Downloads the latest version of gencode.vxx.metadata.Transcript_source.gz
+pub fn download_gencode_vxx_metadata_Transcript_source_gz() {
+    let regex = r"gencode.v\d{2}.metadata.Transcript_source.gz";
+    download_reference_file(regex)
+}
+
+/// Downloads the latest version of gencode.vxx.metadata.Transcript_supporting_feature.gz
+pub fn download_gencode_vxx_metadata_Transcript_supporting_feature_gz() {
+    let regex = r"gencode.v\d{2}.metadata.Transcript_supporting_feature.gz";
+    download_reference_file(regex)
+}
+
+/// Downloads the latest version of gencode.vxx.pc_transcripts.fa.gz
+pub fn download_gencode_vxx_pc_transcripts_fa_gz() {
+    let regex = r"gencode.v\d{2}.pc_transcripts.fa.gz";
+    download_reference_file(regex)
+}
+
+/// Downloads the latest version of gencode.vxx.pc_translations.fa.gz
+pub fn download_gencode_vxx_pc_translations_fa_gz() {
+    let regex = r"gencode.v\d{2}.pc_translations.fa.gz";
+    download_reference_file(regex)
+}
+
+/// Downloads the latest version of gencode.vxx.polyAs.gff3.gz
+pub fn download_gencode_vxx_polyAs_gff3_gz() {
+    let regex = r"gencode.v\d{2}.polyAs.gff3.gz";
+    download_reference_file(regex)
+}
+
+/// Downloads the latest version of gencode.vxx.polyAs.gtf.gz
+pub fn download_gencode_vxx_polyAs_gtf_gz() {
+    let regex = r"gencode.v\d{2}.polyAs.gtf.gz";
+    download_reference_file(regex)
+}
+
+/// Downloads the latest version of gencode.vxx.tRNAs.gff3.gz
+pub fn download_gencode_vxx_tRNAs_gff3_gz() {
+    let regex = r"gencode.v\d{2}.tRNAs.gff3.gz";
+    download_reference_file(regex)
+}
+
+/// Downloads the latest version of gencode.vxx.tRNAs.gtf.gz
+pub fn download_gencode_vxx_tRNAs_gtf_gz() {
+    let regex = r"gencode.v\d{2}.tRNAs.gtf.gz";
+    download_reference_file(regex)
+}
+
+/// Downloads the latest version of gencode.vxx.transcripts.fa.gz
+pub fn download_gencode_vxx_transcripts_fa_gz() {
+    let regex = r"gencode.v\d{2}.transcripts.fa.gz";
+    download_reference_file(regex)
+}
 
 
 

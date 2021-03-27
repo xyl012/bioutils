@@ -1,6 +1,7 @@
 // Copyright 2021 Christopher Sugai
 
-//! Functions to download genome references.
+// //! Downloads the latest Gencode reference files. In addition to functions for downloading reference files, this file includes the gencode file names and base url as an array. 
+// //! Each function downloads a specific file, the most popular being FASTA and GFF/GTF files related to GRCh38 primary assembly or GRCh38 reference chromosomes.
 
 extern crate ftp;
 extern crate regex;
@@ -24,17 +25,29 @@ pub const FTP_SITE: &str = "ftp.ebi.ac.uk:21";
 
 // let regex = r"gencode.v\d{2}.tRNAs.gtf.gz";
 
-// Functions for each file type. Checks for latest version and creates a regex that finds the file for each file/function pair
+// Convenience functions for each file type.
 
 // Downloads the latest version of GRCh38.primary_assembly.genome.fa.gz
+// Annotation Type | Genomic Regions Included | File Content Description | File Type
+// Genome sequence, primary assembly (GRCh38) | PRI | Nucleotide sequence of the GRCh38 primary genome assembly (chromosomes and scaffolds). The sequence region names are the same as in the GTF/GFF3 files | Fasta
 pub fn download_grch38_primary_assembly_genome_fa_gz() {
     let regex = r"GRCh38.primary_assembly.genome.fa.gz";
     download_reference_file(regex);
 }
 
 // Downloads the latest version of gencode.vxx.primary_assembly.annotation.gtf.gz
+// Annotation Type | Genomic Regions Included | File Content Description | File Type
+// Comprehensive gene annotation | PRI | It contains the comprehensive gene annotation on the primary assembly (chromosomes and scaffolds) sequence regions. This is a superset of the main annotation file. | GTF
 pub fn download_gencode_vxx_primary_assembly_annotation_gtf_gz() {
-    let regex = r"gencode.v37.primary_assembly.annotation.gtf.gz";
+    let regex = r"gencode.v\d{2}.primary_assembly.annotation.gtf.gz";
+    download_reference_file(regex)
+}
+
+// Downloads the latest version of gencode.v37.primary_assembly.annotation.gff3.gz
+// Annotation Type | Genomic Regions Included | File Content Description | File Type
+// Comprehensive gene annotation | PRI | It contains the comprehensive gene annotation on the primary assembly (chromosomes and scaffolds) sequence regions. This is a superset of the main annotation file. | GFF3
+pub fn download_gencode_vxx_primary_assembly_annotation_gff3_gz() {
+    let regex = r"gencode.v\d{2}.primary_assembly.annotation.gff3.gz";
     download_reference_file(regex)
 }
 
@@ -43,6 +56,13 @@ pub fn download_grch38_p13_genome_fa_gz() {
     let regex = r"GRCh38.p13.genome.fa.gz";
     download_reference_file(regex)
 }
+
+
+
+
+
+
+
 
 // General reference download function
 pub fn download_reference_file(regex: &str) {

@@ -7,18 +7,18 @@ extern crate ftp;
 extern crate regex;
 
 use std::io::Read;
-use std::io::Seek;
-use std::io::SeekFrom;
+
+
 use std::io::Write;
 use std::io::BufWriter;
-use std::io::BufReader;
+
 use std::path::Path;
 use std::fs::File;
 use std::str;
-use std::io::Cursor;
+
 use ftp::FtpStream;
 use regex::Regex;
-use regex::RegexSet;
+
 
 pub const RELEASE_URL: &str = "/pub/databases/gencode/Gencode_human/latest_release/";
 pub const FTP_SITE: &str = "ftp.ebi.ac.uk:21";

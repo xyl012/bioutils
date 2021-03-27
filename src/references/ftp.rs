@@ -263,7 +263,6 @@ pub fn download_gencode_vxx_transcripts_fa_gz() {
 
 
 
-
 // General reference download function
 pub fn download_reference_file(regex: &str) {
     // Connect and make ftp stream

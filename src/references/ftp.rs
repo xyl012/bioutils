@@ -118,103 +118,103 @@ pub fn download_gencode_vxx_chr_patch_hapl_scaff_basic_annotation_gtf_gz() {
 }
 
 /// Downloads the latest version of gencode.vxx.lncRNA_transcripts.fa.gz
-pub fn download_gencode_vxx_lncRNA_transcripts_fa_gz() {
+pub fn download_gencode_vxx_lncrna_transcripts_fa_gz() {
     let regex = r"gencode.v\d{2}.lncRNA_transcripts.fa.gz";
     download_reference_file(regex)
 }
 
 /// Downloads the latest version of gencode.vxx.long_noncoding_RNAs.gff3.gz
-pub fn download_gencode_vxx_long_noncoding_RNAs_gff3_gz() {
+pub fn download_gencode_vxx_long_noncoding_rnas_gff3_gz() {
     let regex = r"gencode.v\d{2}.long_noncoding_RNAs.gff3.gz";
     download_reference_file(regex)
 }
 
 /// Downloads the latest version of gencode.vxx.long_noncoding_RNAs.gtf.gz
-pub fn download_gencode_vxx_long_noncoding_RNAs_gtf_gz() {
+pub fn download_gencode_vxx_long_noncoding_rnas_gtf_gz() {
     let regex = r"gencode.v\d{2}.long_noncoding_RNAs.gtf.gz";
     download_reference_file(regex)
 }
 
 /// Downloads the latest version of gencode.vxx.metadata.Annotation_remark.gz
-pub fn download_gencode_vxx_metadata_Annotation_remark_gz() {
+pub fn download_gencode_vxx_metadata_annotation_remark_gz() {
     let regex = r"gencode.v\d{2}.metadata.Annotation_remark.gz";
     download_reference_file(regex)
 }
 
 /// Downloads the latest version of gencode.vxx.metadata.EntrezGene.gz
-pub fn download_gencode_v37_metadata_EntrezGene_gz() {
+pub fn download_gencode_vxx_metadata_entrezgene_gz() {
     let regex = r"gencode.v\d{2}.metadata.EntrezGene.gz";
     download_reference_file(regex)
 }
 
 /// Downloads the latest version of gencode.vxx.metadata.Exon_supporting_feature.gz
-pub fn download_gencode_vxx_metadata_Exon_supporting_feature_gz() {
+pub fn download_gencode_vxx_metadata_exon_supporting_feature_gz() {
     let regex = r"gencode.v\d{2}.metadata.Exon_supporting_feature.gz";
     download_reference_file(regex)
 }
 
 /// Downloads the latest version of gencode.vxx.metadata.Gene_source.gz
-pub fn download_gencode_vxx_metadata_Gene_source_gz() {
+pub fn download_gencode_vxx_metadata_gene_source_gz() {
     let regex = r"gencode.v\d{2}.metadata.Gene_source.gz";
     download_reference_file(regex)
 }
 
 /// Downloads the latest version of gencode.vxx.metadata.HGNC.gz
-pub fn download_gencode_vxx_metadata_HGNC_gz() {
+pub fn download_gencode_vxx_metadata_hgnc_gz() {
     let regex = r"gencode.v\d{2}.metadata.HGNC.gz";
     download_reference_file(regex)
 }
 
 /// Downloads the latest version of gencode.vxx.metadata.PDB.gz
-pub fn download_gencode_vxx_metadata_PDB_gz() {
+pub fn download_gencode_vxx_metadata_pdb_gz() {
     let regex = r"gencode.v\d{2}.metadata.PDB.gz";
     download_reference_file(regex)
 }
 
 /// Downloads the latest version of gencode.vxx.metadata.PolyA_feature.gz
-pub fn download_gencode_vxx_metadata_PolyA_feature_gz() {
+pub fn download_gencode_vxx_metadata_polya_feature_gz() {
     let regex = r"gencode.v\d{2}.metadata.PolyA_feature.gz";
     download_reference_file(regex)
 }
 
 /// Downloads the latest version of gencode.vxx.metadata.Pubmed_id.gz
-pub fn download_gencode_vxx_metadata_Pubmed_id_gz() {
+pub fn download_gencode_vxx_metadata_pubmed_id_gz() {
     let regex = r"gencode.v\d{2}.metadata.Pubmed_id.gz";
     download_reference_file(regex)
 }
 
 /// Downloads the latest version of gencode.vxx.metadata.RefSeq.gz
-pub fn download_gencode_vxx_metadata_RefSeq_gz() {
+pub fn download_gencode_vxx_metadata_refseq_gz() {
     let regex = r"gencode.v\d{2}.metadata.RefSeq.gz";
     download_reference_file(regex)
 }
 
 /// Downloads the latest version of gencode.vxx.metadata.Selenocysteine.gz
-pub fn download_gencode_vxx_metadata_Selenocysteine_gz() {
+pub fn download_gencode_vxx_metadata_selenocysteine_gz() {
     let regex = r"gencode.v\d{2}.metadata.Selenocysteine.gz";
     download_reference_file(regex)
 }
 
 /// Downloads the latest version of gencode.vxx.metadata.SwissProt.gz
-pub fn download_gencode_vxx_metadata_SwissProt_gz() {
+pub fn download_gencode_vxx_metadata_swissprot_gz() {
     let regex = r"gencode.v\d{2}.metadata.SwissProt.gz";
     download_reference_file(regex)
 }
 
 /// Downloads the latest version of gencode.vxx.metadata.TrEMBL.gz
-pub fn download_gencode_vxx_metadata_TrEMBL_gz() {
+pub fn download_gencode_vxx_metadata_trembl_gz() {
     let regex = r"gencode.v\d{2}.metadata.TrEMBL.gz";
     download_reference_file(regex)
 }
 
 /// Downloads the latest version of gencode.vxx.metadata.Transcript_source.gz
-pub fn download_gencode_vxx_metadata_Transcript_source_gz() {
+pub fn download_gencode_vxx_metadata_transcript_source_gz() {
     let regex = r"gencode.v\d{2}.metadata.Transcript_source.gz";
     download_reference_file(regex)
 }
 
 /// Downloads the latest version of gencode.vxx.metadata.Transcript_supporting_feature.gz
-pub fn download_gencode_vxx_metadata_Transcript_supporting_feature_gz() {
+pub fn download_gencode_vxx_metadata_transcript_supporting_feature_gz() {
     let regex = r"gencode.v\d{2}.metadata.Transcript_supporting_feature.gz";
     download_reference_file(regex)
 }
@@ -232,25 +232,25 @@ pub fn download_gencode_vxx_pc_translations_fa_gz() {
 }
 
 /// Downloads the latest version of gencode.vxx.polyAs.gff3.gz
-pub fn download_gencode_vxx_polyAs_gff3_gz() {
+pub fn download_gencode_vxx_polyas_gff3_gz() {
     let regex = r"gencode.v\d{2}.polyAs.gff3.gz";
     download_reference_file(regex)
 }
 
 /// Downloads the latest version of gencode.vxx.polyAs.gtf.gz
-pub fn download_gencode_vxx_polyAs_gtf_gz() {
+pub fn download_gencode_vxx_polyas_gtf_gz() {
     let regex = r"gencode.v\d{2}.polyAs.gtf.gz";
     download_reference_file(regex)
 }
 
 /// Downloads the latest version of gencode.vxx.tRNAs.gff3.gz
-pub fn download_gencode_vxx_tRNAs_gff3_gz() {
+pub fn download_gencode_vxx_trnas_gff3_gz() {
     let regex = r"gencode.v\d{2}.tRNAs.gff3.gz";
     download_reference_file(regex)
 }
 
 /// Downloads the latest version of gencode.vxx.tRNAs.gtf.gz
-pub fn download_gencode_vxx_tRNAs_gtf_gz() {
+pub fn download_gencode_vxx_trnas_gtf_gz() {
     let regex = r"gencode.v\d{2}.tRNAs.gtf.gz";
     download_reference_file(regex)
 }

@@ -2,7 +2,14 @@
 //! Functions to make new random u8 biological sequences. Includes dna,rna,aa,quality functions to create u8 vectors.
 //! # Examples
 //! ```
+//! use crate::bioutils::utils::replace::AsMutRandomNucleotide;
+//! use rand::rngs::ThreadRng;
+//! use std::string::String;
+//! use rand::seq::SliceRandom;
 //!
+//! let mut rng = rand::thread_rng(); //create a random number generator
+//! let mut seq = *b"acugqqq";
+//! let mut seq = seq.mut_to_upper_basic();
 //! ```
 use crate::charsets::iupac::*;
 use crate::charsets::quality::*;

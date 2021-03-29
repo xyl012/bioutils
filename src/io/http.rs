@@ -1,5 +1,7 @@
 // Copyright 2021 Christopher Sugai
 
+//! Functions to curl files. Currently, these are downloaded into the bioutils directory.
+
 use std::io::{Write};
 use std::fs::File;
 use curl::easy::Easy;

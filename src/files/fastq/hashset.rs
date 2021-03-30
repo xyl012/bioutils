@@ -3,6 +3,8 @@
 use std::io::{Write};
 use seq_io::fastq::Record;
 use std::collections::HashSet;
+use std::iter::FromIterator;
+
 
 // Takes a reader and a fastq field ("seq", "head", or "qual") type and returns a hashset of all reads' specified field
 pub fn hashset_fastq(
@@ -31,6 +33,53 @@ pub fn hashset_fastq(
     }
     hashset
 }
+
+// Make struct of vector of readers, as atac has 3 reads
+// Takes a vector of readers and creates a single hashset of common headers. Used to get which reads are paired.
+// TODO: If head is not ascii will give error
+pub fn fastq_head_inner_join(hashset_vector: Vec<seq_io::fastq::Reader<flate2::read::GzDecoder<std::fs::File>>>)
+ -> std::collections::HashSet<Vec<u8>> 
+{
+    let mut hashset = HashSet::new();
+    let mut inner_join_hashset = HashSet::new();
+    for mut vector_hashset in hashset_vector {
+        while let Some(record) = vector_hashset.next() {
+            // if cannot read the record skip it
+            let record = match record {
+                Ok(record) => record,
+                Err(_record) => continue
+            };
+            hashset.insert(record.head().to_owned());
+        }
+        let inner_join_hashset: HashSet<std::vec::Vec<u8>> = inner_join_hashset.intersection(&hashset).cloned().collect();
+    }
+    inner_join_hashset
+}
+
+// pub fn fastq_head_inner_join(
+//     mut reader1: seq_io::fastq::Reader<flate2::read::GzDecoder<std::fs::File>>,
+//     mut reader2: seq_io::fastq::Reader<flate2::read::GzDecoder<std::fs::File>>) -> std::collections::HashSet<Vec<u8>> {
+//     let mut hashset1 = HashSet::new();
+//     let mut hashset2 = HashSet::new();
+//     while let Some(record) = reader1.next() {
+//         // if cannot read the record skip it
+//         let record = match record {
+//             Ok(record) => record,
+//             Err(_record) => continue
+//         };
+//         hashset1.insert(record.head().to_owned());
+//     }
+//     while let Some(record) = reader2.next() {
+//         // if cannot read the record skip it
+//         let record = match record {
+//             Ok(record) => record,
+//             Err(_record) => continue
+//         };
+//         hashset2.insert(record.head().to_owned());
+//     }
+//     let hashsetx: HashSet<std::vec::Vec<u8>> = hashset1.intersection(&hashset2).cloned().collect();
+//     hashsetx
+// }
 
         // match field {
         //     "seq" => hashset.insert(result.seq().to_owned()),

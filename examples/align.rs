@@ -8,7 +8,7 @@
 //! Find positions of input fastq sequences in the reference by searching the lookup structure
 
 use std::fs::File;
-use seq_io::fastq::Record;
+
 use bioutils::references::ftp::download_grch38_primary_assembly_genome_fa_gz;
 
 fn main()-> std::io::Result<()>{
@@ -50,7 +50,7 @@ fn main()-> std::io::Result<()>{
     while let Some(record) = reference_reader.next() {
         let record = record.expect("Error reading record");
         println!("...Creating reference lookup structures, this should print multiple times...");
-        let chromosome = record.full_seq();
+        let _chromosome = record.full_seq();
         // record.head();
         // record.seq();
     }

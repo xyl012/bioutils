@@ -20,18 +20,21 @@ use seq_io::fasta::*;
 use seq_io::fastq::*;
 
 fn main()-> std::io::Result<()>{
-    // let data_directory = "./data/".to_owned();
+    // Create references and samples directories
     let data_directory = Path::new("./data/");
-    let reference_directory = "references";
-    let samples_directory = "samples";
+    let reference_directory = "references/";
+    let references_directory = data_directory.join(&reference_directory);
+    let samples_directory = "samples/";
+    let samples_directory = data_directory.join(&samples_directory);
     let fastq_path="SRR1700869.fastq.gz";
     let reference_path="GRCh38.primary_assembly.genome.fa.gz";
     create_dir(data_directory)?;
-    create_dir(data_directory.join(&reference_directory))?;
-    create_dir(data_directory.join(&samples_directory))?;
+    create_dir(references_directory)?;
+    create_dir(samples_directory)?;
+    
     println!("Downloading reference with: ");
     println!("download_grch38_primary_assembly_genome_fa_gz()");
-    // download_grch38_primary_assembly_genome_fa_gz();
+    download_grch38_primary_assembly_genome_fa_gz(&references_directory);
     println!("Downloading fastq with: ");
     println!("bioutils::files::http::curl()");
     // example

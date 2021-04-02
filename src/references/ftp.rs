@@ -509,7 +509,7 @@ pub fn download_reference_file(regex: &str, ftp_directory: &str, output_director
     // Create a stream of the file and download to a file of the same name on disk
     // Convert directory str to a new path and join the target file name
     // let output_directory = Path::new(&output_directory);
-    let target_output_file = output_directory.join(&target_name);
+    let target_output_file = &output_directory.join(&target_name);
     // Create a file on disk in the specified directory and make a writer to it
     let file = File::create(&target_output_file).unwrap();
     let mut buf = BufWriter::new(file);

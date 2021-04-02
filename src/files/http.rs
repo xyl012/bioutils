@@ -2,6 +2,7 @@
 
 //! Functions to curl/download ENA files. Currently, these are downloaded into the bioutils directory.
 
+use std::path::Path;
 use std::io::{Write};
 use std::fs::File;
 use curl::easy::Easy;
@@ -18,13 +19,13 @@ pub fn build_url(url: &str, filename: &str) -> Result<Url, ParseError> {
 }
 
 /// Function to curl (download) a file from a base url and a filename.
-pub fn curl(url: &str, filename: &str) {
+pub fn curl(url: &str, filename: &str, output_directory: &std::path::Path) {
     // Generate url to get file
     let mut easy = Easy::new();
     let file_url = build_url(url, filename).expect("Cannot build file url").to_string();
     easy.url(&file_url).unwrap();
     // Create file on system to write on
-    let mut file = match File::create(filename) {
+    let mut file = match File::create(&output_directory.join(filename)) {
         Err(why) => panic!("couldn't create {}", why),
         Ok(file) => file,
     };

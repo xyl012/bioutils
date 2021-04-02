@@ -2,7 +2,7 @@
 
 //! Functions to curl/download ENA files. Currently, these are downloaded into the bioutils directory.
 
-use std::path::Path;
+
 use std::io::{Write};
 use std::fs::File;
 use curl::easy::Easy;

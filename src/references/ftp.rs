@@ -6,7 +6,7 @@
 extern crate ftp;
 extern crate regex;
 
-use std::ffi::OsStr;
+
 use std::io::Read;
 
 use std::io::Write;

@@ -1,9 +1,9 @@
 // Copyright 2021 Christopher Sugai
 
-use std::io::{Write};
+
 use seq_io::fastq::Record;
 use std::collections::HashSet;
-use std::iter::FromIterator;
+
 
 // Takes a reader and a fastq field ("seq", "head", or "qual") type and returns a hashset of all reads' specified field
 pub fn hashset_fastq(
@@ -40,7 +40,7 @@ pub fn fastq_head_inner_join(hashset_vector: Vec<seq_io::fastq::Reader<flate2::r
  -> std::collections::HashSet<Vec<u8>> 
 {
     let mut hashset = HashSet::new();
-    let mut inner_join_hashset = HashSet::new();
+    let inner_join_hashset = HashSet::new();
     for mut vector_hashset in hashset_vector {
         while let Some(record) = vector_hashset.next() {
             // if cannot read the record skip it
@@ -50,7 +50,7 @@ pub fn fastq_head_inner_join(hashset_vector: Vec<seq_io::fastq::Reader<flate2::r
             };
             hashset.insert(record.head().to_owned());
         }
-        let inner_join_hashset: HashSet<std::vec::Vec<u8>> = inner_join_hashset.intersection(&hashset).cloned().collect();
+        let _inner_join_hashset: HashSet<std::vec::Vec<u8>> = inner_join_hashset.intersection(&hashset).cloned().collect();
     }
     inner_join_hashset
 }

@@ -5,7 +5,6 @@ use seq_io::fastq::Record;
 use std::collections::HashSet;
 use std::iter::FromIterator;
 
-
 // Takes a reader and a fastq field ("seq", "head", or "qual") type and returns a hashset of all reads' specified field
 pub fn hashset_fastq(
     mut reader: seq_io::fastq::Reader<flate2::read::GzDecoder<std::fs::File>>,

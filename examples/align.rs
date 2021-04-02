@@ -7,18 +7,28 @@
 //! Uses rust bio to create a lookup structure for the reference
 //! Find positions of input fastq sequences in the reference by searching the lookup structure
 
+use std::path::Path;
+use std::fs::File;
+use std::fs::create_dir;
 use seq_io::fastq::Record;
 use bioutils::references::ftp::download_grch38_primary_assembly_genome_fa_gz;
 use bioutils::references::ftp;
 use bioutils::files::http;
 use bioutils::charsets::*;
-use std::fs::File;
 use flate2::*;
 use seq_io::fasta::*;
 use seq_io::fastq::*;
-fn main() {
+
+fn main()-> std::io::Result<()>{
+    // let data_directory = "./data/".to_owned();
+    let data_directory = Path::new("./data/");
+    let reference_directory = "references";
+    let samples_directory = "samples";
     let fastq_path="SRR1700869.fastq.gz";
     let reference_path="GRCh38.primary_assembly.genome.fa.gz";
+    create_dir(data_directory)?;
+    create_dir(data_directory.join(&reference_directory))?;
+    create_dir(data_directory.join(&samples_directory))?;
     println!("Downloading reference with: ");
     println!("download_grch38_primary_assembly_genome_fa_gz()");
     // download_grch38_primary_assembly_genome_fa_gz();
@@ -42,13 +52,17 @@ fn main() {
     // }
     println!("Create reference lookup structure");
     println!("Read input fastq and find read positions");
-    let fq = File::open(fastq_path).expect("Could not open input Fastq");
-    let fq = flate2::read::GzDecoder::new(fq);
-    let mut fq_reader = seq_io::fastq::Reader::new(fq);
-    while let Some(record) = fq_reader.next() {
-        let record = record.expect("Error reading record");
-        // let id = record.id().unwrap();
-        let seq = record.seq();
-    }
+    // let fq = File::open(fastq_path).expect("Could not open input Fastq");
+    // let fq = flate2::read::GzDecoder::new(fq);
+    // let mut fq_reader = seq_io::fastq::Reader::new(fq);
+    // while let Some(record) = fq_reader.next() {
+    //     let record = record.expect("Error reading record");
+    //     // let id = record.id().unwrap();
+    //     let seq = record.seq();
+    // }
+    Ok(())
 }
+
+
+
 

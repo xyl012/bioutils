@@ -4,9 +4,9 @@
 //! Steps in this example:
 //! Download and read the latest GrCH38 reference
 //! Download and read a sample fastq
-//! Uses rust bio to create a lookup structure for the reference
+//! Create a lookup structure (suffix array) for each chromosome and it's reverse complement
 //! Find positions of input fastq sequences in the reference by searching the lookup structure
-
+//! You can make this example by creating it with `cargo build --example align`. This will generate a command line tool that can simply be run with `./align`. The command line tool will be in bioutils/target/debug/examples
 use seq_io::fasta::Record as FastaRecord;
 use seq_io::fastq::Record as FastqRecord;
 

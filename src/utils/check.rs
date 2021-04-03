@@ -7,7 +7,7 @@
 //! ```
 //! use bioutils::charsets::*;
 //! use bioutils::utils::*;
-//! use bioutils::utils::check::Check;
+//! use bioutils::utils::check::CheckU8;
 //!
 //! let dna = b"ACTG";
 //! let rna = b"ACUG";
@@ -38,8 +38,7 @@ use crate::charsets::ascii::*;
 use crate::charsets::iupac::*;
 use crate::charsets::quality::*;
 
-
-pub trait Check<T> {
+pub trait CheckU8<T> {
     /// Checks if u8 comprised completely of the iupac including nucleotide, amino acid, punctuation.
     fn is_iupac(&self) -> bool;
     /// Checks if u8 comprised completely of the iupac including nucleotide, punctuation.
@@ -103,31 +102,10 @@ where
     }
 }
 
-/// Checks if a u8 is a palindrome.
-pub fn is_palindrome<T>(iterable: T) -> bool
+impl<T> CheckU8<T> for T
 where
-    T: IntoIterator,
-    T::Item: PartialEq,
-    T::IntoIter: DoubleEndedIterator,
+    for<'a> &'a T: IntoIterator<Item = &'a u8>,
 {
-    let mut iter = iterable.into_iter();
-    while let (Some(forward), Some(backward)) = (iter.next(), iter.next_back()) {
-        if forward != backward {
-            return false;
-        }
-    }
-    true
-}
-
-// impl<T> Check<T> for T
-// where
-//     for<'a> &'a T: IntoIterator<Item = &'a u8>,
-// {
-impl<T> CheckPalindrome<T> for T
-where
-    T: IntoIterator,
-    T::Item: PartialEq,
-    {
     /// Checks if u8 comprised completely of the iupac including nucleotide, amino acid, punctuation.
     fn is_iupac(&self) -> bool {
         self.into_iter().all(|x| IUPAC_U8.contains(&x))
@@ -218,6 +196,33 @@ where
         self.into_iter()
             .all(|x| ASCII_LETTERS_LOWERCASE_U8.contains(&x))
     }
+}
+
+
+// impl<T> CheckIntoIterator<T> for T
+// where
+//     T: IntoIterator,
+//     T::Item: PartialEq,
+//     {
+
+
+
+// Check:: function versions
+
+/// Checks if a u8 is a palindrome.
+pub fn is_palindrome<T>(iterable: T) -> bool
+where
+    T: IntoIterator,
+    T::Item: PartialEq,
+    T::IntoIter: DoubleEndedIterator,
+{
+    let mut iter = iterable.into_iter();
+    while let (Some(forward), Some(backward)) = (iter.next(), iter.next_back()) {
+        if forward != backward {
+            return false;
+        }
+    }
+    true
 }
 
 // #[cfg(test)]

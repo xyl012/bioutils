@@ -38,6 +38,7 @@ use crate::charsets::ascii::*;
 use crate::charsets::iupac::*;
 use crate::charsets::quality::*;
 
+
 pub trait Check<T> {
     /// Checks if u8 comprised completely of the iupac including nucleotide, amino acid, punctuation.
     fn is_iupac(&self) -> bool;
@@ -79,10 +80,54 @@ pub trait Check<T> {
     fn is_ascii_letters_lowercase(&self) -> bool;
 }
 
-impl<T> Check<T> for T
+pub trait CheckPalindrome<T> {
+    /// Checks if a u8 is a palindrome.
+    fn is_palindrome(&self) -> bool;
+}
+impl<T> CheckPalindrome<T> for T
 where
-    for<'a> &'a T: IntoIterator<Item = &'a u8>,
+    T: IntoIterator,
+    T::Item: PartialEq,
+    T::IntoIter: DoubleEndedIterator,
+    T: Copy,
 {
+    /// Checks if a u8 is a palindrome.
+    fn is_palindrome(&self) -> bool {
+    let mut iter = self.into_iter();
+    while let (Some(front), Some(back)) = (iter.next(), iter.next_back()) {
+        if front != back {
+            return false;
+        }
+    }
+    true
+    }
+}
+
+/// Checks if a u8 is a palindrome.
+pub fn is_palindrome<T>(iterable: T) -> bool
+where
+    T: IntoIterator,
+    T::Item: PartialEq,
+    T::IntoIter: DoubleEndedIterator,
+{
+    let mut iter = iterable.into_iter();
+    while let (Some(forward), Some(backward)) = (iter.next(), iter.next_back()) {
+        if forward != backward {
+            return false;
+        }
+    }
+    true
+}
+
+// impl<T> Check<T> for T
+// where
+//     for<'a> &'a T: IntoIterator<Item = &'a u8>,
+// {
+impl<T> CheckPalindrome<T> for T
+where
+    T: IntoIterator,
+    T::Item: PartialEq,
+    {
     /// Checks if u8 comprised completely of the iupac including nucleotide, amino acid, punctuation.
     fn is_iupac(&self) -> bool {
         self.into_iter().all(|x| IUPAC_U8.contains(&x))

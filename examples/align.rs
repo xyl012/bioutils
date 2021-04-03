@@ -2,11 +2,18 @@
 
 //! This example creates a simple (D/R/...)NA aligner that can be run from the command line.
 //! Steps in this example:
+//! 
 //! Download and read the latest GrCH38 reference
 //! Download and read a sample fastq
 //! Create a lookup structure (suffix array) for each chromosome and it's reverse complement
 //! Find positions of input fastq sequences in the reference by searching the lookup structure
 //! You can make this example by creating it with `cargo build --example align`. This will generate a command line tool that can simply be run with `./align`. The command line tool will be in bioutils/target/debug/examples
+//! 
+//! This example will keep aliging reads for quite some time, as it is aligning a complete fastq to the complete human genome with one core. Please cancel it with cntrl+c at any time during the alignment. 
+//! 
+//! Even with the 'long' alignment, we use very little resources and computation time to generate a practical example.
+//! 
+
 use seq_io::fasta::Record as FastaRecord;
 use seq_io::fastq::Record as FastqRecord;
 

@@ -18,9 +18,7 @@
 Check back as more functionality gets added!</li>
 </ul>
 <h2 id="quick-start" class="section-header"><a href="#quick-start">Quick Start</a></h2>
-<div class="example-wrap"><pre class="rust rust-example-rendered"><p>
-
-//! Check out the align example for a full practical walkthrough from downloading files to finding read positions!
+<div class="example-wrap"><pre class="rust rust-example-rendered"><p>//! Check out the align example for a full practical walkthrough from downloading files to finding read positions!
 
 
 //! This example creates a simple (D/R/...)NA aligner that can be run from the command line.

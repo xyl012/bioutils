@@ -18,8 +18,31 @@
 Check back as more functionality gets added!</li>
 </ul>
 <h2 id="quick-start" class="section-header"><a href="#quick-start">Quick Start</a></h2>
-<div class="example-wrap"><pre class="rust rust-example-rendered">
-</pre></div>
+<div class="example-wrap"><pre class="rust rust-example-rendered"><p>
+//! use bioutils::charsets::*;
+//! use bioutils::utils::*;
+//! use bioutils::utils::check::CheckU8;
+//!
+//! let dna = b"ACTG";
+//! let rna = b"ACUG";
+//! let homopolymerN = b"NNNN";
+//! let homopolymerA = b"AAAA";
+//! let gapna = b"AC-G";
+//! let nna = b"ACnG";
+//! let quality = b"@ABC";
+//!
+//! assert!(homopolymerN.is_homopolymer());
+//! assert!(homopolymerA.is_homopolymer_not_n());
+//! assert!(homopolymerN.is_homopolymer_n());
+//!
+//! assert!(gapna.has_gap());
+//! assert!(nna.has_n());
+//! assert!(dna.is_iupac());
+//! assert!(rna.is_basic_rna());
+//!
+//! assert!(quality.is_phred33());
+//! assert!(quality.is_phred64());
+//! assert!(quality.is_solexa());</p></pre></div>
 </div><h2 id='modules' class='section-header'><a href="#modules">Modules</a></h2>
 <table><tr class='module-item'><td><a class="mod" href="charsets/index.html" title='bioutils::charsets mod'>charsets</a></td><td class='docblock-short'><p>Numerous IUPAC character sets to either use directly or create your own mix and match</p></td></tr><tr class='module-item'><td><a class="mod" href="files/index.html" title='bioutils::files mod'>files</a></td><td class='docblock-short'><p>Download human and mouse Gencode references, download fastq sample files</p></td></tr><tr class='module-item'><td><a class="mod" href="references/index.html" title='bioutils::references mod'>references</a></td><td class='docblock-short'><p>Currently includes human NCBI gencode GRCh38. Automatically downloads the latest version of user's choice.</p>
 </td></tr><tr class='module-item'><td><a class="mod" href="utils/index.html" title='bioutils::utils mod'>utils</a></td><td class='docblock-short'><p>Functions for sequence checks, pseudorandom replacement of N or gaps, and functions to create new pseudoranndom sequences</p></td></tr></table></section><section id="search" class="content hidden"></section><section class="footer"></section>

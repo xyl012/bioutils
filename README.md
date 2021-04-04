@@ -1,10 +1,22 @@
-# Bioutils
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="API documentation for the Rust `bioutils` crate."><meta name="keywords" content="rust, rustlang, rust-lang, bioutils"><title>bioutils - Rust</title><link rel="stylesheet" type="text/css" href="../normalize.css"><link rel="stylesheet" type="text/css" href="../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../dark.css"><link rel="stylesheet" type="text/css" href="../light.css" id="themeStyle"><script src="../storage.js"></script><noscript><link rel="stylesheet" href="../noscript.css"></noscript><link rel="shortcut icon" href="../favicon.ico"><style type="text/css">#crate-search{background-image:url("../down-arrow.svg");}</style></head><body class="rustdoc mod"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../bioutils/index.html'><div class='logo-container'><img src='../rust-logo.png' alt='logo'></div></a><p class='location'>Crate bioutils</p><div class="sidebar-elems"><a id='all-types' href='all.html'><p>See all bioutils's items</p></a><div class="block items"><ul><li><a href="#modules">Modules</a></li></ul></div><p class='location'></p><script>window.sidebarCurrent = {name: 'bioutils', ty: 'mod', relpath: '../'};</script></div></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../theme.js"></script><nav class="sub"><form class="search-form"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" disabled autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><a id="settings-menu" href="../settings.html"><img src="../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><h1 class='fqn'><span class='out-of-band'><span id='render-detail'><a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">[<span class='inner'>&#x2212;</span>]</a></span><a class='srclink' href='../src/bioutils/lib.rs.html#3-30' title='goto source code'>[src]</a></span><span class='in-band'>Crate <a class="mod" href=''>bioutils</a></span></h1><div class='docblock'><h1 id="bioutils-simple-biological-utilities-with-rusts-u8" class="section-header"><a href="#bioutils-simple-biological-utilities-with-rusts-u8">Bioutils: Simple Biological Utilities with Rust's [u8]</a></h1>
+<p>Bioutils provides simple biological utilities including: 
+    <ul>complete iupac and quality character sets</ul>
+    <ul> Functions to check sequence validity and content (palindromes too!)</ul>
+    <ul> Functions to download human and mouse Gencode reference files</ul>
+    <ul> Functions to download fastq files</ul>
+    <ul> Functions to replace N or gaps with pseudorandom nucleotides</ul>
+    <ul> Functions to create new random IUPAC sequences</ul>
+</p>
 
-Bioutils provides simple biological utilities ranging from complete iupac and quality character sets to checking sequence validity. Utilities provided are simple, although most are still evolving (make sure to specify a version if you use this crate, as we will introduce breaking changes).
+<p> Please take a look at the align example to get a full practical walkthrough!</p>
 
-<ul>Character sets include punctuation, are subdivided, and implemented in Rust’s u8 rather than bitset</ul>
-
-<ul>Traits and functions minimal algorithms and data structures outside rust standard Implementations are centered around u8, although character sets are also provided as &str, hashset u8 and hashset &str.</ul> 
-
-<ul>Check back as more functionality gets added!</ul>
-
+<li>Character sets include punctuation, are subdivided, and implemented in Rust's [u8] rather than bitset</li>
+<li>Implementations are centered around [u8], although character sets are also provided as [&amp;str], hashset u8 and hashset &amp;str.
+Check back as more functionality gets added!</li>
+</ul>
+<h2 id="quick-start" class="section-header"><a href="#quick-start">Quick Start</a></h2>
+<div class="example-wrap"><pre class="rust rust-example-rendered">
+</pre></div>
+</div><h2 id='modules' class='section-header'><a href="#modules">Modules</a></h2>
+<table><tr class='module-item'><td><a class="mod" href="charsets/index.html" title='bioutils::charsets mod'>charsets</a></td><td class='docblock-short'></td></tr><tr class='module-item'><td><a class="mod" href="files/index.html" title='bioutils::files mod'>files</a></td><td class='docblock-short'></td></tr><tr class='module-item'><td><a class="mod" href="references/index.html" title='bioutils::references mod'>references</a></td><td class='docblock-short'><p>Currently includes human NCBI gencode GRCh38. Automatically downloads the latest version of user's choice.</p>
+</td></tr><tr class='module-item'><td><a class="mod" href="utils/index.html" title='bioutils::utils mod'>utils</a></td><td class='docblock-short'></td></tr></table></section><section id="search" class="content hidden"></section><section class="footer"></section><script>window.rootPath = "../";window.currentCrate = "bioutils";</script><script src="../main.js"></script><script defer src="../search-index.js"></script></body></html>

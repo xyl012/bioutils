@@ -3,19 +3,17 @@
 
 use seq_io::fastq::Record;
 use std::collections::HashSet;
-
+use std::io::{self, Cursor, Read};
+use std::iter::FromIterator;
 
 // Takes a reader and a fastq field ("seq", "head", or "qual") type and returns a hashset of all reads' specified field
-pub fn hashset_fastq(
-    mut reader: seq_io::fastq::Reader<flate2::read::GzDecoder<std::fs::File>>,
-    field: &str,
-) -> std::collections::HashSet<Vec<u8>> {
+pub fn hashset_fastq<T>(mut reader: seq_io::fastq::Reader<T>, field: &str) -> std::collections::HashSet<Vec<u8>> where T: std::io::Read {
     let mut hashset = HashSet::new();
     while let Some(record) = reader.next() {
         //if cannot read the record skip it
         let result = match record {
             Ok(record) => record,
-            Err(_record) => continue
+            Err(record) => continue
         };
         if field == "seq" {
             hashset.insert(result.seq().to_owned());
@@ -33,27 +31,74 @@ pub fn hashset_fastq(
     hashset
 }
 
-// Make struct of vector of readers, as atac has 3 reads
-// Takes a vector of readers and creates a single hashset of common headers. Used to get which reads are paired.
-// TODO: If head is not ascii will give error
-pub fn fastq_head_inner_join(hashset_vector: Vec<seq_io::fastq::Reader<flate2::read::GzDecoder<std::fs::File>>>)
- -> std::collections::HashSet<Vec<u8>> 
+/// Find paired reads in a fastq. Takes a vector of readers and creates a single hashset of common headers.
+pub fn find_paired_fastq_reads<T>(reader1: seq_io::fastq::Reader<T>, reader2: seq_io::fastq::Reader<T>)
+-> HashSet<Vec<u8>> where
+    T: std::io::Read
 {
-    let mut hashset = HashSet::new();
-    let inner_join_hashset = HashSet::new();
-    for mut vector_hashset in hashset_vector {
-        while let Some(record) = vector_hashset.next() {
-            // if cannot read the record skip it
-            let record = match record {
-                Ok(record) => record,
-                Err(_record) => continue
-            };
-            hashset.insert(record.head().to_owned());
-        }
-        let _inner_join_hashset: HashSet<std::vec::Vec<u8>> = inner_join_hashset.intersection(&hashset).cloned().collect();
-    }
-    inner_join_hashset
+    let hs1 = hashset_fastq(reader1, "head");
+    let hs2 = hashset_fastq(reader2, "head");
+    hs1.intersection(&hs2).cloned().collect::<HashSet<Vec<u8>>>()
 }
+
+// pub fn fastq_names_hashset<T>(mut reader: seq_io::fastq::Reader<T>) -> HashSet<Vec<u8>> where T: std::io::Read {
+//     let mut hashset = HashSet::new();
+//     while let Some(record) = reader.next() {
+//         // if cannot read the record skip it
+//         let record = match record {
+//             Ok(record) => record,
+//             Err(record) => continue
+//         };
+//         hashset.insert(record.head().to_owned());
+//     }
+//     return hashset
+// }
+
+// // Make vector of seq_io fastq readers, as atac has 3 reads
+// /// Find paired reads in a fastq. Takes a vector of readers and creates a single hashset of common headers.
+// pub fn find_paired_fastq_reads<T>(reader_vector: Vec<seq_io::fastq::Reader<T>>)
+// -> HashSet<Vec<u8>> where
+//     T: std::io::Read
+// {
+//     let mut inner_join_hashset = HashSet::new();
+//     for mut vector_hashset in reader_vector {
+//         let mut hashset = HashSet::new();
+//         while let Some(record) = vector_hashset.next() {
+//             // if cannot read the record skip it
+//             let record = match record {
+//                 Ok(record) => record,
+//                 Err(record) => continue
+//             };
+//             let name = record.head().to_owned();
+//             hashset.insert(name);
+//         }
+//         let inner_join_hashset = inner_join_hashset.intersection(&hashset).cloned().collect::<HashSet<Vec<u8>>>();
+//     }
+//     inner_join_hashset
+// }
+
+
+
+// fn example(mut map: HashMap<i32, i32>, key: i32) {
+//     *map.entry(key).or_insert(0) += 1;
+// }
+
+// pub fn tester<T>(mut reader: seq_io::fastq::Reader<T>) where T: std::io::Read {
+//     let full: Result<HashSet<_>, _>= reader.records()
+//     .collect();
+    
+    // let full = HashSet::from_iter(reader.records());
+    // let mut reader = IteratorAsRead::new(&iterable);
+
+    // let mut buf = vec![];
+    // let bytes = reader.read_to_end(&mut buf).unwrap();
+    // assert_eq!(&buf[..bytes], b"hello");
+// }
+
+// pub fn filter_fastq_by_read_names(inner_join_hashset: std::collections::HashSet<Vec<u8>>, reader_vector: Vec<seq_io::fastq::Reader<flate2::read::GzDecoder<std::fs::File>>>) {
+
+// }
+
 
 // pub fn fastq_head_inner_join(
 //     mut reader1: seq_io::fastq::Reader<flate2::read::GzDecoder<std::fs::File>>,

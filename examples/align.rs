@@ -89,7 +89,6 @@ fn main()-> std::io::Result<()>{
     Ok(())
 }
 
-
 pub fn fastq_aligner<R>(fq_reader: &mut seq_io::fastq::Reader<R>, sa: SuffixArray) 
 where 
 R: std::io::Read,

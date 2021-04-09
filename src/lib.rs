@@ -17,7 +17,6 @@ pub mod utils;
 pub mod references;
 pub mod files;
 
-
 #[macro_use]
 extern crate lazy_static;
 

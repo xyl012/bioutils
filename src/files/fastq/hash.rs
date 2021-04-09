@@ -1,10 +1,12 @@
 // Copyright 2021 Christopher Sugai
 
-
-use seq_io::fastq::Record;
 use std::collections::HashSet;
 use std::io::{self, Cursor, Read};
 use std::iter::FromIterator;
+use seq_io::fastq::{Reader,Record};
+use seq_io::parallel::parallel_fastq;
+use std::fs::File;
+use std::io::BufWriter;
 
 // Takes a reader and a fastq field ("seq", "head", or "qual") type and returns a hashset of all reads' specified field
 pub fn hashset_fastq<T>(mut reader: seq_io::fastq::Reader<T>, field: &str) -> std::collections::HashSet<Vec<u8>> where T: std::io::Read {
@@ -31,7 +33,7 @@ pub fn hashset_fastq<T>(mut reader: seq_io::fastq::Reader<T>, field: &str) -> st
     hashset
 }
 
-/// Find paired reads in a fastq. Takes a vector of readers and creates a single hashset of common headers.
+/// Find paired reads in two fastqs. Takes two seq io readers and creates a single hashset of common headers.
 pub fn find_paired_fastq_reads<T>(reader1: seq_io::fastq::Reader<T>, reader2: seq_io::fastq::Reader<T>)
 -> HashSet<Vec<u8>> where
     T: std::io::Read
@@ -40,6 +42,28 @@ pub fn find_paired_fastq_reads<T>(reader1: seq_io::fastq::Reader<T>, reader2: se
     let hs2 = hashset_fastq(reader2, "head");
     hs1.intersection(&hs2).cloned().collect::<HashSet<Vec<u8>>>()
 }
+
+pub fn write_paired_fastq_reads(){}
+// let reader = Reader::from_path("seqs.fastq").unwrap();
+// let mut writer = BufWriter::new(File::create("filtered.fastq").unwrap());
+
+// parallel_fastq(reader, 4, 2,
+//     |record, found| { // runs in worker
+//         *found = record.seq().windows(3).position(|s| s == b"AAA").is_some();
+//     },
+//     |record, found| { // runs in main thread
+//         if *found {
+//             record.write(&mut writer).unwrap();
+//         }
+//         // Some(value) will stop the reader, and the value will be returned.
+//         // In the case of never stopping, we need to give the compiler a hint about the
+//         // type parameter, thus the special 'turbofish' notation is needed,
+//         // hoping on progress here: https://github.com/rust-lang/rust/issues/27336
+//         None::<()>
+// }).unwrap();
+// }
+
+
 
 // pub fn fastq_names_hashset<T>(mut reader: seq_io::fastq::Reader<T>) -> HashSet<Vec<u8>> where T: std::io::Read {
 //     let mut hashset = HashSet::new();

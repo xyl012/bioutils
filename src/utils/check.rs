@@ -198,7 +198,10 @@ where
     }
 }
 
+    // TODO: create to check if seq and qual are the same length?
+    // if bytes_1_i == bytes_2_i {
 
+    // }
 // impl<T> CheckIntoIterator<T> for T
 // where
 //     T: IntoIterator,

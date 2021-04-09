@@ -3,25 +3,16 @@
 
 use super::*;
 
-// Phred33 charset: ASCII 33-126
-pub const PHRED33_U8: [u8; 94] = [
+// Phred33 charset: ASCII 33-73
+pub const PHRED33_U8: [u8; 41] = [
     b'!', b'"', b'#', b'$', b'%', b'&', 0x0027, b'(', b')', b'*', b'+', b',', b'-', b'.', b'/',
     b'0', b'1', b'2', b'3', b'4', b'5', b'6', b'7', b'8', b'9', b':', b';', b'<', b'=', b'>', b'?',
-    b'@', b'A', b'B', b'C', b'D', b'E', b'F', b'G', b'H', b'I', b'J', b'K', b'L', b'M', b'N', b'O',
-    b'P', b'Q', b'R', b'S', b'T', b'U', b'V', b'W', b'X', b'Y', b'Z', 0x005B, 0x005C, 0x005D, b'^',
-    b'_', b'`', b'a', b'b', b'c', b'd', b'e', b'f', b'g', b'h', b'i', b'j', b'k', b'l', b'm', b'n',
-    b'o', b'p', b'q', b'r', b's', b't', b'u', b'v', b'w', b'x', b'y', b'z', b'{', b'|', b'}', b'~',
-];
-pub const PHRED33_STR: [&str; 94] = [
+    b'@', b'A', b'B', b'C', b'D', b'E', b'F', b'G', b'H', b'I'];
+pub const PHRED33_STR: [&str; 41] = [
     r#"!"#, r#"""#, r##"#"##, r#"$"#, r#"%"#, r#"&"#, r#"'"#, r#"("#, r#")"#, r#"*"#, r#"+"#,
     r#","#, r#"-"#, r#"."#, r#"/"#, r#"0"#, r#"1"#, r#"2"#, r#"3"#, r#"4"#, r#"5"#, r#"6"#, r#"7"#,
     r#"8"#, r#"9"#, r#":"#, r#";"#, r#"<"#, r#"="#, r#">"#, r#"?"#, r#"@"#, r#"A"#, r#"B"#, r#"C"#,
-    r#"D"#, r#"E"#, r#"F"#, r#"G"#, r#"H"#, r#"I"#, r#"J"#, r#"K"#, r#"L"#, r#"M"#, r#"N"#, r#"O"#,
-    r#"P"#, r#"Q"#, r#"R"#, r#"S"#, r#"T"#, r#"U"#, r#"V"#, r#"W"#, r#"X"#, r#"Y"#, r#"Z"#, r#"["#,
-    r#"\"#, r#"]"#, r#"^"#, r#"_"#, r#"`"#, r#"a"#, r#"b"#, r#"c"#, r#"d"#, r#"e"#, r#"f"#, r#"g"#,
-    r#"h"#, r#"i"#, r#"j"#, r#"k"#, r#"l"#, r#"m"#, r#"n"#, r#"o"#, r#"p"#, r#"q"#, r#"r"#, r#"s"#,
-    r#"t"#, r#"u"#, r#"v"#, r#"w"#, r#"x"#, r#"y"#, r#"z"#, r#"{"#, r#"|"#, r#"}"#, r#"~"#,
-];
+    r#"D"#, r#"E"#, r#"F"#, r#"G"#, r#"H"#, r#"I"#];
 lazy_static! {
     pub static ref PHRED33_HASHSET_U8: HashSet<u8> = new_u8_hashset(&PHRED33_U8);
 }
@@ -94,7 +85,34 @@ mod tests {
     }
 }
 
-// if non-ascii found, will replace with !, a q score of 0 by default. May also return error.
+// Sanger charset: ASCII 33-126
+
+pub const SANGER_U8: [u8; 94] = [
+    b'!', b'"', b'#', b'$', b'%', b'&', 0x0027, b'(', b')', b'*', b'+', b',', b'-', b'.', b'/',
+    b'0', b'1', b'2', b'3', b'4', b'5', b'6', b'7', b'8', b'9', b':', b';', b'<', b'=', b'>', b'?',
+    b'@', b'A', b'B', b'C', b'D', b'E', b'F', b'G', b'H', b'I', b'J', b'K', b'L', b'M', b'N', b'O',
+    b'P', b'Q', b'R', b'S', b'T', b'U', b'V', b'W', b'X', b'Y', b'Z', 0x005B, 0x005C, 0x005D, b'^',
+    b'_', b'`', b'a', b'b', b'c', b'd', b'e', b'f', b'g', b'h', b'i', b'j', b'k', b'l', b'm', b'n',
+    b'o', b'p', b'q', b'r', b's', b't', b'u', b'v', b'w', b'x', b'y', b'z', b'{', b'|', b'}', b'~',
+    ];
+pub const SANGER_STR: [&str; 94] = [
+    r#"!"#, r#"""#, r##"#"##, r#"$"#, r#"%"#, r#"&"#, r#"'"#, r#"("#, r#")"#, r#"*"#, r#"+"#,
+    r#","#, r#"-"#, r#"."#, r#"/"#, r#"0"#, r#"1"#, r#"2"#, r#"3"#, r#"4"#, r#"5"#, r#"6"#, r#"7"#,
+    r#"8"#, r#"9"#, r#":"#, r#";"#, r#"<"#, r#"="#, r#">"#, r#"?"#, r#"@"#, r#"A"#, r#"B"#, r#"C"#,
+    r#"D"#, r#"E"#, r#"F"#, r#"G"#, r#"H"#, r#"I"#, r#"J"#, r#"K"#, r#"L"#, r#"M"#, r#"N"#, r#"O"#,
+    r#"P"#, r#"Q"#, r#"R"#, r#"S"#, r#"T"#, r#"U"#, r#"V"#, r#"W"#, r#"X"#, r#"Y"#, r#"Z"#, r#"["#,
+    r#"\"#, r#"]"#, r#"^"#, r#"_"#, r#"`"#, r#"a"#, r#"b"#, r#"c"#, r#"d"#, r#"e"#, r#"f"#, r#"g"#,
+    r#"h"#, r#"i"#, r#"j"#, r#"k"#, r#"l"#, r#"m"#, r#"n"#, r#"o"#, r#"p"#, r#"q"#, r#"r"#, r#"s"#,
+    r#"t"#, r#"u"#, r#"v"#, r#"w"#, r#"x"#, r#"y"#, r#"z"#, r#"{"#, r#"|"#, r#"}"#, r#"~"#,
+];
+
+lazy_static! {
+    pub static ref SANGER_HASHSET_U8: HashSet<u8> = new_u8_hashset(&SANGER_U8);
+}
+lazy_static! {
+    pub static ref SANGER_HASHSET_STR: HashSet<&'static str> = new_str_hashset(&SANGER_STR);
+}
+
 
 // ASCII Codes:
 // Dec	Hex	Binary	HTML	Char	Description

@@ -9,6 +9,7 @@ pub const IUPAC_U8: [u8; 46] = [
     b'W', b'w', b'K', b'k', b'M', b'm', b'B', b'b', b'D', b'd', b'H', b'h', b'V', b'v', b'N', b'n',
     b'-', b'.', b'F', b'f', b'G', b'g', b'I', b'i', b'L', b'l', b'P', b'p', b'Q', b'q',
 ];
+
 pub const IUPAC_STR: [&str; 46] = [
     "A", "a", "C", "c", "G", "g", "T", "t", "U", "u", "R", "r", "Y", "y", "S", "s", "W", "w", "K",
     "k", "M", "m", "B", "b", "D", "d", "H", "h", "V", "v", "N", "n", r#"-"#, r#"."#, "F", "f", "G",

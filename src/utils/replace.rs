@@ -241,3 +241,4 @@ where T: IntoIterator<Item = u8> + Copy,
 
 
 
+// if non-ascii found, will replace with !, a q score of 0 by default. May also return error.

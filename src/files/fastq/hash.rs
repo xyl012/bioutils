@@ -7,9 +7,10 @@ use seq_io::fastq::{Reader,Record};
 use seq_io::parallel::parallel_fastq;
 use std::fs::File;
 use std::io::BufWriter;
+use crate::files::fastq::function::*;
 
 // Takes a reader and a fastq field ("seq", "head", or "qual") type and returns a hashset of all reads' specified field
-pub fn hashset_fastq<T>(mut reader: seq_io::fastq::Reader<T>, field: &str) -> std::collections::HashSet<Vec<u8>> where T: std::io::Read {
+pub fn hashset_fastq<T>(mut reader: seq_io::fastq::Reader<T>, field: &str, format: &str) -> std::collections::HashSet<Vec<u8>> where T: std::io::Read {
     let mut hashset = HashSet::new();
     while let Some(record) = reader.next() {
         //if cannot read the record skip it
@@ -20,7 +21,11 @@ pub fn hashset_fastq<T>(mut reader: seq_io::fastq::Reader<T>, field: &str) -> st
         if field == "seq" {
             hashset.insert(result.seq().to_owned());
         } else if field == "head" {
-            hashset.insert(result.head().to_owned());
+            if format == "illumina" {
+                hashset.insert(remove_illumina_read_number(&mut result.head().to_owned()).to_vec());
+            } else if format == "sra" {
+            hashset.insert(trim_sra(&mut result.head().to_owned()).to_vec());
+            }
         } else if field == "qual" {
             hashset.insert(result.qual().to_owned());
         }
@@ -33,17 +38,24 @@ pub fn hashset_fastq<T>(mut reader: seq_io::fastq::Reader<T>, field: &str) -> st
     hashset
 }
 
-/// Find paired reads in two fastqs. Takes two seq io readers and creates a single hashset of common headers.
-pub fn find_paired_fastq_reads<T>(reader1: seq_io::fastq::Reader<T>, reader2: seq_io::fastq::Reader<T>)
+/// Find paired reads in two fastqs. Takes two seq io readers and a specification of format (illumina or sra) and creates a single hashset of common headers.
+pub fn find_paired_fastq_reads<T>(reader1: seq_io::fastq::Reader<T>, reader2: seq_io::fastq::Reader<T>, field: &str, format: &str)
 -> HashSet<Vec<u8>> where
     T: std::io::Read
 {
-    let hs1 = hashset_fastq(reader1, "head");
-    let hs2 = hashset_fastq(reader2, "head");
+    let hs1 = hashset_fastq(reader1, &field, &format);
+    let hs2 = hashset_fastq(reader2, &field, &format);
     hs1.intersection(&hs2).cloned().collect::<HashSet<Vec<u8>>>()
 }
 
-pub fn write_paired_fastq_reads(){}
+
+// insert_head
+// if format == "illumina" {
+//     remove_illumina_read_number(&mut hs1);
+// } if format == "sra" {
+//     trim_sra(&)
+// }
+// pub fn write_paired_fastq_reads(){}
 // let reader = Reader::from_path("seqs.fastq").unwrap();
 // let mut writer = BufWriter::new(File::create("filtered.fastq").unwrap());
 

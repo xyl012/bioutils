@@ -38,6 +38,11 @@ use crate::charsets::ascii::*;
 use crate::charsets::iupac::*;
 use crate::charsets::quality::*;
 
+pub trait CheckPalindrome<T> {
+    /// Checks if a u8 is a palindrome.
+    fn is_palindrome(&self) -> bool;
+}
+
 pub trait CheckU8<T> {
     /// Checks if u8 comprised completely of the iupac including nucleotide, amino acid, punctuation.
     fn is_iupac(&self) -> bool;
@@ -77,12 +82,15 @@ pub trait CheckU8<T> {
     fn is_ascii_letters_uppercase(&self) -> bool;
     /// Checks if u8 is ascii letters lowercase only.
     fn is_ascii_letters_lowercase(&self) -> bool;
+    /// Checks if the sequence and quality u8 vectors are the same length. Generally checks two u8 items for length against each other
+    fn is_seq_qual_length_equal(&self, quality: &T) -> bool;
 }
 
-pub trait CheckPalindrome<T> {
-    /// Checks if a u8 is a palindrome.
-    fn is_palindrome(&self) -> bool;
+pub trait CheckRead<T> {
+    /// Checks if u8 sequence is the same length as the quality
+    fn equal_seq_qual_length(&self, quality: &Vec<u8>) -> bool;
 }
+
 impl<T> CheckPalindrome<T> for T
 where
     T: IntoIterator,
@@ -106,6 +114,11 @@ impl<T> CheckU8<T> for T
 where
     for<'a> &'a T: IntoIterator<Item = &'a u8>,
 {
+    /// Checks if the sequence and quality u8 vectors are the same length. Generally checks two u8 items for length against each other
+    fn is_seq_qual_length_equal<'a>(&self, quality: &'a T)-> bool {
+        self.into_iter().count() == quality.into_iter().count()
+    }
+
     /// Checks if u8 comprised completely of the iupac including nucleotide, amino acid, punctuation.
     fn is_iupac(&self) -> bool {
         self.into_iter().all(|x| IUPAC_U8.contains(&x))
@@ -196,19 +209,8 @@ where
         self.into_iter()
             .all(|x| ASCII_LETTERS_LOWERCASE_U8.contains(&x))
     }
+
 }
-
-    // TODO: create to check if seq and qual are the same length?
-    // if bytes_1_i == bytes_2_i {
-
-    // }
-// impl<T> CheckIntoIterator<T> for T
-// where
-//     T: IntoIterator,
-//     T::Item: PartialEq,
-//     {
-
-
 
 // Check:: function versions
 

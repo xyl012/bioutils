@@ -49,7 +49,8 @@ Check back as more functionality gets added!</li>
 //! assert!(quality.is_phred64());
 //! assert!(quality.is_solexa());
 //! 
-//! 
+//! Examples for creating a new random sequence and quality 
+//!
 //! let mut rng = rand::thread_rng(); // Create a random number generator
 //! let dna = random_dna(4,rng); // Create a random dna sequence
 //! let mut rng2 = rand::thread_rng();

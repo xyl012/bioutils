@@ -3,12 +3,12 @@
 ## Simple Biological Utilities with Rust's [u8]
 
 <p>Bioutils provides simple biological utilities including: 
-    <ul>complete iupac and quality character sets</ul>
     <ul> Functions to check sequence validity and content (palindromes too!)</ul>
+    <ul> Functions to create new random IUPAC sequences</ul>
     <ul> Functions to download human and mouse Gencode reference files</ul>
     <ul> Functions to download fastq files</ul>
     <ul> Functions to replace N or gaps with pseudorandom nucleotides</ul>
-    <ul> Functions to create new random IUPAC sequences</ul>
+    <ul>complete iupac and quality character sets</ul>
 </p>
 
 <p> Please take a look at the align example to get a full practical walkthrough!</p>

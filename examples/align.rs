@@ -60,6 +60,7 @@ fn main()-> std::io::Result<()>{
     for smpl_path in smpl_paths {
         println!("Sample: {}", smpl_path.unwrap().path().display())
     }
+    
     println!("Read reference (GrCH38) fasta (fa) gz");
     let reference = File::open(&references_directory.join(&reference_name)).expect("Could not open reference fasta (fa) gz");
     let reference = flate2::read::GzDecoder::new(reference);

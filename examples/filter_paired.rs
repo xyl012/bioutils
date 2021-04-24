@@ -32,7 +32,6 @@ fn main()-> std::io::Result<()>{
     println!("...Please Wait...");
     println!("...If over 10 minutes, there may be a connection issue...");
     bioutils::files::http::curl(fastq_ftp, fq2_gz, &samples_directory);
-
     println!("Create fastq reader");
     let fq1 = File::open(&fq1_path).expect("Could not open input Fastq");
     let fq1 = flate2::read::GzDecoder::new(fq1);
@@ -41,21 +40,10 @@ fn main()-> std::io::Result<()>{
     let fq2 = File::open(&fq2_path).expect("Could not open input Fastq");
     let fq2 = flate2::read::GzDecoder::new(fq2);
     let mut fq2_reader = seq_io::fastq::Reader::new(fq2);
-
-    // let test = File::open(&ftest_path).expect("Could not open input Fastq");
-    // let test = flate2::read::GzDecoder::new(test);
-    // let mut test_reader = seq_io::fastq::Reader::new(test);
-    // let test2 = File::open(&ftest2_path).expect("Could not open input Fastq");
-    // let test2 = flate2::read::GzDecoder::new(test2);
-    // let mut test_reader2 = seq_io::fastq::Reader::new(test2);
-
-    // let vec_readers = vec![fq1_reader, fq2_reader];
     println!("Filter fastqs");
     let format = "sra";
-    let field = "illumina";
-    let filtered_read_names = bioutils::files::fastq::hash::find_paired_fastq_reads(fq1_reader, fq2_reader, &format, &field);
-    // let filtered_read_names = bioutils::files::fastq::hash::tester(test_reader);
-    // println!("{:?}", filtered_read_names);
+    let field = "head";
+    let filtered_read_names = bioutils::files::fastq::hash::find_paired_fastq_reads(fq1_reader, fq2_reader, &field, &format);
     println!("Number of reads after filter: {}", filtered_read_names.len());
     Ok(())
 }

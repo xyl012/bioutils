@@ -22,6 +22,11 @@
 //! use bioutils::utils::check::CheckU8;
 //! use bioutils::utils::new::random_dna;
 //! use bioutils::utils::new::random_quality;
+//! use bioutils::utils::replace::AsMutRandomNucleotide;
+//! use rand::rngs::ThreadRng;
+//! use rand::seq::SliceRandom;
+//! use std::string::String;
+//! use std::str;
 
 //! let dna = b"ACTG";
 //! let rna = b"ACUG";

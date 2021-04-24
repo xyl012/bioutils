@@ -13,9 +13,9 @@
 
 <p> Please take a look at the align example to get a full practical walkthrough!</p>
 
-<li>Character sets include punctuation, are subdivided, and implemented in Rust's [u8] rather than bitset</li>
-<li>Implementations are centered around [u8], although character sets are also provided as [&amp;str], hashset u8 and hashset &amp;str.
-Check back as more functionality gets added!</li>
+<ul>Character sets include punctuation, are subdivided, and implemented in Rust's [u8] rather than bitset</ul>
+<ul>Implementations are centered around [u8], although character sets are also provided as [&amp;str], hashset u8 and hashset &amp;str.
+Check back as more functionality gets added!</ul>
 </ul>
 <h2 id="quick-start" class="section-header"><a href="#quick-start">Quick Start</a></h2>
 <div class="example-wrap"><pre class="rust rust-example-rendered"><p>//! Check out the align example for a full practical walkthrough from downloading files to finding read positions!

@@ -14,10 +14,8 @@
 //! let mut rng1 = rand::thread_rng(); //create a random number generator
 //! let mut rng2 = rand::thread_rng(); //create a random number generator
 //! let mut seq = b"acugnnnqqq".to_owned(); // or by *: let mut seq = *b"acugnnnqqq";
-//! let mut seq = seq.mut_random_replace_non_basic("RNA", rng1);
-//! let mut seq = seq.mut_random_replace_n("RNA", rng2);
-//! let mut seq = seq.mut_to_upper_basic();
-//! let printseq = str::from_utf8(seq).unwrap();
+//! let mut seq = seq.mut_random_replace_non_basic("RNA", rng1).mut_random_replace_n("RNA", rng2).mut_to_upper_basic();
+//! let printseq = str::from_utf8(seq).unwrap(); // turn into utf8
 //! println!("{:?}", printseq);
 //! ```
 

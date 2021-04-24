@@ -11,7 +11,7 @@
 //! 
 //! This example will keep aliging reads for quite some time, as it is aligning a complete fastq to the complete human genome with one core. Please cancel it with cntrl+c at any time during the alignment. 
 //! 
-//! Even with the 'long' alignment, we use very little resources and computation time to generate a practical example.
+//! Even with the 'long' alignment, we use very little resources.
 //! 
 
 use seq_io::fasta::Record as FastaRecord;
@@ -102,7 +102,7 @@ R: std::io::Read,
         let seq = record.seq();
         let sa = SuffixArray::new(b"GATCGATCGATCGATC");
         let positions = sa.search_all(seq);
-        // let lcp = sa.search_lcp(b"splash");
+        // let lcp = sa.search_lcp(b"ACTG");
         read_counter+=1;
         println!("Reads aligned: {}",read_counter);
     }

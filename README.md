@@ -51,12 +51,23 @@ Check back as more functionality gets added!</ul>
 //! 
 //! Examples for creating a new random sequence and quality 
 //!
-//! let mut rng = rand::thread_rng(); // Create a random number generator
-//! let dna = random_dna(4,rng); // Create a random dna sequence
+//! let mut rng1 = rand::thread_rng(); // Create a random number generator
+//! let dna = random_dna(4,rng1); // Create a random dna sequence
 //! let mut rng2 = rand::thread_rng();
 //! let quality = random_quality(4,rng2); // Create a random quality string
 //! println!("{:?}", dna.to_owned());
 //! println!("{:?}", quality.to_owned());
+//!
+//! Example for replacing nucleotides
+//!
+//! let mut rng3 = rand::thread_rng(); //create a random number generator
+//! let mut rng4 = rand::thread_rng(); //create a random number generator
+//! let mut seq = b"acugnnnqqq".to_owned(); // or by *: let mut seq = *b"acugnnnqqq";
+//! let mut seq = seq.mut_random_replace_non_basic("RNA", rng4);
+//! let mut seq = seq.mut_random_replace_n("RNA", rng3);
+//! let mut seq = seq.mut_to_upper_basic();
+//! let printseq = str::from_utf8(seq).unwrap();
+//! println!("{:?}", printseq);
 
 </p></pre></div>
 </div><h2 id='modules' class='section-header'><a href="#modules">Modules</a></h2>

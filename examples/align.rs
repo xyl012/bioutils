@@ -23,7 +23,7 @@ use bioutils::references::ftp::download_grch38_primary_assembly_genome_fa_gz;
 use suffix_array::SuffixArray;
 
 fn main()-> std::io::Result<()>{
-    // // Create references/samples directories by creating a new path and creating all directories if the directory doesn't exist
+    // Create references/samples directories by creating a new path and creating all directories if the directory doesn't exist
     let references_directory = std::path::Path::new("./data/references/");
     let samples_directory = std::path::Path::new("./data/samples/");
     std::fs::create_dir_all(&references_directory)?;

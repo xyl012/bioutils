@@ -65,26 +65,6 @@ lazy_static! {
     pub static ref SOLEXA_HASHSET_STR: HashSet<&'static str> = new_str_hashset(&SOLEXA_STR);
 }
 
-#[cfg(test)]
-mod tests {
-    use super::{PHRED33_U8, PHRED64_U8, SOLEXA_U8};
-    #[test]
-    fn test_phred33() {
-        let dec: Vec<u8> = (33..127).collect();
-        assert_eq!(dec, PHRED33_U8);
-    }
-    #[test]
-    fn test_phred64() {
-        let dec: Vec<u8> = (64..127).collect();
-        assert_eq!(dec, PHRED64_U8);
-    }
-    #[test]
-    fn test_solexa() {
-        let dec: Vec<u8> = (59..127).collect();
-        assert_eq!(dec, SOLEXA_U8);
-    }
-}
-
 // Sanger charset: ASCII 33-126
 
 pub const SANGER_U8: [u8; 94] = [
@@ -112,6 +92,26 @@ lazy_static! {
 lazy_static! {
     pub static ref SANGER_HASHSET_STR: HashSet<&'static str> = new_str_hashset(&SANGER_STR);
 }
+
+// #[cfg(test)]
+// mod tests {
+//     use super::{PHRED33_U8, PHRED64_U8, SOLEXA_U8};
+//     #[test]
+//     fn test_phred33() {
+//         let dec: Vec<u8> = (33..127).collect();
+//         assert_eq!(dec, PHRED33_U8);
+//     }
+//     #[test]
+//     fn test_phred64() {
+//         let dec: Vec<u8> = (64..127).collect();
+//         assert_eq!(dec, PHRED64_U8);
+//     }
+//     #[test]
+//     fn test_solexa() {
+//         let dec: Vec<u8> = (59..127).collect();
+//         assert_eq!(dec, SOLEXA_U8);
+//     }
+// }
 
 
 // ASCII Codes:

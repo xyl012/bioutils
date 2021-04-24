@@ -5,8 +5,8 @@
 //! Additional functionality for common checks including has_n, has_gap, is_homopolymer, etc.
 //! # Examples
 //! ```
-//! use bioutils::charsets::*;
-//! use bioutils::utils::*;
+//! use bioutils::charsets;
+//! use bioutils::utils;
 //! use bioutils::utils::check::CheckU8;
 //!
 //! let dna = b"ACTG";
@@ -39,11 +39,14 @@ use crate::charsets::iupac::*;
 use crate::charsets::quality::*;
 
 pub trait CheckPalindrome<T> {
-    /// Checks if a u8 is a palindrome.
+    /// Generic to check if T is a palindrome.
     fn is_palindrome(&self) -> bool;
 }
 
 pub trait CheckU8<T> {
+    /// Checks if the sequence and quality u8 vectors are the same length. Generally checks two u8 items for length against each other
+    fn is_seq_qual_length_equal(&self, quality: &T) -> bool;
+    
     /// Checks if u8 comprised completely of the iupac including nucleotide, amino acid, punctuation.
     fn is_iupac(&self) -> bool;
     /// Checks if u8 comprised completely of the iupac including nucleotide, punctuation.
@@ -82,13 +85,6 @@ pub trait CheckU8<T> {
     fn is_ascii_letters_uppercase(&self) -> bool;
     /// Checks if u8 is ascii letters lowercase only.
     fn is_ascii_letters_lowercase(&self) -> bool;
-    /// Checks if the sequence and quality u8 vectors are the same length. Generally checks two u8 items for length against each other
-    fn is_seq_qual_length_equal(&self, quality: &T) -> bool;
-}
-
-pub trait CheckRead<T> {
-    /// Checks if u8 sequence is the same length as the quality
-    fn equal_seq_qual_length(&self, quality: &Vec<u8>) -> bool;
 }
 
 impl<T> CheckPalindrome<T> for T
@@ -98,7 +94,7 @@ where
     T::IntoIter: DoubleEndedIterator,
     T: Copy,
 {
-    /// Checks if a u8 is a palindrome.
+    /// Generic to check if is a palindrome.
     fn is_palindrome(&self) -> bool {
     let mut iter = self.into_iter();
     while let (Some(front), Some(back)) = (iter.next(), iter.next_back()) {
@@ -214,7 +210,7 @@ where
 
 // Check:: function versions
 
-/// Checks if a u8 is a palindrome.
+/// Generic to check if is a palindrome.
 pub fn is_palindrome<T>(iterable: T) -> bool
 where
     T: IntoIterator,

@@ -21,9 +21,9 @@ use rand::seq::SliceRandom;
 use crate::charsets::iupac::*;
 
 pub trait AsMutRandomNucleotide {
+    fn mut_random_replace_non_basic(&mut self, xna: &str, rng: ThreadRng) ;
     fn mut_random_replace_n(&mut self, xna: &str, rng: ThreadRng) ;
     fn mut_random_replace_gap(&mut self, xna: &str, rng: ThreadRng) ;
-    fn mut_random_replace_non_basic(&mut self, xna: &str, rng: ThreadRng) ;
     fn mut_random_replace_iupac(&mut self, xna: &str, rng: ThreadRng) ;
     fn mut_to_upper_basic(&mut self) ;
     fn mut_to_lower_basic(&mut self) ;
@@ -92,8 +92,6 @@ where T: AsMut<[u8]>,
                     b't' => {},
                     b'G' => {},
                     b'g' => {},
-                    b'U' => {},
-                    b'u' => {},
                     _ => *c = *BASIC_DNA_U8.choose(&mut rng).unwrap()
                 })
         }
@@ -132,7 +130,6 @@ where T: AsMut<[u8]>,
                 _ => {}
             })
     }
-
     /// Pseudorandom nucleotide randomments within IUPAC specifications, e.g. R: either A or G. Case specific, r: either a or g.
     fn mut_random_replace_iupac(&mut self, xna: &str, mut rng: ThreadRng)  {
         if xna == "RNA" {
@@ -187,7 +184,7 @@ where T: AsMut<[u8]>,
     }
 }
 
-pub trait CopyRandomNucleotide {
+pub trait CopyRandomNucleotide<T> {
     fn copy_random_replace_n(&self, xna: &str, rng: ThreadRng) -> Vec<u8>  ;
     fn copy_random_replace_gap(&self, xna: &str, rng: ThreadRng) -> Vec<u8> ;
     // fn mut_random_replace_non_basic(&mut self, xna: &str, rng: ThreadRng) ;
@@ -196,9 +193,9 @@ pub trait CopyRandomNucleotide {
     // fn mut_to_lower_basic(&mut self) ;
 }
 
-impl<T> CopyRandomNucleotide for T
-where T: IntoIterator<Item = u8> + Copy,
-//     for<'a> &'a T: IntoIterator<Item = &'a u8> = Copy,
+impl<T> CopyRandomNucleotide<T> for T
+where
+    for<'a> &'a T: IntoIterator<Item = &'a u8>,
 {
     /// Fill {N,n} with pseudorandom nucleotides ACUG if xna is "RNA" or ACTG for all other xna.
     fn copy_random_replace_n(&self, xna: &str, mut rng: ThreadRng) -> Vec<u8> {
@@ -207,14 +204,14 @@ where T: IntoIterator<Item = u8> + Copy,
                 .map(|ch| match ch {
                     b'N' => *BASIC_RNA_U8.choose(&mut rng).unwrap(),
                     b'n' => *BASIC_LOWERCASE_RNA_U8.choose(&mut rng).unwrap(),
-                    _ => ch,
+                    _ => *ch,
                 }).collect::<Vec<u8>>()
         } else {
             self.into_iter()
             .map(|ch| match ch {
                 b'N' => *BASIC_DNA_U8.choose(&mut rng).unwrap(),
                 b'n' => *BASIC_LOWERCASE_DNA_U8.choose(&mut rng).unwrap(),
-                _ => ch,
+                _ => *ch,
             }).collect::<Vec<u8>>()
         }
     }
@@ -226,14 +223,14 @@ where T: IntoIterator<Item = u8> + Copy,
                 .map(|ch| match ch {
                     b'.' => *BASIC_RNA_U8.choose(&mut rng).unwrap(),
                     b'-' => *BASIC_RNA_U8.choose(&mut rng).unwrap(),
-                    _ => ch,
+                    _ => *ch,
                 }).collect::<Vec<u8>>()
         } else {
             self.into_iter()
                 .map(|ch| match ch {
                     b'.' => *BASIC_DNA_U8.choose(&mut rng).unwrap(),
                     b'-' => *BASIC_DNA_U8.choose(&mut rng).unwrap(),
-                    _ => ch,
+                    _ => *ch,
                 }).collect::<Vec<u8>>()
         }
     }

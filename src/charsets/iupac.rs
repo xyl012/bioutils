@@ -161,53 +161,53 @@ pub const H_BASES_LOWERCASE: [u8; 3] = [b'a', b'c', b't'];
 pub const V_BASES: [u8; 3] = [b'A', b'C', b'G'];
 pub const V_BASES_LOWERCASE: [u8; 3] = [b'a', b'c', b'g'];
 
-#[cfg(test)]
-mod tests {
-    use super::{
-        BASIC_AMINO_ACID_U8, BASIC_DNA_U8, BASIC_RNA_U8, IUPAC_AMINO_ACID_U8, IUPAC_NUCLEOTIDE_U8,
-        IUPAC_U8,
-    };
-    #[test]
-    fn test_iupac() {
-        let dec: [u8; 46] = [
-            65, 97, 67, 99, 71, 103, 84, 116, 85, 117, 82, 114, 89, 121, 83, 115, 87, 119, 75, 107,
-            77, 109, 66, 98, 68, 100, 72, 104, 86, 118, 78, 110, 45, 46, 70, 102, 71, 103, 73, 105,
-            76, 108, 80, 112, 81, 113,
-        ];
-        assert_eq!(dec, IUPAC_U8);
-    }
-    #[test]
-    fn test_iupac_nucleotide() {
-        let dec: [u8; 34] = [
-            65, 97, 67, 99, 71, 103, 84, 116, 85, 117, 82, 114, 89, 121, 83, 115, 87, 119, 75, 107,
-            77, 109, 66, 98, 68, 100, 72, 104, 86, 118, 78, 110, 45, 46,
-        ];
-        assert_eq!(dec, IUPAC_NUCLEOTIDE_U8);
-    }
-    #[test]
-    fn test_iupac_amino_acid() {
-        let dec: [u8; 42] = [
-            65, 97, 67, 99, 68, 100, 69, 101, 70, 102, 71, 103, 72, 104, 73, 105, 75, 107, 76, 108,
-            77, 109, 78, 110, 80, 112, 81, 113, 82, 114, 83, 115, 84, 116, 85, 117, 86, 118, 87,
-            119, 89, 121,
-        ];
-        assert_eq!(dec, IUPAC_AMINO_ACID_U8);
-    }
-    #[test]
-    fn test_basic_dna() {
-        let dec: [u8; 4] = [65, 67, 71, 84];
-        assert_eq!(dec, BASIC_DNA_U8);
-    }
-    #[test]
-    fn test_basic_rna() {
-        let dec: [u8; 4] = [65, 67, 71, 85];
-        assert_eq!(dec, BASIC_RNA_U8);
-    }
-    #[test]
-    fn test_basic_amino_acid() {
-        let dec: [u8; 21] = [
-            65, 67, 68, 69, 70, 71, 72, 73, 75, 76, 77, 78, 80, 81, 82, 83, 84, 85, 86, 87, 89,
-        ];
-        assert_eq!(dec, BASIC_AMINO_ACID_U8);
-    }
-}
+// #[cfg(test)]
+// mod tests {
+//     use super::{
+//         BASIC_AMINO_ACID_U8, BASIC_DNA_U8, BASIC_RNA_U8, IUPAC_AMINO_ACID_U8, IUPAC_NUCLEOTIDE_U8,
+//         IUPAC_U8,
+//     };
+//     #[test]
+//     fn test_iupac() {
+//         let dec: [u8; 46] = [
+//             65, 97, 67, 99, 71, 103, 84, 116, 85, 117, 82, 114, 89, 121, 83, 115, 87, 119, 75, 107,
+//             77, 109, 66, 98, 68, 100, 72, 104, 86, 118, 78, 110, 45, 46, 70, 102, 71, 103, 73, 105,
+//             76, 108, 80, 112, 81, 113,
+//         ];
+//         assert_eq!(dec, IUPAC_U8);
+//     }
+//     #[test]
+//     fn test_iupac_nucleotide() {
+//         let dec: [u8; 34] = [
+//             65, 97, 67, 99, 71, 103, 84, 116, 85, 117, 82, 114, 89, 121, 83, 115, 87, 119, 75, 107,
+//             77, 109, 66, 98, 68, 100, 72, 104, 86, 118, 78, 110, 45, 46,
+//         ];
+//         assert_eq!(dec, IUPAC_NUCLEOTIDE_U8);
+//     }
+//     #[test]
+//     fn test_iupac_amino_acid() {
+//         let dec: [u8; 42] = [
+//             65, 97, 67, 99, 68, 100, 69, 101, 70, 102, 71, 103, 72, 104, 73, 105, 75, 107, 76, 108,
+//             77, 109, 78, 110, 80, 112, 81, 113, 82, 114, 83, 115, 84, 116, 85, 117, 86, 118, 87,
+//             119, 89, 121,
+//         ];
+//         assert_eq!(dec, IUPAC_AMINO_ACID_U8);
+//     }
+//     #[test]
+//     fn test_basic_dna() {
+//         let dec: [u8; 4] = [65, 67, 71, 84];
+//         assert_eq!(dec, BASIC_DNA_U8);
+//     }
+//     #[test]
+//     fn test_basic_rna() {
+//         let dec: [u8; 4] = [65, 67, 71, 85];
+//         assert_eq!(dec, BASIC_RNA_U8);
+//     }
+//     #[test]
+//     fn test_basic_amino_acid() {
+//         let dec: [u8; 21] = [
+//             65, 67, 68, 69, 70, 71, 72, 73, 75, 76, 77, 78, 80, 81, 82, 83, 84, 85, 86, 87, 89,
+//         ];
+//         assert_eq!(dec, BASIC_AMINO_ACID_U8);
+//     }
+// }

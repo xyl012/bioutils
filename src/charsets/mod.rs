@@ -4,6 +4,8 @@ pub mod ascii;
 pub mod iupac;
 pub mod quality;
 
+pub const PERCENTAGE_RANGE: std::ops::Range<u8> = 0..100;
+
 use std::collections::HashSet;
 use std::iter::FromIterator;
 

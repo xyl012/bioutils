@@ -1,5 +1,6 @@
 // Copyright 2021 Christopher Sugai
 
+use std::collections::HashMap;
 use std::collections::HashSet;
 use std::io::{self, Cursor, Read};
 use std::iter::FromIterator;
@@ -48,13 +49,39 @@ pub fn find_paired_fastq_reads<T>(reader1: seq_io::fastq::Reader<T>, reader2: se
     hs1.intersection(&hs2).cloned().collect::<HashSet<Vec<u8>>>()
 }
 
+// Takes a reader and a fastq field ("seq", "head", or "qual") type and returns a hashmap with count of each occurrence
+pub fn hashmap_count_fastq<T>(mut reader: seq_io::fastq::Reader<T>, field: &str, format: &str) -> HashMap<Vec<u8>, u64> where T: std::io::Read {
+    let mut hashmap:HashMap<Vec<u8>, u64> = HashMap::new();
+    while let Some(record) = reader.next() {
+        //if cannot read the record skip it
+        let result = match record {
+            Ok(record) => record,
+            Err(record) => continue
+        };
+        if field == "seq" {
+            let seq = result.seq().to_owned();
+            *hashmap.entry(seq).or_insert(1u64) += 1u64;
+        } else if field == "head" {
+            if format == "illumina" {
+                let head = remove_illumina_read_number(&mut result.head().to_owned()).to_vec();
+                *hashmap.entry(head).or_insert(1u64) += 1u64;
+            } else if format == "sra" {
+                let head = trim_sra(&mut result.head().to_owned()).to_vec();
+                *hashmap.entry(head).or_insert(1u64) += 1u64;
+            }
+        } else if field == "qual" {
+            let qual = result.qual().to_owned();
+            *hashmap.entry(qual).or_insert(1u64) += 1u64;
+        }
+        else {
+            println!(
+                "Specified fastq field is not a seq_io record field. Specify seq, head, or qual"
+            )
+        }
+    }
+    hashmap
+}
 
-// insert_head
-// if format == "illumina" {
-//     remove_illumina_read_number(&mut hs1);
-// } if format == "sra" {
-//     trim_sra(&)
-// }
 // pub fn write_paired_fastq_reads(){}
 // let reader = Reader::from_path("seqs.fastq").unwrap();
 // let mut writer = BufWriter::new(File::create("filtered.fastq").unwrap());
@@ -73,21 +100,6 @@ pub fn find_paired_fastq_reads<T>(reader1: seq_io::fastq::Reader<T>, reader2: se
 //         // hoping on progress here: https://github.com/rust-lang/rust/issues/27336
 //         None::<()>
 // }).unwrap();
-// }
-
-
-
-// pub fn fastq_names_hashset<T>(mut reader: seq_io::fastq::Reader<T>) -> HashSet<Vec<u8>> where T: std::io::Read {
-//     let mut hashset = HashSet::new();
-//     while let Some(record) = reader.next() {
-//         // if cannot read the record skip it
-//         let record = match record {
-//             Ok(record) => record,
-//             Err(record) => continue
-//         };
-//         hashset.insert(record.head().to_owned());
-//     }
-//     return hashset
 // }
 
 // // Make vector of seq_io fastq readers, as atac has 3 reads
@@ -114,26 +126,6 @@ pub fn find_paired_fastq_reads<T>(reader1: seq_io::fastq::Reader<T>, reader2: se
 // }
 
 
-
-// fn example(mut map: HashMap<i32, i32>, key: i32) {
-//     *map.entry(key).or_insert(0) += 1;
-// }
-
-// pub fn tester<T>(mut reader: seq_io::fastq::Reader<T>) where T: std::io::Read {
-//     let full: Result<HashSet<_>, _>= reader.records()
-//     .collect();
-    
-    // let full = HashSet::from_iter(reader.records());
-    // let mut reader = IteratorAsRead::new(&iterable);
-
-    // let mut buf = vec![];
-    // let bytes = reader.read_to_end(&mut buf).unwrap();
-    // assert_eq!(&buf[..bytes], b"hello");
-// }
-
-// pub fn filter_fastq_by_read_names(inner_join_hashset: std::collections::HashSet<Vec<u8>>, reader_vector: Vec<seq_io::fastq::Reader<flate2::read::GzDecoder<std::fs::File>>>) {
-
-// }
 
 
 // pub fn fastq_head_inner_join(

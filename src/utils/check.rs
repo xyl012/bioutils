@@ -31,7 +31,11 @@
 //! assert!(quality.is_solexa());
 //! ```
 
+// use crate::utils::check_percentage_u8;
+use crate::charsets::PERCENTAGE_RANGE;
+
 use crate::charsets::ascii::*;
+use crate::utils::function::*;
 /// Trait for checking specific criteria for a u8 of biological file origin. Types include sequence (nucleotide/amino acid) and quality (phred33/64/solexa, phred33 being all printable ascii).
 /// These should be used with closely with the is_ascii/make/to_ascii_lowercase/make/to_ascii_uppercase functions in standard rust.
 /// Additional functionality for common checks including has_n, has_gap, is_homopolymer, is_palindrome, etc.
@@ -44,9 +48,12 @@ pub trait CheckPalindrome<T> {
 }
 
 pub trait CheckU8<T> {
+    /// Checks the sequence has the percent bases (rounded) above the quality score
+    fn is_qual_passing(&self, quality_score: &u8, percent: &u8) -> bool;
     /// Checks if the sequence and quality u8 vectors are the same length. Generally checks two u8 items for length against each other
     fn is_seq_qual_length_equal(&self, quality: &T) -> bool;
     
+
     /// Checks if u8 comprised completely of the iupac including nucleotide, amino acid, punctuation.
     fn is_iupac(&self) -> bool;
     /// Checks if u8 comprised completely of the iupac including nucleotide, punctuation.
@@ -85,6 +92,9 @@ pub trait CheckU8<T> {
     fn is_ascii_letters_uppercase(&self) -> bool;
     /// Checks if u8 is ascii letters lowercase only.
     fn is_ascii_letters_lowercase(&self) -> bool;
+
+    /// Checks if a u8 is 0 to 100 for percent validation
+    fn check_percentage_u8(&self, percent: &u8)-> bool;
 }
 
 impl<T> CheckPalindrome<T> for T
@@ -110,6 +120,20 @@ impl<T> CheckU8<T> for T
 where
     for<'a> &'a T: IntoIterator<Item = &'a u8>,
 {
+    /// Checks the sequence has a number of bases (percent rounded) greater than or equal to the supplied quality score
+    fn is_qual_passing(&self, quality_score: &u8, percent: &u8) -> bool {
+        if self.check_percentage_u8(percent) {
+            if self.quality_percent_passing(&quality_score) >= (*percent).into() {
+                return true
+            } else {
+                return false
+            }
+        } else {
+            println!("Supplied percent is not 0 to 100, please choose 0 to 100% passing bases");
+            return false
+        }
+    }
+
     /// Checks if the sequence and quality u8 vectors are the same length. Generally checks two u8 items for length against each other
     fn is_seq_qual_length_equal<'a>(&self, quality: &'a T)-> bool {
         self.into_iter().count() == quality.into_iter().count()
@@ -206,6 +230,10 @@ where
             .all(|x| ASCII_LETTERS_LOWERCASE_U8.contains(&x))
     }
 
+    /// Checks if a u8 is 0 to 100 for percent validation
+    fn check_percentage_u8(&self, percent: &u8)-> bool {
+    PERCENTAGE_RANGE.contains(percent)
+    }
 }
 
 // Check:: function versions
@@ -225,6 +253,9 @@ where
     }
     true
 }
+
+
+
 
 // #[cfg(test)]
 // mod tests {

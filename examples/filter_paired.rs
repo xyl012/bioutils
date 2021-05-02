@@ -15,12 +15,8 @@ fn main()-> std::io::Result<()>{
     let fastq_ftp = "ftp://ftp.sra.ebi.ac.uk/vol1/fastq/SRR065/SRR065495/";
     let fq1_gz = "SRR065495_1.fastq.gz";
     let fq2_gz = "SRR065495_2.fastq.gz";
-    let ftest = "SRR1700869.fastq.gz";
-    let ftest2 = "SRR1700869.fastq.gz";
     let fq1_path = &samples_directory.join(fq1_gz);
     let fq2_path = &samples_directory.join(fq2_gz);
-    let ftest_path = &samples_directory.join(ftest);
-    let ftest2_path = &samples_directory.join(ftest);
     println!("Reference functions take a path, we make this with std::path::path::new()");
     println!("Downloading fastq1 with: ");
     println!("bioutils::files::http::curl()");

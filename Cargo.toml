@@ -1,9 +1,9 @@
 [package]
 name = "bioutils"
-version = "0.1.7"
+version = "0.1.8"
 authors = ["Christopher Sugai <christophersugai@gmail.com>"]
 edition = "2018"
-description = "A crate containing simple alphabets and utilities for biological sequence data."
+description = "A crate containing simple utilities and alphabets for biological sequence data."
 license = "MIT OR Apache-2.0"
 readme = "README.md"
 
@@ -27,3 +27,5 @@ seq_io = "0.3.1"
 #cmd_lib = "1.0.8"
 suffix_array = "0.5.0"
 #num-integer = "0.1.44"
+rayon = "1.5.0"
+

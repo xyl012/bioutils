@@ -28,7 +28,7 @@ use crate::charsets::iupac::*;
 
 // pub trait 
 
-pub trait AsMutU8 {
+pub trait AsMutRandomU8 {
     fn mut_random_replace_non_basic(&mut self, xna: &str, rng: ThreadRng) -> &mut Self ;
     fn mut_random_replace_n(&mut self, xna: &str, rng: ThreadRng) -> &mut Self ;
     fn mut_random_replace_gap(&mut self, xna: &str, rng: ThreadRng) -> &mut Self ;
@@ -37,7 +37,7 @@ pub trait AsMutU8 {
     fn mut_to_lower_basic(&mut self) -> &mut Self ;
 }
 
-impl<T> AsMutU8 for T
+impl<T> AsMutRandomU8 for T
 where T: AsMut<[u8]>,
 {
     /// Fill {N,n} with pseudorandom nucleotides ACUG if xna is "RNA" or ACTG for all other xna.
@@ -127,16 +127,16 @@ where T: AsMut<[u8]>,
     /// Specifically make ACTGU into actgu
     fn mut_to_lower_basic(&mut self) -> &mut Self {
         self.as_mut().iter_mut().for_each(|c| match c {
-                b'A' => {},
-                b'a' => *c = b'A',
-                b'C' => {},
-                b'c' => *c = b'C',
-                b'T' => {},
-                b't' => *c = b'T',
-                b'G' => {},
-                b'g' => *c = b'G',
-                b'U' => {},
-                b'u' => *c = b'U',
+                b'A' => *c = b'a',
+                b'a' => {},
+                b'C' => *c = b'c',
+                b'c' => {},
+                b'T' => *c = b't',
+                b't' => {},
+                b'G' => *c = b'g',
+                b'g' => {},
+                b'U' => *c = b'u',
+                b'u' => {},
                 _ => {}
             });
         self

@@ -1,11 +1,11 @@
-// Copyright 2020 Christopher Sugai
+// Copyright (c) 2021 Kana LLC
 
 //! Trait to random characters with pseudorandom bases (Nn->{AC{TU}G}, IUPAC R to {AG}).
 //! # Examples
 //! ```
 //! extern crate rand;
 //!
-//! use crate::bioutils::utils::replace::AsMutRandomNucleotide;
+//! use crate::bioutils::utils::mutate::AsMutRandomNucleotide;
 //! use rand::rngs::ThreadRng;
 //! use std::string::String;
 //! use std::str;
@@ -24,7 +24,11 @@ use rand::seq::SliceRandom;
 
 use crate::charsets::iupac::*;
 
-pub trait AsMutRandomNucleotide {
+/// TODO cut read to length, trimmomatic, fastp
+
+// pub trait 
+
+pub trait AsMutU8 {
     fn mut_random_replace_non_basic(&mut self, xna: &str, rng: ThreadRng) -> &mut Self ;
     fn mut_random_replace_n(&mut self, xna: &str, rng: ThreadRng) -> &mut Self ;
     fn mut_random_replace_gap(&mut self, xna: &str, rng: ThreadRng) -> &mut Self ;
@@ -33,7 +37,7 @@ pub trait AsMutRandomNucleotide {
     fn mut_to_lower_basic(&mut self) -> &mut Self ;
 }
 
-impl<T> AsMutRandomNucleotide for T
+impl<T> AsMutU8 for T
 where T: AsMut<[u8]>,
 {
     /// Fill {N,n} with pseudorandom nucleotides ACUG if xna is "RNA" or ACTG for all other xna.

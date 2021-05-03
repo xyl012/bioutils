@@ -1,8 +1,9 @@
-// Copyright 2020 Christopher Sugai
+// Copyright (c) 2021 Kana LLC
+
 //! Functions to make new random u8 biological sequences. Includes dna,rna,aa,quality functions to create u8 vectors.
 //! # Examples
 //! ```
-//! use crate::bioutils::utils::replace::AsMutRandomNucleotide;
+//! use crate::bioutils::utils::mutate::AsMutRandomNucleotide;
 //! use crate::bioutils::utils::new::random_dna;
 //! use crate::bioutils::utils::new::random_quality;
 //! use rand::rngs::ThreadRng;

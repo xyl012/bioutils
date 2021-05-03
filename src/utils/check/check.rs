@@ -1,4 +1,4 @@
-// Copyright 2020 Christopher Sugai
+// Copyright (c) 2021 Kana LLC
 
 //! Trait for checking specific criteria for a u8 of biological file origin. Types include sequence (nucleotide/amino acid) and quality (phred33/64/solexa, phred33 being all printable ascii).
 //! See below examples for included functions. Note that quality alphabets overlap, and one quality line may be valid phred33,64, solexa, or any combination. Check with the manufacturer for which quality encoding your data has. If unsure, most data generated beyond 2016 is kept in phred33 encoding.
@@ -32,27 +32,37 @@
 //! ```
 
 // use crate::utils::check_percentage_u8;
+use std::collections::HashMap;
 use crate::charsets::PERCENTAGE_RANGE;
 
 use crate::charsets::ascii::*;
-use crate::utils::function::*;
+use crate::utils::get::value::validate_percentage_u8;
+use crate::utils::get::value::*;
+
 /// Trait for checking specific criteria for a u8 of biological file origin. Types include sequence (nucleotide/amino acid) and quality (phred33/64/solexa, phred33 being all printable ascii).
 /// These should be used with closely with the is_ascii/make/to_ascii_lowercase/make/to_ascii_uppercase functions in standard rust.
 /// Additional functionality for common checks including has_n, has_gap, is_homopolymer, is_palindrome, etc.
 use crate::charsets::iupac::*;
 use crate::charsets::quality::*;
 
-pub trait CheckPalindrome<T> {
-    /// Generic to check if T is a palindrome.
-    fn is_palindrome(&self) -> bool;
-}
-
 pub trait CheckU8<T> {
     /// Checks the sequence has the percent bases (rounded) above the quality score
     fn is_qual_passing(&self, quality_score: &u8, percent: &u8) -> bool;
     /// Checks if the sequence and quality u8 vectors are the same length. Generally checks two u8 items for length against each other
     fn is_seq_qual_length_equal(&self, quality: &T) -> bool;
-    
+
+    /// Checks if the sequence is a homopolymer with percentage cutoff. Possible to use with Rust's window function for checking homopolymer sequences of arbitrary length.
+    fn is_percent_homopolymer(&self, percent: &u8) -> bool;
+    // /// Checks if the sequence is a N homopolymer with percentage cutoff. Possible to use with Rust's window function for checking homopolymer sequences of arbitrary length.
+    // fn is_percent_homopolymer_x(&self, percent: &u8) -> bool;
+    // /// Checks if the sequence is any homopolymer comprised of any character other than N or n with percentage cutoff. Possible to use with Rust's window function for checking homopolymer sequences of arbitrary length.
+    // fn is_percent_homopolymer_not_n(&self, percent: &u8) -> bool;
+    /// Checks if the sequence is a homopolymer. Possible to use with Rust's window function for checking homopolymer sequences of arbitrary length.
+    fn is_homopolymer(&self) -> bool;
+    /// Checks if the sequence is a N homopolymer. Possible to use with Rust's window function for checking homopolymer sequences of arbitrary length.
+    fn is_homopolymer_n(&self) -> bool;
+    /// Checks if the sequence is any homopolymer comprised of any character other than N or n. Possible to use with Rust's window function for checking homopolymer sequences of arbitrary length.
+    fn is_homopolymer_not_n(&self) -> bool;
 
     /// Checks if u8 comprised completely of the iupac including nucleotide, amino acid, punctuation.
     fn is_iupac(&self) -> bool;
@@ -79,13 +89,6 @@ pub trait CheckU8<T> {
     /// Checks if u8 is completely comprised of solexa characters (all printable ascii). Incorporates other character sets.
     fn is_solexa(&self) -> bool;
 
-    /// Checks if the sequence is a homopolymer (no distance difference). Possible to use with Rust's window function for checking homopolymer sequences of arbitrary length.
-    fn is_homopolymer(&self) -> bool;
-    /// Checks if the sequence is a N homopolymer (no distance difference). Possible to use with Rust's window function for checking homopolymer sequences of arbitrary length.
-    fn is_homopolymer_n(&self) -> bool;
-    /// Checks if the sequence is any homopolymer comprised of any character other than N or n (no distance difference). Possible to use with Rust's window function for checking homopolymer sequences of arbitrary length.
-    fn is_homopolymer_not_n(&self) -> bool;
-
     /// Checks if u8 is ascii letters.
     fn is_ascii_letters(&self) -> bool;
     /// Checks if u8 is ascii letters uppercase only.
@@ -93,28 +96,10 @@ pub trait CheckU8<T> {
     /// Checks if u8 is ascii letters lowercase only.
     fn is_ascii_letters_lowercase(&self) -> bool;
 
-    /// Checks if a u8 is 0 to 100 for percent validation
-    fn check_percentage_u8(&self, percent: &u8)-> bool;
+
+
 }
 
-impl<T> CheckPalindrome<T> for T
-where
-    T: IntoIterator,
-    T::Item: PartialEq,
-    T::IntoIter: DoubleEndedIterator,
-    T: Copy,
-{
-    /// Generic to check if is a palindrome.
-    fn is_palindrome(&self) -> bool {
-    let mut iter = self.into_iter();
-    while let (Some(front), Some(back)) = (iter.next(), iter.next_back()) {
-        if front != back {
-            return false;
-        }
-    }
-    true
-    }
-}
 
 impl<T> CheckU8<T> for T
 where
@@ -122,7 +107,7 @@ where
 {
     /// Checks the sequence has a number of bases (percent rounded) greater than or equal to the supplied quality score
     fn is_qual_passing(&self, quality_score: &u8, percent: &u8) -> bool {
-        if self.check_percentage_u8(percent) {
+        if validate_percentage_u8(percent) {
             if self.quality_percent_passing(&quality_score) >= (*percent).into() {
                 return true
             } else {
@@ -198,6 +183,26 @@ where
         }
     }
 
+    /// Checks if the sequence is a homopolymer with percentage cutoff
+    fn is_percent_homopolymer(&self, percent: &u8) -> bool {
+        validate_percentage_u8(&percent);
+        if percentage(self.mode_count(), self.into_iter().count()) >= (*percent).into() {
+            true
+        } else {false}
+    }
+
+    // /// Checks if the sequence is comprised of 'x' base greater than 'percent' cutoff. Primary use is for filtering for reads with >90% percent N's or A's
+    // fn is_percent_homopolymer_x(&self, base: &u8, percent: &u8) -> bool {
+
+    // }
+
+    // /// Checks if the sequence is any homopolymer comprised of any character other than N or n with percentage cutoff. Possible to use with Rust's window function for checking homopolymer sequences of arbitrary length.
+    // fn is_percent_homopolymer_not_n(&self, percent: &u8) -> bool{
+
+    // }
+
+    /// Checks if the sequence is a homopolymer. Possible to use with Rust's window function for checking homopolymer sequences of arbitrary length.
+    
     /// Checks if u8 is completely comprised of phred33 characters (all printable ascii). Incorporates other character sets.
     fn is_phred33(&self) -> bool {
         self.into_iter().any(|x| PHRED33_U8.contains(&x))
@@ -229,29 +234,6 @@ where
         self.into_iter()
             .all(|x| ASCII_LETTERS_LOWERCASE_U8.contains(&x))
     }
-
-    /// Checks if a u8 is 0 to 100 for percent validation
-    fn check_percentage_u8(&self, percent: &u8)-> bool {
-    PERCENTAGE_RANGE.contains(percent)
-    }
-}
-
-// Check:: function versions
-
-/// Generic to check if is a palindrome.
-pub fn is_palindrome<T>(iterable: T) -> bool
-where
-    T: IntoIterator,
-    T::Item: PartialEq,
-    T::IntoIter: DoubleEndedIterator,
-{
-    let mut iter = iterable.into_iter();
-    while let (Some(forward), Some(backward)) = (iter.next(), iter.next_back()) {
-        if forward != backward {
-            return false;
-        }
-    }
-    true
 }
 
 

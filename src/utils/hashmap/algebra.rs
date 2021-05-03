@@ -1,4 +1,4 @@
-// Copyright 2021 Christopher Sugai
+// Copyright (c) 2021 Kana LLC
 
 //! Algebra functions related to hashmaps. Hashmap key is assumed to be a vector of u8s, similar to str or string, while the value is assumed to be u64. Returns an f64.
 

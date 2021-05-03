@@ -1,4 +1,4 @@
-// // Copyright 2021 Christopher Sugai
+// Copyright (c) 2021 Kana LLC
 
 // //! Module with some basic similarities between vectors
 

@@ -1,6 +1,6 @@
 // Copyright 2021 Christopher Sugai
 
-//! Functions to curl/download ENA files. Currently, these are downloaded into the bioutils directory.
+//! Functions to curl/download ENA or other files. Currently, these are downloaded into the bioutils directory.
 
 
 use std::io::{Write};

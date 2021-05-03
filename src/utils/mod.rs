@@ -1,9 +1,9 @@
-// Copyright 2020 Christopher Sugai
+// Copyright (c) 2021 Kana LLC
 
 pub mod check;
 pub mod new;
-pub mod replace;
+pub mod mutate;
 pub mod hashmap;
-pub mod function;
+pub mod get;
 
 

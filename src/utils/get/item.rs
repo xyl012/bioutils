@@ -1,56 +1,6 @@
-// Copyright 2021 Christopher Sugai
+// Copyright (c) 2021 Kana LLC
 
-//! Other functions that do not fall into the general categories of checking, replacing, or generating a new sequence. Generally includes statistics and transformations.
-//! # Examples
-//! # Generate all sequences with hamming distance 1 using the bases ACTG.
-//! 
-//! 
-//! 
-
-use crate::charsets::iupac::*;
-use crate::charsets::quality::*;
-use rand::rngs::ThreadRng;
-use rand::seq::SliceRandom;
-use std::convert::TryInto;
-
-pub trait PositionU8<T> {
-    /// Checks the sequence has the percent bases (rounded) above the quality score
-    fn quality_percent_passing(&self, quality_score: &u8) -> usize;
-    
-/// Get the positions of cgs in a u8 sequence
-// pub fn cg_positions(seq:&[u8])-> &[u8] {
-//     seq.windows(2).rposition(|&x| x == &seq)
-}
-
-// /// Get the positions of sequence in u8 sequence
-// pub fn seq_positions(seq:&[u8])-> &[u8] {
-    
-// }
-
-// }
-
-
-impl<T> PositionU8<T> for T
-where
-    for<'a> &'a T: IntoIterator<Item = &'a u8>,
-{
-    fn quality_percent_passing(&self, quality_score: &u8)-> usize {
-        let passing_count = self.into_iter().filter_map(|s| Some(&s>=&quality_score)).count();
-        let total_count = self.into_iter().count();
-        (100 * passing_count + total_count / 2) / total_count}
-    // pub fn cg_positions(seq:&[u8])-> &[u8] {
-    //     seq.windows(2).rposition(|&x| x == &seq)
-    // }
-}
-
-
-// /// Get the percentage content in a u8 sequence
-
-// /// Get the percentage content of a sequence in a u8 sequence
-
-
-// // Encodes a u8 vector of bytes with information from the sequence as well as quality. Each byte being phred33-33 or {0..40}+{128..255}, which is the phred33 score plus ascii
-
+// Encodes a u8 vector of bytes with information from the sequence as well as quality. Each byte being phred33-33 or {0..40}+{128..255}, which is the phred33 score plus ascii
 pub fn qs_bytes(bytes_1: &mut Vec<u8>,bytes_2: &mut Vec<u8>)-> Vec<u16> {
     let mut bytes_1_i = bytes_1.len() - 1;
     let mut bytes_2_i = bytes_2.len() - 1;
@@ -64,7 +14,6 @@ pub fn qs_bytes(bytes_1: &mut Vec<u8>,bytes_2: &mut Vec<u8>)-> Vec<u16> {
     }
     bytes_1
 }
-
 // // pub fn qs_bytes<'a>(bytes_1: &'a mut Vec<u8>,bytes_2: &'a mut Vec<u8>)-> &'a mut Vec<u8> {
 
 // //     let mut bytes_1_i = bytes_1.len() - 1;

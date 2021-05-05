@@ -5,7 +5,7 @@
 //! ```
 //! extern crate rand;
 //!
-//! use crate::bioutils::utils::mutate::AsMutRandomNucleotide;
+//! use crate::bioutils::utils::mutate::random::AsMutRandomU8;
 //! use rand::rngs::ThreadRng;
 //! use std::string::String;
 //! use std::str;

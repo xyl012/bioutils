@@ -1,4 +1,4 @@
-// Copyright 2021 Christopher Sugai
+// Copyright (c) 2021 Kana LLC
 
 extern crate shell;
 #[macro_use] extern crate shell;

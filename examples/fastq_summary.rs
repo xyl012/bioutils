@@ -1,4 +1,4 @@
-// Copyright 2021 Christopher Sugai
+// Copyright (c) 2021 Kana LLC
 
 // Returns summary statistics for a fastq file
 // A work in progress, will add more statistics as functions are written, includes:

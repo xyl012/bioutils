@@ -1,4 +1,4 @@
-// Copyright 2021 Christopher Sugai
+// Copyright (c) 2021 Kana LLC
 
 //! This example creates a simple (D/R/...)NA aligner that can be run from the command line.
 //! Steps in this example:

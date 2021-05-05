@@ -1,4 +1,4 @@
-// Copyright 2020 Christopher Sugai
+// Copyright (c) 2021 Kana LLC
 
 pub mod ascii;
 pub mod iupac;

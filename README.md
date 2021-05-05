@@ -20,9 +20,8 @@
 //! use bioutils::charsets;
 //! use bioutils::utils;
 //! use bioutils::utils::check::CheckU8;
-//! use bioutils::utils::new::random_dna;
-//! use bioutils::utils::new::random_quality;
-//! use bioutils::utils::replace::AsMutRandomNucleotide;
+//! use bioutils::utils::new::random::random_dna;
+//! use bioutils::utils::new::random::random_quality;
 //! use rand::rngs::ThreadRng;
 //! use rand::seq::SliceRandom;
 //! use std::string::String;

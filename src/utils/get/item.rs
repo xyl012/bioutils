@@ -1,5 +1,7 @@
 // Copyright (c) 2021 Kana LLC
 
+
+
 // Encodes a u8 vector of bytes with information from the sequence as well as quality. Each byte being phred33-33 or {0..40}+{128..255}, which is the phred33 score plus ascii
 pub fn qs_bytes(bytes_1: &mut Vec<u8>,bytes_2: &mut Vec<u8>)-> Vec<u16> {
     let mut bytes_1_i = bytes_1.len() - 1;
@@ -14,6 +16,7 @@ pub fn qs_bytes(bytes_1: &mut Vec<u8>,bytes_2: &mut Vec<u8>)-> Vec<u16> {
     }
     bytes_1
 }
+
 // // pub fn qs_bytes<'a>(bytes_1: &'a mut Vec<u8>,bytes_2: &'a mut Vec<u8>)-> &'a mut Vec<u8> {
 
 // //     let mut bytes_1_i = bytes_1.len() - 1;

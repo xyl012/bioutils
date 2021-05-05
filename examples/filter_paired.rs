@@ -1,4 +1,4 @@
-// Copyright 2021 Christopher Sugai
+// Copyright (c) 2021 Kana LLC
 
 //! This example filters for paired reads in fastq files and returns the filtered files.
 

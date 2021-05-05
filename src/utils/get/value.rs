@@ -28,6 +28,7 @@ pub trait ValueU8<T> {
     /// Returns the percent (0-100) of the quality u8 in bases (rounded) above the quality score supplied. Should be used when mapq scores are required.
     fn quality_percent_passing(&self, quality_score: &u8) -> usize;
 
+    /// Returns the hamming distance of self and another seq.
     fn hamming_distance(&self, seq2: &T) -> u64;
 
     /// Returns the number of iterators greater than criteria. Used for calculating percents/numerators

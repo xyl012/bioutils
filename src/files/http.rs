@@ -1,4 +1,4 @@
-// Copyright 2021 Christopher Sugai
+// Copyright (c) 2021 Kana LLC
 
 //! Functions to curl/download ENA or other files. Currently, these are downloaded into the bioutils directory.
 

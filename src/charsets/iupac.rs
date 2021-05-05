@@ -1,4 +1,5 @@
-// Copyright 2020 Christopher Sugai
+// Copyright (c) 2021 Kana LLC
+
 //! IUPAC character (sub-)sets including basic and full sets. Provided as u8 and str arrays.
 
 use super::*;

@@ -32,12 +32,14 @@
 //! ```
 
 // use crate::utils::check_percentage_u8;
+use crate::utils::get::value::percentage;
+use crate::utils::get::value::validate_percentage_u8;
 use std::collections::HashMap;
 use crate::charsets::PERCENTAGE_RANGE;
 
 use crate::charsets::ascii::*;
-use crate::utils::get::value::validate_percentage_u8;
-use crate::utils::get::value::*;
+use crate::utils::get::value;
+use crate::utils::get::value::ValueU8;
 
 /// Trait for checking specific criteria for a u8 of biological file origin. Types include sequence (nucleotide/amino acid) and quality (phred33/64/solexa, phred33 being all printable ascii).
 /// These should be used with closely with the is_ascii/make/to_ascii_lowercase/make/to_ascii_uppercase functions in standard rust.
@@ -45,16 +47,30 @@ use crate::utils::get::value::*;
 use crate::charsets::iupac::*;
 use crate::charsets::quality::*;
 
+pub const IS_WHAT_OPTIONS: [&str; 17] = 
+["is_iupac_nucleotide", "is_iupac_amino_acid", "is_iupac",
+"is_phred33", "is_phred64", "is_solexa",  
+"is_basic_dna", "is_basic_rna", "is_basic_amino_acid",
+"is_homopolymer", "is_homopolymer_n", "is_homopolymer_not_n",
+"has_n", "has_gap",
+"is_ascii_letters", "is_ascii_letters_uppercase", "is_ascii_letters_lowercase"
+];
+
 pub trait CheckU8<T> {
+    /// Validates whether is a valid something based on the boolean is_x smaller functions in this trait and returns a wrapped boolean. Example: check_u8(b"ACTG","is_basic_dna") returns a wrapped "true". Options for is_what are the names of the charset boolean functions:
+    /// is_basic_dna, is_phred33, is_basic_rna,  
+    /// The goal of this function would be to set is_what to a constant in the program, for example a program focused on illumina data might set a constant to phred33 and input as is_what, rather than having to call is_phred33 each time. This means we can easily make our program take phred33 or 64 by just changing the constant.
+    fn check_u8(&self, is_what: &str) -> Result<bool, &str>;
+
     /// Checks the sequence has the percent bases (rounded) above the quality score
-    fn is_qual_passing(&self, quality_score: &u8, percent: &u8) -> bool;
+    fn is_qual_passing(&self, quality_score: &u8, percent: &u8) -> Result<bool, &str>;
     /// Checks if the sequence and quality u8 vectors are the same length. Generally checks two u8 items for length against each other
     fn is_seq_qual_length_equal(&self, quality: &T) -> bool;
 
     /// Checks if the sequence is a homopolymer with percentage cutoff. Possible to use with Rust's window function for checking homopolymer sequences of arbitrary length.
-    fn is_percent_homopolymer(&self, percent: &u8) -> bool;
-    // /// Checks if the sequence is a N homopolymer with percentage cutoff. Possible to use with Rust's window function for checking homopolymer sequences of arbitrary length.
-    // fn is_percent_homopolymer_x(&self, percent: &u8) -> bool;
+    fn is_percent_homopolymer(&self, percent: &u8) -> Result<bool, &str>;
+    // //// Checks if the sequence is a N homopolymer with percentage cutoff. Possible to use with Rust's window function for checking homopolymer sequences of arbitrary length.
+    // fn is_percent_homopolymer_x(&self, percent: &u8) -> Result<bool, &str>;
     // /// Checks if the sequence is any homopolymer comprised of any character other than N or n with percentage cutoff. Possible to use with Rust's window function for checking homopolymer sequences of arbitrary length.
     // fn is_percent_homopolymer_not_n(&self, percent: &u8) -> bool;
     /// Checks if the sequence is a homopolymer. Possible to use with Rust's window function for checking homopolymer sequences of arbitrary length.
@@ -96,31 +112,26 @@ pub trait CheckU8<T> {
     /// Checks if u8 is ascii letters lowercase only.
     fn is_ascii_letters_lowercase(&self) -> bool;
 
-
-
 }
-
 
 impl<T> CheckU8<T> for T
 where
     for<'a> &'a T: IntoIterator<Item = &'a u8>,
 {
+    fn check_u8(&self, is_what: &str) -> Result<bool, &str>{
+        validate_is_what(&is_what)
+    }
     /// Checks the sequence has a number of bases (percent rounded) greater than or equal to the supplied quality score
-    fn is_qual_passing(&self, quality_score: &u8, percent: &u8) -> bool {
-        if validate_percentage_u8(percent) {
+    fn is_qual_passing(&self, quality_score: &u8, percent: &u8) -> Result<bool, &str> {
+        if validate_percentage_u8(percent).unwrap() {
             if self.quality_percent_passing(&quality_score) >= (*percent).into() {
-                return true
-            } else {
-                return false
-            }
-        } else {
-            println!("Supplied percent is not 0 to 100, please choose 0 to 100% passing bases");
-            return false
-        }
+                Ok(true)
+            } else { Ok(false) }
+        } else { validate_percentage_u8(percent) }
     }
 
     /// Checks if the sequence and quality u8 vectors are the same length. Generally checks two u8 items for length against each other
-    fn is_seq_qual_length_equal<'a>(&self, quality: &'a T)-> bool {
+    fn is_seq_qual_length_equal(&self, quality: &T)-> bool {
         self.into_iter().count() == quality.into_iter().count()
     }
 
@@ -184,16 +195,20 @@ where
     }
 
     /// Checks if the sequence is a homopolymer with percentage cutoff
-    fn is_percent_homopolymer(&self, percent: &u8) -> bool {
-        validate_percentage_u8(&percent);
-        if percentage(self.mode_count(), self.into_iter().count()) >= (*percent).into() {
-            true
-        } else {false}
+    fn is_percent_homopolymer(&self, percent: &u8) -> Result<bool, &str> {
+        if validate_percentage_u8(&percent).unwrap() {
+            if percentage(self.mode_count(), self.into_iter().count()) >= (*percent).into() {
+                Ok(true)
+            } else {Ok(false)}
+        } else {validate_percentage_u8(&percent)}
     }
 
     // /// Checks if the sequence is comprised of 'x' base greater than 'percent' cutoff. Primary use is for filtering for reads with >90% percent N's or A's
-    // fn is_percent_homopolymer_x(&self, base: &u8, percent: &u8) -> bool {
-
+    // fn is_percent_homopolymer_x(&self, percent: &u8) -> bool {
+    //     validate_percentage_u8(&percent);
+    //     if percentage(self.mode_count(), self.into_iter().count()) >= (*percent).into() {
+    //         true
+    //     } else {false}
     // }
 
     // /// Checks if the sequence is any homopolymer comprised of any character other than N or n with percentage cutoff. Possible to use with Rust's window function for checking homopolymer sequences of arbitrary length.
@@ -234,10 +249,16 @@ where
         self.into_iter()
             .all(|x| ASCII_LETTERS_LOWERCASE_U8.contains(&x))
     }
+
 }
 
-
-
+/// Validates that 'is_what' parameter of the check_u8() function is a valid option.
+pub fn validate_is_what<'a>(is_what: &str) -> Result<bool, &'a str> {
+        match IS_WHAT_OPTIONS.contains(&is_what) {
+            true => Ok(true),
+            false => Err("Not a valid option for is_what parameter, please check valid options"),
+        }
+}
 
 // #[cfg(test)]
 // mod tests {

@@ -16,8 +16,8 @@
 //! println!("{:?}", distance);
 
 
-use std::collections::HashMap;
 use crate::charsets::PERCENTAGE_RANGE;
+use std::collections::HashMap;
 use crate::charsets::iupac::*;
 use crate::charsets::quality::*;
 use rand::rngs::ThreadRng;
@@ -83,11 +83,23 @@ pub fn percentage(numerator: usize, denominator: usize) -> usize {
     (100 * numerator + denominator / 2) / denominator
 }
 
-/// Validate if a u8 is 0 to 100 for percent validation
-pub fn validate_percentage_u8(percent: &u8) -> bool {
-    PERCENTAGE_RANGE.contains(percent)
+/// Validate a u8 is 0 to 100 and return a wrapped boolean
+pub fn validate_percentage_u8(percent: &u8) -> Result<bool, &'static str> {
+    match PERCENTAGE_RANGE.contains(percent){    
+    true => Ok(true),
+    false => Err("Please supply a percent (0-100, not fractional) as u8"),
+    }
 }
 
+// {
+//     None => Err("No percent supplied"),
+//     Some(true) => Ok(true),
+//     Some(false) => Ok(false),
+//     Some(_) => Err("Please supply a percent (0-100, not fractional) as u8"),
+// }
+
+// /// Validate if a quality score is phred33, phred64, etc. Example: validate_quality_score_u8(quality_score,"phred33")
+// pub fn validate_quality_score_u8(quality_score: , quality_charset: &str){};
 // /// Returns the number of occurrences of the mode
 // pub fn mode_count(numbers: &[u8]) -> Option<&u64> {
 //     let mut counts = HashMap::new();

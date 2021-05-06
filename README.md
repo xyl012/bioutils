@@ -11,7 +11,7 @@
     <ul>complete iupac and quality character sets</ul>
 </p>
 
-<p> Please take a look at the download_read_align_seq_io.rs example to get a full practical walkthrough. Check back as more functionality gets added, pull requests welcome!</p>
+<p> Check back as more functionality gets added, pull requests welcome!</p>
 <h2 id="quick-start" class="section-header"><a href="#quick-start">Quick Start</a></h2>
 <div class="example-wrap"><pre class="rust rust-example-rendered"><p>//! Check out the download_read_align_seq_io.rs example for a full practical walkthrough from downloading files to finding read positions!
 

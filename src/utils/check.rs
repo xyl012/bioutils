@@ -29,6 +29,10 @@
 //! assert!(quality.is_phred33());
 //! assert!(quality.is_phred64());
 //! assert!(quality.is_solexa());
+//! 
+//! // We can also do checks this way:
+//! assert!(quality.check_u8("is_phred33").unwrap());
+//! assert!(dna.check_u8("is_basic_dna").unwrap());
 //! ```
 
 // use crate::utils::check_percentage_u8;
@@ -118,9 +122,39 @@ impl<T> CheckU8<T> for T
 where
     for<'a> &'a T: IntoIterator<Item = &'a u8>,
 {
+    /// Validates whether is a valid something based on the boolean is_x smaller functions in this trait and returns a wrapped boolean. Example: check_u8(b"ACTG","is_basic_dna") returns a wrapped "true". Options for is_what are the names of the charset boolean functions:
+    /// "is_iupac_nucleotide", "is_iupac_amino_acid", "is_iupac",
+    /// "is_phred33", "is_phred64", "is_solexa",  
+    /// "is_basic_dna", "is_basic_rna", "is_basic_amino_acid",
+    /// "is_homopolymer", "is_homopolymer_n", "is_homopolymer_not_n",
+    /// "has_n", "has_gap",
+    /// "is_ascii_letters", "is_ascii_letters_uppercase", "is_ascii_letters_lowercase" 
+    /// The goal of this function would be to set is_what to a constant in the program, for example a program focused on dna data might set a constant to is_basic_dna and input as is_what rather than having to call is_basic_dna each time. Later, if we want to focus on rna, we can easily change our constant to is_basic_rna just by changing the constant.
     fn check_u8(&self, is_what: &str) -> Result<bool, &str>{
-        validate_is_what(&is_what)
+        if validate_is_what(&is_what).unwrap() {
+            match is_what {
+                "is_phred33" => Ok(self.is_phred33()),
+                "is_phred64" => Ok(self.is_phred64()),
+                "is_solexa" => Ok(self.is_solexa()),
+                "is_iupac_nucleotide" => Ok(self.is_iupac_nucleotide()),
+                "is_iupac_amino_acid" => Ok(self.is_iupac_amino_acid()),
+                "is_iupac" => Ok(self.is_iupac()),
+                "is_basic_dna" => Ok(self.is_basic_dna()),
+                "is_basic_rna" => Ok(self.is_basic_rna()),
+                "is_basic_amino_acid" => Ok(self.is_basic_amino_acid()),
+                "is_homopolymer" => Ok(self.is_homopolymer()),
+                "is_homopolymer_n" => Ok(self.is_homopolymer()),
+                "is_homopolymer_not_n" => Ok(self.is_homopolymer()),
+                "has_n" => Ok(self.has_n()),
+                "has_gap" => Ok(self.has_gap()),
+                "is_ascii_letters" => Ok(self.is_ascii_letters()),
+                "is_ascii_letters_uppercase" => Ok(self.is_ascii_letters_uppercase()),
+                "is_ascii_letters_lowercase" => Ok(self.is_ascii_letters_lowercase()),
+                _ => Err("Invalid is_what parameter, please choose a valid option")
+            }
+        } else {validate_is_what(&is_what)}
     }
+
     /// Checks the sequence has a number of bases (percent rounded) greater than or equal to the supplied quality score
     fn is_qual_passing(&self, quality_score: &u8, percent: &u8) -> Result<bool, &str> {
         if validate_percentage_u8(percent).unwrap() {

@@ -1,6 +1,6 @@
 # Bioutils
 
-## Simple Biological Utilities with Rust's [u8]
+## Simple Biological Utilities in Rust
 
 <p>Bioutils provides simple biological utilities including: 
     <ul> Functions to check sequence validity and content (palindromes too!)</ul>

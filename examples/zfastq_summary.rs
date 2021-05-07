@@ -6,7 +6,7 @@
 // Median length
 // Number of reads
 
-use rayon::prelude::*;
+// use rayon::prelude::*;
 use seq_io::fastq::Record as FastqRecord;
 use std::fs::File;
 

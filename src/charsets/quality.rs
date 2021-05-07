@@ -2,32 +2,49 @@
 
 //! Quality character (sub-)sets including Phred33, Phred64, and Solexa/Illumina 1.0 (for compatibility). Provided as u8 and str arrays.
 
+use std::collections::HashMap;
 use super::*;
 
-// Phred33 charset: ASCII 33-73
+/// Phred33 charset: ASCII 33-73
 pub const PHRED33_U8: [u8; 41] = [
     b'!', b'"', b'#', b'$', b'%', b'&', 0x0027, b'(', b')', b'*', b'+', b',', b'-', b'.', b'/',
     b'0', b'1', b'2', b'3', b'4', b'5', b'6', b'7', b'8', b'9', b':', b';', b'<', b'=', b'>', b'?',
     b'@', b'A', b'B', b'C', b'D', b'E', b'F', b'G', b'H', b'I'];
-pub const PHRED33_STR: [&str; 41] = [
+
+/// Phred33 charset: ASCII 33-73
+    pub const PHRED33_STR: [&str; 41] = [
     r#"!"#, r#"""#, r##"#"##, r#"$"#, r#"%"#, r#"&"#, r#"'"#, r#"("#, r#")"#, r#"*"#, r#"+"#,
     r#","#, r#"-"#, r#"."#, r#"/"#, r#"0"#, r#"1"#, r#"2"#, r#"3"#, r#"4"#, r#"5"#, r#"6"#, r#"7"#,
     r#"8"#, r#"9"#, r#":"#, r#";"#, r#"<"#, r#"="#, r#">"#, r#"?"#, r#"@"#, r#"A"#, r#"B"#, r#"C"#,
     r#"D"#, r#"E"#, r#"F"#, r#"G"#, r#"H"#, r#"I"#];
+
 lazy_static! {
+    /// Phred33 charset as hashset: ASCII 33-73
     pub static ref PHRED33_HASHSET_U8: HashSet<u8> = new_u8_hashset(&PHRED33_U8);
 }
 lazy_static! {
+    /// Phred33 charset as hashset: ASCII 33-73
     pub static ref PHRED33_HASHSET_STR: HashSet<&'static str> = new_str_hashset(&PHRED33_STR);
 }
 
-// Phred64 charset: ASCII 64-126
+lazy_static!{
+    /// This is the quality score shifted 33 so if the u8 is 33, the score is 0. We can look that up with this hashmap.
+    pub static ref PHRED33_HASHMAP_U8: HashMap<u8, u8> = vec![
+        (b'!', 0), (b'"', 1), (b'#', 2), (b'$', 3), (b'%', 4), (b'&', 5), (0x0027, 6), (b'(', 7), (b')', 8), (b'*', 9), (b'+', 10), (b',', 11), (b'-', 12), (b'.', 13), (b'/', 14),
+        (b'0', 15), (b'1', 16), (b'2', 17), (b'3',18), (b'4', 19), (b'5', 20), (b'6', 21), (b'7', 22), (b'8', 23), (b'9', 24), (b':', 25), (b';', 26), (b'<', 27), (b'=', 28), (b'>', 29), (b'?', 30),
+        (b'@', 31), (b'A', 32), (b'B', 33), (b'C', 34), (b'D', 35), (b'E', 36), (b'F', 37), (b'G', 38), (b'H', 39), (b'I', 40)
+    ].into_iter().collect();
+}
+
+/// Phred64 charset: ASCII 64-126
 pub const PHRED64_U8: [u8; 63] = [
     b'@', b'A', b'B', b'C', b'D', b'E', b'F', b'G', b'H', b'I', b'J', b'K', b'L', b'M', b'N', b'O',
     b'P', b'Q', b'R', b'S', b'T', b'U', b'V', b'W', b'X', b'Y', b'Z', 0x005B, 0x005C, 0x005D, b'^',
     b'_', b'`', b'a', b'b', b'c', b'd', b'e', b'f', b'g', b'h', b'i', b'j', b'k', b'l', b'm', b'n',
     b'o', b'p', b'q', b'r', b's', b't', b'u', b'v', b'w', b'x', b'y', b'z', b'{', b'|', b'}', b'~',
 ];
+
+/// Phred64 charset: ASCII 64-126
 pub const PHRED64_STR: [&str; 63] = [
     r#"@"#, r#"A"#, r#"B"#, r#"C"#, r#"D"#, r#"E"#, r#"F"#, r#"G"#, r#"H"#, r#"I"#, r#"J"#, r#"K"#,
     r#"L"#, r#"M"#, r#"N"#, r#"O"#, r#"P"#, r#"Q"#, r#"R"#, r#"S"#, r#"T"#, r#"U"#, r#"V"#, r#"W"#,
@@ -37,13 +54,15 @@ pub const PHRED64_STR: [&str; 63] = [
     r#"|"#, r#"}"#, r#"~"#,
 ];
 lazy_static! {
+    /// Phred64 charset as hashset: ASCII 64-126
     pub static ref PHRED64_HASHSET_U8: HashSet<u8> = new_u8_hashset(&PHRED64_U8);
 }
 lazy_static! {
+    /// Phred64 charset as hashset: ASCII 64-126
     pub static ref PHRED64_HASHSET_STR: HashSet<&'static str> = new_str_hashset(&PHRED64_STR);
 }
 
-// Solexa/Illumina 1.0 charset: ASCII 59-126.
+/// Solexa/Illumina 1.0 charset: ASCII 59-126.
 pub const SOLEXA_U8: [u8; 68] = [
     b';', b'<', b'=', b'>', b'?', b'@', b'A', b'B', b'C', b'D', b'E', b'F', b'G', b'H', b'I', b'J',
     b'K', b'L', b'M', b'N', b'O', b'P', b'Q', b'R', b'S', b'T', b'U', b'V', b'W', b'X', b'Y', b'Z',
@@ -51,6 +70,8 @@ pub const SOLEXA_U8: [u8; 68] = [
     b'j', b'k', b'l', b'm', b'n', b'o', b'p', b'q', b'r', b's', b't', b'u', b'v', b'w', b'x', b'y',
     b'z', b'{', b'|', b'}', b'~',
 ];
+
+/// Solexa/Illumina 1.0 charset: ASCII 59-126.
 pub const SOLEXA_STR: [&str; 68] = [
     r#";"#, r#"<"#, r#"="#, r#">"#, r#"?"#, r#"@"#, r#"A"#, r#"B"#, r#"C"#, r#"D"#, r#"E"#, r#"F"#,
     r#"G"#, r#"H"#, r#"I"#, r#"J"#, r#"K"#, r#"L"#, r#"M"#, r#"N"#, r#"O"#, r#"P"#, r#"Q"#, r#"R"#,
@@ -60,14 +81,15 @@ pub const SOLEXA_STR: [&str; 68] = [
     r#"w"#, r#"x"#, r#"y"#, r#"z"#, r#"{"#, r#"|"#, r#"}"#, r#"~"#,
 ];
 lazy_static! {
+    /// Solexa/Illumina 1.0 charset: ASCII 59-126.
     pub static ref SOLEXA_HASHSET_U8: HashSet<u8> = new_u8_hashset(&SOLEXA_U8);
 }
 lazy_static! {
+    /// Solexa/Illumina 1.0 charset: ASCII 59-126.
     pub static ref SOLEXA_HASHSET_STR: HashSet<&'static str> = new_str_hashset(&SOLEXA_STR);
 }
 
-// Sanger charset: ASCII 33-126
-
+/// Sanger charset: ASCII 33-126
 pub const SANGER_U8: [u8; 94] = [
     b'!', b'"', b'#', b'$', b'%', b'&', 0x0027, b'(', b')', b'*', b'+', b',', b'-', b'.', b'/',
     b'0', b'1', b'2', b'3', b'4', b'5', b'6', b'7', b'8', b'9', b':', b';', b'<', b'=', b'>', b'?',
@@ -76,6 +98,7 @@ pub const SANGER_U8: [u8; 94] = [
     b'_', b'`', b'a', b'b', b'c', b'd', b'e', b'f', b'g', b'h', b'i', b'j', b'k', b'l', b'm', b'n',
     b'o', b'p', b'q', b'r', b's', b't', b'u', b'v', b'w', b'x', b'y', b'z', b'{', b'|', b'}', b'~',
     ];
+/// Sanger charset: ASCII 33-126
 pub const SANGER_STR: [&str; 94] = [
     r#"!"#, r#"""#, r##"#"##, r#"$"#, r#"%"#, r#"&"#, r#"'"#, r#"("#, r#")"#, r#"*"#, r#"+"#,
     r#","#, r#"-"#, r#"."#, r#"/"#, r#"0"#, r#"1"#, r#"2"#, r#"3"#, r#"4"#, r#"5"#, r#"6"#, r#"7"#,
@@ -88,9 +111,11 @@ pub const SANGER_STR: [&str; 94] = [
 ];
 
 lazy_static! {
+    /// Sanger charset as hashset: ASCII 33-126
     pub static ref SANGER_HASHSET_U8: HashSet<u8> = new_u8_hashset(&SANGER_U8);
 }
 lazy_static! {
+    /// Sanger charset as hashset: ASCII 33-126
     pub static ref SANGER_HASHSET_STR: HashSet<&'static str> = new_str_hashset(&SANGER_STR);
 }
 

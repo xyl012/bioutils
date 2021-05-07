@@ -5,10 +5,8 @@
 //! Additional functionality for common checks including has_n, has_gap, is_homopolymer, etc.
 //! # Examples
 //! ```
-//! use bioutils::charsets;
-//! use bioutils::utils;
-//! use bioutils::utils::check::CheckU8;
-//!
+//! use crate::bioutils::charsets;
+//! use crate::bioutils::utils::check::value::CheckU8;
 //! let dna = b"ACTG";
 //! let rna = b"ACUG";
 //! let homopolymerN = b"NNNN";

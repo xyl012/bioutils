@@ -1,8 +1,9 @@
+// Copyright (c) 2021 Kana LLC
+
 pub trait CheckPalindrome<T> {
     /// Generic trait to check if T is a palindrome
     fn is_palindrome(&self) -> bool;
 }
-
 
 impl<T> CheckPalindrome<T> for T
 where

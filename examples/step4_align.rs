@@ -13,7 +13,6 @@
 //! 
 //! Even with the 'long' alignment, we use very little resources.
 //! 
-
 use seq_io::fasta::Record as FastaRecord;
 use seq_io::fastq::Record as FastqRecord;
 
@@ -23,6 +22,9 @@ use bioutils::references::ftp::download_grch38_primary_assembly_genome_fa_gz;
 use suffix_array::SuffixArray;
 
 fn main()-> std::io::Result<()>{
+
+    // Running everything from Step 1
+
     // Create references/samples directories by creating a new path and creating all directories if the directory doesn't exist
     let references_directory = std::path::Path::new("./data/references/");
     let samples_directory = std::path::Path::new("./data/samples/");
@@ -32,25 +34,34 @@ fn main()-> std::io::Result<()>{
     let fastq_gz = "SRR1700869.fastq.gz";
     let reference_name = "GRCh38.primary_assembly.genome.fa.gz";
     let fastq_file = &samples_directory.join("SRR1700869.fastq.gz");
+    
+    // Step 1 Complete!
+    // Running everything from Step 2
+
+    // Now we start downloading our files with a lot of printing as we go.
+    // This may fail or give an error if the connection is interrupted. Please try again and be patient if so.
     println!("Downloading reference with: ");
     println!("download_grch38_primary_assembly_genome_fa_gz()");
     println!("...Please Wait...");
     println!("...If over 10 minutes, there may be a connection issue...");
+
     download_grch38_primary_assembly_genome_fa_gz(&references_directory);
+
     println!("Reference functions take a path, we make this with std::path::path::new()");
     println!("Downloading fastq with: ");
     println!("bioutils::files::http::curl()");
     println!("...Please Wait...");
     println!("...If over 10 minutes, there may be a connection issue...");
-    // example Illumina format
+
+    // Example Illumina format
     bioutils::files::http::curl(fastq_ftp, fastq_gz, &samples_directory);
-    // 10x Genomics sra format
-    // bioutils::files::http::curl("ftp://ftp.sra.ebi.ac.uk/vol1/fastq/SRR641/000/SRR6413640/",fastq_gz);
-    // 10x Genomics raw format
-    // bioutils::files::http::curl("https://sra-pub-sars-cov2.s3.amazonaws.com/sra-src/SRR13734384/","IVAR2_5D_CKDL200155936-1a-SI_GA_B2_H5NG5DSXY_S3_L004_R2_001.fastq.gz.1");
+
     println!("We now have the reference in our references directory");
     println!("Let's check which are available");
+
+    // Get our reference paths
     let ref_paths = std::fs::read_dir(&references_directory).unwrap();
+    // Print our reference paths
     for ref_path in ref_paths {
         println!("Reference: {}", ref_path.unwrap().path().display())
     }
@@ -60,7 +71,10 @@ fn main()-> std::io::Result<()>{
     for smpl_path in smpl_paths {
         println!("Sample: {}", smpl_path.unwrap().path().display())
     }
-    
+
+    // Step 2 Complete!
+    // Running everything from Step 3
+
     println!("Read reference (GrCH38) fasta (fa) gz");
     let reference = File::open(&references_directory.join(&reference_name)).expect("Could not open reference fasta (fa) gz");
     let reference = flate2::read::GzDecoder::new(reference);
@@ -70,6 +84,9 @@ fn main()-> std::io::Result<()>{
     let fq = File::open(&fastq_file).expect("Could not open input Fastq");
     let fq = flate2::read::GzDecoder::new(fq);
     let mut fq_reader = seq_io::fastq::Reader::new(fq);
+
+    // Step 3 Complete!
+    // Running everything from Step 4
 
     while let Some(record) = reference_reader.next() {
         let record = record.expect("Error reading record");

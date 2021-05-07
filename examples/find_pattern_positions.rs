@@ -11,8 +11,8 @@ fn main(){
     let target: u8 = 65;
     let matching = all_positions(&dna, |x| x == &&target);
     let cpg = cg_positions(&dna2);
-    println!("{:?}", dna);
-    println!("{:?}", target);
-    println!("{:?}", matching);
-    println!("{:?}", cpg);
+    println!("The sequence ACTGCGACG is {:?} in ascii numbers, we're trying to find target patterns", dna);
+    println!("target: {:?}", target);
+    println!("matching pattern position: {:?}", matching);
+    println!("cpg position: {:?}", cpg);
 }

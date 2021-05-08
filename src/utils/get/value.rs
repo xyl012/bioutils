@@ -32,23 +32,26 @@ pub trait ValueU8<T> {
     fn hamming_distance(&self, seq2: &T) -> u64;
 
     /// Returns the number of iterators greater than criteria. Used for calculating percents/numerators
-    fn iters_greater_than(&self, criteria:&u8)-> usize;
+    fn count_greater_than(&self, criteria:&u8)-> usize;
+
 
     /// Returns the number of occurrences of the mode
-    fn mode_count(&self) -> usize;
+    fn count_mode(&self) -> usize;
 
     /// Returns the mode
     fn mode(&self) -> Option<&u8>;
+
+    /// Returns the count of a specific u8
+    fn count_xu8(&self, x: &u8) -> usize;
 }
 
 impl<T> ValueU8<T> for T
 where
     for<'a> &'a T: IntoIterator<Item = &'a u8>, 
-    // T: std::ops::BitXor<Output = u8>
 {
     /// Checks each quality u8 and returns the percent above (passing) the given u8
     fn quality_percent_passing(&self, quality_score: &u8)-> usize {
-        percentage(self.iters_greater_than(&quality_score), self.into_iter().count())
+        percentage(self.count_greater_than(&quality_score), self.into_iter().count())
     }
 
     /// Checks the hamming distance between our item and a supplied item
@@ -57,15 +60,15 @@ where
         seq1.into_iter().zip(seq2).fold(0, |seq1, (seq2, c)| seq1 + (*seq2 ^ *c).count_ones() as u64)
     }
 
-    /// Returns the iterations greater than the criteria
-    fn iters_greater_than(&self, criteria:&u8)-> usize {
-        self.into_iter().filter_map(|s| Some(&s>=&criteria)).count()
+    /// Returns the number of iterations greater than the criteria
+    fn count_greater_than(&self, criteria:&u8)-> usize {
+        self.into_iter().filter(|s| s>=&criteria).count()
     }
 
     /// Returns the number of occurrences of the mode
-    fn mode_count(&self) -> usize {
+    fn count_mode(&self) -> usize {
         let mode = self.mode().unwrap();
-        self.into_iter().filter_map(|s| Some(s == mode)).count()
+        self.into_iter().filter(|&q| q==mode).count()
     }
 
     /// Returns the mode
@@ -76,6 +79,12 @@ where
             *count += 1;
             *count})
     }
+    
+    /// Returns the count of a specific u8
+    fn count_xu8(&self, x: &u8) -> usize {
+        self.into_iter().filter(|&q| q==x).count()
+    }
+
 }
 
 /// Calculates percentage with usizes

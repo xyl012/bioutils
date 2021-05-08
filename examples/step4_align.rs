@@ -107,6 +107,8 @@ fn main()-> std::io::Result<()>{
     Ok(())
 }
 
+
+// This is our code to find positions with the suffix array we created.
 pub fn fastq_aligner<R>(fq_reader: &mut seq_io::fastq::Reader<R>, sa: SuffixArray) 
 where 
 R: std::io::Read,

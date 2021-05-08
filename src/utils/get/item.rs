@@ -24,6 +24,14 @@ pub fn cg_positions(seq:&[u8])-> Vec<usize> {
         .map(|(idx, _)| idx).collect::<Vec<usize>>()
 }
 
+//    /// Returns the iterations greater than the criteria
+//    fn iters_greater_than(&self, criteria:&u8)-> usize;
+
+//     /// Returns the iterations greater than the criteria
+//     fn iters_greater_than(&self, criteria:&u8)-> usize {
+//         self.into_iter().filter_map(|s| Some(s>=criteria)).count()
+//     }
+
 // Position types: If output is multiple, for example positions in a sequence which are 'CG', return a vector (in our example vec<bool>)
 // i32 if returning start and end
 

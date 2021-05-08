@@ -69,13 +69,13 @@ pub trait CheckU8<T> {
     /// Checks if the sequence and quality u8 vectors are the same length. Generally checks two u8 items for length against each other
     fn is_seq_qual_length_equal(&self, quality: &T) -> bool;
 
-    /// Checks if the sequence is a homopolymer with percentage cutoff. Possible to use with Rust's window function for checking homopolymer sequences of arbitrary length.
+    /// Checks if the sequence is a homopolymer with percentage cutoff.
     fn is_percent_homopolymer(&self, percent: &u8) -> Result<bool, &str>;
-    // //// Checks if the sequence is a N homopolymer with percentage cutoff. Possible to use with Rust's window function for checking homopolymer sequences of arbitrary length.
-    // fn is_percent_homopolymer_x(&self, percent: &u8) -> Result<bool, &str>;
+    /// Checks if the sequence is a x homopolymer with percentage cutoff.
+    fn is_percent_homopolymer_x(&self, x: &u8, percent: &u8) -> Result<bool, &str>;
     // /// Checks if the sequence is any homopolymer comprised of any character other than N or n with percentage cutoff. Possible to use with Rust's window function for checking homopolymer sequences of arbitrary length.
     // fn is_percent_homopolymer_not_n(&self, percent: &u8) -> bool;
-    /// Checks if the sequence is a homopolymer. Possible to use with Rust's window function for checking homopolymer sequences of arbitrary length.
+    /// Checks if the sequence is a homopolymer. Possible to use with Rust's window function for checking homopolymer sequences within sequences of arbitrary length.
     fn is_homopolymer(&self) -> bool;
     /// Checks if the sequence is a N homopolymer. Possible to use with Rust's window function for checking homopolymer sequences of arbitrary length.
     fn is_homopolymer_n(&self) -> bool;
@@ -113,7 +113,6 @@ pub trait CheckU8<T> {
     fn is_ascii_letters_uppercase(&self) -> bool;
     /// Checks if u8 is ascii letters lowercase only.
     fn is_ascii_letters_lowercase(&self) -> bool;
-
 }
 
 impl<T> CheckU8<T> for T
@@ -229,26 +228,20 @@ where
     /// Checks if the sequence is a homopolymer with percentage cutoff
     fn is_percent_homopolymer(&self, percent: &u8) -> Result<bool, &str> {
         if validate_percentage_u8(&percent).unwrap() {
-            if percentage(self.mode_count(), self.into_iter().count()) >= (*percent).into() {
+            if percentage(self.count_mode(), self.into_iter().count()) >= (*percent).into() {
                 Ok(true)
             } else {Ok(false)}
         } else {validate_percentage_u8(&percent)}
     }
 
-    // /// Checks if the sequence is comprised of 'x' base greater than 'percent' cutoff. Primary use is for filtering for reads with >90% percent N's or A's
-    // fn is_percent_homopolymer_x(&self, percent: &u8) -> bool {
-    //     validate_percentage_u8(&percent);
-    //     if percentage(self.mode_count(), self.into_iter().count()) >= (*percent).into() {
-    //         true
-    //     } else {false}
-    // }
-
-    // /// Checks if the sequence is any homopolymer comprised of any character other than N or n with percentage cutoff. Possible to use with Rust's window function for checking homopolymer sequences of arbitrary length.
-    // fn is_percent_homopolymer_not_n(&self, percent: &u8) -> bool{
-
-    // }
-
-    /// Checks if the sequence is a homopolymer. Possible to use with Rust's window function for checking homopolymer sequences of arbitrary length.
+    /// Checks if the sequence is comprised of 'x' base greater than 'percent' cutoff. Primary use is for filtering for reads with >90% percent N's or A's
+    fn is_percent_homopolymer_x(&self, x: &u8, percent: &u8) -> Result<bool, &str> {
+        if validate_percentage_u8(&percent).unwrap() {
+            if percentage(self.count_xu8(x), self.into_iter().count()) >= (*percent).into() {
+                Ok(true)
+            } else {Ok(false)}
+        } else {validate_percentage_u8(&percent)}
+    }
     
     /// Checks if u8 is completely comprised of phred33 characters (all printable ascii). Incorporates other character sets.
     fn is_phred33(&self) -> bool {
@@ -281,7 +274,6 @@ where
         self.into_iter()
             .all(|x| ASCII_LETTERS_LOWERCASE_U8.contains(&x))
     }
-
 }
 
 /// Validates that 'is_what' parameter of the check_u8() function is a valid option.
@@ -291,6 +283,31 @@ pub fn validate_is_what<'a>(is_what: &str) -> Result<bool, &'a str> {
             false => Err("Not a valid option for is_what parameter, please check valid options"),
         }
 }
+
+
+
+
+// pub trait WindowsU8<T> {
+//     fn cg_pos(&self) -> Vec<usize> ;
+// }
+
+// impl<T> WindowsU8<T> for T
+// where
+//     for<'a> &'a T: IntoIterator<Item = &'a u8>,
+// {
+//     fn cg_pos(&self)-> Vec<usize> {
+//         self.windows(2).enumerate()
+//             .filter(move |(_, x)| x == b"CG")
+//             .map(|(idx, _)| idx).collect::<Vec<usize>>()
+//     }
+// }
+
+//    /// Checks if two nucleotides are cg. Used with window function to check sliding windows across sequence.
+//    fn is_cg(&self) -> bool;
+//     /// Checks if two nucleotides are cg. Used with window function to check sliding windows across sequence.
+//     fn is_cg(&self) -> bool {
+//         self.windows()
+//     }
 
 // #[cfg(test)]
 // mod tests {

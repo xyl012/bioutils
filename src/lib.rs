@@ -7,7 +7,7 @@
 //! Functions to download human and mouse Gencode reference files
 //! Functions to download fastq files
 //! Functions to replace N or gaps with pseudorandom nucleotides
-//! Complete iupac and quality character sets with shifted value matches.
+//! Complete iupac and quality character sets (and quality charset with matching shifted value).
 //! 
 //! ## Quick Start
 //! ```

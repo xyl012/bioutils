@@ -6,7 +6,6 @@ const HEIGHT: u32 = 10;
 fn main() {
 
     let mut img = RgbImage::new(HEIGHT, WIDTH);
-    
     for x in 15..=17 {
         for y in 8..24 {
             img.put_pixel(x, y, Rgb([255, 0, 0]));

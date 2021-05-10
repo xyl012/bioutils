@@ -8,7 +8,7 @@ use seq_io::fastq::{Reader,Record};
 use seq_io::parallel::parallel_fastq;
 use std::fs::File;
 use std::io::BufWriter;
-use crate::files::fastq::function::*;
+use crate::files::fastq::util::*;
 
 // Takes a reader and a fastq field ("seq", "head", or "qual") type and returns a hashset of all reads' specified field
 pub fn hashset_fastq<T>(mut reader: seq_io::fastq::Reader<T>, field: &str, format: &str) -> std::collections::HashSet<Vec<u8>> where T: std::io::Read {

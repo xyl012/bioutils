@@ -13,7 +13,7 @@ fn main() {
     let cola = Rgb([255,0,0]); // Adenosine color
     let colc = Rgb([0,255,0]); // Cytosine color
     let colt = Rgb([0,0,255]); // Thymine color
-    let colg = Rgb([150,150,150]); // Guanine color
+    let colg = Rgb([255,255,0]); // Guanine color
     let seq = b"CCCCCCAAAAAAATTTTTTGGGGG";
     println!("{:?}", seq);
     for (x, &c) in seq.into_iter().enumerate() {
@@ -25,6 +25,8 @@ fn main() {
             _ => img.put_pixel(x as u32, 50, Rgb([0,0,0])),
         };
     }
+    // Same with random sequences for the whole file
+    
     // write it out to a file
     img.save("output.png").unwrap();
 }

@@ -1,9 +1,9 @@
-// // Copyright (c) 2021 Kana LLC
+// Copyright (c) 2021 Kana LLC
 
-// use image::io::Reader as ImageReader;
+use image::io::Reader as ImageReader;
 
-// // let img = ImageReader::open("myimage.png")?.decode()?;
-// // img.save("empty.jpg")?;
+// let img = ImageReader::open("myimage.png")?.decode()?;
+// img.save("empty.jpg")?;
 
 
 // let img = ImageReader::new(Cursor::new(bytes)).decode()?;

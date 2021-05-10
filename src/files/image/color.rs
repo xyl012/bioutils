@@ -142,6 +142,92 @@ pub const POWDER_BLUE_RGB: image::Rgb<u8> = Rgb([176,224,230]);
 pub const CADET_BLUE_RGB: image::Rgb<u8> = Rgb([95,158,160]);
 /// Hex Code: #4682B4
 pub const STEEL_BLUE_RGB: image::Rgb<u8> = Rgb([70,130,180]);
+/// Hex Code: #6495ED
+pub const CORN_FLOWER_BLUE_RGB: image::Rgb<u8> = Rgb([100,149,237]);
+/// Hex Code: #00BFFF
+pub const DEEP_SKY_RGB: image::Rgb<u8> = Rgb([0,191,255]);
+/// Hex Code: #1E90FF
+pub const DODGER_BLUE_RGB: image::Rgb<u8> = Rgb([30,144,255]);
+/// Hex Code: #ADD8E6
+pub const LIGHT_BLUE_RGB: image::Rgb<u8> = Rgb([173,216,230]);
+/// Hex Code: #87CEEB
+pub const SKY_BLUE_RGB: image::Rgb<u8> = Rgb([135,206,235]);
+/// Hex Code: #87CEFA
+pub const LIGHT_SKY_BLUE_RGB: image::Rgb<u8> = Rgb([135,206,250]);
+/// Hex Code: #191970
+pub const MIDNIGHT_BLUE_RGB: image::Rgb<u8> = Rgb([25,25,112]);
+/// Hex Code: #00008B
+pub const DARK_BLUE_RGB: image::Rgb<u8> = Rgb([0,0,139]);
+/// Hex Code: #0000CD
+pub const MEDIUM_BLUE_RGB: image::Rgb<u8> = Rgb([0,0,205]);
+/// Hex Code: #4169E1
+pub const ROYAL_BLUE_RGB: image::Rgb<u8> = Rgb([65,105,225]);
+/// Hex Code: #8A2BE2
+pub const BLUE_VIOLET_RGB: image::Rgb<u8> = Rgb([138,43,226]);
+/// Hex Code: #4B0082
+pub const INDIGO_RGB: image::Rgb<u8> = Rgb([75,0,130]);
+/// Hex Code: #483D8B
+pub const DARK_SLATE_BLUE_RGB: image::Rgb<u8> = Rgb([72,61,139]);
+/// Hex Code: #6A5ACD
+pub const SLATE_BLUE_RGB: image::Rgb<u8> = Rgb([106,90,205]);
+/// Hex Code: #7B68EE
+pub const MEDIUM_SLATE_BLUE_RGB: image::Rgb<u8> = Rgb([123,104,238]);
+/// Hex Code: #9370DB
+pub const MEDIUM_PURPLE_RGB: image::Rgb<u8> = Rgb([147,112,219]);
+/// Hex Code: #8B008B
+pub const DARK_MAGENTA_RGB: image::Rgb<u8> = Rgb([139,0,139]);
+/// Hex Code: #9400D3
+pub const DARK_VIOLET_RGB: image::Rgb<u8> = Rgb([148,0,211]);
+/// Hex Code: #9932CC
+pub const DARK_ORCHID_RGB: image::Rgb<u8> = Rgb([153,50,204]);
+/// Hex Code: #BA55D3
+pub const MEDIUM_ORCHID_RGB: image::Rgb<u8> = Rgb([186,85,211]);
+/// Hex Code: #D8BFD8
+pub const THISTLE_RGB: image::Rgb<u8> = Rgb([216,191,216]);
+/// Hex Code: #DDA0DD
+pub const PLUM_RGB: image::Rgb<u8> = Rgb([221,160,221]);
+/// Hex Code: #EE82EE
+pub const VIOLET_RGB: image::Rgb<u8> = Rgb([238,130,238]);
+/// Hex Code: #DA70D6
+pub const ORCHID_RGB: image::Rgb<u8> = Rgb([218,12,214]);
+/// Hex Code: #C71585
+pub const MEDIUM_VIOLET_RED_RGB: image::Rgb<u8> = Rgb([199,21,133]);
+/// Hex Code: #DB7093
+pub const PALE_VIOLET_RED_RGB: image::Rgb<u8> = Rgb([219,112,147]);
+/// Hex Code: #FF1493
+pub const DEEP_PINK_RGB: image::Rgb<u8> = Rgb([255,20,147]);
+/// Hex Code: #FF69B4
+pub const HOT_PINK_RGB: image::Rgb<u8> = Rgb([255,105,180]);
+/// Hex Code: #FFB6C1
+pub const LIGHT_PINK_RGB: image::Rgb<u8> = Rgb([255,182,193]);
+/// Hex Code: #FFC0CB
+pub const PINK_RGB: image::Rgb<u8> = Rgb([255,192,203]);
+/// Hex Code: #FAEBD7
+pub const ANTIQUE_WHITE_RGB: image::Rgb<u8> = Rgb([250,235,215]);
+/// Hex Code: #F5F5DC
+pub const BEIGE_RGB: image::Rgb<u8> = Rgb([245,245,220]);
+/// Hex Code: #FFE4C4
+pub const BISQUE_RGB: image::Rgb<u8> = Rgb([255,225,196]);
+/// Hex Code: #FFEBCD
+pub const BLANCHED_ALMOND_RGB: image::Rgb<u8> = Rgb([255,235,205]);
+/// Hex Code: #F5DEB3
+pub const WHEAT_RGB: image::Rgb<u8> = Rgb([245,222,179]);
+/// Hex Code: #FFF8DC
+pub const CORN_SILK_RGB: image::Rgb<u8> = Rgb([255,248,220]);
+/// Hex Code: #FFFACD
+pub const LEMON_CHIFFON_RGB: image::Rgb<u8> = Rgb([255,250,205]);
+/// Hex Code: #FAFAD2
+pub const LIGHT_GOLDENROD_YELLOW_RGB: image::Rgb<u8> = Rgb([250,250,210]);
+/// Hex Code: #FFFFE0
+pub const LIGHT_YELLOW_RGB: image::Rgb<u8> = Rgb([255,255,224]);
+/// Hex Code: #8B4513
+pub const SADDLE_BROWN_RGB: image::Rgb<u8> = Rgb([139,69,19]);
+/// Hex Code: #000000
+pub const _RGB: image::Rgb<u8> = Rgb([0,0,0]);
+/// Hex Code: #000000
+pub const _RGB: image::Rgb<u8> = Rgb([0,0,0]);
+/// Hex Code: #000000
+pub const _RGB: image::Rgb<u8> = Rgb([0,0,0]);
 
 
 

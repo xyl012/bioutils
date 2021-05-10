@@ -94,6 +94,54 @@ pub const OLIVE_DRAB_RGB: image::Rgb<u8> = Rgb([107,142,35]);
 pub const LAWN_GREEN_RGB: image::Rgb<u8> = Rgb([124,252,0]);
 /// Hex Code: #7FFF00
 pub const CHARTREUSE_RGB: image::Rgb<u8> = Rgb([127,255,0]);
+/// Hex Code: #ADFF2F
+pub const GREEN_YELLOW_RGB: image::Rgb<u8> = Rgb([173,255,47]);
+/// Hex Code: #006400
+pub const DARK_GREEN_RGB: image::Rgb<u8> = Rgb([0,100,0]);
+/// Hex Code: #228B22
+pub const FOREST_GREEN_RGB: image::Rgb<u8> = Rgb([34,139,34]);
+/// Hex Code: #32CD32
+pub const LIME_GREEN_RGB: image::Rgb<u8> = Rgb([50,205,50]);
+/// Hex Code: #90EE90
+pub const LIGHT_GREEN_RGB: image::Rgb<u8> = Rgb([144,238,144]);
+/// Hex Code: #98FB98
+pub const PALE_GREEN_RGB: image::Rgb<u8> = Rgb([152,251,152]);
+/// Hex Code: #8FBC8F
+pub const DARK_SEA_GREEN_RGB: image::Rgb<u8> = Rgb([143,188,143]);
+/// Hex Code: #00FA9A
+pub const MEDIUM_SPRING_RGB: image::Rgb<u8> = Rgb([0,250,154]);
+/// Hex Code: #00FF7F
+pub const SPRING_GREEN_RGB: image::Rgb<u8> = Rgb([0,255,127]);
+/// Hex Code: #2E8B57
+pub const SEA_GREEN_RGB: image::Rgb<u8> = Rgb([46,139,87]);
+/// Hex Code: #66CDAA
+pub const MEDIUM_AQUAMARINE_RGB: image::Rgb<u8> = Rgb([102,205,170]);
+/// Hex Code: #3CB371
+pub const MEDIUM_SEA_GREEN_RGB: image::Rgb<u8> = Rgb([60,179,113]);
+/// Hex Code: #20B2AA
+pub const LIGHT_SEA_GREEN_RGB: image::Rgb<u8> = Rgb([32,178,170]);
+/// Hex Code: #2F4F4F
+pub const DARK_SLATE_GRAY_RGB: image::Rgb<u8> = Rgb([47,79,79]);
+/// Hex Code: #008B8B
+pub const DARK_CYAN_RGB: image::Rgb<u8> = Rgb([0,139,139]);
+/// Hex Code: #E0FFFF
+pub const LIGHT_CYAN_RGB: image::Rgb<u8> = Rgb([224,255,255]);
+/// Hex Code: #00CED1
+pub const DARK_TURQOISE_RGB: image::Rgb<u8> = Rgb([0,206,209]);
+/// Hex Code: #40E0D0
+pub const TURQOISE_RGB: image::Rgb<u8> = Rgb([64,224,208]);
+/// Hex Code: #48D1CC
+pub const MEDIUM_TURQOISE_RGB: image::Rgb<u8> = Rgb([72,209,204]);
+/// Hex Code: #AFEEEE
+pub const PALE_TURQOISE_RGB: image::Rgb<u8> = Rgb([178,238,238]);
+/// Hex Code: #7FFFD4
+pub const AQUAMARINE_RGB: image::Rgb<u8> = Rgb([127,255,212]);
+/// Hex Code: #B0E0E6
+pub const POWDER_BLUE_RGB: image::Rgb<u8> = Rgb([176,224,230]);
+/// Hex Code: #5F9EA0
+pub const CADET_BLUE_RGB: image::Rgb<u8> = Rgb([95,158,160]);
+/// Hex Code: #4682B4
+pub const STEEL_BLUE_RGB: image::Rgb<u8> = Rgb([70,130,180]);
 
 
 

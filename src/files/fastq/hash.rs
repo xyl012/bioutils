@@ -113,38 +113,6 @@ pub fn hashmap_count_fastq<T>(mut reader: seq_io::fastq::Reader<T>, field: &str,
 
 
 
-// pub fn fastq_head_inner_join(
-//     mut reader1: seq_io::fastq::Reader<flate2::read::GzDecoder<std::fs::File>>,
-//     mut reader2: seq_io::fastq::Reader<flate2::read::GzDecoder<std::fs::File>>) -> std::collections::HashSet<Vec<u8>> {
-//     let mut hashset1 = HashSet::new();
-//     let mut hashset2 = HashSet::new();
-//     while let Some(record) = reader1.next() {
-//         // if cannot read the record skip it
-//         let record = match record {
-//             Ok(record) => record,
-//             Err(_record) => continue
-//         };
-//         hashset1.insert(record.head().to_owned());
-//     }
-//     while let Some(record) = reader2.next() {
-//         // if cannot read the record skip it
-//         let record = match record {
-//             Ok(record) => record,
-//             Err(_record) => continue
-//         };
-//         hashset2.insert(record.head().to_owned());
-//     }
-//     let hashsetx: HashSet<std::vec::Vec<u8>> = hashset1.intersection(&hashset2).cloned().collect();
-//     hashsetx
-// }
-
-        // match field {
-        //     "seq" => hashset.insert(result.seq().to_owned()),
-        //     "head" => hashset.insert(result.seq().to_owned()),
-        //     "qual" => hashset.insert(result.seq().to_owned()),
-        //     Err(_field) => println!("Specified fastq field is not a seq_io record field. Specify seq, head, or qual")
-        // };
-
 // Takes a reader and a fastq field ("seq", "head", or "qual") type and returns a hashset of all reads' specified field
 // String version
 
@@ -177,7 +145,3 @@ pub fn hashmap_count_fastq<T>(mut reader: seq_io::fastq::Reader<T>, field: &str,
 //     }
 //     hashset
 // }
-
-//         // } else if field == "id" {
-//         //     let id = str::from_utf8(&result.()).unwrap().to_string();
-//         //     hashset.insert(qual);

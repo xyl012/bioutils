@@ -13,7 +13,6 @@
 //!
 //! ## Quick Start
 //! ```
-//!
 //! // Examples for using checks:
 //! 
 //! use bioutils::charsets;

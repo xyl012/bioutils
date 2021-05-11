@@ -1,9 +1,8 @@
 // Copyright (c) 2021 Kana LLC
 
-//! Other functions that do not fall into the general categories of checking, replacing, or generating a new sequence. Generally includes statistics and transformations.
+//! Functions that do not fall into the general categories of checking, mutating, or generating a new sequence. Generally includes statistics and transformations.
 //! # Examples
-//! # Generate all sequences with hamming distance 1 using the bases ACTG.
-//! 
+//! ``
 //! use crate::bioutils::get::value;
 //! use crate::bioutils::utils::new::random_dna;
 //! use rand::rngs::ThreadRng;
@@ -14,7 +13,7 @@
 //! let dna = random_dna(4,rng);
 //! let distance = dna.hamming_distance(b"AAAA");
 //! println!("{:?}", distance);
-
+//! ``
 
 use crate::charsets::PERCENTAGE_RANGE;
 use std::collections::HashMap;
@@ -33,7 +32,6 @@ pub trait ValueU8<T> {
 
     /// Returns the number of iterators greater than criteria. Used for calculating percents/numerators
     fn count_greater_than(&self, criteria:&u8)-> usize;
-
 
     /// Returns the number of occurrences of the mode
     fn count_mode(&self) -> usize;

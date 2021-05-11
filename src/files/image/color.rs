@@ -9,7 +9,6 @@ use image::{ImageBuffer, Rgb};
 /// General colors as rgb structs with common names
 
 /// Basic Colors
-
 /// Hex Code: #000000
 pub const BLACK_RGB: image::Rgb<u8> = Rgb([0,0,0]);
 /// Hex Code: #FFFFFF
@@ -222,30 +221,69 @@ pub const LIGHT_GOLDENROD_YELLOW_RGB: image::Rgb<u8> = Rgb([250,250,210]);
 pub const LIGHT_YELLOW_RGB: image::Rgb<u8> = Rgb([255,255,224]);
 /// Hex Code: #8B4513
 pub const SADDLE_BROWN_RGB: image::Rgb<u8> = Rgb([139,69,19]);
-/// Hex Code: #000000
-pub const _RGB: image::Rgb<u8> = Rgb([0,0,0]);
-/// Hex Code: #000000
-pub const _RGB: image::Rgb<u8> = Rgb([0,0,0]);
-/// Hex Code: #000000
-pub const _RGB: image::Rgb<u8> = Rgb([0,0,0]);
-
-
-
-// for (x, &c) in seq.into_iter().enumerate() {
-//     match c {
-//         67 => img.put_pixel(x as u32, 50, cola), // 67 is b"A"
-//         65 => img.put_pixel(x as u32, 50, colc), // 65 is b"C" 
-//         84 => img.put_pixel(x as u32, 50, colt), // 84 is b"T"
-//         71 => img.put_pixel(x as u32, 50, colg), // 71 is b"G"
-//         _ => img.put_pixel(x as u32, 50, Rgb([0,0,0])),
-//     };
-// }
-
-
-// // Basic usage: simple actgn colors
-
-// pub const A_COLOR: image::Rgb<u8> = Rgb([255,0,0]); // A color
-// pub const C_COLOR: image::Rgb<u8> = Rgb([0,255,0]); // C color
-// pub const T_COLOR: image::Rgb<u8> = Rgb([0,0,255]); // T color
-// pub const G_COLOR: image::Rgb<u8> = Rgb([255,255,0]); // G color
-// pub const N_COLOR: image::Rgb<u8> = Rgb([0,255,255]); // N color
+/// Hex Code: #A0522D
+pub const SIENNA_RGB: image::Rgb<u8> = Rgb([160,82,45]);
+/// Hex Code: #D2691E
+pub const CHOCOLATE_RGB: image::Rgb<u8> = Rgb([210,105,30]);
+/// Hex Code: #CD853F
+pub const PERU_RGB: image::Rgb<u8> = Rgb([205,133,63]);
+/// Hex Code: #F4A460
+pub const SANDY_BROWN_RGB: image::Rgb<u8> = Rgb([244,164,96]);
+/// Hex Code: #DEB887
+pub const BURLY_WOOD_RGB: image::Rgb<u8> = Rgb([222,184,135]);
+/// Hex Code: #D2B48C
+pub const TAN_RGB: image::Rgb<u8> = Rgb([210,180,140]);
+/// Hex Code: #BC8F8F
+pub const ROSY_BROWN_RGB: image::Rgb<u8> = Rgb([188,143,143]);
+/// Hex Code: #FFE4B5
+pub const MOCCASIN_RGB: image::Rgb<u8> = Rgb([255,228,181]);
+/// Hex Code: #FFDEAD
+pub const NAVAJO_WHITE_RGB: image::Rgb<u8> = Rgb([255,222,173]);
+/// Hex Code: #FFDAB9
+pub const PEACH_PUFF_RGB: image::Rgb<u8> = Rgb([255,218,185]);
+/// Hex Code: #FFE4E1
+pub const MISTY_ROSE_RGB: image::Rgb<u8> = Rgb([255,228,225]);
+/// Hex Code: #FFF0F5
+pub const LAVENDER_BLUSH_RGB: image::Rgb<u8> = Rgb([255,240,245]);
+/// Hex Code: #FAF0E6
+pub const LINEN_RGB: image::Rgb<u8> = Rgb([250,240,230]);
+/// Hex Code: #FDF5E6
+pub const OLD_LACE_RGB: image::Rgb<u8> = Rgb([253,245,230]);
+/// Hex Code: #FFEFD5
+pub const PAPAYA_WHIP_RGB: image::Rgb<u8> = Rgb([255,239,213]);
+/// Hex Code: #FFF5EE
+pub const SEA_SHELL_RGB: image::Rgb<u8> = Rgb([255,245,238]);
+/// Hex Code: #F5FFFA
+pub const MINT_CREAM_RGB: image::Rgb<u8> = Rgb([245,255,250]);
+/// Hex Code: #708090
+pub const SLATE_GRAY_RGB: image::Rgb<u8> = Rgb([112,128,144]);
+/// Hex Code: #778899
+pub const LIGHT_SLATE_GRAY_RGB: image::Rgb<u8> = Rgb([119,136,153]);
+/// Hex Code: #B0C4DE
+pub const LIGHT_STEEL_BLUE_RGB: image::Rgb<u8> = Rgb([176,196,222]);
+/// Hex Code: #E6E6FA
+pub const LAVENDER_RGB: image::Rgb<u8> = Rgb([230,230,250]);
+/// Hex Code: #FFFAF0
+pub const FLORAL_WHITE_RGB: image::Rgb<u8> = Rgb([255,250,240]);
+/// Hex Code: #F0F8FF
+pub const ALICE_BLUE_RGB: image::Rgb<u8> = Rgb([240,248,255]);
+/// Hex Code: #F8F8FF
+pub const GHOST_WHITE_RGB: image::Rgb<u8> = Rgb([248,248,255]);
+/// Hex Code: #F0FFF0
+pub const HONEYDEW_RGB: image::Rgb<u8> = Rgb([240,255,240]);
+/// Hex Code: #FFFFF0
+pub const IVORY_RGB: image::Rgb<u8> = Rgb([255,255,240]);
+/// Hex Code: #F0FFFF
+pub const AZURE_RGB: image::Rgb<u8> = Rgb([240,255,255]);
+/// Hex Code: #FFFAFA
+pub const SNOW_RGB: image::Rgb<u8> = Rgb([255,250,250]);
+/// Hex Code: #696969
+pub const DIM_GRAY_RGB: image::Rgb<u8> = Rgb([105,105,105]);
+/// Hex Code: #A9A9A9
+pub const DARK_GRAY_RGB: image::Rgb<u8> = Rgb([169,169,169]);
+/// Hex Code: #D3D3D3
+pub const LIGHT_GRAY_RGB: image::Rgb<u8> = Rgb([211,211,211]);
+/// Hex Code: #DCDCDC
+pub const GAINSBORO_RGB: image::Rgb<u8> = Rgb([220,220,220]);
+/// Hex Code: #F5F5F5
+pub const WHITE_SMOKE_RGB: image::Rgb<u8> = Rgb([245,245,245]);

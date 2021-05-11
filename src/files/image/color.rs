@@ -3,7 +3,11 @@
 //! Common colloqially named colors for use with rust image to create visualizations of nucleotide-level data
 //! We recommend using the colorous crate if you want to use a gradient as it also is simple to convert the color struct to an Rgb struct in the image crate
 //! Colors are released here in case the user wants to specify their colors or need to add colors
-
+//! These can then just be used with :
+//! use bioutils::files::image::color::*;
+//! use image::RgbImage;
+//! let mut img = RgbImage::new(50, 50); // Make a new image with height and width
+//! img.put_pixel(x as u32, y as u32, RED_RGB);
 use image::{ImageBuffer, Rgb};
 
 /// General colors as rgb structs with common names

@@ -12,13 +12,14 @@
 //! ## Quick Start
 //! ```
 //!
-//! Examples for using checks:
+//! // Examples for using checks:
 //! 
 //! use bioutils::charsets;
 //! use bioutils::utils;
-//! use bioutils::utils::check::CheckU8;
+//! use crate::bioutils::utils::check::value::CheckU8;
 //! use bioutils::utils::new::random::random_dna;
 //! use bioutils::utils::new::random::random_quality;
+//! use bioutils::utils::mutate::random::AsMutRandomU8;
 //! use rand::rngs::ThreadRng;
 //! use rand::seq::SliceRandom;
 //! use std::string::String;
@@ -49,7 +50,7 @@
 //! assert!(quality.check_u8("is_phred33").unwrap());
 //! assert!(dna.check_u8("is_basic_dna").unwrap());
 //!
-//! Examples for creating a new random sequence and quality 
+//! // Examples for creating a new random sequence and quality 
 //!
 //! let mut rng1 = rand::thread_rng(); // Create a random number generator
 //! let dna = random_dna(4,rng1); // Create a random dna sequence
@@ -58,7 +59,7 @@
 //! println!("{:?}", dna.to_owned());
 //! println!("{:?}", quality.to_owned());
 //!
-//! Example for replacing nucleotides
+//! // Examples for replacing nucleotides
 //!
 //! let mut rng3 = rand::thread_rng(); //create a random number generator
 //! let mut rng4 = rand::thread_rng(); //create a random number generator

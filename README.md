@@ -15,17 +15,6 @@
 <h2 id="quick-start" class="section-header"><a href="#quick-start">Quick Start</a></h2>
 <div class="example-wrap"><pre class="rust rust-example-rendered"><p>//! Check out the download_read_align_seq_io.rs example for a full practical walkthrough from downloading files to finding read positions!
 
-//! # Bioutils: Simple Biological Utilities in Rust
-//! Bioutils provides simple biological utilities including:
-//! Functions to check sequence validity and content (palindromes too!) 
-//! Functions to create new random IUPAC sequences
-//! Functions to download human and mouse Gencode reference files
-//! Functions to download fastq files
-//! Functions to replace N or gaps with pseudorandom nucleotides
-//! Complete iupac and quality character sets (and quality charset with matching shifted value).
-//! 
-//! ## Quick Start
-//!
 //! // Examples for using checks:
 //! 
 //! use bioutils::charsets;

@@ -24,49 +24,9 @@ pub fn cg_positions(seq:&[u8])-> Vec<usize> {
         .map(|(idx, _)| idx).collect::<Vec<usize>>()
 }
 
-//    /// Returns the iterations greater than the criteria
-//    fn iters_greater_than(&self, criteria:&u8)-> usize;
-
-//     /// Returns the iterations greater than the criteria
-//     fn iters_greater_than(&self, criteria:&u8)-> usize {
-//         self.into_iter().filter_map(|s| Some(s>=criteria)).count()
-//     }
-
-// Position types: If output is multiple, for example positions in a sequence which are 'CG', return a vector (in our example vec<bool>)
-// i32 if returning start and end
-
-// pub trait PositionU8<T, P> {
-//     fn all_positions(&self, pred: P) ->Vec<u8>;
-// }
-
-// impl<T, P> PositionU8<T, P> where
-//     P: FnMut(&T) -> bool,
-//     T: IntoIterator<Item = u8>,
-// {
-//     /// Find the positions of all occurrences of a predicate, for example xpred==b"CG"
-//     fn all_positions(&self){
-//         self.into_iter().positions(|v| v == b"C")
-//     }
-
-//     // fn all_positions(&self, predicate: P)->Vec<usize> {
-//     //     self.into_iter().enumerate()
-//     //         .filter(move |(_, xpred)| predicate(xpred))
-//     //         .map(|(idx, _)| idx).collect::<Vec<usize>>()
-//     // }
-// }
 
 
 
-
-// Get the positions of cgs in a u8 sequence
-// pub fn cg_positions(seq:&[u8])-> &[u8] {
-//     seq.windows(2).rposition(|&x| x == &seq)
-// /// Get the positions of sequence in u8 sequence
-// pub fn seq_positions(seq:&[u8])-> &[u8] {
-    
-// }
-
-// }
 // /// Get the percentage content in a u8 sequence
 
 // /// Get the percentage content of a sequence in a u8 sequence

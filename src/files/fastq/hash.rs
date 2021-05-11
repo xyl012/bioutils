@@ -86,21 +86,6 @@ pub fn hashmap_count_fastq<T>(mut reader: seq_io::fastq::Reader<T>, field: &str,
 // let reader = Reader::from_path("seqs.fastq").unwrap();
 // let mut writer = BufWriter::new(File::create("filtered.fastq").unwrap());
 
-// parallel_fastq(reader, 4, 2,
-//     |record, found| { // runs in worker
-//         *found = record.seq().windows(3).position(|s| s == b"AAA").is_some();
-//     },
-//     |record, found| { // runs in main thread
-//         if *found {
-//             record.write(&mut writer).unwrap();
-//         }
-//         // Some(value) will stop the reader, and the value will be returned.
-//         // In the case of never stopping, we need to give the compiler a hint about the
-//         // type parameter, thus the special 'turbofish' notation is needed,
-//         // hoping on progress here: https://github.com/rust-lang/rust/issues/27336
-//         None::<()>
-// }).unwrap();
-// }
 
 // // Make vector of seq_io fastq readers, as atac has 3 reads
 // /// Find paired reads in a fastq. Takes a vector of readers and creates a single hashset of common headers.

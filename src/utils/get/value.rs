@@ -82,7 +82,6 @@ where
     fn count_xu8(&self, x: &u8) -> usize {
         self.into_iter().filter(|&q| q==x).count()
     }
-
 }
 
 /// Calculates percentage with usizes
@@ -98,57 +97,13 @@ pub fn validate_percentage_u8(percent: &u8) -> Result<bool, &'static str> {
     }
 }
 
-// {
-//     None => Err("No percent supplied"),
-//     Some(true) => Ok(true),
-//     Some(false) => Ok(false),
-//     Some(_) => Err("Please supply a percent (0-100, not fractional) as u8"),
-// }
-
-// /// Validate if a quality score is phred33, phred64, etc. Example: validate_quality_score_u8(quality_score,"phred33")
+//TODO
+// /// Validate if a quality score is phred33, phred64, etc. Example: validate_quality_score_u8(quality_score, phred33u8hashmap)
 // pub fn validate_quality_score_u8(quality_score: , quality_charset: &str){};
-// /// Returns the number of occurrences of the mode
-// pub fn mode_count(numbers: &[u8]) -> Option<&u64> {
-//     let mut counts = HashMap::new();
-//     let mode = numbers.into_iter().max_by_key(|&s| {
-//         let count = counts.entry(s).or_insert(0);
-//         *count += 1;
-//         *count}).unwrap();
-//     counts.get(&mode)
-// }
-
 
 // /// Get the percentage content in a u8 sequence
 
 // /// Get the percentage content of a sequence in a u8 sequence
-
-// /// Encodes a u8 vector of bytes with information from the sequence as well as quality. Each byte being phred33-33 or {0..40}+{128..255}, which is the phred33 score plus ascii
-// pub fn qs_bytes(bytes_1: &mut Vec<u8>,bytes_2: &mut Vec<u8>)-> Vec<u16> {
-//     let mut bytes_1_i = bytes_1.len() - 1;
-//     let mut bytes_2_i = bytes_2.len() - 1;
-//     let mut bytes_1: Vec<u16> = bytes_1.iter().map(|c| *c as u16).collect();
-//     let mut bytes_2: Vec<u16> = bytes_2.iter().map(|c| *c as u16).collect();
-//     while bytes_1_i >= 0 {
-//         bytes_1[bytes_1_i] = (bytes_1[bytes_1_i] - 33) * (bytes_2[bytes_1_i] + 128);
-//         bytes_1[bytes_1_i];
-//         if bytes_1_i == 0 { break; }
-//         bytes_1_i -= 1;
-//     }
-//     bytes_1
-// }
-
-// // pub fn qs_bytes<'a>(bytes_1: &'a mut Vec<u8>,bytes_2: &'a mut Vec<u8>)-> &'a mut Vec<u8> {
-
-// //     let mut bytes_1_i = bytes_1.len() - 1;
-// //     let mut bytes_2_i = bytes_2.len() - 1;
-// //     while bytes_1_i > 0 {
-// //         bytes_1[bytes_1_i] = (bytes_1[bytes_1_i] - 33) * (bytes_2[bytes_1_i] + 128);
-// //         bytes_1[bytes_1_i];
-// //         if bytes_1_i == 0 { break; }
-// //         bytes_1_i -= 1;
-// //     }
-// //     bytes_1
-// // }
 
 // // let x = b"ABCD";
 // // let y = b"1010";

@@ -23,7 +23,6 @@ use rand::rngs::ThreadRng;
 use rand::seq::SliceRandom;
 use crate::charsets::iupac::*;
 
-/// TODO cut read to length, trimmomatic, fastp
 
 pub trait AsMutRandomU8 {
     fn mut_random_replace_non_basic(&mut self, xna: &str, rng: ThreadRng) -> &mut Self ;

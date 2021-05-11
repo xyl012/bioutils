@@ -15,18 +15,30 @@
 <h2 id="quick-start" class="section-header"><a href="#quick-start">Quick Start</a></h2>
 <div class="example-wrap"><pre class="rust rust-example-rendered"><p>//! Check out the download_read_align_seq_io.rs example for a full practical walkthrough from downloading files to finding read positions!
 
-//! Examples for using checks:
-
+//! # Bioutils: Simple Biological Utilities in Rust
+//! Bioutils provides simple biological utilities including:
+//! Functions to check sequence validity and content (palindromes too!) 
+//! Functions to create new random IUPAC sequences
+//! Functions to download human and mouse Gencode reference files
+//! Functions to download fastq files
+//! Functions to replace N or gaps with pseudorandom nucleotides
+//! Complete iupac and quality character sets (and quality charset with matching shifted value).
+//! 
+//! ## Quick Start
+//!
+//! // Examples for using checks:
+//! 
 //! use bioutils::charsets;
 //! use bioutils::utils;
-//! use bioutils::utils::check::CheckU8;
+//! use crate::bioutils::utils::check::value::CheckU8;
 //! use bioutils::utils::new::random::random_dna;
 //! use bioutils::utils::new::random::random_quality;
+//! use bioutils::utils::mutate::random::AsMutRandomU8;
 //! use rand::rngs::ThreadRng;
 //! use rand::seq::SliceRandom;
 //! use std::string::String;
 //! use std::str;
-
+//! 
 //! let dna = b"ACTG";
 //! let rna = b"ACUG";
 //! let homopolymerN = b"NNNN";
@@ -52,7 +64,7 @@
 //! assert!(quality.check_u8("is_phred33").unwrap());
 //! assert!(dna.check_u8("is_basic_dna").unwrap());
 //!
-//! Examples for creating a new random sequence and quality 
+//! // Examples for creating a new random sequence and quality 
 //!
 //! let mut rng1 = rand::thread_rng(); // Create a random number generator
 //! let dna = random_dna(4,rng1); // Create a random dna sequence
@@ -61,7 +73,7 @@
 //! println!("{:?}", dna.to_owned());
 //! println!("{:?}", quality.to_owned());
 //!
-//! Example for replacing nucleotides
+//! // Examples for replacing nucleotides
 //!
 //! let mut rng3 = rand::thread_rng(); //create a random number generator
 //! let mut rng4 = rand::thread_rng(); //create a random number generator

@@ -8,7 +8,9 @@
 //! Functions to download fastq files
 //! Functions to replace N or gaps with pseudorandom nucleotides
 //! Complete iupac and quality character sets (and quality charset with matching shifted value).
-//! 
+//!
+//! Check out the examples for a full practical walkthrough from downloading files, finding read positions, and making images!
+//!
 //! ## Quick Start
 //! ```
 //!

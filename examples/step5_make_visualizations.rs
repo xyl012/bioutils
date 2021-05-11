@@ -12,20 +12,17 @@ use std::convert::TryInto;
 
 fn main() {
     let mut img = RgbImage::new(HEIGHT, WIDTH);
-    let cola = Rgb([255,0,0]); 
-    let colc = Rgb([0,255,0]); 
-    let colt = Rgb([0,0,255]);
-    let colg = Rgb([255,255,0]);
     let seq = b"CCCCAAAAAATTTTTGGGGNNNNN";
+    let y_pixel_coord=50;
     println!("{:?}", seq);
     for (x, &c) in seq.into_iter().enumerate() {
         match c {
-            67 => img.put_pixel(x as u32, 50, RED_RGB), // 67 is b"A", set Adenosine color
-            65 => img.put_pixel(x as u32, 50, GREEN_RGB), // 65 is b"C", set Cytosine color
-            84 => img.put_pixel(x as u32, 50, BLUE_RGB), // 84 is b"T", set Thymine color
-            71 => img.put_pixel(x as u32, 50, PURPLE_RGB), // 71 is b"G", set Guanine color
-            110 => img.put_pixel(x as u32, 50, GRAY_RGB), // 110 is b"N", set Undetermined color
-            _ => img.put_pixel(x as u32, 50, BLACK_RGB), // 71 is b"G", set all other as black
+            67 => img.put_pixel(x as u32, y_pixel_coord, RED_RGB), // 67 is b"A", set Adenosine color
+            65 => img.put_pixel(x as u32, y_pixel_coord, GREEN_RGB), // 65 is b"C", set Cytosine color
+            84 => img.put_pixel(x as u32, y_pixel_coord, BLUE_RGB), // 84 is b"T", set Thymine color
+            71 => img.put_pixel(x as u32, y_pixel_coord, PURPLE_RGB), // 71 is b"G", set Guanine color
+            78 => img.put_pixel(x as u32, y_pixel_coord, GRAY_RGB), // 110 is b"N", set Undetermined color
+            _ => img.put_pixel(x as u32, y_pixel_coord, BLACK_RGB), // 71 is b"G", set all other as black
         };
     }
     // Same with random sequences for the whole file

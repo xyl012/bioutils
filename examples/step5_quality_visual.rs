@@ -5,7 +5,7 @@
 //! We convert the u8s to their actual quality score (we assume phred33, e.g. u8-33).
 //! We then take the vector and color a png with it.
 
-use bioutils::ituls::image::color::*;
+use bioutils::utils::image::color::*;
 use bioutils::charsets::quality::*;
 use bioutils::utils::new::random::random_quality;
 use image::{ImageBuffer, Rgb};

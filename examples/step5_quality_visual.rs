@@ -5,19 +5,27 @@
 //! We convert the u8s to their actual quality score (we assume phred33, e.g. u8-33).
 //! We then take the vector and color a png with it.
 
-
-
-use bioutils::files::image::color::*;
+use bioutils::ituls::image::color::*;
+use bioutils::charsets::quality::*;
+use bioutils::utils::new::random::random_quality;
+use image::{ImageBuffer, Rgb};
 use image::RgbImage;
 const WIDTH: u32 = 50;
 const HEIGHT: u32 = 50;
 
-use bioutils::utils::new::random::random_dna;
-
-
 fn main() {
     let mut img = RgbImage::new(HEIGHT, WIDTH); // Make a new image with height and width
-    
-    println!("{:?}", qual); // Print our unsigned integers for reference
-
+    let rng = rand::thread_rng(); // Create a random number generator
+    let qual = random_quality(50,rng); // Get a random quality vector of length 50
+    println!("Quality integers are: {:?}", qual); // Print our unsigned integers for reference
+    // Get what the actual qualities are by lookup with a hashmap (simply with values shifted 33 assuming phred33 encoding)
+    let scores = qual.into_iter().map(|q| PHRED33_HASHMAP_U8.get(&q).unwrap().to_owned()).collect::<Vec<u8>>();
+    println!("Quality scores are: {:?}", scores); // Print our unsigned integers for reference
+    let y = 30; // Since we have a single quality let's just choose a y coordinate
+    // Color each pixel by the score with increasing rgb. Add 100 so it's easier to see
+    for (x, c) in scores.into_iter().enumerate() {
+    img.put_pixel(x as u32, y, Rgb([c+100,c+100,c+100]))
+    }
+    // write it out to a file
+    img.save("output3.png").unwrap();
 }

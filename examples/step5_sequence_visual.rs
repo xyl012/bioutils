@@ -3,7 +3,7 @@
 //! Example to make nucleotide-level visualizations quickly and easily with image and character functions
 //! This example colors each pixel by a vec<u8>.
 
-use bioutils::files::image::color::*;
+use bioutils::utils::image::color::*;
 use image::RgbImage;
 const WIDTH: u32 = 50;
 const HEIGHT: u32 = 50;

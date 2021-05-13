@@ -47,11 +47,17 @@ pub fn random_aa(nbases: usize, mut rng: ThreadRng) -> Vec<u8> {
     }
     vec
 }
-/// Create new random quality sequence with specified number of characters.
+/// Create new random quality sequence (phred33) with specified number of characters.
 pub fn random_quality(nbases: usize, mut rng: ThreadRng) -> Vec<u8> {
     let mut vec = Vec::with_capacity(nbases);
     for _base in 0..nbases {
-        vec.push(*PHRED33_U8.choose(&mut rng).unwrap())
-    }
+        vec.push(*PHRED33_U8.choose(&mut rng).unwrap())}
+    vec
+}
+/// Create new random quality sequence (phred64) with specified number of characters.
+pub fn random_phred64_quality(nbases: usize, mut rng: ThreadRng) -> Vec<u8> {
+    let mut vec = Vec::with_capacity(nbases);
+    for _base in 0..nbases {
+        vec.push(*PHRED64_U8.choose(&mut rng).unwrap())}
     vec
 }

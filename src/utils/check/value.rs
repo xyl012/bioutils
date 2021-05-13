@@ -66,8 +66,16 @@ pub trait CheckU8<T> {
 
     /// Checks the sequence has the percent bases (rounded) above the quality score
     fn is_qual_passing(&self, quality_score: &u8, percent: &u8) -> Result<bool, &str>;
+
     /// Checks if the sequence and quality u8 vectors are the same length. Generally checks two u8 items for length against each other
     fn is_seq_qual_length_equal(&self, quality: &T) -> bool;
+
+    /// Checks if the sequence or quality u8 is less than or equal to the given length. Used to cut read to minimum length.
+    fn is_at_least_length(&self, length: &usize) -> bool;
+    /// Checks if the sequence or quality u8 is greater than or equal to the given length. Used to cut read to maximum length.
+    fn is_at_most_length(&self, length: &usize) -> bool;
+    /// Checks if the sequence or quality u8 is equal to the given length.
+    fn is_length(&self, length: &usize) -> bool;
 
     /// Checks if the sequence is a homopolymer with percentage cutoff.
     fn is_percent_homopolymer(&self, percent: &u8) -> Result<bool, &str>;
@@ -164,6 +172,21 @@ where
     /// Checks if the sequence and quality u8 vectors are the same length. Generally checks two u8 items for length against each other
     fn is_seq_qual_length_equal(&self, quality: &T)-> bool {
         self.into_iter().count() == quality.into_iter().count()
+    }
+
+    /// Checks if the sequence or quality u8 is less than or equal to the given length. Used to cut read to minimum length.
+    fn is_at_least_length(&self, length: &usize) -> bool {
+        self.into_iter().count() >= *length
+    }
+
+    /// Checks if the sequence or quality u8 is greater than or equal to the given length. Used to cut read to maximum length.
+    fn is_at_most_length(&self, length: &usize) -> bool {
+        self.into_iter().count() <= *length
+    }
+
+    /// Checks if the sequence or quality u8 is equal to the given length.
+    fn is_length(&self, length: &usize) -> bool {
+        self.into_iter().count() == *length
     }
 
     /// Checks if u8 comprised completely of the iupac including nucleotide, amino acid, punctuation.

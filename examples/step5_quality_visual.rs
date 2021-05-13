@@ -22,7 +22,7 @@ fn main() {
     println!("Quality integers are: {:?}", qual); // Print our unsigned integers for reference
     // Get what the actual qualities are by lookup with a hashmap (simply with values shifted 33 assuming phred33 encoding)
     // let scores = qual.into_iter().map(|q| PHRED33_HASHMAP_U8.get(&q).unwrap().to_owned()).collect::<Vec<u8>>();
-    let scores = qual.shift_qual_encoding().to_owned(); // get our quality scores from raw encoding and create an owned copy. We don't have to create an owned copy, this is just for demonstration.
+    let scores = qual.mut_decode_qual().to_owned(); // get our quality scores from raw encoding and create an owned copy. We don't have to create an owned copy, this is just for demonstration.
     println!("Quality scores are: {:?}", scores); // Print our unsigned integers for reference
     let y = 30; // Since we have a single quality let's just choose a y coordinate
     // Color each pixel by the score with increasing rgb. Add 100 so it's easier to see

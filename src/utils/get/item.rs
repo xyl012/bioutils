@@ -26,3 +26,22 @@ pub fn cg_positions(seq:&[u8])-> Vec<usize> {
 
 
 
+
+
+// pub trait ItemU8<T> {
+//     /// Returns the PHRED33 quality score from a raw PHRED33 quality encoding. The score is simply the u8 minus 33.
+//     pub fn shift_PHRED33_qual_encoding(&self) -> ;
+//     // fn check_u8(&self, is_what: &str) -> Result<bool, &str>;
+
+// }
+
+// impl<T> ItemU8<T> for T
+// where
+//     for<'a> &'a T: IntoIterator<Item = &'a u8>, 
+// {
+//     /// Returns the PHRED33 quality score from a raw PHRED33 quality encoding. The score is simply the u8 minus 33.
+//     fn shift_PHRED33_qual_encoding(&self) -> bool {
+//         self.into_iter().all(|x| IUPAC_U8.contains(&x))
+//     }
+// }
+

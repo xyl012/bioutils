@@ -11,7 +11,7 @@
     <ul>complete iupac and quality character sets</ul>
 </p>
 
-<p> Check back as more functionality gets added, pull requests welcome!</p>
+<p> Check back as more functionality gets added, pull requests welcome, suggestions for improvement always welcome!</p>
 <h2 id="quick-start" class="section-header"><a href="#quick-start">Quick Start</a></h2>
 <div class="example-wrap"><pre class="rust rust-example-rendered"><p>//! Check out the examples for a full practical walkthrough from downloading files, finding read positions, and making images!
 

@@ -41,6 +41,7 @@ pub trait ValueU8<T> {
 
     /// Returns the count of a specific u8
     fn count_xu8(&self, x: &u8) -> usize;
+
 }
 
 impl<T> ValueU8<T> for T

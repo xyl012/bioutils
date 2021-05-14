@@ -8,6 +8,7 @@
 //! println!("{:?}", matching) // Returns the 0 based index;
 
 use std::iter::FromIterator;
+use std::convert::TryInto;
 
 pub fn all_positions<I, P, T>(iter: I, mut pred: P) -> Vec<usize> 
 where
@@ -43,4 +44,14 @@ where
     fn cut_to_length(&self, length: &usize) -> &Self {
         self.into_iter().take(*length).collect::<&Self>()
     }
+}
+
+/// Get the counts in a u8 slice of each u8 with the bytecount crate. Possible to use with charsets.
+pub fn multi_count_bytecount(needles: &[u8], haystack: &[u8])-> Vec<u64> {
+    let mut count = Vec::new();
+    for i in needles.iter() {
+        let c: u64 = bytecount::count(haystack, *i).try_into().unwrap();
+        count.push(c);
+    }
+    count
 }

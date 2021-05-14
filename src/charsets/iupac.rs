@@ -69,6 +69,26 @@ lazy_static! {
     pub static ref BASIC_DNA_HASHSET_STR: HashSet<&'static str> = new_str_hashset(&BASIC_DNA_STR);
 }
 
+// Basic DNAN charset
+pub const BASIC_DNAN_U8: [u8; 5] = [b'A', b'C', b'G', b'T', b'N'];
+pub const BASIC_DNAN_STR: [&str; 5] = ["A", "C", "G", "T", "N"];
+lazy_static! {
+    pub static ref BASIC_DNAN_HASHSET_U8: HashSet<u8> = new_u8_hashset(&BASIC_DNAN_U8);
+}
+lazy_static! {
+    pub static ref BASIC_DNAN_HASHSET_STR: HashSet<&'static str> = new_str_hashset(&BASIC_DNAN_STR);
+}
+
+// Basic RNAN charset
+pub const BASIC_RNAN_U8: [u8; 5] = [b'A', b'C', b'G', b'U', b'N'];
+pub const BASIC_RNAN_STR: [&str; 5] = ["A", "C", "G", "U", "N"];
+lazy_static! {
+    pub static ref BASIC_RNAN_HASHSET_U8: HashSet<u8> = new_u8_hashset(&BASIC_RNAN_U8);
+}
+lazy_static! {
+    pub static ref BASIC_RNAN_HASHSET_STR: HashSet<&'static str> = new_str_hashset(&BASIC_RNAN_STR);
+}
+
 pub const BASIC_LOWERCASE_DNA_U8: [u8; 4] = [b'a', b'c', b'g', b't'];
 pub const BASIC_LOWERCASE_DNA_STR: [&str; 4] = ["a", "c", "g", "t"];
 lazy_static! {
@@ -125,6 +145,11 @@ pub const GAP_STR: [&str; 2] = [".", "-"];
 // Only N charset
 pub const N_U8: [u8; 2] = [b'N', b'n'];
 pub const N_STR: [&str; 2] = ["N", "n"];
+
+// Only CG charset
+pub const GC_U8: [u8; 2] = [b'C', b'G'];
+pub const GC_STR: [&str; 2] = ["C", "G"];
+
 
 // IUPAC equivalent charsets
 pub const Y_BASES_RNA: [u8; 2] = [b'C', b'U'];

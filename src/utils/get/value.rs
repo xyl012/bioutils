@@ -12,7 +12,7 @@
 //! let dna = random_dna(4,rng);
 //! let distance = dna.hamming_distance(b"AAAA");
 //! println!("{:?}", distance);
-//! ``
+// ! ``
 
 use bytecount::count;
 use crate::charsets::PERCENTAGE_RANGE;
@@ -27,8 +27,8 @@ pub trait ValueU8<T> {
     /// Returns the percent (0-100) of the quality u8 in bases (rounded) above the quality score supplied. Should be used when mapq scores are required.
     fn quality_percent_passing(&self, quality_score: &u8) -> usize;
 
-    // /// Returns the hamming distance of self and another seq.
-    // fn hamming_distance(&self, seq2: &T) -> u64;
+    /// Returns the hamming distance of self and another seq.
+    fn hamming_distance(&self, seq2: &T) -> u64;
 
     /// Returns the number of iterators greater than criteria. Used for calculating percents/numerators
     fn count_greater_than(&self, criteria:&u8)-> usize;
@@ -53,11 +53,11 @@ where
         percentage(self.count_greater_than(&quality_score), self.into_iter().count())
     }
 
-    // /// Checks the hamming distance between our item and a supplied item
-    // fn hamming_distance(&self, seq2: &T) -> u64 {
-    //     let seq1=self;
-    //     seq1.into_iter().zip(seq2).fold(0, |seq1, (seq2, c)| seq1 + (*seq2 ^ *c).count_ones() as u64)
-    // }
+    /// Checks the hamming distance between our item and a supplied item
+    fn hamming_distance(&self, seq2: &T) -> u64 {
+        let seq1=self;
+        seq1.into_iter().zip(seq2).fold(0, |seq1, (seq2, c)| seq1 + (*seq2 ^ *c).count_ones() as u64)
+    }
 
     /// Returns the number of iterations greater than the criteria
     fn count_greater_than(&self, criteria:&u8)-> usize {
@@ -99,22 +99,14 @@ pub fn validate_percentage_u8(percent: &u8) -> Result<bool, &'static str> {
     }
 }
 
-/// Get the gc content in a u8 slice with the bytecount crate
+/// Get the gc percent content in a u8 slice with the bytecount crate.
 pub fn gc_content_bytecount(haystack: &[u8])-> usize {
-    let needles = [b'C', b'G'];
-    let count = multi_count_bytecount(&needles, haystack);
+    let count = sum_multi_count_bytecount(&GC_U8, haystack);
     percentage(count, haystack.len())
 }
 
-/// Get the actgn content in a u8 slice with the bytecount crate.
-pub fn basic_nucleotide_content(haystack: &[u8])-> usize {
-    let needles = [b'A', b'C', b'T', b'G', b'N'];
-    let count = multi_count_bytecount(&needles, haystack);
-    percentage(count, haystack.len())
-}
-
-/// Get the counts of all u8s contained in a needle slice in a haystack u8 slice with the bytecount crate. Possible to use with charsets.
-pub fn multi_count_bytecount(needles: &[u8], haystack: &[u8])-> usize {
+/// Get the summed count of all u8s contained in a needle slice in a haystack u8 slice with the bytecount crate. Possible to use with charsets.
+pub fn sum_multi_count_bytecount(needles: &[u8], haystack: &[u8])-> usize {
     let mut count: usize = 0;
     for i in needles.iter() {
         let c = bytecount::count(haystack, *i);
@@ -122,10 +114,6 @@ pub fn multi_count_bytecount(needles: &[u8], haystack: &[u8])-> usize {
     }
     count
 }
-
-//TODO this will be a whole trait.
-// Intake a noodles reader and get the percent content from a 
-
 
 // // /// Take in a sequence string and create a vector of sequence strings with hamming distance 1 using the bases ACTG. Requires the sequence to be ACTGs, use replace if N.- or other symbols present.
 // // // Example: AAAA -> CAAA GAAA TAAA ACAA AGAA ATAA etc.

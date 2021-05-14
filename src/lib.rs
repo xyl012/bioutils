@@ -1,4 +1,3 @@
-
 //! # Bioutils: Simple Biological Utilities in Rust
 //! Bioutils provides simple biological utilities including:
 //! Functions to check sequence validity and content (palindromes too!) 

@@ -1,4 +1,3 @@
-// Copyright (c) 2021 Kana LLC
 
 //! Functions to download genome references. These are used to download specific references and do not need to be used directly.
 

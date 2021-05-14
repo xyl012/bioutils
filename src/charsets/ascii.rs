@@ -1,4 +1,3 @@
-// Copyright (c) 2021 Kana LLC
 
 //! English/ASCII letter sets provided as u8, str arrays, and hashsets.
 

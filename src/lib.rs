@@ -1,4 +1,3 @@
-// Copyright (c) 2021 Kana LLC
 
 //! # Bioutils: Simple Biological Utilities in Rust
 //! Bioutils provides simple biological utilities including:

@@ -1,4 +1,3 @@
-// Copyright (c) 2021 Kana LLC
 
 //! Functions to make new random u8 biological sequences. Includes dna,rna,aa,quality functions to create u8 vectors.
 //! # Examples

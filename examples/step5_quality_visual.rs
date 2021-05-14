@@ -1,4 +1,3 @@
-// Copyright (c) 2021 Kana LLC
 
 //! Example to make nucleotide-level visualizations quickly and easily with image and character functions
 //! This example colors each pixel by a vec<u8>, but we assume that the vector is a raw vector of u8s. We mean that the quality string is just read literally from the file. Check if the IO crate you use converts the quality u8s to scores, or if you have to convert them.

@@ -1,4 +1,3 @@
-// Copyright (c) 2021 Kana LLC
 
 pub trait CheckPalindrome<T> {
     /// Generic trait to check if T is a palindrome

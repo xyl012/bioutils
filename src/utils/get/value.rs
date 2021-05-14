@@ -1,4 +1,3 @@
-// Copyright (c) 2021 Kana LLC
 
 //! Functions that do not fall into the general categories of checking, mutating, or generating a new sequence. Generally includes statistics and transformations.
 //! # Examples
@@ -27,8 +26,8 @@ pub trait ValueU8<T> {
     /// Returns the percent (0-100) of the quality u8 in bases (rounded) above the quality score supplied. Should be used when mapq scores are required.
     fn quality_percent_passing(&self, quality_score: &u8) -> usize;
 
-    /// Returns the hamming distance of self and another seq.
-    fn hamming_distance(&self, seq2: &T) -> u64;
+    // /// Returns the hamming distance of self and another seq.
+    // fn hamming_distance(&self, seq2: &T) -> u64;
 
     /// Returns the number of iterators greater than criteria. Used for calculating percents/numerators
     fn count_greater_than(&self, criteria:&u8)-> usize;
@@ -53,11 +52,11 @@ where
         percentage(self.count_greater_than(&quality_score), self.into_iter().count())
     }
 
-    /// Checks the hamming distance between our item and a supplied item
-    fn hamming_distance(&self, seq2: &T) -> u64 {
-        let seq1=self;
-        seq1.into_iter().zip(seq2).fold(0, |seq1, (seq2, c)| seq1 + (*seq2 ^ *c).count_ones() as u64)
-    }
+    // /// Checks the hamming distance between our item and a supplied item
+    // fn hamming_distance(&self, seq2: &T) -> u64 {
+    //     let seq1=self;
+    //     seq1.into_iter().zip(seq2).fold(0, |seq1, (seq2, c)| seq1 + (*seq2 ^ *c).count_ones() as u64)
+    // }
 
     /// Returns the number of iterations greater than the criteria
     fn count_greater_than(&self, criteria:&u8)-> usize {

@@ -1,4 +1,3 @@
-// Copyright (c) 2021 Kana LLC
 
 // Remove read number in illumina (first number in 1:N:0:2)
 pub fn remove_illumina_read_number<'a>(illumina_name: & 'a mut Vec<u8>) -> & 'a mut Vec<u8> {

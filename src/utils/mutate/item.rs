@@ -1,4 +1,3 @@
-// Copyright (c) 2021 Kana LLC
 
 use crate::charsets::quality::PHRED64_HASHMAP_ENCODE_U8;
 use crate::charsets::quality::PHRED33_HASHMAP_ENCODE_U8;

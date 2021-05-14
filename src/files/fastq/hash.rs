@@ -1,4 +1,3 @@
-// Copyright (c) 2021 Kana LLC
 
 use std::collections::HashMap;
 use std::collections::HashSet;

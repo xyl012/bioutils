@@ -1,4 +1,3 @@
-// Copyright (c) 2021 Kana LLC
 
 //! Common colloqially named colors for use with rust image to create visualizations of nucleotide-level data
 //! We recommend using the colorous crate if you want to use a gradient as it also is simple to convert the color struct to an Rgb struct in the image crate

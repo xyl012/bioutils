@@ -1,4 +1,3 @@
-// Copyright (c) 2021 Kana LLC
 
 //! Example to make nucleotide-level visualizations quickly and easily with image and character functions
 //! This example colors each pixel by a vec<u8>.

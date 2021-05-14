@@ -1,4 +1,3 @@
-// Copyright (c) 2021 Kana LLC
 
 //! Trait to random characters with pseudorandom bases (Nn->{AC{TU}G}, IUPAC R to {AG}).
 //! # Examples

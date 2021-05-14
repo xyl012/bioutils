@@ -1,5 +1,3 @@
-// Copyright (c) 2021 Kana LLC
-
 //! This example finds positions of an arbitrary sequence or CG sequences.
 
 use bioutils::utils::get::item::all_positions;

@@ -1,4 +1,3 @@
-
 use seq_io::fasta::Record as FastaRecord;
 use seq_io::fastq::Record as FastqRecord;
 

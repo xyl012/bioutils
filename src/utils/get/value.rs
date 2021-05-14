@@ -13,7 +13,7 @@
 //! let distance = dna.hamming_distance(b"AAAA");
 //! println!("{:?}", distance);
 //! ``
-
+use bytecount::count;
 use crate::charsets::PERCENTAGE_RANGE;
 use std::collections::HashMap;
 use crate::charsets::iupac::*;
@@ -82,6 +82,7 @@ where
     fn count_xu8(&self, x: &u8) -> usize {
         self.into_iter().filter(|&q| q==x).count()
     }
+
 }
 
 /// Calculates percentage with usizes
@@ -97,18 +98,26 @@ pub fn validate_percentage_u8(percent: &u8) -> Result<bool, &'static str> {
     }
 }
 
+/// Get the gc content in a u8 slice with the bytecount crate
+pub fn gc_content_bytecount(slice: &[u8])-> usize {
+    let targets = vec![b'C', b'G'];
+    let count = multi_content_bytecount(slice, targets);
+    percentage(count, slice.len())
+}
+
+/// Get the x content in a u8 slice with the bytecount crate
+pub fn multi_content_bytecount(slice: &[u8], targets: Vec<u8>)-> usize {
+    let mut count: usize = 0;
+    for i in targets.iter() {
+        let c = bytecount::count(slice, *i);
+        count += c;
+    }
+    percentage(count, slice.len())
+}
+
 //TODO
-// /// Validate if a quality score is phred33, phred64, etc. Example: validate_quality_score_u8(quality_score, phred33u8hashmap)
-// pub fn validate_quality_score_u8(quality_score: , quality_charset: &str){};
+// Intake a noodles reader and get the percent content of sequences from a 
 
-// /// Get the percentage content in a u8 sequence
-
-// /// Get the percentage content of a sequence in a u8 sequence
-
-// // let x = b"ABCD";
-// // let y = b"1010";
-// // println!(b"BBDD");
-// // println!(b"BBDD");
 
 // // /// Take in a sequence string and create a vector of sequence strings with hamming distance 1 using the bases ACTG. Requires the sequence to be ACTGs, use replace if N.- or other symbols present.
 // // // Example: AAAA -> CAAA GAAA TAAA ACAA AGAA ATAA etc.

@@ -13,6 +13,7 @@
 //! let distance = dna.hamming_distance(b"AAAA");
 //! println!("{:?}", distance);
 //! ``
+
 use bytecount::count;
 use crate::charsets::PERCENTAGE_RANGE;
 use std::collections::HashMap;
@@ -99,24 +100,31 @@ pub fn validate_percentage_u8(percent: &u8) -> Result<bool, &'static str> {
 }
 
 /// Get the gc content in a u8 slice with the bytecount crate
-pub fn gc_content_bytecount(slice: &[u8])-> usize {
-    let targets = vec![b'C', b'G'];
-    let count = multi_content_bytecount(slice, targets);
-    percentage(count, slice.len())
+pub fn gc_content_bytecount(haystack: &[u8])-> usize {
+    let needles = [b'C', b'G'];
+    let count = multi_count_bytecount(&needles, haystack);
+    percentage(count, haystack.len())
 }
 
-/// Get the x content in a u8 slice with the bytecount crate
-pub fn multi_content_bytecount(slice: &[u8], targets: Vec<u8>)-> usize {
+/// Get the actgn content in a u8 slice with the bytecount crate.
+pub fn basic_nucleotide_content(haystack: &[u8])-> usize {
+    let needles = [b'A', b'C', b'T', b'G', b'N'];
+    let count = multi_count_bytecount(&needles, haystack);
+    percentage(count, haystack.len())
+}
+
+/// Get the counts of all u8s contained in a needle slice in a haystack u8 slice with the bytecount crate. Possible to use with charsets.
+pub fn multi_count_bytecount(needles: &[u8], haystack: &[u8])-> usize {
     let mut count: usize = 0;
-    for i in targets.iter() {
-        let c = bytecount::count(slice, *i);
+    for i in needles.iter() {
+        let c = bytecount::count(haystack, *i);
         count += c;
     }
-    percentage(count, slice.len())
+    count
 }
 
-//TODO
-// Intake a noodles reader and get the percent content of sequences from a 
+//TODO this will be a whole trait.
+// Intake a noodles reader and get the percent content from a 
 
 
 // // /// Take in a sequence string and create a vector of sequence strings with hamming distance 1 using the bases ACTG. Requires the sequence to be ACTGs, use replace if N.- or other symbols present.

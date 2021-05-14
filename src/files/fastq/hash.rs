@@ -4,7 +4,6 @@ use std::collections::HashSet;
 use std::io::{self, Cursor, Read};
 use std::iter::FromIterator;
 use seq_io::fastq::{Reader,Record};
-use seq_io::parallel::parallel_fastq;
 use std::fs::File;
 use std::io::BufWriter;
 use crate::files::fastq::util::*;

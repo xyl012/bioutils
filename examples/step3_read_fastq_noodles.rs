@@ -1,7 +1,9 @@
 
+use std::borrow::Borrow;
 use std::fs::File;
 
 use bioutils::references::ftp::download_grch38_primary_assembly_genome_fa_gz;
+use bioutils::utils::check::value::CheckU8;
 use suffix_array::SuffixArray;
 use noodles::fastq;
 use std::{
@@ -68,16 +70,62 @@ fn main()-> std::io::Result<()>{
     
         let mut record = fastq::Record::default();
         let mut n = 0;
-    
+        let mut n_homopolymers = 0;
+
         loop {
             match reader.read_record(&mut record) {
                 Ok(0) => break,
                 Ok(_) => n += 1,
                 Err(e) => return Err(e),
             }
+            match reader.read_record(&mut record) {
+                Ok(0) => break,
+                Ok(_) => if record.sequence().is_homopolymer() {} else {continue}, //
+                Err(e) => return Err(e),
+            }
             println!("Reads read: {}", n);
         }
-    }
+        println!("Reads read: {}", n);
 
+    }
     Ok(())
 }
+
+// fn ih(seq:&[u8])-> bool {
+//     seq.into_iter().all(|x| x==&b'A')
+// }
+
+// pub trait TestU8<T, C> {
+//     fn ih(&self) -> bool;
+// }
+
+// impl<T,C> TestU8<T,C> for T where
+//     C: Borrow<u8>,
+//     T: IntoIterator<Item = C>,
+//     C: PartialEq,
+//     T: ExactSizeIterator,
+// {
+// impl<'a, T, C> dyn TestU8<T, C> where
+// C: Borrow<u8>,
+// T: IntoIterator<Item = C>,
+// {
+    // type Item = &'a [u8];
+
+// impl<T,C> IntoIterator for T {
+//     type Item = i8;
+//     type IntoIter = PixelIntoIterator;
+
+//     fn into_iter(self) -> Self::IntoIter {
+//         PixelIntoIterator {
+//             pixel: self,
+//             index: 0,
+//         }
+//     }
+// }
+//     fn ih(&self)-> bool {
+//         self.into_iter().all(|x| x==b'A')
+//     }
+// }
+
+// impl<T, const N: usize> Iterator for IntoIter<T, N> {
+//     type Item = T;

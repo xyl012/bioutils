@@ -27,9 +27,6 @@ pub trait ValueU8<T> {
     /// Returns the percent (0-100) of the quality u8 in bases (rounded) above the quality score supplied. Should be used when mapq scores are required.
     fn quality_percent_passing(&self, quality_score: &u8) -> usize;
 
-    /// Returns the hamming distance of self and another seq.
-    fn hamming_distance(&self, seq2: &T) -> u64;
-
     /// Returns the number of iterators greater than criteria. Used for calculating percents/numerators
     fn count_greater_than(&self, criteria:&u8)-> usize;
 
@@ -46,45 +43,56 @@ pub trait ValueU8<T> {
 
 impl<T> ValueU8<T> for T
 where
-    for<'a> &'a T: IntoIterator<Item = &'a u8>, 
+    T: AsRef<[u8]>,
 {
     /// Checks each quality u8 and returns the percent above (passing) the given u8
     fn quality_percent_passing(&self, quality_score: &u8)-> usize {
-        percentage(self.count_greater_than(&quality_score), self.into_iter().count())
-    }
-
-    /// Checks the hamming distance between our item and a supplied item
-    fn hamming_distance(&self, seq2: &T) -> u64 {
-        let seq1=self;
-        seq1.into_iter().zip(seq2).fold(0, |seq1, (seq2, c)| seq1 + (*seq2 ^ *c).count_ones() as u64)
+        percentage(self.count_greater_than(quality_score), self.as_ref().iter().count())
     }
 
     /// Returns the number of iterations greater than the criteria
     fn count_greater_than(&self, criteria:&u8)-> usize {
-        self.into_iter().filter(|s| s>=&criteria).count()
+        self.as_ref().iter().filter(|&s| s>=criteria).count()
     }
 
     /// Returns the number of occurrences of the mode
     fn count_mode(&self) -> usize {
         let mode = self.mode().unwrap();
-        self.into_iter().filter(|&q| q==mode).count()
+        self.as_ref().iter().filter(|&q| q==mode).count()
     }
 
     /// Returns the mode
-    fn mode(&self) -> Option<&u8> {
+    fn mode(&self)-> Option<&u8> {
         let mut counts = HashMap::new();
-        self.into_iter().max_by_key(|&s| {
+        self.as_ref().iter().max_by_key(|&s| {
             let count = counts.entry(s).or_insert(0);
-            *count += 1;
-            *count})
+            *count += 1; *count})
     }
     
     /// Returns the count of a specific u8
     fn count_xu8(&self, x: &u8) -> usize {
-        self.into_iter().filter(|&q| q==x).count()
+        self.as_ref().iter().filter(|&q| q==x).count()
     }
 
 }
+
+
+// impl<T, K> ValueU8<K> for T
+// where
+//     T: AsRef<[u8]>,
+// {
+    // K: AsRef<[u8]>,
+    // K: Eq + PartialEq + Ord + PartialOrd,
+
+    // /// Returns the hamming distance of self and another seq.
+    // fn hamming_distance(&self, seq2: &T) -> u64;
+
+
+    // /// Checks the hamming distance between our item and a supplied item
+    // fn hamming_distance(&self, seq2: &K) -> u64 {
+    //     let seq1=self;
+    //     seq1.as_ref().iter().zip(seq2.as_ref().iter()).fold(0, |seq1, (seq2, c)| seq1 + (seq2 ^ c).count_ones() as u64)
+    // }
 
 /// Calculates percentage with usizes
 pub fn percentage(numerator: usize, denominator: usize) -> usize {

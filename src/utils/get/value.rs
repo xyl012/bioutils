@@ -51,7 +51,7 @@ where
     }
 
     /// Returns the number of iterations greater than the criteria
-    fn count_greater_than(&self, criteria:&u8)-> usize {
+    fn count_greater_than(&self, criteria: &u8)-> usize {
         self.as_ref().iter().filter(|&s| s>=criteria).count()
     }
 

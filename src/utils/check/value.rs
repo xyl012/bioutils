@@ -109,8 +109,6 @@ where
     // /// The goal of this function would be to set is_what to a constant in the program, for example a program focused on illumina data might set a constant to phred33 and input as is_what, rather than having to call is_phred33 each time. This means we can easily make our program take phred33 or 64 by just changing the constant.
     // fn check_u8(&self, is_what: &str) -> Result<bool, &str>;
 
-    // /// Checks the sequence has the percent bases (rounded) above the quality score
-    // fn is_qual_passing(&self, quality_score: &u8, percent: &u8) -> Result<bool, &str>;
 
     // /// Checks if the sequence and quality u8 vectors are the same length. Generally checks two u8 items for length against each other
     // fn is_seq_qual_length_equal(&self, quality: &K) -> bool;
@@ -150,25 +148,15 @@ where
     //     } else {validate_is_what(&is_what)}
     // }
 
-    // /// Checks the sequence has a number of bases (percent rounded) greater than or equal to the supplied quality score
-    // fn is_qual_passing(&self, quality_score: &u8, percent: &u8) -> Result<bool, &str> {
-    //     if validate_percentage_u8(percent).unwrap() {
-    //         if self.quality_percent_passing(&quality_score) >= (*percent).into() {
-    //             Ok(true)
-    //         } else { Ok(false) }
-    //     } else { validate_percentage_u8(percent) }
-    // }
 
     // /// Checks if the sequence and quality u8 vectors are the same length. Generally checks two u8 items for length against each other
     // fn is_seq_qual_length_equal(&self, quality: &K)-> bool {
     //     self.as_ref().iter().count() == quality.as_ref().iter().count()
     // }
 
-
-
-
-
 pub trait CheckU8<T> {
+    /// Checks the sequence has the percent bases (rounded) above the quality score
+    fn is_qual_passing(&self, quality_score: &u8, percent: &u8) -> Result<bool, &str>;
 
     /// Checks if the sequence is a homopolymer with percentage cutoff.
     fn is_percent_homopolymer(&self, percent: &u8) -> Result<bool, &str>;
@@ -221,6 +209,14 @@ impl<T> CheckU8<T> for T
 where
     T: AsRef<[u8]>,
 {
+    /// Checks the sequence has a number of bases (percent rounded) greater than or equal to the supplied quality score
+    fn is_qual_passing(&self, quality_score: &u8, percent: &u8) -> Result<bool, &str> {
+        if validate_percentage_u8(percent).unwrap() {
+            if self.quality_percent_passing(&quality_score) >= (*percent).into() {
+                Ok(true)
+            } else { Ok(false) }
+        } else { validate_percentage_u8(percent) }
+    }
 
     /// Checks if the sequence is a homopolymer with percentage cutoff
     fn is_percent_homopolymer(&self, percent: &u8) -> Result<bool, &str> {

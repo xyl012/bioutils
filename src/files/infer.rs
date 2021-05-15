@@ -33,20 +33,3 @@ pub fn infer_kind(path: &Path) -> infer::Type {
 //         .map(fastq::Reader::new)
 //     }
 // }
-
-// pub fn noodles_fasta_reader(path: &Path) -> noodles::fasta::Reader {
-//     File::open(smpl_path.unwrap().path())
-//     .map(flate2::read::GzDecoder::new)
-//     .map(BufReader::new)
-//     .map(fastq::Reader::new)?;
-// }
-
-
-
-
-// pub fn noodles_reader(path: Path){
-//     File::open(smpl_path.unwrap().path())
-//         .map(flate2::read::GzDecoder::new)
-//         .map(BufReader::new)
-//         .map(fastq::Reader::new);
-// }

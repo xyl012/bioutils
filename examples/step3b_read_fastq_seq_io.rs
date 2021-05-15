@@ -23,27 +23,6 @@ fn main()-> std::io::Result<()>{
     // Step 1 Complete!
     // Running everything from Step 2
 
-    // Now we start downloading our files with a lot of printing as we go.
-    // This may fail or give an error if the connection is interrupted. Please try again and be patient if so.
-    println!("Downloading reference with: ");
-    println!("download_grch38_primary_assembly_genome_fa_gz()");
-    println!("...Please Wait...");
-    println!("...If over 10 minutes, there may be a connection issue...");
-
-    download_grch38_primary_assembly_genome_fa_gz(&references_directory);
-
-    println!("Reference functions take a path, we make this with std::path::path::new()");
-    println!("Downloading fastq with: ");
-    println!("bioutils::files::http::curl()");
-    println!("...Please Wait...");
-    println!("...If over 10 minutes, there may be a connection issue...");
-
-    // Example Illumina format
-    bioutils::files::http::curl(fastq_ftp, fastq_gz, &samples_directory);
-
-    println!("We now have the reference in our references directory");
-    println!("Let's check which are available");
-
     // Get our reference paths
     let ref_paths = std::fs::read_dir(&references_directory).unwrap();
     // Print our reference paths

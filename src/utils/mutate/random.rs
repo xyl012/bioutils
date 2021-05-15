@@ -22,19 +22,54 @@ use rand::rngs::ThreadRng;
 use rand::seq::SliceRandom;
 use crate::charsets::iupac::*;
 
-
 pub trait AsMutRandomU8 {
+    /// Random all other than ACGTUactgu with pseudorandom nucleotides ACTGU. Should be used last after other functions or for cleanup of unknown characters.
     fn mut_random_replace_non_basic(&mut self, xna: &str, rng: ThreadRng) -> &mut Self ;
+    /// Fill {N,n} with pseudorandom nucleotides ACUG if xna is "RNA" or ACTG for all other xna.
     fn mut_random_replace_n(&mut self, xna: &str, rng: ThreadRng) -> &mut Self ;
+    /// Fill gaps {.,-} with pseudorandom nucleotides ACUG if xna is "RNA" or ACTG for all other xna.
     fn mut_random_replace_gap(&mut self, xna: &str, rng: ThreadRng) -> &mut Self ;
-    fn mut_random_replace_iupac(&mut self, xna: &str, rng: ThreadRng) -> &mut Self ;
+    /// Specifically make actgu into ACTGU
     fn mut_to_upper_basic(&mut self) -> &mut Self ;
+    /// Specifically make ACTGU into actgu
     fn mut_to_lower_basic(&mut self) -> &mut Self ;
+    /// Pseudorandom nucleotide randomments within IUPAC specifications, e.g. R: either A or G. Case specific, r: either a or g.
+    fn mut_random_replace_iupac(&mut self, xna: &str, rng: ThreadRng) -> &mut Self ;
 }
 
 impl<T> AsMutRandomU8 for T
 where T: AsMut<[u8]>,
 {
+    /// random all other than ACGTUactgu with pseudorandom nucleotides ACTGU. Should be used last after other functions or for cleanup of unknown characters.
+    fn mut_random_replace_non_basic(&mut self, xna: &str, mut rng: ThreadRng) -> &mut Self {
+        if xna == "RNA" {
+            self.as_mut().iter_mut().for_each(|c| match c {
+                    b'A' => {},
+                    b'a' => {},
+                    b'C' => {},
+                    b'c' => {},
+                    b'G' => {},
+                    b'g' => {},
+                    b'U' => {},
+                    b'u' => {},
+                    _ => *c = *BASIC_RNA_U8.choose(&mut rng).unwrap()
+                })
+        } else if xna == "DNA" {
+            self.as_mut().iter_mut().for_each(|c| match c {
+                    b'A' => {},
+                    b'a' => {},
+                    b'C' => {},
+                    b'c' => {},
+                    b'T' => {},
+                    b't' => {},
+                    b'G' => {},
+                    b'g' => {},
+                    _ => *c = *BASIC_DNA_U8.choose(&mut rng).unwrap()
+                })
+        }
+        self
+    }
+
     /// Fill {N,n} with pseudorandom nucleotides ACUG if xna is "RNA" or ACTG for all other xna.
     fn mut_random_replace_n(&mut self, xna: &str, mut rng: ThreadRng) -> &mut Self {
         if xna == "RNA" {
@@ -66,36 +101,6 @@ where T: AsMut<[u8]>,
                     b'.' => *c = *BASIC_DNA_U8.choose(&mut rng).unwrap(),
                     b'-' => *c = *BASIC_DNA_U8.choose(&mut rng).unwrap(),
                     _ => {}
-                })
-        }
-        self
-    }
-
-    /// random all other than ACGTUactgu with pseudorandom nucleotides ACTGU. Should be used last after other functions or for cleanup of unknown characters.
-    fn mut_random_replace_non_basic(&mut self, xna: &str, mut rng: ThreadRng) -> &mut Self {
-        if xna == "RNA" {
-            self.as_mut().iter_mut().for_each(|c| match c {
-                    b'A' => {},
-                    b'a' => {},
-                    b'C' => {},
-                    b'c' => {},
-                    b'G' => {},
-                    b'g' => {},
-                    b'U' => {},
-                    b'u' => {},
-                    _ => *c = *BASIC_RNA_U8.choose(&mut rng).unwrap()
-                })
-        } else if xna == "DNA" {
-            self.as_mut().iter_mut().for_each(|c| match c {
-                    b'A' => {},
-                    b'a' => {},
-                    b'C' => {},
-                    b'c' => {},
-                    b'T' => {},
-                    b't' => {},
-                    b'G' => {},
-                    b'g' => {},
-                    _ => *c = *BASIC_DNA_U8.choose(&mut rng).unwrap()
                 })
         }
         self

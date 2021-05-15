@@ -51,7 +51,7 @@ fn main()-> std::io::Result<()>{
         loop {
             match reader.read_record(&mut record) {
                 Ok(0) => break,
-                Ok(_) => {n += 1; if record.sequence().is_homopolymer() {n_homopolymers +=1 } else {continue}}, // Count homopolymers
+                Ok(_) => {n += 1; if record.sequence().is_percent_homopolymer(&90).unwrap() {n_homopolymers +=1 } else {continue}}, // Count homopolymers
                 Err(e) => return Err(e),
             }
             println!("Reads read: {}", n);

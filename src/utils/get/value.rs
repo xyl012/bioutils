@@ -47,7 +47,7 @@ where
 {
     /// Checks each quality u8 and returns the percent above (passing) the given u8
     fn quality_percent_passing(&self, quality_score: &u8)-> usize {
-        percentage(self.count_greater_than(quality_score), self.as_ref().iter().count())
+        percentage(self.count_greater_than(quality_score), self.as_ref().iter().len())
     }
 
     /// Returns the number of iterations greater than the criteria
@@ -106,10 +106,6 @@ pub fn validate_percentage_u8(percent: &u8) -> Result<bool, &'static str> {
     false => Err("Please supply a percent (0-100, not fractional) as u8"),
     }
 }
-
-
-
-
 
 pub trait BytecountValue<K>{
     /// Get the gc percent content in a u8 slice with the bytecount crate.

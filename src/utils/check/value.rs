@@ -76,17 +76,17 @@ where
 {
         /// Checks if the sequence or quality u8 is less than or equal to the given length. Used to cut read to minimum length.
         fn is_at_least_length(&self, length: &usize) -> bool {
-            self.as_ref().iter().count() >= *length
+            self.as_ref().iter().len() >= *length
         }
     
         /// Checks if the sequence or quality u8 is greater than or equal to the given length. Used to cut read to maximum length.
         fn is_at_most_length(&self, length: &usize) -> bool {
-            self.as_ref().iter().count() <= *length
+            self.as_ref().iter().len() <= *length
         }
     
         /// Checks if equal to the given length.
         fn is_length(&self, length: &usize) -> bool {
-            self.as_ref().iter().count() == *length
+            self.as_ref().iter().len() == *length
         }
 
         /// Checks if completely comprised of the same character. Does not use a character set, so could be all gaps, etc. Use has_mixed_case and to_uppercase/to_lowercase prior if mixed case.
@@ -108,12 +108,6 @@ where
     // /// is_basic_dna, is_phred33, is_basic_rna,  
     // /// The goal of this function would be to set is_what to a constant in the program, for example a program focused on illumina data might set a constant to phred33 and input as is_what, rather than having to call is_phred33 each time. This means we can easily make our program take phred33 or 64 by just changing the constant.
     // fn check_u8(&self, is_what: &str) -> Result<bool, &str>;
-
-
-    // /// Checks if the sequence and quality u8 vectors are the same length. Generally checks two u8 items for length against each other
-    // fn is_seq_qual_length_equal(&self, quality: &K) -> bool;
-
-
 
 // /// Validates whether is a valid something based on the boolean is_x smaller functions in this trait and returns a wrapped boolean. Example: check_u8(b"ACTG","is_basic_dna") returns a wrapped "true". Options for is_what are the names of the charset boolean functions:
     // /// "is_iupac_nucleotide", "is_iupac_amino_acid", "is_iupac",
@@ -149,10 +143,6 @@ where
     // }
 
 
-    // /// Checks if the sequence and quality u8 vectors are the same length. Generally checks two u8 items for length against each other
-    // fn is_seq_qual_length_equal(&self, quality: &K)-> bool {
-    //     self.as_ref().iter().count() == quality.as_ref().iter().count()
-    // }
 
 pub trait CheckU8<T> {
     /// Checks the sequence has the percent bases (rounded) above the quality score
@@ -162,8 +152,6 @@ pub trait CheckU8<T> {
     fn is_percent_homopolymer(&self, percent: &u8) -> Result<bool, &str>;
     /// Checks if the sequence is a x homopolymer with percentage cutoff.
     fn is_percent_homopolymer_x(&self, x: &u8, percent: &u8) -> Result<bool, &str>;
-    // /// Checks if the sequence is any homopolymer comprised of any character other than N or n with percentage cutoff. Possible to use with Rust's window function for checking homopolymer sequences of arbitrary length.
-    // fn is_percent_homopolymer_not_n(&self, percent: &u8) -> bool;
 
     /// Checks if the u8 sequence is homopolymer. Possible to use with Rust's window function for checking homopolymer sequences of arbitrary length.
     fn is_homopolymer(&self) -> bool;
@@ -221,7 +209,7 @@ where
     /// Checks if the sequence is a homopolymer with percentage cutoff
     fn is_percent_homopolymer(&self, percent: &u8) -> Result<bool, &str> {
         if validate_percentage_u8(&percent).unwrap() {
-            if percentage(self.count_mode(), self.as_ref().iter().count()) >= (*percent).into() {
+            if percentage(self.count_mode(), self.as_ref().iter().len()) >= (*percent).into() {
                 Ok(true)
             } else {Ok(false)}
         } else {validate_percentage_u8(&percent)}
@@ -229,7 +217,7 @@ where
     /// Checks if the sequence is comprised of 'x' base greater than 'percent' cutoff. Primary use is for filtering for reads with >90% percent N's or A's
     fn is_percent_homopolymer_x(&self, x: &u8, percent: &u8) -> Result<bool, &str> {
         if validate_percentage_u8(&percent).unwrap() {
-            if percentage(self.count_xu8(x), self.as_ref().iter().count()) >= (*percent).into() {
+            if percentage(self.count_xu8(x), self.as_ref().iter().len()) >= (*percent).into() {
                 Ok(true)
             } else {Ok(false)}
         } else {validate_percentage_u8(&percent)}
@@ -327,13 +315,32 @@ where
     }
 }
 
-/// Validates that 'is_what' parameter of the check_u8() function is a valid option.
-pub fn validate_is_what<'a>(is_what: &str) -> Result<bool, &'a str> {
-        match IS_WHAT_OPTIONS.contains(&is_what) {
-            true => Ok(true),
-            false => Err("Not a valid option for is_what parameter, please check valid options"),
-        }
+
+pub trait CheckEqItems<K>{
+    /// Checks if the sequence and quality u8 vectors are the same length. Generally checks two u8 items for length against each other
+    fn is_seq_qual_length_equal(&self, quality: &K) -> bool;
 }
+
+impl<T, K> CheckEqItems<K> for T
+where
+    T: AsRef<[K]>,
+    T: PartialEq,
+    K: AsRef<[T]>,
+    K: PartialEq,
+{
+    /// Checks if two items are the same length. 
+    fn is_seq_qual_length_equal(&self, quality: &K)-> bool {
+        self.as_ref().iter().len() == quality.as_ref().iter().len()
+    }
+}
+
+// /// Validates that 'is_what' parameter of the check_u8() function is a valid option.
+// pub fn validate_is_what<'a>(is_what: &str) -> Result<bool, &'a str> {
+//         match IS_WHAT_OPTIONS.contains(&is_what) {
+//             true => Ok(true),
+//             false => Err("Not a valid option for is_what parameter, please check valid options"),
+//         }
+// }
 
 // #[cfg(test)]
 // mod tests {

@@ -53,3 +53,17 @@ pub fn multi_count_bytecount(needles: &[u8], haystack: &[u8])-> Vec<u64> {
     }
     count
 }
+
+// pub trait FindKey<T>{
+//     fn find(&self, key: &T) -> Option<usize>;
+// }
+
+// impl<T, K> FindKeyPosition<K> for T
+// where
+//     T: AsRef<[K]>,
+//     K: PartialEq,
+// {
+//     fn find(&self, key: &K) -> Option<usize> {
+//         self.as_ref().iter().filter(|x| x == key)
+//     }
+// }

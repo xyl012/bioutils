@@ -21,7 +21,6 @@ where
     }
     true
     }
-    //TODO palindrome with error 1
 }
 
 

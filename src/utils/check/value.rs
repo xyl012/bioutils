@@ -27,9 +27,6 @@
 //! assert!(quality.is_phred64());
 //! assert!(quality.is_solexa());
 //! 
-//! // We can also do checks this way:
-//! assert!(quality.check_u8("is_phred33").unwrap());
-//! assert!(dna.check_u8("is_basic_dna").unwrap());
 //! ```
 
 // use crate::utils::check_percentage_u8;

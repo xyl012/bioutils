@@ -1,6 +1,6 @@
 [package]
 name = "bioutils"
-version = "0.1.9"
+version = "0.2.0"
 authors = ["Christopher Sugai <christophersugai@gmail.com>"]
 edition = "2018"
 description = "A crate containing simple utilities and alphabets for biological sequence data."

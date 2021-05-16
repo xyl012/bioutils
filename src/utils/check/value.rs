@@ -172,12 +172,7 @@ where
             } else { Ok(false) }            
         } else { validate_phred33_score_u8(mean_quality_score) }
     }
-    // /// Checks the sequence has a quality score above greater than or equal to the supplied mean. Commonly done per base in fastqc.
-    // fn quality_mean_passing(&self quality_score: &u8) -> usize;
-    // /// Checks the sequence has a quality score above greater than or equal to the supplied mean. Commonly done per base in fastqc.
-    // fn quality_mean_passing(&self quality_score: &u8) -> usize {
-        
-    // }
+
     /// Checks if the sequence is a homopolymer with percentage cutoff
     fn is_percent_homopolymer(&self, percent: &u8) -> Result<bool, &str> {
         if validate_percentage_u8(&percent).unwrap() {

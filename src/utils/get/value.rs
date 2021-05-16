@@ -14,6 +14,7 @@
 //! println!("{:?}", distance);
 // ! ``
 
+use std::convert::TryFrom;
 use crate::charsets::PERCENTAGE_RANGE;
 use std::collections::HashMap;
 use crate::charsets::iupac::*;
@@ -31,6 +32,9 @@ pub trait ValueU8<T> {
 
     /// Returns the number of occurrences of the mode
     fn count_mode(&self) -> usize;
+
+    /// Returns the mean of u8s
+    fn mean(&self) -> u64;
 
     /// Returns the mode
     fn mode(&self) -> Option<&u8>;
@@ -60,7 +64,12 @@ where
         self.as_ref().iter().filter(|&q| q==mode).count()
     }
 
-    /// Returns the mode
+    /// Returns the mean of u8s as u64 rounded
+    fn mean(&self) -> u64 {
+        self.as_ref().iter().sum::<u8>() as u64 / self.as_ref().iter().len() as u64
+    }
+
+    /// Returns the mode of u8s
     fn mode(&self)-> Option<&u8> {
         let mut counts = HashMap::new();
         self.as_ref().iter().max_by_key(|&s| {
@@ -75,6 +84,23 @@ where
 
 }
 
+fn mean(numbers: &[u8]) -> u64 {
+    numbers.iter().sum::<u8>() as u64 / numbers.len() as u64
+}
+
+fn median(numbers: &mut [i32]) -> i32 {
+    numbers.sort();
+    let mid = numbers.len() / 2;
+    numbers[mid]
+}
+
+    
+    // /// Returns the median of u8s as u8
+    // fn median(&self) -> u8 {
+    //     self.sort();
+    //     let mid = self.as_ref().iter().len() / 2;
+    //     numbers[mid]
+    // }
 
 // impl<T, K> ValueU8<K> for T
 // where
@@ -85,7 +111,6 @@ where
 
     // /// Returns the hamming distance of self and another seq.
     // fn hamming_distance(&self, seq2: &T) -> u64;
-
 
     // /// Checks the hamming distance between our item and a supplied item
     // fn hamming_distance(&self, seq2: &K) -> u64 {

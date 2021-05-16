@@ -52,6 +52,7 @@ fn main()-> std::io::Result<()>{
                 Ok(0) => break,
                 Ok(_) => {number_reads += 1; 
                     if record.sequence().is_percent_homopolymer(&90).unwrap() {homopolymers +=1} 
+                    else if record.quality_scores().is_percent_homopolymer(&90).unwrap() {homopolymers +=1} 
                     else {continue}
                 }, // Count homopolymers
                 Err(e) => return Err(e),
@@ -60,6 +61,7 @@ fn main()-> std::io::Result<()>{
         }
         println!("Reads read: {}", number_reads);
         println!("Total number of homopolymers: {}", homopolymers);
+        println!("Reads >=Q30: {}", homopolymers);
     }
     Ok(())
 }

@@ -10,21 +10,20 @@
 use std::iter::FromIterator;
 use std::convert::TryInto;
 
-// pub trait GetItemU8<T> {
-//     /// Cuts the read to a specific length
-//     fn cut_to_length(&self, length: &usize) -> &T;
-// }
+pub trait GetItemU8<T> {
+    /// Cuts the read to a specific length
+    fn cut_to_length(&self, length: &usize) -> Vec<u8>;
+}
 
-// impl<T> GetItemU8<T> for T
-// where
-//     T: AsRef<[u8]>,
-//     T: FromIterator<u8>,
-// {
-//     /// Cuts u8 to a length. Should be used with check functions for length.
-//     fn cut_to_length(&self, length: &usize) -> &T {
-//         self.as_ref().iter().take(*length).collect::<&T>()
-//     }
-// }
+impl<T> GetItemU8<T> for T
+where
+    T: AsRef<[u8]>,
+{
+    /// Cuts u8 to a length. Should be used with check functions for length.
+    fn cut_to_length(&self, length: &usize) -> Vec<u8> {
+        self.as_ref().iter().take(*length).cloned().collect::<Vec<u8>>()
+    }
+}
 
 /// Returns CG positions in the given &[u8]
 pub fn cg_positions(seq:&[u8])-> Vec<usize> {

@@ -107,33 +107,31 @@ pub fn validate_percentage_u8(percent: &u8) -> Result<bool, &'static str> {
     }
 }
 
-pub trait BytecountValue<K>{
+pub trait BytecountValue<T>{
     /// Get the gc percent content in a u8 slice with the bytecount crate.
     fn gc_content_bytecount(&self) -> usize;
     /// Get the summed count of all u8s contained in a needle slice in a haystack u8 slice with the bytecount crate. Possible to use with charsets.
-    fn sum_multi_count_bytecount(&self, needles: &K)-> usize;
+    fn sum_multi_count_bytecount(&self, needles: &[u8])-> usize;
 }
 
-impl<T, K> BytecountValue<K> for T
+impl<T> BytecountValue<T> for T
 where
     T: AsRef<[u8]>,
-    K: AsRef<[u8]>,
-    K: PartialEq,
 {
-/// Get the gc percent content in a u8 slice with the bytecount crate.
-fn gc_content_bytecount(&self)-> usize {
-    percentage(self.sum_multi_count_bytecount(&GC_U8), self.as_ref().iter().len())
-}
-
-/// Get the summed count of all u8s contained in a needle slice in a haystack u8 slice with the bytecount crate. Possible to use with charsets.
-fn sum_multi_count_bytecount(&self,needles: &K)-> usize {
-    let mut count: usize = 0;
-    for i in needles.as_ref().iter() {
-        let c = bytecount::count(self.as_ref(), *i);
-        count += c;
+    /// Get the gc percent content in a u8 slice with the bytecount crate.
+    fn gc_content_bytecount(&self)-> usize {
+        percentage(self.sum_multi_count_bytecount(&GC_U8), self.as_ref().iter().len())
     }
-    count
-}
+
+    /// Get the summed count of all u8s contained in a needle slice in a haystack u8 slice with the bytecount crate. Possible to use with charsets.
+    fn sum_multi_count_bytecount(&self,needles: &[u8]) -> usize {
+        let mut count: usize = 0;
+        for i in needles.as_ref().iter() {
+            let c = bytecount::count(self.as_ref(), *i);
+            count += c;
+        }
+        count
+    }
 }
 
 /// Get the gc percent content in a u8 slice with the bytecount crate.

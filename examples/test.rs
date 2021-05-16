@@ -40,6 +40,13 @@
 //     Ok(())
 // }
 
+// use bioutils::utils::check::value::Check;
+use bioutils::utils::check::value::CheckU8;
+use bioutils::utils::get::value::BytecountValue;
+use bioutils::utils::get::item::GetItemU8;
 fn main(){
-    
+    let test = b"ACTG";
+    test.cut_to_length(&6);
+    test.is_homopolymer();
+    test.gc_content_bytecount();
 }

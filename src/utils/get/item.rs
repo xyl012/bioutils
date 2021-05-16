@@ -25,26 +25,6 @@ where
     }
 }
 
-pub trait BytecountItem<T> {
-    /// Get the counts in a u8 slice of each u8 with the bytecount crate. Possible to use with charsets.
-    fn multi_count_bytecount(&self, needles: &[u8])-> Vec<u64>;
-}
-
-impl<T> BytecountItem<T> for T
-where
-    T: AsRef<[u8]>,
-{
-    /// Get the counts in a u8 slice of each u8 with the bytecount crate. Possible to use with charsets.
-    fn multi_count_bytecount(&self, needles: &[u8])-> Vec<u64> {
-    let mut count = Vec::new();
-    for i in needles.iter() {
-        let c: u64 = bytecount::count(self.as_ref(), *i).try_into().unwrap();
-        count.push(c);
-    }
-    count
-}
-}
-
 
 /// Returns CG positions in the given &[u8]
 pub fn cg_positions(seq:&[u8])-> Vec<usize> {

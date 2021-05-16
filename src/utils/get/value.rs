@@ -14,7 +14,6 @@
 //! println!("{:?}", distance);
 // ! ``
 
-use bytecount::count;
 use crate::charsets::PERCENTAGE_RANGE;
 use std::collections::HashMap;
 use crate::charsets::iupac::*;
@@ -105,56 +104,6 @@ pub fn validate_percentage_u8(percent: &u8) -> Result<bool, &'static str> {
     true => Ok(true),
     false => Err("Please supply a percent (0-100, not fractional) as u8"),
     }
-}
-
-pub trait BytecountValue<T>{
-    /// Get the gc percent content in a u8 slice with the bytecount crate.
-    fn gc_content_bytecount(&self) -> usize;
-    /// Get the N percent content in a u8 slice with the bytecount crate.
-    fn n_content_bytecount(&self) -> usize ;
-    /// Get the summed count of all u8s contained in a needle slice in a haystack u8 slice with the bytecount crate. Possible to use with charsets.
-    fn sum_multi_count_bytecount(&self, needles: &[u8])-> usize;
-}
-
-impl<T> BytecountValue<T> for T
-where
-    T: AsRef<[u8]>,
-{
-    /// Get the gc percent content in a u8 slice with the bytecount crate.
-    fn gc_content_bytecount(&self)-> usize {
-        percentage(self.sum_multi_count_bytecount(&GC_U8), self.as_ref().iter().len())
-    }
-
-    /// Get the N percent content in a u8 slice with the bytecount crate.
-    fn n_content_bytecount(&self) -> usize {
-        percentage(self.sum_multi_count_bytecount(&N_U8), self.as_ref().iter().len())
-    }
-
-    /// Get the summed count of all u8s contained in a needle slice in a haystack u8 slice with the bytecount crate. Possible to use with charsets.
-    fn sum_multi_count_bytecount(&self,needles: &[u8]) -> usize {
-        let mut count: usize = 0;
-        for i in needles.as_ref().iter() {
-            let c = bytecount::count(self.as_ref(), *i);
-            count += c;
-        }
-        count
-    }
-}
-
-/// Get the gc percent content in a u8 slice with the bytecount crate.
-pub fn gc_content_bytecount(haystack: &[u8])-> usize {
-    let count = sum_multi_count_bytecount(&GC_U8, haystack);
-    percentage(count, haystack.len())
-}
-
-/// Get the summed count of all u8s contained in a needle slice in a haystack u8 slice with the bytecount crate. Possible to use with charsets.
-pub fn sum_multi_count_bytecount(needles: &[u8], haystack: &[u8])-> usize {
-    let mut count: usize = 0;
-    for i in needles.iter() {
-        let c = bytecount::count(haystack, *i);
-        count += c;
-    }
-    count
 }
 
 // // /// Take in a sequence string and create a vector of sequence strings with hamming distance 1 using the bases ACTG. Requires the sequence to be ACTGs, use replace if N.- or other symbols present.

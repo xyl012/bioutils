@@ -1,6 +1,5 @@
 
 use bioutils::charsets::iupac::BASIC_DNA_U8;
-use bioutils::utils::get::value::BytecountValue;
 use std::borrow::Borrow;
 use std::fs::File;
 

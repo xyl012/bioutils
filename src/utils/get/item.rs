@@ -44,17 +44,6 @@ where
         .map(|(idx, _)| idx).collect::<Vec<usize>>()
 }
 
-/// Get the counts in a u8 slice of each u8 with the bytecount crate. Possible to use with charsets.
-pub fn multi_count_bytecount(needles: &[u8], haystack: &[u8])-> Vec<u64> {
-    let mut count = Vec::new();
-    for i in needles.iter() {
-        let c: u64 = bytecount::count(haystack, *i).try_into().unwrap();
-        count.push(c);
-    }
-    count
-}
-
-
 // pub trait FindKey<T>{
 //     fn find(&self, key: &T) -> Option<usize>;
 // }

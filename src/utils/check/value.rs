@@ -32,7 +32,6 @@
 // use crate::utils::check_percentage_u8;
 use std::borrow::Borrow;
 use crate::utils::get::value::percentage;
-use crate::utils::get::value::validate_percentage_u8;
 use std::collections::HashMap;
 use crate::charsets::PERCENTAGE_RANGE;
 
@@ -101,49 +100,11 @@ where
         }
 }
 
-    // /// Validates whether is a valid something based on the boolean is_x smaller functions in this trait and returns a wrapped boolean. Example: check_u8(b"ACTG","is_basic_dna") returns a wrapped "true". Options for is_what are the names of the charset boolean functions:
-    // /// is_basic_dna, is_phred33, is_basic_rna,  
-    // /// The goal of this function would be to set is_what to a constant in the program, for example a program focused on illumina data might set a constant to phred33 and input as is_what, rather than having to call is_phred33 each time. This means we can easily make our program take phred33 or 64 by just changing the constant.
-    // fn check_u8(&self, is_what: &str) -> Result<bool, &str>;
-
-// /// Validates whether is a valid something based on the boolean is_x smaller functions in this trait and returns a wrapped boolean. Example: check_u8(b"ACTG","is_basic_dna") returns a wrapped "true". Options for is_what are the names of the charset boolean functions:
-    // /// "is_iupac_nucleotide", "is_iupac_amino_acid", "is_iupac",
-    // /// "is_phred33", "is_phred64", "is_solexa",  
-    // /// "is_basic_dna", "is_basic_rna", "is_basic_amino_acid",
-    // /// "is_homopolymer", "is_homopolymer_n", "is_homopolymer_not_n",
-    // /// "has_n", "has_gap",
-    // /// "is_ascii_letters", "is_ascii_letters_uppercase", "is_ascii_letters_lowercase" 
-    // /// The goal of this function would be to set is_what to a constant in the program, for example a program focused on dna data might set a constant to is_basic_dna and input as is_what rather than having to call is_basic_dna each time. Later, if we want to focus on rna, we can easily change our constant to is_basic_rna just by changing the constant.
-    // fn check_u8(&self, is_what: &str) -> Result<bool, &str>{
-    //     if validate_is_what(&is_what).unwrap() {
-    //         match is_what {
-    //             "is_phred33" => Ok(self.is_phred33()),
-    //             "is_phred64" => Ok(self.is_phred64()),
-    //             "is_solexa" => Ok(self.is_solexa()),
-    //             "is_iupac_nucleotide" => Ok(self.is_iupac_nucleotide()),
-    //             "is_iupac_amino_acid" => Ok(self.is_iupac_amino_acid()),
-    //             "is_iupac" => Ok(self.is_iupac()),
-    //             "is_basic_dna" => Ok(self.is_basic_dna()),
-    //             "is_basic_rna" => Ok(self.is_basic_rna()),
-    //             "is_basic_amino_acid" => Ok(self.is_basic_amino_acid()),
-    //             "is_homopolymer" => Ok(CheckU8::is_homopolymer(&self)),
-    //             "is_homopolymer_n" => Ok(self.is_homopolymer_n()),
-    //             "is_homopolymer_not_n" => Ok(self.is_homopolymer_not_n()),
-    //             "has_n" => Ok(self.has_n()),
-    //             "has_gap" => Ok(self.has_gap()),
-    //             "is_ascii_letters" => Ok(self.is_ascii_letters()),
-    //             "is_ascii_letters_uppercase" => Ok(self.is_ascii_letters_uppercase()),
-    //             "is_ascii_letters_lowercase" => Ok(self.is_ascii_letters_lowercase()),
-    //             _ => Err("Invalid is_what parameter, please choose a valid option")
-    //         }
-    //     } else {validate_is_what(&is_what)}
-    // }
-
-
-
 pub trait CheckU8<T> {
     /// Checks the sequence has the percent bases (rounded) above the quality score
-    fn is_qual_passing(&self, quality_score: &u8, percent: &u8) -> Result<bool, &str>;
+    fn is_qual_passing_percent(&self, quality_score: &u8, percent: &u8) -> Result<bool, &str>;
+    /// Checks the sequence has a quality score above greater than or equal to the supplied mean.
+    fn is_qual_passing_mean(&self, mean_quality_score: &u8) -> Result<bool, &str>;
 
     /// Checks if the sequence is a homopolymer with percentage cutoff.
     fn is_percent_homopolymer(&self, percent: &u8) -> Result<bool, &str>;
@@ -195,7 +156,7 @@ where
     T: AsRef<[u8]>,
 {
     /// Checks the sequence has a number of bases (percent rounded) greater than or equal to the supplied quality score
-    fn is_qual_passing(&self, quality_score: &u8, percent: &u8) -> Result<bool, &str> {
+    fn is_qual_passing_percent(&self, quality_score: &u8, percent: &u8) -> Result<bool, &str> {
         if validate_percentage_u8(percent).unwrap() {
             if self.quality_percent_passing(&quality_score) >= (*percent).into() {
                 Ok(true)
@@ -203,6 +164,20 @@ where
         } else { validate_percentage_u8(percent) }
     }
 
+    /// Checks the sequence has a quality score above greater than or equal to the supplied mean. Commonly done per base in fastqc.
+    fn is_qual_passing_mean(&self, mean_quality_score: &u8) -> Result<bool, &str> {
+        if validate_phred33_score_u8(mean_quality_score).unwrap() {
+            if self.mean() >= (*mean_quality_score).into() {
+                Ok(true)
+            } else { Ok(false) }            
+        } else { validate_phred33_score_u8(mean_quality_score) }
+    }
+    // /// Checks the sequence has a quality score above greater than or equal to the supplied mean. Commonly done per base in fastqc.
+    // fn quality_mean_passing(&self quality_score: &u8) -> usize;
+    // /// Checks the sequence has a quality score above greater than or equal to the supplied mean. Commonly done per base in fastqc.
+    // fn quality_mean_passing(&self quality_score: &u8) -> usize {
+        
+    // }
     /// Checks if the sequence is a homopolymer with percentage cutoff
     fn is_percent_homopolymer(&self, percent: &u8) -> Result<bool, &str> {
         if validate_percentage_u8(&percent).unwrap() {
@@ -330,6 +305,61 @@ where
         self.as_ref().len() == quality.as_ref().len()
     }
 }
+
+/// Validate a u8 is 0 to 100 and return a wrapped boolean
+pub fn validate_percentage_u8(percent: &u8) -> Result<bool, &'static str> {
+    match PERCENTAGE_RANGE.contains(percent){    
+    true => Ok(true),
+    false => Err("Please supply a percent (0-100, not fractional) as u8"),
+    }
+}
+
+/// Validate a u8 is phred33 score 0-42
+pub fn validate_phred33_score_u8(quality_score: &u8) -> Result<bool, &'static str> {
+    match PHRED33_SCORES_U8.contains(quality_score){    
+    true => Ok(true),
+    false => Err("Please supply a quality score (0-42, not fractional) as u8"),
+    }
+}
+
+
+    // /// Validates whether is a valid something based on the boolean is_x smaller functions in this trait and returns a wrapped boolean. Example: check_u8(b"ACTG","is_basic_dna") returns a wrapped "true". Options for is_what are the names of the charset boolean functions:
+    // /// is_basic_dna, is_phred33, is_basic_rna,  
+    // /// The goal of this function would be to set is_what to a constant in the program, for example a program focused on illumina data might set a constant to phred33 and input as is_what, rather than having to call is_phred33 each time. This means we can easily make our program take phred33 or 64 by just changing the constant.
+    // fn check_u8(&self, is_what: &str) -> Result<bool, &str>;
+
+// /// Validates whether is a valid something based on the boolean is_x smaller functions in this trait and returns a wrapped boolean. Example: check_u8(b"ACTG","is_basic_dna") returns a wrapped "true". Options for is_what are the names of the charset boolean functions:
+    // /// "is_iupac_nucleotide", "is_iupac_amino_acid", "is_iupac",
+    // /// "is_phred33", "is_phred64", "is_solexa",  
+    // /// "is_basic_dna", "is_basic_rna", "is_basic_amino_acid",
+    // /// "is_homopolymer", "is_homopolymer_n", "is_homopolymer_not_n",
+    // /// "has_n", "has_gap",
+    // /// "is_ascii_letters", "is_ascii_letters_uppercase", "is_ascii_letters_lowercase" 
+    // /// The goal of this function would be to set is_what to a constant in the program, for example a program focused on dna data might set a constant to is_basic_dna and input as is_what rather than having to call is_basic_dna each time. Later, if we want to focus on rna, we can easily change our constant to is_basic_rna just by changing the constant.
+    // fn check_u8(&self, is_what: &str) -> Result<bool, &str>{
+    //     if validate_is_what(&is_what).unwrap() {
+    //         match is_what {
+    //             "is_phred33" => Ok(self.is_phred33()),
+    //             "is_phred64" => Ok(self.is_phred64()),
+    //             "is_solexa" => Ok(self.is_solexa()),
+    //             "is_iupac_nucleotide" => Ok(self.is_iupac_nucleotide()),
+    //             "is_iupac_amino_acid" => Ok(self.is_iupac_amino_acid()),
+    //             "is_iupac" => Ok(self.is_iupac()),
+    //             "is_basic_dna" => Ok(self.is_basic_dna()),
+    //             "is_basic_rna" => Ok(self.is_basic_rna()),
+    //             "is_basic_amino_acid" => Ok(self.is_basic_amino_acid()),
+    //             "is_homopolymer" => Ok(CheckU8::is_homopolymer(&self)),
+    //             "is_homopolymer_n" => Ok(self.is_homopolymer_n()),
+    //             "is_homopolymer_not_n" => Ok(self.is_homopolymer_not_n()),
+    //             "has_n" => Ok(self.has_n()),
+    //             "has_gap" => Ok(self.has_gap()),
+    //             "is_ascii_letters" => Ok(self.is_ascii_letters()),
+    //             "is_ascii_letters_uppercase" => Ok(self.is_ascii_letters_uppercase()),
+    //             "is_ascii_letters_lowercase" => Ok(self.is_ascii_letters_lowercase()),
+    //             _ => Err("Invalid is_what parameter, please choose a valid option")
+    //         }
+    //     } else {validate_is_what(&is_what)}
+    // }
 
 
 

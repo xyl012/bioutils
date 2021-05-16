@@ -80,6 +80,14 @@ pub fn seq_io_hashmap_count_fastq<T>(mut reader: seq_io::fastq::Reader<T>, field
     hashmap
 }
 
+// fn do_it(map: &mut HashMap<String, String>) {
+//     for (key, value) in &*map {
+//         println!("{} / {}", key, value);
+//     }
+//     map.clear();
+// }
+
+
 // pub fn write_paired_fastq_reads(){}
 // let reader = Reader::from_path("seqs.fastq").unwrap();
 // let mut writer = BufWriter::new(File::create("filtered.fastq").unwrap());

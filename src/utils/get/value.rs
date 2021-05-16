@@ -138,14 +138,6 @@ pub fn percentage(numerator: usize, denominator: usize) -> usize {
     (100 * numerator + denominator / 2) / denominator
 }
 
-/// Validate a u8 is 0 to 100 and return a wrapped boolean
-pub fn validate_percentage_u8(percent: &u8) -> Result<bool, &'static str> {
-    match PERCENTAGE_RANGE.contains(percent){    
-    true => Ok(true),
-    false => Err("Please supply a percent (0-100, not fractional) as u8"),
-    }
-}
-
 // // /// Take in a sequence string and create a vector of sequence strings with hamming distance 1 using the bases ACTG. Requires the sequence to be ACTGs, use replace if N.- or other symbols present.
 // // // Example: AAAA -> CAAA GAAA TAAA ACAA AGAA ATAA etc.
 // // pub fn nucleotide_set_hamming(nucl: String) -> Vec<String>  {

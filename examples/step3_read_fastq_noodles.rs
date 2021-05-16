@@ -46,22 +46,22 @@ fn main()-> std::io::Result<()>{
         let mut record = fastq::Record::default();
         let mut number_reads = 0;
         let mut homopolymers = 0;
-
+        let mut low_quality_reads = 0;
         loop {
             match reader.read_record(&mut record) {
                 Ok(0) => break,
                 Ok(_) => {number_reads += 1; 
-                    if record.sequence().is_percent_homopolymer(&90).unwrap() {homopolymers +=1} 
-                    else if record.quality_scores().is_percent_homopolymer(&90).unwrap() {homopolymers +=1} 
+                    if record.sequence().is_percent_homopolymer(&90).unwrap() {homopolymers +=1} // Count homopolymers
+                    else if record.quality_scores().is_qual_passing_mean(&30).unwrap() {low_quality_reads +=1} // Count low quality reads
                     else {continue}
-                }, // Count homopolymers
+                }, 
                 Err(e) => return Err(e),
             }
             println!("Reads read: {}", number_reads);
         }
         println!("Reads read: {}", number_reads);
         println!("Total number of homopolymers: {}", homopolymers);
-        println!("Reads >=Q30: {}", homopolymers);
+        println!("Reads >=Q30: {}", low_quality_reads);
     }
     Ok(())
 }

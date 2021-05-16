@@ -50,7 +50,7 @@ where
 {
     /// Checks each quality u8 and returns the percent above (passing) the given u8
     fn quality_percent_passing(&self, quality_score: &u8)-> usize {
-        percentage(self.count_greater_than(quality_score), self.as_ref().iter().len())
+        percentage(self.count_greater_than(quality_score), self.as_ref().len())
     }
 
     /// Returns the number of iterations greater than the criteria
@@ -66,7 +66,7 @@ where
 
     /// Returns the mean of u8s as u64 rounded
     fn mean(&self) -> u64 {
-        self.as_ref().iter().sum::<u8>() as u64 / self.as_ref().iter().len() as u64
+        self.as_ref().iter().sum::<u8>() as u64 / self.as_ref().len() as u64
     }
 
     /// Returns the mode of u8s
@@ -88,19 +88,34 @@ fn mean(numbers: &[u8]) -> u64 {
     numbers.iter().sum::<u8>() as u64 / numbers.len() as u64
 }
 
-fn median(numbers: &mut [i32]) -> i32 {
-    numbers.sort();
-    let mid = numbers.len() / 2;
-    numbers[mid]
-}
+// fn median(numbers: &mut [u8]) -> f32 {
+//     if numbers.len() % 2 == 0 {
+//         numbers.sort();
+//         let mid = numbers.len() / 2;
+//     }  else {};
+//     numbers.sort();
+//     let mid = numbers.len() / 2;
+//     numbers[mid]
+// }
 
-    
-    // /// Returns the median of u8s as u8
-    // fn median(&self) -> u8 {
-    //     self.sort();
-    //     let mid = self.as_ref().iter().len() / 2;
-    //     numbers[mid]
-    // }
+// need to return a 
+// pub trait ValueU8Ord<T>{
+//     fn median(&self) -> u8;
+// }
+
+// impl<T> ValueU8Ord<T> for T
+// where
+//     T: AsRef<[u8]>,
+//     T: Ord,
+// {
+//     fn median(&self) -> u8 {
+//         self.as_ref().sort();
+//         let mid = self.as_ref().len() / 2;
+//         self[mid]
+//     }
+// }
+
+
 
 // impl<T, K> ValueU8<K> for T
 // where

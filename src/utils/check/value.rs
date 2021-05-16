@@ -73,17 +73,17 @@ where
 {
         /// Checks if the sequence or quality u8 is less than or equal to the given length. Used to cut read to minimum length.
         fn is_at_least_length(&self, length: &usize) -> bool {
-            self.as_ref().iter().len() >= *length
+            self.as_ref().len() >= *length
         }
     
         /// Checks if the sequence or quality u8 is greater than or equal to the given length. Used to cut read to maximum length.
         fn is_at_most_length(&self, length: &usize) -> bool {
-            self.as_ref().iter().len() <= *length
+            self.as_ref().len() <= *length
         }
     
         /// Checks if equal to the given length.
         fn is_length(&self, length: &usize) -> bool {
-            self.as_ref().iter().len() == *length
+            self.as_ref().len() == *length
         }
 
         /// Checks if completely comprised of the same character. Does not use a character set, so could be all gaps, etc. Use has_mixed_case and to_uppercase/to_lowercase prior if mixed case.
@@ -206,7 +206,7 @@ where
     /// Checks if the sequence is a homopolymer with percentage cutoff
     fn is_percent_homopolymer(&self, percent: &u8) -> Result<bool, &str> {
         if validate_percentage_u8(&percent).unwrap() {
-            if percentage(self.count_mode(), self.as_ref().iter().len()) >= (*percent).into() {
+            if percentage(self.count_mode(), self.as_ref().len()) >= (*percent).into() {
                 Ok(true)
             } else {Ok(false)}
         } else {validate_percentage_u8(&percent)}
@@ -214,7 +214,7 @@ where
     /// Checks if the sequence is comprised of 'x' base greater than 'percent' cutoff. Primary use is for filtering for reads with >90% percent N's or A's
     fn is_percent_homopolymer_x(&self, x: &u8, percent: &u8) -> Result<bool, &str> {
         if validate_percentage_u8(&percent).unwrap() {
-            if percentage(self.count_xu8(x), self.as_ref().iter().len()) >= (*percent).into() {
+            if percentage(self.count_xu8(x), self.as_ref().len()) >= (*percent).into() {
                 Ok(true)
             } else {Ok(false)}
         } else {validate_percentage_u8(&percent)}
@@ -327,7 +327,7 @@ where
 {
     /// Checks if two items are the same length. 
     fn is_seq_qual_length_equal(&self, quality: &K)-> bool {
-        self.as_ref().iter().len() == quality.as_ref().iter().len()
+        self.as_ref().len() == quality.as_ref().len()
     }
 }
 

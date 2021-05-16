@@ -37,7 +37,7 @@ fn main()-> std::io::Result<()>{
     println!("Filter fastqs");
     let format = "sra";
     let field = "head";
-    let filtered_read_names = bioutils::files::fastq::hash::find_paired_fastq_reads(fq1_reader, fq2_reader, &field, &format);
+    let filtered_read_names = bioutils::files::fastq::hash::seq_io_find_paired_fastq_reads(fq1_reader, fq2_reader, &field, &format);
     println!("Number of reads after filter: {}", filtered_read_names.len());
     Ok(())
 }

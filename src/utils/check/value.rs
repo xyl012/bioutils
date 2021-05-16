@@ -331,6 +331,8 @@ where
     }
 }
 
+
+
 // /// Validates that 'is_what' parameter of the check_u8() function is a valid option.
 // pub fn validate_is_what<'a>(is_what: &str) -> Result<bool, &'a str> {
 //         match IS_WHAT_OPTIONS.contains(&is_what) {

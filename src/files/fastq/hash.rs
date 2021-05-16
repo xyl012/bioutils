@@ -8,8 +8,8 @@ use std::fs::File;
 use std::io::BufWriter;
 use crate::files::fastq::util::*;
 
-// Takes a reader and a fastq field ("seq", "head", or "qual") type and returns a hashset of all reads' specified field
-pub fn hashset_fastq<T>(mut reader: seq_io::fastq::Reader<T>, field: &str, format: &str) -> std::collections::HashSet<Vec<u8>> where T: std::io::Read {
+// Takes a seq io reader and a fastq field ("seq", "head", or "qual") type and returns a hashset of all reads' specified field
+pub fn seq_io_hashset_fastq<T>(mut reader: seq_io::fastq::Reader<T>, field: &str, format: &str) -> std::collections::HashSet<Vec<u8>> where T: std::io::Read {
     let mut hashset = HashSet::new();
     while let Some(record) = reader.next() {
         //if cannot read the record skip it
@@ -38,17 +38,17 @@ pub fn hashset_fastq<T>(mut reader: seq_io::fastq::Reader<T>, field: &str, forma
 }
 
 /// Find paired reads in two fastqs. Takes two seq io readers and a specification of format (illumina or sra) and creates a single hashset of common headers.
-pub fn find_paired_fastq_reads<T>(reader1: seq_io::fastq::Reader<T>, reader2: seq_io::fastq::Reader<T>, field: &str, format: &str)
+pub fn seq_io_find_paired_fastq_reads<T>(reader1: seq_io::fastq::Reader<T>, reader2: seq_io::fastq::Reader<T>, field: &str, format: &str)
 -> HashSet<Vec<u8>> where
     T: std::io::Read
 {
-    let hs1 = hashset_fastq(reader1, &field, &format);
-    let hs2 = hashset_fastq(reader2, &field, &format);
+    let hs1 = seq_io_hashset_fastq(reader1, &field, &format);
+    let hs2 = seq_io_hashset_fastq(reader2, &field, &format);
     hs1.intersection(&hs2).cloned().collect::<HashSet<Vec<u8>>>()
 }
 
 // Takes a reader and a fastq field ("seq", "head", or "qual") type and returns a hashmap with count of each occurrence
-pub fn hashmap_count_fastq<T>(mut reader: seq_io::fastq::Reader<T>, field: &str, format: &str) -> HashMap<Vec<u8>, u64> where T: std::io::Read {
+pub fn seq_io_hashmap_count_fastq<T>(mut reader: seq_io::fastq::Reader<T>, field: &str, format: &str) -> HashMap<Vec<u8>, u64> where T: std::io::Read {
     let mut hashmap:HashMap<Vec<u8>, u64> = HashMap::new();
     while let Some(record) = reader.next() {
         //if cannot read the record skip it

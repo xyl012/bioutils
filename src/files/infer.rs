@@ -20,6 +20,10 @@ pub fn infer_kind(path: &Path) -> infer::Type {
     kind
 }
 
+// pub fn fastq_aligner<R>(fq_reader: &mut seq_io::fastq::Reader<R>, sa: SuffixArray) 
+// where 
+// R: std::io::Read,
+
 // pub fn noodles_fastq_reader<R>(path: &Path) -> Result<R> {
 //     if is_gz(&path) {
 //         File::open(&path)

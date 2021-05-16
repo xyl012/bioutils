@@ -143,13 +143,16 @@ pub const GAP_U8: [u8; 2] = [b'.', b'-'];
 pub const GAP_STR: [&str; 2] = [".", "-"];
 
 // Only N charset
-pub const N_U8: [u8; 2] = [b'N', b'n'];
-pub const N_STR: [&str; 2] = ["N", "n"];
+pub const N_U8: [u8; 1] = [b'N'];
+pub const N_STR: [&str; 1] = ["N"];
+pub const N_LOWER_UPPER_U8: [u8; 2] = [b'N', b'n'];
+pub const N_LOWER_UPPER_STR: [&str; 2] = ["N", "n"];
 
 // Only CG charset
 pub const GC_U8: [u8; 2] = [b'C', b'G'];
 pub const GC_STR: [&str; 2] = ["C", "G"];
-
+pub const GC_LOWER_UPPER_U8: [u8; 4] = [b'C', b'G', b'c', b'g'];
+pub const GC_LOWER_UPPER_STR: [&str; 4] = ["C", "G", "c", "g"];
 
 // IUPAC equivalent charsets
 pub const Y_BASES_RNA: [u8; 2] = [b'C', b'U'];

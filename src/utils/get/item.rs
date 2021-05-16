@@ -19,7 +19,7 @@ impl<T> GetItemU8<T> for T
 where
     T: AsRef<[u8]>,
 {
-    /// Cuts u8 to a length. Should be used with check functions for length.
+    /// Cuts u8 to a specified length. Takes the first x number of u8s. Should be used with check functions for length.
     fn cut_to_length(&self, length: &usize) -> Vec<u8> {
         self.as_ref().iter().take(*length).cloned().collect::<Vec<u8>>()
     }
@@ -53,11 +53,12 @@ pub fn multi_count_bytecount(needles: &[u8], haystack: &[u8])-> Vec<u64> {
     count
 }
 
+
 // pub trait FindKey<T>{
 //     fn find(&self, key: &T) -> Option<usize>;
 // }
 
-// impl<T, K> FindKeyPosition<K> for T
+// impl<T, K> FindKey<K> for T
 // where
 //     T: AsRef<[K]>,
 //     K: PartialEq,

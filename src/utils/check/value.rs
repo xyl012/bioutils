@@ -39,7 +39,8 @@ use crate::charsets::ascii::*;
 use crate::utils::get::value;
 use crate::utils::get::value::ValueU8;
 use crate::utils::get::value::MutValueU8;
-use crate::utils::mutate::item::AsMutItemU8;
+use crate::utils::get::item::CodeItemU8;
+use crate::utils::mutate::item::MutCodeItemU8;
 
 /// Trait for checking specific criteria for a u8 of biological file origin. Types include sequence (nucleotide/amino acid) and quality (phred33/64/solexa, phred33 being all printable ascii).
 /// These should be used with closely with the is_ascii/make/to_ascii_lowercase/make/to_ascii_uppercase functions in standard rust.
@@ -105,6 +106,8 @@ where
 pub trait CheckU8<T> {
     /// Checks the sequence has the percent bases (rounded) above the quality score
     fn is_qual_passing_percent(&self, quality_score: &u8, percent: &u8) -> Result<bool, &str>;
+    /// Checks the sequence has a quality score above greater than or equal to the supplied mean. Commonly done per base in fastqc.
+    fn is_qual_passing_mean(&mut self, mean_quality_score: &u8) -> Result<bool, &str>;
 
     /// Checks if the sequence is a homopolymer with percentage cutoff.
     fn is_percent_homopolymer(&self, percent: &u8) -> Result<bool, &str>;
@@ -162,6 +165,15 @@ where
                 Ok(true)
             } else { Ok(false) }
         } else { validate_percentage_u8(percent) }
+    }
+
+    /// Checks the sequence has a quality score above greater than or equal to the supplied mean. Commonly done per base in fastqc.
+    fn is_qual_passing_mean(&mut self, mean_quality_score: &u8) -> Result<bool, &str> {
+        if validate_phred33_score_u8(mean_quality_score).unwrap() {
+            if self.decode_qual().mean() >= (*mean_quality_score).into() {
+                Ok(true)
+            } else { Ok(false) }
+        } else { validate_phred33_score_u8(mean_quality_score) }
     }
 
     /// Checks if the sequence is a homopolymer with percentage cutoff

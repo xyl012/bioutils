@@ -55,16 +55,16 @@ fn main()-> std::io::Result<()>{
                 Ok(0) => break,
                 Ok(_) => {number_reads += 1; 
                     if record.sequence().is_percent_homopolymer(&90).unwrap() {homopolymers +=1} // Count homopolymers
-                    else if record.quality_scores().to_owned().is_qual_passing_mean(&30).unwrap() {passing_quality_reads +=1} // Count low quality reads
+                    else if record.quality_scores().is_qual_passing_mean(&30).unwrap() {passing_quality_reads +=1} // Count low quality reads
                     else {continue}
                 }, 
                 Err(e) => return Err(e),
             }
             println!("Reads read: {}", number_reads);
         }
-        println!("Reads read: {}", number_reads);
-        println!("Total number of homopolymers: {}", homopolymers);
+        println!("Total Reads read: {}", number_reads);
         println!("Reads >=Q30: {}", passing_quality_reads);
+        println!("Total number of homopolymers: {}", homopolymers);
     // }
     Ok(())
 }

@@ -7,7 +7,7 @@
 use bioutils::utils::image::color::*;
 use bioutils::charsets::quality::*;
 use bioutils::utils::new::random::random_quality;
-use bioutils::utils::mutate::item::AsMutItemU8;
+use bioutils::utils::mutate::item::MutCodeItemU8;
 
 use image::{ImageBuffer, Rgb};
 use image::RgbImage;

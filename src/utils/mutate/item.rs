@@ -4,7 +4,7 @@ use crate::charsets::quality::PHRED33_HASHMAP_ENCODE_U8;
 use crate::charsets::quality::PHRED64_HASHMAP_U8;
 use crate::charsets::quality::PHRED33_HASHMAP_U8;
 
-pub trait AsMutItemU8<T> {
+pub trait MutCodeItemU8<T> {
     /// Returns the PHRED33 quality score from a PHRED33 quality encoding. The score is the u8 minus 33.
     fn mut_decode_qual(&mut self) -> &mut Self;
     /// Returns the PHRED64 quality score from a PHRED64 quality encoding. The score is the u8 minus 64.
@@ -15,7 +15,7 @@ pub trait AsMutItemU8<T> {
     fn mut_encode_qual_phred64(&mut self) -> &mut Self;
 }
 
-impl<T> AsMutItemU8<T> for T
+impl<T> MutCodeItemU8<T> for T
 where
     T: AsMut<[u8]>,
 {

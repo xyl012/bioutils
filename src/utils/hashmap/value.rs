@@ -36,13 +36,13 @@ pub fn value_cosine(hm1: &HashMap<Vec<u8>, u64>, hm2: &HashMap<Vec<u8>, u64>, nu
 }
 
 /// Jaccard similarity of two hashmaps
-pub fn jaccard(hm1: &HashMap<Vec<u8>, u64>, hm2: &HashMap<Vec<u8>, u64>, num: Vec<u8>) -> f64 {
+pub fn value_jaccard(hm1: &HashMap<Vec<u8>, u64>, hm2: &HashMap<Vec<u8>, u64>, num: Vec<u8>) -> f64 {
     let inner = value_dot(&hm1,&hm2);
     inner/(value_dot(&hm1,&hm1)+value_dot(&hm2,&hm2)-inner)
 }
 
 /// Pearson correlation of two hashmaps
-pub fn pearson(hm1: &HashMap<Vec<u8>, u64>, hm2: &HashMap<Vec<u8>, u64>, num: f64) -> f64 {
+pub fn value_pearson(hm1: &HashMap<Vec<u8>, u64>, hm2: &HashMap<Vec<u8>, u64>, num: f64) -> f64 {
     value_covariance(&hm1,&hm2,num)/(value_covariance(&hm1,&hm1,num).sqrt()*value_covariance(&hm2,&hm2,num).sqrt())
 }
 
@@ -58,7 +58,3 @@ pub fn pearson(hm1: &HashMap<Vec<u8>, u64>, hm2: &HashMap<Vec<u8>, u64>, num: f6
 //     let union = s1_small_window.union(&s2_small_window).count();
 //     (inter as f64) / (union as f64)
 // }
-
-// // fn main() {
-// //     println!("{}", jaccard_distance("Pear", "Peach"));
-// // }

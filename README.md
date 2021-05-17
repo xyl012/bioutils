@@ -12,6 +12,14 @@
 </p>
 
 <p> Pull requests welcome, suggestions for improvement always welcome!</p>
+
+</p></pre></div>
+</div><h2 id='modules' class='section-header'><a href="#modules">Modules</a></h2>
+<table><tr class='module-item'><td><a class="mod" href="charsets/index.html" title='bioutils::charsets mod'>charsets</a></td><td class='docblock-short'><p>Numerous IUPAC character sets to either use directly or create your own mix and match.</p></td></tr><tr class='module-item'><td><a class="mod" href="files/index.html" title='bioutils::files mod'>files</a></td><td class='docblock-short'><p>Download fastq sample files with curl using a url. See step 2 download files example in bioutils/examples.</p></td></tr><tr class='module-item'><td><a class="mod" href="references/index.html" title='bioutils::references mod'>references</a></td><td class='docblock-short'><p>Currently includes human NCBI gencode GRCh38. Automatically downloads the latest version of user's choice. See step 2 download files example in bioutils/examples.</p>
+</td></tr><tr class='module-item'><td><a class="mod" href="utils/index.html" title='bioutils::utils mod'>utils</a></td><td class='docblock-short'><p>Functions for sequence checks, pseudorandom replacement of N or gaps, and functions to create new pseudoranndom sequences.</p></td></tr>
+<tr class='module-item'><td><a class="mod" href="charsets/index.html" title='bioutils::charsets mod'>image</a></td><td class='docblock-short'><p>Create images from biological data. See Image example in bioutils/examples.</p></td></tr>
+</table></section><section id="search" class="content hidden"></section><section class="footer"></section>
+
 <h2 id="quick-start" class="section-header"><a href="#quick-start">TL;DR</a></h2>
 <div class="example-wrap"><pre class="rust rust-example-rendered"><p>
 //! // Examples for using checks:
@@ -65,10 +73,3 @@
 //! let mut seq = seq.mut_random_replace_non_basic("RNA", rng4).mut_random_replace_n("RNA", rng3).mut_to_upper_basic();
 //! let printseq = str::from_utf8(seq).unwrap();
 //! println!("{:?}", printseq);
-
-</p></pre></div>
-</div><h2 id='modules' class='section-header'><a href="#modules">Modules</a></h2>
-<table><tr class='module-item'><td><a class="mod" href="charsets/index.html" title='bioutils::charsets mod'>charsets</a></td><td class='docblock-short'><p>Numerous IUPAC character sets to either use directly or create your own mix and match.</p></td></tr><tr class='module-item'><td><a class="mod" href="files/index.html" title='bioutils::files mod'>files</a></td><td class='docblock-short'><p>Download fastq sample files with curl using a url. See step 2 download files example in bioutils/examples.</p></td></tr><tr class='module-item'><td><a class="mod" href="references/index.html" title='bioutils::references mod'>references</a></td><td class='docblock-short'><p>Currently includes human NCBI gencode GRCh38. Automatically downloads the latest version of user's choice. See step 2 download files example in bioutils/examples.</p>
-</td></tr><tr class='module-item'><td><a class="mod" href="utils/index.html" title='bioutils::utils mod'>utils</a></td><td class='docblock-short'><p>Functions for sequence checks, pseudorandom replacement of N or gaps, and functions to create new pseudoranndom sequences.</p></td></tr>
-<tr class='module-item'><td><a class="mod" href="charsets/index.html" title='bioutils::charsets mod'>image</a></td><td class='docblock-short'><p>Create images from biological data. See Image example in bioutils/examples.</p></td></tr>
-</table></section><section id="search" class="content hidden"></section><section class="footer"></section>

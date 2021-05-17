@@ -1,7 +1,6 @@
-
 use std::collections::HashMap;
-use std::collections::HashSet;
 use std::io::{self, Cursor, Read};
+use std::collections::HashSet;
 use std::iter::FromIterator;
 use seq_io::fastq::{Reader,Record};
 use std::fs::File;

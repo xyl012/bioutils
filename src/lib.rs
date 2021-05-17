@@ -1,21 +1,8 @@
-//! # Bioutils: Simple Biological Utilities in Rust
-//! Bioutils provides simple biological utilities including:
-//! Functions to check sequence validity and content (palindromes too!) 
-//! Functions to create new random IUPAC sequences
-//! Functions to download human and mouse Gencode reference files
-//! Functions to download fastq files
-//! Functions to replace N or gaps with pseudorandom nucleotides
-//! Complete iupac and quality character sets (and quality charset with matching shifted value).
-//!
-//! Check out the examples for a full practical walkthrough from downloading files, finding read positions, and making images!
-//!
-//! ## Quick Start
-//! ```
 //! // Examples for using checks:
 //! 
 //! use bioutils::charsets;
 //! use bioutils::utils;
-//! use crate::bioutils::utils::check::value::CheckU8;
+//! use bioutils::utils::check::value::CheckU8;
 //! use bioutils::utils::new::random::random_dna;
 //! use bioutils::utils::new::random::random_quality;
 //! use bioutils::utils::mutate::random::AsMutRandomU8;
@@ -62,7 +49,7 @@
 //! let mut seq = seq.mut_random_replace_non_basic("RNA", rng4).mut_random_replace_n("RNA", rng3).mut_to_upper_basic();
 //! let printseq = str::from_utf8(seq).unwrap();
 //! println!("{:?}", printseq);
-//! ```
+
 
 pub mod charsets;
 pub mod files;

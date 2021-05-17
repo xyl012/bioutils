@@ -25,7 +25,6 @@ where
     }
 }
 
-
 /// Returns CG positions in the given &[u8]
 pub fn cg_positions(seq:&[u8])-> Vec<usize> {
     seq.windows(2).enumerate()

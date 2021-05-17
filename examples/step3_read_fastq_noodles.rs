@@ -5,6 +5,7 @@ use std::fs::File;
 
 use bioutils::references::ftp::download_grch38_primary_assembly_genome_fa_gz;
 use bioutils::utils::check::value::CheckU8;
+use bioutils::utils::check::value::MutCheckU8;
 use suffix_array::SuffixArray;
 use noodles::fastq;
 use std::{
@@ -23,36 +24,38 @@ fn main()-> std::io::Result<()>{
     let fastq_ftp = "ftp://ftp.sra.ebi.ac.uk/vol1/fastq/SRR170/009/SRR1700869/";
     let fastq_gz = "SRR1700869.fastq.gz";
     let reference_name = "GRCh38.primary_assembly.genome.fa.gz";
-    let fastq_file = &samples_directory.join("SRR1700869.fastq.gz");
-    
-    // Get our reference paths
-    let ref_paths = std::fs::read_dir(&references_directory).unwrap();
-    // Print our reference paths
-    for ref_path in ref_paths {
-        println!("Reference: {}", ref_path.unwrap().path().display())
-    }
-    println!("We now have the sample data in our samples directory");
-    println!("Let's check which are available");
-    let smpl_paths = std::fs::read_dir(&samples_directory).unwrap();
+    let fastq_file = &samples_directory.join(fastq_gz);
+
+    // // Get our reference paths
+    // let ref_paths = std::fs::read_dir(&references_directory).unwrap();
+    // // Print our reference paths
+    // for ref_path in ref_paths {
+    //     println!("Reference: {}", ref_path.unwrap().path().display())
+    // }
+    // println!("We now have the sample data in our samples directory");
+    // println!("Let's check which are available");
+    // let smpl_paths = std::fs::read_dir(&samples_directory).unwrap();
 
     // Step 1 and 2 Complete!
 
-    for smpl_path in smpl_paths {
-        let mut reader =  File::open(smpl_path.unwrap().path())
+    // for smpl_path in smpl_paths {
+        let smpl_path = fastq_file;
+        // let mut reader =  File::open(smpl_path.unwrap().path())
+        let mut reader =  File::open(smpl_path)
         .map(flate2::read::GzDecoder::new)
         .map(BufReader::new)
         .map(fastq::Reader::new)?;
-    
+
         let mut record = fastq::Record::default();
         let mut number_reads = 0;
         let mut homopolymers = 0;
-        let mut low_quality_reads = 0;
+        let mut passing_quality_reads = 0;
         loop {
             match reader.read_record(&mut record) {
                 Ok(0) => break,
                 Ok(_) => {number_reads += 1; 
                     if record.sequence().is_percent_homopolymer(&90).unwrap() {homopolymers +=1} // Count homopolymers
-                    else if record.quality_scores().is_qual_passing_mean(&30).unwrap() {low_quality_reads +=1} // Count low quality reads
+                    else if record.quality_scores().to_owned().is_qual_passing_mean(&30).unwrap() {passing_quality_reads +=1} // Count low quality reads
                     else {continue}
                 }, 
                 Err(e) => return Err(e),
@@ -61,7 +64,7 @@ fn main()-> std::io::Result<()>{
         }
         println!("Reads read: {}", number_reads);
         println!("Total number of homopolymers: {}", homopolymers);
-        println!("Reads >=Q30: {}", low_quality_reads);
-    }
+        println!("Reads >=Q30: {}", passing_quality_reads);
+    // }
     Ok(())
 }

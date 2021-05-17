@@ -66,7 +66,7 @@ where
 
     /// Returns the mean of u8s as u64 rounded
     fn mean(&self) -> u64 {
-        self.as_ref().iter().sum::<u8>() as u64 / self.as_ref().len() as u64
+        self.as_ref().iter().map(|x| *x as u64).sum::<u64>() / self.as_ref().len() as u64
     }
 
     /// Returns the mode of u8s
@@ -84,9 +84,72 @@ where
 
 }
 
+pub trait MutValueU8<T> {
+    /// Returns the percent (0-100) of the quality u8 in bases (rounded) above the quality score supplied. Should be used when mapq scores are required.
+    fn mut_quality_percent_passing(&mut self, quality_score: &u8) -> usize;
+
+    /// Returns the number of iterators greater than criteria. Used for calculating percents/numerators
+    fn mut_count_greater_than(&mut self, criteria:&u8)-> usize;
+
+    /// Returns the number of occurrences of the mode
+    fn mut_count_mode(&mut self) -> usize;
+
+    /// Returns the mean of u8s
+    fn mut_mean(&mut self) -> u64;
+
+    /// Returns the mode
+    fn mut_mode(&mut self) -> Option<&u8>;
+
+    /// Returns the count of a specific u8
+    fn mut_count_xu8(&mut self, x: &u8) -> usize;
+
+}
+
+impl<T> MutValueU8<T> for T
+where
+T: AsMut<[u8]>,
+{
+    /// Checks each quality u8 and returns the percent above (passing) the given u8
+    fn mut_quality_percent_passing(&mut self, quality_score: &u8)-> usize {
+        percentage(self.mut_count_greater_than(quality_score), self.as_mut().len())
+    }
+
+    /// Returns the number of iterations greater than the criteria
+    fn mut_count_greater_than(&mut self, criteria: &u8)-> usize {
+        self.as_mut().iter().filter(|&s| s>=criteria).count()
+    }
+
+    /// Returns the number of occurrences of the mode
+    fn mut_count_mode(&mut self) -> usize {
+        let mode = self.mut_mode().unwrap().clone();
+        self.as_mut().iter().filter(|&q| q==&mode).count()
+    }
+
+    /// Returns the mean of u8s as u64 rounded
+    fn mut_mean(&mut self) -> u64 {
+        self.as_mut().iter().map(|x| *x as u64).sum::<u64>() / self.as_mut().len() as u64
+    }
+
+    /// Returns the mode of u8s
+    fn mut_mode(&mut self)-> Option<&u8> {
+        let mut counts = HashMap::new();
+        self.as_mut().iter().max_by_key(|&s| {
+            let count = counts.entry(s).or_insert(0);
+            *count += 1; *count})
+    }
+    
+    /// Returns the count of a specific u8
+    fn mut_count_xu8(&mut self, x: &u8) -> usize {
+        self.as_mut().iter().filter(|&q| q==x).count()
+    }
+
+}
+
 fn mean(numbers: &[u8]) -> u64 {
     numbers.iter().sum::<u8>() as u64 / numbers.len() as u64
 }
+
+
 
 // fn median(numbers: &mut [u8]) -> f32 {
 //     if numbers.len() % 2 == 0 {

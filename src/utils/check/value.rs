@@ -175,7 +175,15 @@ where
             } else { Ok(false) }
         } else { validate_phred33_score_u8(mean_quality_score) }
     }
-
+    //TODO phred64 version
+    // /// Checks the sequence has a quality score above greater than or equal to the supplied mean. Commonly done per base in fastqc.
+    // fn is_qual_passing_mean_phred64(&mut self, mean_quality_score: &u8) -> Result<bool, &str> {
+    //     if validate_phred33_score_u8(mean_quality_score).unwrap() {
+    //         if self.decode_qual().mean() >= (*mean_quality_score).into() {
+    //             Ok(true)
+    //         } else { Ok(false) }
+    //     } else { validate_phred33_score_u8(mean_quality_score) }
+    // }
     /// Checks if the sequence is a homopolymer with percentage cutoff
     fn is_percent_homopolymer(&self, percent: &u8) -> Result<bool, &str> {
         if validate_percentage_u8(&percent).unwrap() {

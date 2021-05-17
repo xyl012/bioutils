@@ -63,7 +63,7 @@ fn main()-> std::io::Result<()>{
             println!("Reads read: {}", number_reads);
         }
         println!("Total Reads read: {}", number_reads);
-        println!("Reads >=Q30: {}", passing_quality_reads);
+        println!("Total Reads >=Q30: {}", passing_quality_reads);
         println!("Total number of homopolymers: {}", homopolymers);
     // }
     Ok(())

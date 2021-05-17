@@ -84,7 +84,7 @@ where
 
 }
 
-pub trait MutValueU8<T> {
+pub trait AsMutValueU8<T> {
     /// Returns the percent (0-100) of the quality u8 in bases (rounded) above the quality score supplied. Should be used when mapq scores are required.
     fn mut_quality_percent_passing(&mut self, quality_score: &u8) -> usize;
 
@@ -105,7 +105,7 @@ pub trait MutValueU8<T> {
 
 }
 
-impl<T> MutValueU8<T> for T
+impl<T> AsMutValueU8<T> for T
 where
 T: AsMut<[u8]>,
 {

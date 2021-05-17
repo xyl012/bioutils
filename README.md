@@ -1,6 +1,6 @@
 # Bioutils
 
-## Simple Biological Utilities in Rust
+<h2 id="quick-start" class="section-header"><a href="#quick-start">Simple Biological Utilities in Rust</a></h2>
 
 <p>Bioutils provides simple biological utilities including: 
     <ul> Functions to check sequence validity and content (palindromes too!)</ul>
@@ -11,15 +11,14 @@
     <ul>complete iupac and quality character sets</ul>
 </p>
 
-<p> Check back as more functionality gets added, pull requests welcome, suggestions for improvement always welcome!</p>
-<h2 id="quick-start" class="section-header"><a href="#quick-start">Quick Start</a></h2>
-<div class="example-wrap"><pre class="rust rust-example-rendered"><p>//! Check out the examples for a full practical walkthrough from downloading files, finding read positions, and making images!
-
+<p> Pull requests welcome, suggestions for improvement always welcome!</p>
+<h2 id="quick-start" class="section-header"><a href="#quick-start">TL;DR</a></h2>
+<div class="example-wrap"><pre class="rust rust-example-rendered"><p>
 //! // Examples for using checks:
 //! 
 //! use bioutils::charsets;
 //! use bioutils::utils;
-//! use crate::bioutils::utils::check::value::CheckU8;
+//! use bioutils::utils::check::value::CheckU8;
 //! use bioutils::utils::new::random::random_dna;
 //! use bioutils::utils::new::random::random_quality;
 //! use bioutils::utils::mutate::random::AsMutRandomU8;
@@ -69,5 +68,7 @@
 
 </p></pre></div>
 </div><h2 id='modules' class='section-header'><a href="#modules">Modules</a></h2>
-<table><tr class='module-item'><td><a class="mod" href="charsets/index.html" title='bioutils::charsets mod'>charsets</a></td><td class='docblock-short'><p>Numerous IUPAC character sets to either use directly or create your own mix and match</p></td></tr><tr class='module-item'><td><a class="mod" href="files/index.html" title='bioutils::files mod'>files</a></td><td class='docblock-short'><p>Download human and mouse Gencode references, download fastq sample files</p></td></tr><tr class='module-item'><td><a class="mod" href="references/index.html" title='bioutils::references mod'>references</a></td><td class='docblock-short'><p>Currently includes human NCBI gencode GRCh38. Automatically downloads the latest version of user's choice.</p>
-</td></tr><tr class='module-item'><td><a class="mod" href="utils/index.html" title='bioutils::utils mod'>utils</a></td><td class='docblock-short'><p>Functions for sequence checks, pseudorandom replacement of N or gaps, and functions to create new pseudoranndom sequences</p></td></tr></table></section><section id="search" class="content hidden"></section><section class="footer"></section>
+<table><tr class='module-item'><td><a class="mod" href="charsets/index.html" title='bioutils::charsets mod'>charsets</a></td><td class='docblock-short'><p>Numerous IUPAC character sets to either use directly or create your own mix and match.</p></td></tr><tr class='module-item'><td><a class="mod" href="files/index.html" title='bioutils::files mod'>files</a></td><td class='docblock-short'><p>Download fastq sample files with curl using a url. See step 2 download files example in bioutils/examples.</p></td></tr><tr class='module-item'><td><a class="mod" href="references/index.html" title='bioutils::references mod'>references</a></td><td class='docblock-short'><p>Currently includes human NCBI gencode GRCh38. Automatically downloads the latest version of user's choice. See step 2 download files example in bioutils/examples.</p>
+</td></tr><tr class='module-item'><td><a class="mod" href="utils/index.html" title='bioutils::utils mod'>utils</a></td><td class='docblock-short'><p>Functions for sequence checks, pseudorandom replacement of N or gaps, and functions to create new pseudoranndom sequences.</p></td></tr>
+<tr class='module-item'><td><a class="mod" href="charsets/index.html" title='bioutils::charsets mod'>image</a></td><td class='docblock-short'><p>Create images from biological data. See Image example in bioutils/examples.</p></td></tr>
+</table></section><section id="search" class="content hidden"></section><section class="footer"></section>

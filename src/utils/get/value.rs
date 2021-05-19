@@ -145,6 +145,11 @@ T: AsMut<[u8]>,
 
 }
 
+/// Phred score (q) to probability (p): q = -10log10(p), p = 10 ^(-q/10)
+pub fn phred_to_prob(phred: &u8) -> f64 {-10f64 * (*phred as f64).log10()}
+/// Probability (p) to phred score (q): q = -10log10(p), p = 10 ^(-q/10)
+pub fn prob_to_phred(prob: &f64)-> u8 {(10f64.powf(-prob / 10f64)) as u8}
+
 fn mean(numbers: &[u8]) -> u64 {
     numbers.iter().sum::<u8>() as u64 / numbers.len() as u64
 }

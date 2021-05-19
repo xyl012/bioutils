@@ -103,6 +103,7 @@ lazy_static! {
 // Basic RNA charset
 pub const BASIC_RNA_U8: [u8; 4] = [b'A', b'C', b'G', b'U'];
 pub const BASIC_RNA_STR: [&str; 4] = ["A", "C", "G", "U"];
+
 lazy_static! {
     pub static ref BASIC_RNA_HASHSET_U8: HashSet<u8> = new_u8_hashset(&BASIC_RNA_U8);
 }

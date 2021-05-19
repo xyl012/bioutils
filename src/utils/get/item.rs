@@ -47,7 +47,6 @@ pub trait CodeItemU8<T> {
     fn encode_qual_phred64(&self) -> Vec<u8>;
     /// Returns the SANGER quality encoding from a SANGER quality score. The score is the u8 minus 33.
     fn encode_qual_sanger(&self) -> Vec<u8>;
-
 }
 
 impl<T> CodeItemU8<T> for T
@@ -58,7 +57,6 @@ where
     fn decode_qual(&self) -> Vec<u8> {
         self.as_ref().iter().map(|q| PHRED33_HASHMAP_U8.get(&q).unwrap().to_owned()).collect::<Vec<u8>>()
     }
-
     /// Returns the PHRED64 quality score from a raw PHRED64 quality encoding. The score is simply the u8 minus 64.
     fn decode_qual_phred64(&self) -> Vec<u8> {
         self.as_ref().iter().map(|q| PHRED64_HASHMAP_U8.get(&q).unwrap().to_owned()).collect::<Vec<u8>>()
@@ -71,7 +69,6 @@ where
     fn encode_qual(&self) -> Vec<u8> {
         self.as_ref().iter().map(|q| PHRED33_HASHMAP_ENCODE_U8.get(&q).unwrap().to_owned()).collect::<Vec<u8>>()
     }
-
     /// Returns the PHRED64 quality encoding from a PHRED64 quality score. The score is the u8 minus 64.
     fn encode_qual_phred64(&self) -> Vec<u8> {
         self.as_ref().iter().map(|q| PHRED64_HASHMAP_ENCODE_U8.get(&q).unwrap().to_owned()).collect::<Vec<u8>>()
@@ -80,7 +77,6 @@ where
     fn encode_qual_sanger(&self) -> Vec<u8> {
         self.as_ref().iter().map(|q| SANGER_HASHMAP_ENCODE_U8.get(&q).unwrap().to_owned()).collect::<Vec<u8>>()
     }
-
 }
 
 

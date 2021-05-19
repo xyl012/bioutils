@@ -14,6 +14,9 @@ use crate::charsets::quality::PHRED64_HASHMAP_ENCODE_U8;
 use std::iter::FromIterator;
 use std::convert::TryInto;
 
+
+use crate::utils::check::value::Check;
+
 pub trait GetItemU8<T> {
     /// Cuts the read to a specific length
     fn cut_to_length(&self, length: &usize) -> Vec<u8>;
@@ -23,7 +26,7 @@ impl<T> GetItemU8<T> for T
 where
     T: AsRef<[u8]>,
 {
-    /// Cuts u8 to a specified length. Takes the first x number of u8s. Should be used with check functions for length.
+    /// Cuts u8 to a specified length. Uses take to get the first x number of u8s so if the length is shorter will return the vector filled with None(). Should be used with check functions for length.
     fn cut_to_length(&self, length: &usize) -> Vec<u8> {
         self.as_ref().iter().take(*length).cloned().collect::<Vec<u8>>()
     }
@@ -65,6 +68,9 @@ where
     }
 }
 
+
+
+
 /// Returns CG positions in the given &[u8]
 pub fn cg_positions(seq:&[u8])-> Vec<usize> {
     seq.windows(2).enumerate()
@@ -82,6 +88,8 @@ where
         .filter(move |(_, x)| pred(x))
         .map(|(idx, _)| idx).collect::<Vec<usize>>()
 }
+
+
 
 // pub trait FindKey<T>{
 //     fn find(&self, key: &T) -> Option<usize>;

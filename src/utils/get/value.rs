@@ -149,78 +149,12 @@ fn mean(numbers: &[u8]) -> u64 {
     numbers.iter().sum::<u8>() as u64 / numbers.len() as u64
 }
 
-
-
-// fn median(numbers: &mut [u8]) -> f32 {
-//     if numbers.len() % 2 == 0 {
-//         numbers.sort();
-//         let mid = numbers.len() / 2;
-//     }  else {};
-//     numbers.sort();
-//     let mid = numbers.len() / 2;
-//     numbers[mid]
-// }
-
-// need to return a 
-// pub trait ValueU8Ord<T>{
-//     fn median(&self) -> u8;
-// }
-
-// impl<T> ValueU8Ord<T> for T
-// where
-//     T: AsRef<[u8]>,
-//     T: Ord,
-// {
-//     fn median(&self) -> u8 {
-//         self.as_ref().sort();
-//         let mid = self.as_ref().len() / 2;
-//         self[mid]
-//     }
-// }
-
-
-
-// impl<T, K> ValueU8<K> for T
-// where
-//     T: AsRef<[u8]>,
-// {
-    // K: AsRef<[u8]>,
-    // K: Eq + PartialEq + Ord + PartialOrd,
-
-    // /// Returns the hamming distance of self and another seq.
-    // fn hamming_distance(&self, seq2: &T) -> u64;
-
-    // /// Checks the hamming distance between our item and a supplied item
-    // fn hamming_distance(&self, seq2: &K) -> u64 {
-    //     let seq1=self;
-    //     seq1.as_ref().iter().zip(seq2.as_ref().iter()).fold(0, |seq1, (seq2, c)| seq1 + (seq2 ^ c).count_ones() as u64)
-    // }
+/// Calculate an alignment flag of user's option. This is just the sum of the flags, so we can add together the options "read paired" and "read mapped in proper pair"
+pub fn alignment_flag(input_flags: Vec<&str>) -> u16 {
+    input_flags.iter().map(|e| FLAGS_HASHMAP_U16.get(e).unwrap().to_owned()).sum()
+}
 
 /// Calculates percentage with usizes
 pub fn percentage(numerator: usize, denominator: usize) -> usize {
     (100 * numerator + denominator / 2) / denominator
 }
-
-// // /// Take in a sequence string and create a vector of sequence strings with hamming distance 1 using the bases ACTG. Requires the sequence to be ACTGs, use replace if N.- or other symbols present.
-// // // Example: AAAA -> CAAA GAAA TAAA ACAA AGAA ATAA etc.
-// // pub fn nucleotide_set_hamming(nucl: String) -> Vec<String>  {
-// //     let mut rng = rand::thread_rng();
-// //     for base in 0 .. nucl.len() + 1 {
-// //     let results: Vec<String> = Vec::new();
-// //         for symbol in BASIC_DNA_U8.iter() {
-// //             let (first, last) = symbol.split_at(base);
-// //             let mut buffer = [0; 1];
-// //             let result = symbol.encode_utf8(&mut buffer);
-// //             results.push([first, result, last].concat());
-// //         }
-// //     results
-// //     }
-// // }
-// // //-> Vec<String> 
-// // // /// A function that returns the correction for the specified word.
-// // // pub fn correct(&mut self, word: &str) -> String {
-// // //     // A word in our word frequency map is already correct.
-// // //     if self.n_words.contains_key(word) {
-// // //         return word.to_string();
-// // //     }
-

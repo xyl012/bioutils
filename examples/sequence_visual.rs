@@ -1,6 +1,6 @@
 
 //! Example to make nucleotide-level visualizations quickly and easily with image and character functions
-//! This example colors each pixel by a vec<u8>.
+//! This example colors each pixel by a vec<u8>, but because it only intakes a vector of u8s, we can change the input to really anything.
 
 use bioutils::utils::image::color::*;
 use image::RgbImage;

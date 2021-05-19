@@ -48,3 +48,6 @@ fn main(){
     test.cut_to_length(&6);
     test.is_homopolymer();
 }
+
+// Get the sums of each flag in a bam file
+

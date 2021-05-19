@@ -23,7 +23,7 @@ seq_io = "0.3.1"
 suffix_array = "0.5.0"
 image = "0.23.14"
 infer = "0.4.0"
-noodles = { git = "https://github.com/zaeleus/noodles.git", features = ["fastq", "fasta"] }
+noodles = { git = "https://github.com/zaeleus/noodles.git", features = ["fastq", "fasta", "sam", "bam"] }
 
 [features]
 

@@ -124,7 +124,8 @@ lazy_static! {
     pub static ref SOLEXA_HASHSET_STR: HashSet<&'static str> = new_str_hashset(&SOLEXA_STR);
 }
 
-/// Sanger charset: ASCII 33-126
+
+/// Sanger charset: ASCII 33-126. Used by nanopore (u8-33)
 pub const SANGER_U8: [u8; 94] = [
     b'!', b'"', b'#', b'$', b'%', b'&', 0x0027, b'(', b')', b'*', b'+', b',', b'-', b'.', b'/',
     b'0', b'1', b'2', b'3', b'4', b'5', b'6', b'7', b'8', b'9', b':', b';', b'<', b'=', b'>', b'?',
@@ -133,7 +134,7 @@ pub const SANGER_U8: [u8; 94] = [
     b'_', b'`', b'a', b'b', b'c', b'd', b'e', b'f', b'g', b'h', b'i', b'j', b'k', b'l', b'm', b'n',
     b'o', b'p', b'q', b'r', b's', b't', b'u', b'v', b'w', b'x', b'y', b'z', b'{', b'|', b'}', b'~',
     ];
-/// Sanger charset: ASCII 33-126
+/// Sanger charset: ASCII 33-126. Used by nanopore (u8-33)
 pub const SANGER_STR: [&str; 94] = [
     r#"!"#, r#"""#, r##"#"##, r#"$"#, r#"%"#, r#"&"#, r#"'"#, r#"("#, r#")"#, r#"*"#, r#"+"#,
     r#","#, r#"-"#, r#"."#, r#"/"#, r#"0"#, r#"1"#, r#"2"#, r#"3"#, r#"4"#, r#"5"#, r#"6"#, r#"7"#,
@@ -145,14 +146,179 @@ pub const SANGER_STR: [&str; 94] = [
     r#"t"#, r#"u"#, r#"v"#, r#"w"#, r#"x"#, r#"y"#, r#"z"#, r#"{"#, r#"|"#, r#"}"#, r#"~"#,
 ];
 
+lazy_static!{
+    /// This is the quality score shifted 33 so if the u8 is 33, the score is 0. We can look that up with this hashmap. Used by nanopore (u8-33)
+    pub static ref SANGER_HASHMAP_DECODE_U8: HashMap<u8, u8> = vec![
+        (b'!', 0), (b'"', 1), (b'#', 2), (b'$', 3), (b'%', 4), (b'&', 5), (0x0027, 6), (b'(', 7), (b')', 8), (b'*', 9), (b'+', 10), (b',', 11), (b'-', 12), (b'.', 13), (b'/', 14),
+        (b'0', 15), (b'1', 16), (b'2', 17), (b'3',18), (b'4', 19), (b'5', 20), (b'6', 21), (b'7', 22), (b'8', 23), (b'9', 24), (b':', 25), (b';', 26), (b'<', 27), (b'=', 28), (b'>', 29), (b'?', 30),
+        (b'@', 31), (b'A', 32), (b'B', 33), (b'C', 34), (b'D', 35), (b'E', 36), (b'F', 37), (b'G', 38), (b'H', 39), (b'I', 40), (b'J', 41), (b'K', 42), 
+        (b'L', 43), (b'M', 44), (b'N', 45), (b'O', 46), (b'P', 47), (b'Q', 48), (b'R', 49), (b'S', 50), (b'T', 51), (b'U', 52), (b'V', 53), (b'W', 54), (b'X', 55), (b'Y', 56), (b'Z', 57), (0x005B, 58), (0x005C, 59), (0x005D, 60), (b'^', 61),
+        (b'_', 62), (b'`', 63), (b'a', 64), (b'b', 65), (b'c', 66), (b'd', 67), (b'e', 68), (b'f', 69), (b'g', 70), (b'h', 71), (b'i', 72), (b'j', 73), (b'k', 74), (b'l', 75), (b'm', 76), (b'n', 77),
+        (b'o', 78), (b'p', 79), (b'q', 80), (b'r', 81), (b's', 82), (b't', 83), (b'u', 84), (b'v', 85), (b'w', 86), (b'x', 87), (b'y', 88), (b'z', 89), (b'{', 90), (b'|', 91), (b'}', 92), (b'~', 93)
+    ].into_iter().collect();
+}
+
+lazy_static!{
+    /// This is the quality score shifted 33 so if the u8 is 33, the score is 0. We can look that up with this hashmap. Used by nanopore (u8-33)
+    pub static ref SANGER_HASHMAP_ENCODE_U8: HashMap<u8, u8> = vec![
+        (0 , b'!'), (1, b'"'), (2, b'#'), (3, b'$'), (4, b'%'), (5, b'&'), (6, 0x0027), (7, b'('), (8, b')'), (9, b'*'), (10, b'+'), (11, b','), (12, b'-'), (13, b'.'), (14, b'/'),
+        (15, b'0'), (16, b'1'), (17, b'2'), (18, b'3'), (19, b'4'), (20, b'5'), (21, b'6'), (22, b'7'), (23, b'8'), (24, b'9'), (25, b':'), (26, b';'), (27, b'<'), (28, b'='), (29, b'>'), (30, b'?'),
+        (31, b'@'), (32, b'A'), (33, b'B'), (34, b'C'), (35, b'D'), (36, b'E'), (37, b'F'), (38, b'G'), (39, b'H'), (40, b'I'), (41, b'J'), (42, b'K'),
+        (43, b'L'), (44, b'M'), (45, b'N'), (46, b'O'), (47, b'P'), (48, b'Q'), (49, b'R'), (50, b'S'), (51, b'T'), (52, b'U'), (53, b'V'), (54, b'W'), (55, b'X'), (56, b'Y'), (57, b'Z'), (58, 0x005B), (59, 0x005C), (60, 0x005D), (61, b'^'),
+        (62, b'_'), (63, b'`'), (64, b'a'), (65, b'b'), (66, b'c'), (67, b'd'), (68, b'e'), (69, b'f'), (70, b'g'), (71, b'h'), (72, b'i'), (73, b'j'), (74, b'k'), (75, b'l'), (76, b'm'), (77, b'n'),
+        (78, b'o'), (79, b'p'), (80, b'q'), (81, b'r'), (82, b's'), (83, b't'), (84, b'u'), (85, b'v'), (86, b'w'), (87, b'x'), (88, b'y'), (89, b'z'), (90, b'{'), (91, b'|'), (92, b'}'), (93, b'~')
+    ].into_iter().collect();
+}
+
 lazy_static! {
-    /// Sanger charset as hashset: ASCII 33-126
+    /// Sanger charset as hashset: ASCII 33-126. Used by nanopore (u8-33)
     pub static ref SANGER_HASHSET_U8: HashSet<u8> = new_u8_hashset(&SANGER_U8);
 }
 lazy_static! {
-    /// Sanger charset as hashset: ASCII 33-126
+    /// Sanger charset as hashset: ASCII 33-126. Used by nanopore (u8-33)
     pub static ref SANGER_HASHSET_STR: HashSet<&'static str> = new_str_hashset(&SANGER_STR);
 }
+
+/// Flags In Order: read paired: 1, read mapped in proper pair: 2, read unmapped: 4, mate unmapped: 8, read reverse strand: 16, mate reverse strand: 32, first in pair: 64, second in pair: 128, not primary alignment: 256, read fails quality checks: 512, read is PCR or optical duplicate: 1024, supplementary alignment: 2048
+pub const FLAGS_U16: [u16; 12] = [1,2,4,8,16,32,64,128,256,512,1024,2048];
+lazy_static! {
+    /// Common alignment explanations with their associated bit
+    pub static ref FLAGS_HASHMAP_U16: HashMap<&'static str, u16> = vec![("is_paired",1), ("is_proper_pair",2), ("reads unmapped", 4), ("mate unmapped", 8), ("read reverse strand", 16), ("mate reverse strand", 32), ("first in pair", 64), ("second in pair", 128), ("not primary alignment",256), ("read fails quality checks", 512), ("read is PCR or optical duplicate", 1024), ("supplementary alignment",2048)].into_iter().collect();
+}
+
+
+
+
+
+// pub const TAGS: [u8; 1] = ["AM", "AS", ];
+
+// ub enum Tag {
+//     /// (`AM`).
+//     MinMappingQuality,
+//     /// (`AS`).
+//     AlignmentScore,
+//     /// (`BC`).
+//     SampleBarcodeSequence,
+//     /// (`BQ`).
+//     BaseAlignmentQualityOffsets,
+//     /// (`BZ`).
+//     OriginalUmiQualityScores,
+//     /// (`CB`).
+//     CellBarcodeId,
+//     /// (`CC`).
+//     NextHitReferenceSequenceName,
+//     /// (`CG`).
+//     Cigar,
+//     /// (`CM`).
+//     ColorEditDistance,
+//     /// (`CO`).
+//     Comment,
+//     /// (`CP`).
+//     NextHitPosition,
+//     /// (`CQ`).
+//     ColarQualityScores,
+//     /// (`CR`).
+//     CellBarcodeSequence,
+//     /// (`CS`).
+//     ColorSequence,
+//     /// (`CT`).
+//     CompleteReadAnnotations,
+//     /// (`CY`).
+//     CellBarcodeQualityScores,
+//     /// (`E2`).
+//     NextHitSequence,
+//     /// (`FI`).
+//     SegmentIndex,
+//     /// (`FS`).
+//     SegmentSuffix,
+//     /// (`FZ`).
+//     AlternativeSequence,
+//     /// (`GC`).
+//     ReservedGc,
+//     /// (`GQ`).
+//     ReservedGq,
+//     /// (`GS`).
+//     ReservedGs,
+//     /// (`H0`).
+//     PerfectHitCount,
+//     /// (`H1`).
+//     OneDifferenceHitCount,
+//     /// (`H2`).
+//     TwoDifferenceHitCount,
+//     /// (`HI`).
+//     HitIndex,
+//     /// (`IH`).
+//     TotalHitCount,
+//     /// (`LB`).
+//     Library,
+//     /// (`MC`).
+//     MateCigar,
+//     /// (`MD`).
+//     MismatchedPositions,
+//     /// (`MF`).
+//     ReservedMf,
+//     /// (`MI`).
+//     UmiId,
+//     /// (`MQ`).
+//     MateMappingQuality,
+//     /// (`NH`).
+//     AlignmentHitCount,
+//     /// (`NM`).
+//     EditDistance,
+//     /// (`OA`).
+//     OriginalAlignment,
+//     /// (`OC`).
+//     OriginalCigar,
+//     /// (`OP`).
+//     OriginalPosition,
+//     /// (`OQ`).
+//     OriginalQualityScores,
+//     /// (`OX`).
+//     OriginalUmiBarcodeSequence,
+//     /// (`PG`).
+//     Program,
+//     /// (`PQ`).
+//     TemplateLikelihood,
+//     /// (`PT`).
+//     PaddedReadAnnotations,
+//     /// (`PU`).
+//     PlatformUnit,
+//     /// (`Q2`).
+//     MateQualityScores,
+//     /// (`QT`).
+//     SampleBarcodeQualityScores,
+//     /// (`QX`).
+//     UmiQualityScores,
+//     /// (`R2`).
+//     MateSequence,
+//     /// (`RG`).
+//     ReadGroup,
+//     /// (`RT`).
+//     ReservedRt,
+//     /// (`RX`).
+//     UmiSequence,
+//     /// (`S2`).
+//     ReservedS2,
+//     /// (`SA`).
+//     OtherAlignments,
+//     /// (`SM`).
+//     TemplateMappingQuality,
+//     /// (`SQ`).
+//     ReservedSq,
+//     /// (`TC`).
+//     SegmentCount,
+//     /// (`TS`).
+//     TranscriptStrand,
+//     /// (`U2`).
+//     NextHitQualityScores,
+//     /// (`UQ`).
+//     SegmentLikelihood,
+//     /// Any other non-standard tag.
+//     Other(String),
+// }
+
+// If any other tags please create your own constant and make a pull request!
+
 
 // #[cfg(test)]
 // mod tests {

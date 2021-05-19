@@ -319,7 +319,7 @@ where
 
 pub trait CheckEqItems<K>{
     /// Checks if the sequence and quality u8 vectors are the same length. Generally checks two u8 items for length against each other
-    fn is_seq_qual_length_equal(&self, quality: &K) -> bool;
+    fn is_seq_qual_length_equal(&self, comparison: &K) -> bool;
 }
 
 impl<T, K> CheckEqItems<K> for T
@@ -330,10 +330,53 @@ where
     K: PartialEq,
 {
     /// Checks if two items are the same length. 
-    fn is_seq_qual_length_equal(&self, quality: &K)-> bool {
-        self.as_ref().len() == quality.as_ref().len()
+    fn is_seq_qual_length_equal(&self, comparison: &K)-> bool {
+        self.as_ref().len() == comparison.as_ref().len()
     }
 }
+
+
+pub trait CheckPalindrome<T> {
+    /// Generic trait to check if T is a palindrome
+    fn is_palindrome(&self) -> bool;
+}
+
+impl<T> CheckPalindrome<T> for T
+where
+    T: IntoIterator,
+    T::Item: PartialEq,
+    T::IntoIter: DoubleEndedIterator,
+    T: Copy,
+{
+    /// Generic impl to check if T is a palindrome
+    fn is_palindrome(&self) -> bool {
+    let mut iter = self.into_iter();
+    while let (Some(front), Some(back)) = (iter.next(), iter.next_back()) {
+        if front != back {
+            return false;
+        }
+    }
+    true
+    }
+}
+
+
+/// Generic function to check if T is a palindrome.
+pub fn is_palindrome<T>(iterable: T) -> bool
+where
+    T: IntoIterator,
+    T::Item: PartialEq,
+    T::IntoIter: DoubleEndedIterator,
+{
+    let mut iter = iterable.into_iter();
+    while let (Some(forward), Some(backward)) = (iter.next(), iter.next_back()) {
+        if forward != backward {
+            return false;
+        }
+    }
+    true
+}
+
 
 /// Validate a u8 is 0 to 100 and return a wrapped boolean
 pub fn validate_percentage_u8(percent: &u8) -> Result<bool, &'static str> {

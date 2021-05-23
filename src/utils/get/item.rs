@@ -7,6 +7,7 @@
 //! println!("{:?}", target);
 //! println!("{:?}", matching) // Returns the 0 based index;
 
+use crate::charsets::iupac::NUCLEOTIDE_COMPLEMENT_HASHMAP_U8;
 use std::collections::HashMap;
 use crate::charsets::quality::SANGER_HASHMAP_ENCODE_U8;
 use crate::charsets::quality::SANGER_HASHMAP_DECODE_U8;
@@ -48,6 +49,11 @@ pub trait CodeItemU8<T> {
     fn encode_qual_phred64(&self) -> Vec<u8>;
     /// Returns the SANGER quality encoding from a SANGER quality score. The score is the u8 minus 33.
     fn encode_qual_sanger(&self) -> Vec<u8>;
+
+    /// Returns the nucleotide complement
+    fn nucleotide_complement(&self) -> Vec<u8>;
+    /// Returns the reverse nucleotide complement
+    fn reverse_nucleotide_complement(&self) -> Vec<u8>;
 }
 
 impl<T> CodeItemU8<T> for T
@@ -77,6 +83,20 @@ where
     /// Returns the SANGER quality encoding from a SANGER quality score. The score is the u8 minus 33.
     fn encode_qual_sanger(&self) -> Vec<u8> {
         self.as_ref().iter().map(|q| SANGER_HASHMAP_ENCODE_U8.get(&q).unwrap().to_owned()).collect::<Vec<u8>>()
+    }
+
+    /// Returns the nucleotide complement
+    fn nucleotide_complement(&self) -> Vec<u8> {
+        self.as_ref().iter()
+            .map(|nt| NUCLEOTIDE_COMPLEMENT_HASHMAP_U8.get(&nt).unwrap().to_owned())
+            .collect()
+    }
+    /// Returns the reverse nucleotide complement
+    fn reverse_nucleotide_complement(&self) -> Vec<u8> {
+        self.as_ref().iter()
+            .rev()
+            .map(|nt| NUCLEOTIDE_COMPLEMENT_HASHMAP_U8.get(nt).unwrap().to_owned())
+            .collect()
     }
 }
 

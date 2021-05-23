@@ -204,19 +204,6 @@ lazy_static! {
     ].into_iter().map(|(c,b)| (c.to_vec(), b) ).collect();
 }
 
-pub fn nucleotide_complement(seq: &[u8]) -> Vec<u8> {
-    seq.iter()
-        .map(|nt| NUCLEOTIDE_COMPLEMENT_HASHMAP_U8.get(&nt).unwrap().to_owned())
-        .collect()
-}
-
-pub fn nucleotide_reverse_complement(seq: &[u8]) -> Vec<u8> {
-    seq.iter()
-        .rev()
-        .map(|nt| NUCLEOTIDE_COMPLEMENT_HASHMAP_U8.get(nt).unwrap().to_owned())
-        .collect()
-}
-
 // pub fn translate_nucleotide(seq: &[u8]) -> Vec<u8> {
 //     seq.iter().take(3)
 //         .map(|nt| CODON_HASHMAP.get(nt).unwrap().to_owned())

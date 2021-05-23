@@ -4,4 +4,6 @@ use image::io::Reader as ImageReader;
 // Centered around Rust's Image crate.
 
 
+// &[u32]
+
 // Make a horizontal line of pixels colored for each character

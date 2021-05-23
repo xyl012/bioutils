@@ -87,6 +87,8 @@ fn main()-> std::io::Result<()>{
     // Step 3 Complete!
     // Running everything from Step 4
 
+    let search_seq = b"ACTGACTGACTG";
+    
     while let Some(record) = reference_reader.next() {
         let record = record.expect("Error reading record");
         println!("...Get chromosome sequence, this should print multiple times...");
@@ -95,20 +97,20 @@ fn main()-> std::io::Result<()>{
         println!("...Creating positive strand reference lookup structure, this should print multiple times...");
         let sa = SuffixArray::new(&chromosome);
         println!("...Get positions of reads on positive strand, this should print multiple times...");
-        let positions_forward = fastq_aligner(&mut fq_reader, sa);
+        let positions_forward = fastq_aligner(&mut fq_reader, sa, search_seq);
         println!("...Creating negative strand reference lookup structure, this should print multiple times...");
         let reverse_chromosome = chromosome.to_mut();
         reverse_chromosome.reverse();
         let sar = SuffixArray::new(&reverse_chromosome);
         println!("...Get positions of reads on negative strand, this should print multiple times...");
-        let positions_reverse = fastq_aligner(&mut fq_reader, sar);
+        let positions_reverse = fastq_aligner(&mut fq_reader, sar, search_seq);
     }
     Ok(())
 }
 
 
 // This is our code to find positions with the suffix array we created.
-pub fn fastq_aligner<R>(fq_reader: &mut seq_io::fastq::Reader<R>, sa: SuffixArray) 
+pub fn fastq_aligner<R>(fq_reader: &mut seq_io::fastq::Reader<R>, sa: SuffixArray, search_seq: &[u8]) 
 where 
 R: std::io::Read,
 {
@@ -116,9 +118,8 @@ R: std::io::Read,
     let mut read_counter = 0;
     while let Some(record) = fq_reader.next() {
         let record = record.expect("Error reading record");
-        // let id = record.id().unwrap();
         let seq = record.seq();
-        let sa = SuffixArray::new(b"GATCGATCGATCGATC");
+        let sa = SuffixArray::new(search_seq);
         let positions = sa.search_all(seq);
         // let lcp = sa.search_lcp(b"ACTG");
         read_counter+=1;

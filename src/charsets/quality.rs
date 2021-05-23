@@ -47,6 +47,11 @@ lazy_static!{
     ].into_iter().collect();
 }
 
+// lazy_static!{
+//     /// PHRED33 (key) to probability (value) hashmap.
+//     pub static ref PHRED33_PROBABILITY_HASHMAP_U8: HashMap<u8, u8> = vec![].into_iter().collect();
+// }
+
 /// Phred64 charset: ASCII 64-126
 pub const PHRED64_U8: [u8; 63] = [
     b'@', b'A', b'B', b'C', b'D', b'E', b'F', b'G', b'H', b'I', b'J', b'K', b'L', b'M', b'N', b'O',

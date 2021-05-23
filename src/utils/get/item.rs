@@ -7,6 +7,7 @@
 //! println!("{:?}", target);
 //! println!("{:?}", matching) // Returns the 0 based index;
 
+use std::collections::HashMap;
 use crate::charsets::quality::SANGER_HASHMAP_ENCODE_U8;
 use crate::charsets::quality::SANGER_HASHMAP_DECODE_U8;
 use crate::charsets::quality::PHRED33_HASHMAP_U8;
@@ -79,9 +80,6 @@ where
     }
 }
 
-
-
-
 /// Returns CG positions in the given &[u8]
 pub fn cg_positions(seq:&[u8])-> Vec<usize> {
     seq.windows(2).enumerate()
@@ -100,7 +98,14 @@ where
         .map(|(idx, _)| idx).collect::<Vec<usize>>()
 }
 
-
+/// Creates a hashmap of the count of each position returned from a suffix array alignment using the suffix array crate. This only includes the start of the aligned section with no other information.
+pub fn position_pileup(positions: &[u32]) -> HashMap<u32, u64> {
+    let mut hashmap = HashMap::new();
+    for i in positions.iter(){
+    let position_count = hashmap.entry(i.to_owned()).or_insert(0); *position_count += 1u64;
+    }
+    hashmap
+}
 
 // pub trait FindKey<T>{
 //     fn find(&self, key: &T) -> Option<usize>;

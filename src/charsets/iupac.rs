@@ -1,6 +1,7 @@
 
 //! IUPAC character (sub-)sets including basic and full sets. Provided as u8 and str arrays.
 
+use std::collections::HashMap;
 use super::*;
 
 // Full IUPAC charset including nucleotides and amino acids
@@ -38,6 +39,12 @@ lazy_static! {
 lazy_static! {
     pub static ref IUPAC_NUCLEOTIDE_HASHSET_STR: HashSet<&'static str> =
         new_str_hashset(&IUPAC_NUCLEOTIDE_STR);
+}
+
+lazy_static! {
+    pub static ref NUCLEOTIDE_COMPLEMENT_HASHMAP_U8: HashMap<u8, u8> = vec![
+        (b'A', b'T'), (b'a', b't'), (b'C', b'G'), (b'c', b'g'), (b'G', b'C'), (b'g', b'c'), (b'T', b'A'), (b't', b'a'), (b'U', b'A'), (b'u', b'a'), (b'N', b'N'), (b'n', b'n'), (b'-', b'-'), (b'.', b'.')
+        ].into_iter().collect();
 }
 
 // Full IUPAC amino acid charset
@@ -189,6 +196,35 @@ pub const H_BASES: [u8; 3] = [b'A', b'C', b'T'];
 pub const H_BASES_LOWERCASE: [u8; 3] = [b'a', b'c', b't'];
 pub const V_BASES: [u8; 3] = [b'A', b'C', b'G'];
 pub const V_BASES_LOWERCASE: [u8; 3] = [b'a', b'c', b'g'];
+
+lazy_static! {
+    pub static ref CODON_HASHMAP: HashMap<Vec<u8>, u8> =
+    vec![
+        (b"TAA", b'*'), (b"TAG", b'*'), (b"TGA", b'*'), (b"TTT", b'F'), (b"TTC", b'F'), (b"TTA", b'L'), (b"TTG", b'L'), (b"TCT", b'S'), (b"TCC", b'S'), (b"TCA", b'S'), (b"TCG", b'S'), (b"TAT", b'Y'), (b"TAC", b'Y'), (b"TGT", b'C'), (b"TGC", b'C'), (b"TGG", b'W'), (b"CTT", b'L'), (b"CTC", b'L'), (b"CTA", b'L'), (b"CTG", b'L'), (b"CCT", b'P'), (b"CCC", b'P'), (b"CCA", b'P'), (b"CCG", b'P'), (b"CAT", b'H'), (b"CAC", b'H'), (b"CAA", b'Q'), (b"CAG", b'Q'), (b"CGT", b'R'), (b"CGC", b'R'), (b"CGA", b'R'), (b"CGG", b'R'), (b"ATT", b'I'), (b"ATC", b'I'), (b"ATA", b'I'), (b"ATG", b'M'), (b"ACT", b'T'), (b"ACC", b'T'), (b"ACA", b'T'), (b"ACG", b'T'), (b"AAT", b'N'), (b"AAC", b'N'), (b"AAA", b'K'), (b"AAG", b'K'), (b"AGT", b'S'), (b"AGC", b'S'), (b"AGA", b'R'), (b"AGG", b'R'), (b"GTT", b'V'), (b"GTC", b'V'), (b"GTA", b'V'), (b"GTG", b'V'), (b"GTN", b'V'), (b"GCT", b'A'), (b"GCC", b'A'), (b"GCA", b'A'), (b"GCG", b'A'), (b"GAT", b'D'), (b"GAC", b'D'), (b"GAA", b'E'), (b"GAG", b'E'), (b"GGT", b'G'), (b"GGC", b'G'), (b"GGA", b'G'), (b"GGG", b'G'),
+    ].into_iter().map(|(c,b)| (c.to_vec(), b) ).collect();
+}
+
+pub fn nucleotide_complement(seq: &[u8]) -> Vec<u8> {
+    seq.iter()
+        .map(|nt| NUCLEOTIDE_COMPLEMENT_HASHMAP_U8.get(&nt).unwrap().to_owned())
+        .collect()
+}
+
+pub fn nucleotide_reverse_complement(seq: &[u8]) -> Vec<u8> {
+    seq.iter()
+        .rev()
+        .map(|nt| NUCLEOTIDE_COMPLEMENT_HASHMAP_U8.get(nt).unwrap().to_owned())
+        .collect()
+}
+
+// pub fn translate_nucleotide(seq: &[u8]) -> Vec<u8> {
+//     seq.iter().take(3)
+//         .map(|nt| CODON_HASHMAP.get(nt).unwrap().to_owned())
+//         .collect()
+// }
+
+// <[T; N] as std::borrow::Borrow<[T]>>
+// CODON_HASHMAP.get(nt).to_owned()
 
 // #[cfg(test)]
 // mod tests {

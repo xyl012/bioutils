@@ -118,14 +118,14 @@ where
         .map(|(idx, _)| idx).collect::<Vec<usize>>()
 }
 
-/// Creates a hashmap of the count of each position returned from a suffix array alignment using the suffix array crate. This only includes the start of the aligned section with no other information.
-pub fn position_pileup(positions: &[u32]) -> HashMap<u32, u64> {
-    let mut hashmap = HashMap::new();
-    for i in positions.iter(){
-    let position_count = hashmap.entry(i.to_owned()).or_insert(0); *position_count += 1u64;
-    }
-    hashmap
-}
+// /// Creates a hashmap of the count of each position returned from a suffix array alignment using the suffix array crate. This only includes the start of the aligned section with no other information.
+// pub fn position_pileup(positions: &[u32]) -> HashMap<u32, u64> {
+//     let mut hashmap = HashMap::new();
+//     for i in positions.iter(){
+//     let position_count = hashmap.entry(i.to_owned()).or_insert(0); *position_count += 1u64;
+//     }
+//     hashmap
+// }
 
 // pub trait FindKey<T>{
 //     fn find(&self, key: &T) -> Option<usize>;

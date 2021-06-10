@@ -48,7 +48,6 @@
 extern crate ftp;
 extern crate regex;
 
-
 use std::io::Read;
 
 use std::io::Write;

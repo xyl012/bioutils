@@ -3,11 +3,12 @@
 <h2 id="quick-start" class="section-header"><a href="#quick-start">Simple Biological Utilities in Rust</a></h2>
 
 <p>Bioutils provides simple biological utilities including: 
-    <ul> Functions to check sequence validity and content (palindromes too!)</ul>
     <ul> Functions to create new random IUPAC sequences</ul>
     <ul> Functions to download human and mouse Gencode reference files</ul>
+    <ul> Common genomic sequences (PhiX and ERCC) </ul>
     <ul> Functions to download fastq files</ul>
     <ul> Functions to replace N or gaps with pseudorandom nucleotides</ul>
+    <ul> Functions to check sequence validity and content (palindromes too!)</ul>
     <ul>complete iupac and quality character sets</ul>
 </p>
 

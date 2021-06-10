@@ -50,7 +50,6 @@
 //! let printseq = str::from_utf8(seq).unwrap();
 //! println!("{:?}", printseq);
 
-
 pub mod charsets;
 pub mod files;
 pub mod utils;

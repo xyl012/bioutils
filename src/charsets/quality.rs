@@ -129,7 +129,6 @@ lazy_static! {
     pub static ref SOLEXA_HASHSET_STR: HashSet<&'static str> = new_str_hashset(&SOLEXA_STR);
 }
 
-
 /// Sanger charset: ASCII 33-126. Used by nanopore (u8-33)
 pub const SANGER_U8: [u8; 94] = [
     b'!', b'"', b'#', b'$', b'%', b'&', 0x0027, b'(', b')', b'*', b'+', b',', b'-', b'.', b'/',

@@ -204,12 +204,6 @@ lazy_static! {
     ].into_iter().map(|(c,b)| (c.to_vec(), b) ).collect();
 }
 
-// pub fn translate_nucleotide(seq: &[u8]) -> Vec<u8> {
-//     seq.iter().take(3)
-//         .map(|nt| CODON_HASHMAP.get(nt).unwrap().to_owned())
-//         .collect()
-// }
-
 // <[T; N] as std::borrow::Borrow<[T]>>
 // CODON_HASHMAP.get(nt).to_owned()
 

@@ -11,7 +11,7 @@ use bioutils::utils::new::random::random_dna;
 
 fn main() {
     let mut img = RgbImage::new(HEIGHT, WIDTH); // Make a new image with height and width
-    let seq = b"CCCCAAAAAATTTTTGGGGNNNNN"; // Make a sequence
+    let seq = b"AAAACCCCTTTTGGGGNNNN"; // Make a sequence
     let y_pixel_coord=49; // Set our y coordinate to 49 for first example. Since our height is set at 50 and we start at 0, if we set 50 it'll be out of bounds and rust will panic.
     println!("{:?}", seq); // Print our unsigned integers for reference
     for (x, &c) in seq.into_iter().enumerate() { // For each unsigned integer in our sequence, color the pixel corresponding to the x coordinate and y coordinate, color by the unsigned integer present.

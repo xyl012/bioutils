@@ -23,39 +23,7 @@
 
 <h2 id="quick-start" class="section-header"><a href="#quick-start">TL;DR</a></h2>
 <div class="example-wrap"><pre class="rust rust-example-rendered"><p>
-//! // Examples for using checks:
-//! 
-//! use bioutils::charsets;
-//! use bioutils::utils;
-//! use bioutils::utils::check::value::CheckU8;
-//! use bioutils::utils::new::random::random_dna;
-//! use bioutils::utils::new::random::random_quality;
-//! use bioutils::utils::mutate::random::AsMutRandomU8;
-//! use rand::rngs::ThreadRng;
-//! use rand::seq::SliceRandom;
-//! use std::string::String;
-//! use std::str;
-//! 
-//! let dna = b"ACTG";
-//! let rna = b"ACUG";
-//! let homopolymerN = b"NNNN";
-//! let homopolymerA = b"AAAA";
-//! let gapna = b"AC-G";
-//! let nna = b"ACnG";
-//! let quality = b"@ABC";
-//!
-//! assert!(homopolymerN.is_homopolymer());
-//! assert!(homopolymerA.is_homopolymer_not_n());
-//! assert!(homopolymerN.is_homopolymer_n());
-//!
-//! assert!(gapna.has_gap());
-//! assert!(nna.has_n());
-//! assert!(dna.is_iupac());
-//! assert!(rna.is_basic_rna());
-//!
-//! assert!(quality.is_phred33());
-//! assert!(quality.is_phred64());
-//! assert!(quality.is_solexa());
+
 //! 
 //! // Examples for creating a new random sequence and quality 
 //!

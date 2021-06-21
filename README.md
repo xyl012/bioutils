@@ -15,7 +15,7 @@ For a related bioinformatics resource and walkthough:
     <ul>complete iupac and quality character sets</ul>
 </p>
 
-<p> Pull requests welcome, suggestions for improvement always welcome!</p>
+<p> Pull requests and suggestions for improvement always welcome!</p>
 
 </p></pre></div>
 </div><h2 id='modules' class='section-header'><a href="#modules">Modules</a></h2>

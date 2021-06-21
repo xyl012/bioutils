@@ -2,6 +2,9 @@
 
 <h2 id="quick-start" class="section-header"><a href="#quick-start">Simple Biological Utilities in Rust</a></h2>
 
+For a related bioinformatics resource and walkthough:
+[Bioinformatics in Rust](https://kana4.github.io/bioinformatics_rust_book/)
+
 <p>Bioutils provides simple biological utilities including: 
     <ul> Functions to create new random IUPAC sequences</ul>
     <ul> Functions to download human and mouse Gencode reference files</ul>

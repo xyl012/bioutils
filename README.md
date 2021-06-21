@@ -24,7 +24,18 @@
 <h2 id="quick-start" class="section-header"><a href="#quick-start">TL;DR</a></h2>
 <div class="example-wrap"><pre class="rust rust-example-rendered"><p>
 
-//! 
+
+//! // Examples for downloading refernce files
+//! // Download grch38 fasta gz and gtf gz to current directory
+//! let path = Path::new("./");
+//! download_grch38_primary_assembly_genome_fa_gz(&path);
+//! download_gencode_vxx_primary_assembly_annotation_gtf_gz(&path);
+//! // Download files through http
+//! let fastq_ftp = "ftp://ftp.sra.ebi.ac.uk/vol1/fastq/SRR170/009/SRR1700869/";
+//! let fastq_gz = "SRR1700869.fastq.gz";
+//! let out_directory = Path::new("./")
+//! bioutils::files::http::curl(fastq_ftp, fastq_gz, &out_directory);
+//!
 //! // Examples for creating a new random sequence and quality 
 //!
 //! let mut rng1 = rand::thread_rng(); // Create a random number generator

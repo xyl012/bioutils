@@ -10,22 +10,18 @@ use crate::utils::get::value::AsMutValueU8;
 use crate::utils::get::item::CodeItemU8;
 use crate::utils::mutate::item::MutCodeItemU8;
 
+use crate::utils::get::item::GetItemU8;
+
 /// Trait for checking specific criteria for a u8 of biological file origin. Types include sequence (nucleotide/amino acid) and quality (phred33/64/solexa, phred33 being all printable ascii).
 /// These should be used with closely with the is_ascii/make/to_ascii_lowercase/make/to_ascii_uppercase functions in standard rust.
 /// Additional functionality for common checks including has_n, has_gap, is_homopolymer, is_palindrome, etc.
 use crate::charsets::iupac::*;
 use crate::charsets::quality::*;
 
-pub const IS_WHAT_OPTIONS: [&str; 17] = 
-["is_iupac_nucleotide", "is_iupac_amino_acid", "is_iupac",
-"is_phred33", "is_phred64", "is_solexa",  
-"is_basic_dna", "is_basic_rna", "is_basic_amino_acid",
-"is_homopolymer", "is_homopolymer_n", "is_homopolymer_not_n",
-"has_n", "has_gap",
-"is_ascii_letters", "is_ascii_letters_uppercase", "is_ascii_letters_lowercase"
-];
-
 pub trait Check<K> {
+    // fn find_subseq(haystack: &[u8], needle: &[u8]) -> Option<usize> {
+    //     haystack.windows(needle.len()).position(|window| window == needle)
+    // }
         /// Checks if the sequence or quality u8 is less than or equal to the given length. Used to cut read to minimum length.
         fn is_at_least_length(&self, length: &usize) -> bool;
         /// Checks if the sequence or quality u8 is greater than or equal to the given length. Used to cut read to maximum length.
@@ -41,6 +37,9 @@ where
     T: AsRef<[K]>,
     K: PartialEq,
 {
+    // fn find_subseq(haystack: &[u8], needle: &[u8]) -> Option<usize> {
+    //     haystack.windows(needle.len()).position(|window| window == needle)
+    // }
         /// Checks if the sequence or quality u8 is less than or equal to the given length. Used to cut read to minimum length.
         fn is_at_least_length(&self, length: &usize) -> bool {
             self.as_ref().len() >= *length
@@ -72,6 +71,8 @@ where
 }
 
 pub trait CheckU8<T> {
+    /// Checks the sequence for a subsequence at the given index (zero-based).
+    fn has_sequence_at(&self, subsequence: &[u8], index: &usize) -> Result<bool, &str>;
     /// Checks the sequence has the percent bases (rounded) above the quality score
     fn is_qual_passing_percent(&self, quality_score: &u8, percent: &u8) -> Result<bool, &str>;
     /// Checks the encoded sequence has a quality score above greater than or equal to the supplied mean. Decodes from raw read from fastq file with phred33 encoding. Commonly done per base in fastqc.
@@ -128,6 +129,16 @@ impl<T> CheckU8<T> for T
 where
     T: AsRef<[u8]>,
 {
+    /// Checks the sequence for a subsequence at the given index (zero-based).
+    fn has_sequence_at(&self, subsequence: &[u8], index: &usize) -> Result<bool, &str> {
+        let subsequence_length = subsequence.len();
+        let sequence_result = self.cut_sequence(&index, &subsequence_length);
+        match sequence_result {
+            Ok(_) => {if sequence_result.unwrap() == subsequence {Ok(true)} else {Ok(false)} },
+            Err(_) => Err("Index out of bounds, check index usize"),
+        }
+    }
+
     /// Checks the sequence has a number of bases (percent rounded) greater than or equal to the supplied quality score
     fn is_qual_passing_percent(&self, quality_score: &u8, percent: &u8) -> Result<bool, &str> {
         if validate_percentage_u8(percent).unwrap() {
@@ -369,6 +380,17 @@ pub fn validate_phred64_score_u8(quality_score: &u8) -> Result<bool, &'static st
     false => Err("Please supply a quality score (0-42, not fractional) as u8"),
     }
 }
+
+
+
+// pub const IS_WHAT_OPTIONS: [&str; 17] = 
+// ["is_iupac_nucleotide", "is_iupac_amino_acid", "is_iupac",
+// "is_phred33", "is_phred64", "is_solexa",  
+// "is_basic_dna", "is_basic_rna", "is_basic_amino_acid",
+// "is_homopolymer", "is_homopolymer_n", "is_homopolymer_not_n",
+// "has_n", "has_gap",
+// "is_ascii_letters", "is_ascii_letters_uppercase", "is_ascii_letters_lowercase"
+// ];
 
     // /// Validates whether is a valid something based on the boolean is_x smaller functions in this trait and returns a wrapped boolean. Example: check_u8(b"ACTG","is_basic_dna") returns a wrapped "true". Options for is_what are the names of the charset boolean functions:
     // /// is_basic_dna, is_phred33, is_basic_rna,  

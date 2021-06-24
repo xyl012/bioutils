@@ -2,6 +2,7 @@
 //! Functions to curl/download ENA or other files. Currently, these are downloaded into the bioutils directory.
 
 
+use std::path::Path;
 use std::io::{Write};
 use std::fs::File;
 use curl::easy::Easy;
@@ -15,6 +16,28 @@ pub fn build_url(url: &str, filename: &str) -> Result<Url, ParseError> {
     let base = Url::parse(url).expect("Base url cannot be parsed");
     let joined = base.join(filename)?;
     Ok(joined)
+}
+
+
+/// Function to curl (download) a file from a base url.
+pub fn curl_url(url: &str, output_directory: &std::path::Path) {
+    // Generate url to get file
+    let mut easy = Easy::new();
+    let file_url = url.to_string();
+    easy.url(&file_url).unwrap();
+    let file_name = Path::new(&file_url).file_name().unwrap();
+    // Create file on system to write on
+    let mut file = match File::create(&output_directory.join(file_name)) {
+        Err(why) => panic!("couldn't create {}", why),
+        Ok(file) => file,
+    };
+    // Write to file on system
+    easy.write_function(move |data| {
+        file.write_all(data).unwrap();
+        Ok(data.len())
+    }).unwrap();
+    easy.perform().unwrap();
+    // println!("{}", easy.response_code().unwrap());
 }
 
 /// Function to curl (download) a file from a base url and a filename.
@@ -35,12 +58,6 @@ pub fn curl(url: &str, filename: &str, output_directory: &std::path::Path) {
     }).unwrap();
     easy.perform().unwrap();
     // println!("{}", easy.response_code().unwrap());
-}
-
-// Paste file names together with changeable version.
-pub fn paste_prefix_suffix(prefix: &str, suffix: &str) -> String {
-    let mut fname: String = prefix.to_owned();
-    fname.push_str(suffix); fname
 }
 
 // pub fn paste_prefix_version_suffix(prefix: &str, suffix: &str) -> String {

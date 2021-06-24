@@ -21,10 +21,14 @@ use std::convert::TryInto;
 
 
 use crate::utils::check::value::Check;
+use crate::utils::check::value::CheckU8;
+
 
 pub trait GetItemU8<T> {
     /// Cuts u8 to a specified length from index position. index starts at 0, so to get the first two u8s index would be 0 and length would be 2
-    fn subseq(&self, index: &usize, length: &usize) -> Result<&[u8], &'static str>;
+    fn cut_sequence(&self, index: &usize, length: &usize) -> Result<&[u8], &'static str>;
+    // // Removes a sequence from the index given. Most commonly for removing adapters if present
+    // fn remove_sequence_at(&self, subsequence: &[u8], index: &usize) -> Result<&[u8], &'static str>;
     /// Returns the reverse nucleotide complement
     fn reverse_nucleotide_complement(&self) -> Vec<u8>;
     /// Returns the nucleotide complement
@@ -35,13 +39,47 @@ impl<T> GetItemU8<T> for T
 where
     T: AsRef<[u8]>,
 {
-    /// Cuts u8 to a specified length from index position. index starts at 0, so to get the first two u8s index would be 0 and length would be 2
-    fn subseq(&self, index: &usize, length: &usize) -> Result<&[u8], &'static str> {
+    /// Cuts u8 to a specified length from index position. index starts at 0, to get the first two u8s index would be 0 and length would be 2
+    fn cut_sequence(&self, self_index: &usize, subsequence_length: &usize) -> Result<&[u8], &'static str> {
         let self_length = self.as_ref().len();
-        if self_length < *index && self_length < *length {
-                Ok(&self.as_ref()[*index..*length])
-        } else { Err("Index or length out of bounds") }
+        let subsequence_end_index = self_index + subsequence_length;
+        let end_self_index = self_length-1;
+        // Check index and length aren't larger than self (length -1 for index as index starts at 0)
+        match end_self_index >= *self_index && end_self_index >= subsequence_end_index {
+            true => {Ok(&self.as_ref()[*self_index..subsequence_end_index])},
+            false => {Err("Index or length out of bounds")}
+        }
     }
+    // /// Removes a subsequence starting from the given index if present. 
+    // /// Use case: cut and remove adapters if present at a given index position
+    // fn remove_sequence_at(&self, subsequence: &[u8], index: &usize) -> Result<&[u8], &'static str> {
+    //     // First checks if the sequence is present at the given index
+    //     if self.has_sequence_at(&subsequence,  &index).unwrap() {
+    //         // skip starting from the index for the length of the sequence,
+    //         let subsequence_length = subsequence.len();
+    //         let subsequence_index_end = index + subsequence_length;
+    //         let self_length = &self.as_ref().len();
+    //         let self_index_end = self_length-1;
+    //         let match_subsequence_at_end = self_index_end-subsequence_length;
+            
+    //         match index {
+    //             // If it is and index is 0, return the sequence following the subsequence
+    //             0 => {Ok(&self.as_ref()[subsequence_index_end+1..subsequence_index_end+1+subsequence_length])},
+    //             // If it is and index is self_index_end - subsequence_length (the sequence is at the end), return the sequence prior 
+    //             match_subsequence_at_end => {
+    //                 Ok(&self.as_ref()[..match_subsequence_at_end-1])
+    //             },
+    //             // If it is and index is anything else, return the sequence 
+    //             _ => {Ok(_)},
+    //         }
+
+    //         // skip to index
+            
+    //         // Ok(&self.as_ref().iter().skip(3))
+    //         // drain from end of subsequence (index+length)
+
+    // } else { Err("Index or length out of bounds") };
+    // }
     /// Returns the reverse nucleotide complement
     fn reverse_nucleotide_complement(&self) -> Vec<u8> {
         self.as_ref().iter()
@@ -54,6 +92,23 @@ where
         self.as_ref().iter()
             .map(|nt| NUCLEOTIDE_COMPLEMENT_HASHMAP_U8.get(nt).unwrap().to_owned())
             .collect()
+    }
+}
+
+
+pub trait Get<T> {
+    /// Returns the index of the subsequence if present in self
+    fn find_subsequence(&self, subsequence: &[T]) -> Option<usize>;
+}
+
+impl<T> Get<T> for T
+where
+    T: AsRef<[T]>,
+    T: PartialEq, 
+{
+    /// Returns the index of the subsequence if present in self
+    fn find_subsequence(&self, subsequence: &[T]) -> Option<usize> {
+        self.as_ref().windows(subsequence.len()).position(|window| window == subsequence)
     }
 }
 

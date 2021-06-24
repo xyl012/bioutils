@@ -5,14 +5,16 @@
 For a related bioinformatics resource and walkthough:
 [Bioinformatics in Rust](https://kana4.github.io/bioinformatics_rust_book/)
 
-<p>Bioutils provides simple biological utilities including: 
-    <ul> Functions to create new random IUPAC sequences</ul>
-    <ul> Functions to download human and mouse Gencode reference files</ul>
+<p>Bioutils provides simple biological utilities including:
+    <ul> Check for subsequences & cut reads </ul>
+    <ul> Check if reads have a % bases passing quality threshold </ul>
+    <ul> Create new random IUPAC sequences </ul>
+    <ul> Download human and mouse Gencode reference files </ul>
     <ul> Common genomic sequences (PhiX and ERCC) </ul>
-    <ul> Functions to download fastq files</ul>
-    <ul> Functions to replace N or gaps with pseudorandom nucleotides</ul>
-    <ul> Functions to check sequence validity and content (palindromes too!)</ul>
-    <ul>complete iupac and quality character sets</ul>
+    <ul> Download fastq files </ul>
+    <ul> Replace N or gaps with pseudorandom nucleotides </ul>
+    <ul> Check sequence validity and content (palindromes too!) </ul>
+    <ul> Complete iupac and quality character sets </ul>
 </p>
 
 <p> Pull requests and suggestions for improvement always welcome!</p>
@@ -24,11 +26,14 @@ For a related bioinformatics resource and walkthough:
 <tr class='module-item'><td><a class="mod" href="charsets/index.html" title='bioutils::charsets mod'>image</a></td><td class='docblock-short'><p>Create images from biological data. See Image example in bioutils/examples.</p></td></tr>
 </table></section><section id="search" class="content hidden"></section><section class="footer"></section>
 
+## Most modules have an item (returns a composite item like a vector) and a value (returns a primitive) submodule. Check it out!
+
 <h2 id="quick-start" class="section-header"><a href="#quick-start">TL;DR</a></h2>
 <div class="example-wrap"><pre class="rust rust-example-rendered"><p>
 
 
-//! // Examples for downloading refernce files
+```
+//! // Examples for downloading reference files
 //! // Download grch38 fasta gz and gtf gz to current directory
 //! let path = Path::new("./");
 //! download_grch38_primary_assembly_genome_fa_gz(&path);
@@ -56,3 +61,4 @@ For a related bioinformatics resource and walkthough:
 //! let mut seq = seq.mut_random_replace_non_basic("RNA", rng4).mut_random_replace_n("RNA", rng3).mut_to_upper_basic();
 //! let printseq = str::from_utf8(seq).unwrap();
 //! println!("{:?}", printseq);
+```

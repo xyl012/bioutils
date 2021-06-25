@@ -1,16 +1,16 @@
-use std::borrow::Borrow;
+
 use crate::utils::get::value::percentage;
-use std::collections::HashMap;
+
 use crate::charsets::PERCENTAGE_RANGE;
 
 use crate::charsets::ascii::*;
-use crate::utils::get::value;
+
 use crate::utils::get::value::ValueU8;
 use crate::utils::get::value::AsMutValueU8;
 use crate::utils::get::item::CodeItemU8;
 use crate::utils::mutate::item::MutCodeItemU8;
 
-use crate::utils::get::item::GetItemU8;
+
 
 /// Trait for checking specific criteria for a u8 of biological file origin. Types include sequence (nucleotide/amino acid) and quality (phred33/64/solexa, phred33 being all printable ascii).
 /// These should be used with closely with the is_ascii/make/to_ascii_lowercase/make/to_ascii_uppercase functions in standard rust.

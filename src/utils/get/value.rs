@@ -14,14 +14,14 @@
 //! println!("{:?}", distance);
 // ! ``
 
-use std::convert::TryFrom;
-use crate::charsets::PERCENTAGE_RANGE;
+
+
 use std::collections::HashMap;
-use crate::charsets::iupac::*;
+
 use crate::charsets::quality::*;
-use rand::rngs::ThreadRng;
-use rand::seq::SliceRandom;
-use std::convert::TryInto;
+
+
+
 
 pub trait ValueU8<T> {
     /// Returns the percent (0-100) of the quality u8 in bases (rounded) above the quality score supplied. Should be used when mapq scores are required.
@@ -121,7 +121,7 @@ T: AsMut<[u8]>,
 
     /// Returns the number of occurrences of the mode
     fn mut_count_mode(&mut self) -> usize {
-        let mode = self.mut_mode().unwrap().clone();
+        let mode = *self.mut_mode().unwrap();
         self.as_mut().iter().filter(|&q| q==&mode).count()
     }
 

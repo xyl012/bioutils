@@ -7,21 +7,21 @@
 //! println!("{:?}", target);
 //! println!("{:?}", matching) // Returns the 0 based index;
 
-use crate::charsets::iupac::CODON_HASHMAP;
+
 use crate::charsets::iupac::NUCLEOTIDE_COMPLEMENT_HASHMAP_U8;
-use std::collections::HashMap;
+
 use crate::charsets::quality::SANGER_HASHMAP_ENCODE_U8;
 use crate::charsets::quality::SANGER_HASHMAP_DECODE_U8;
 use crate::charsets::quality::PHRED33_HASHMAP_U8;
 use crate::charsets::quality::PHRED64_HASHMAP_U8;
 use crate::charsets::quality::PHRED33_HASHMAP_ENCODE_U8;
 use crate::charsets::quality::PHRED64_HASHMAP_ENCODE_U8;
-use std::iter::FromIterator;
-use std::convert::TryInto;
 
 
-use crate::utils::check::value::Check;
-use crate::utils::check::value::CheckU8;
+
+
+
+
 
 
 pub trait GetItemU8<T> {

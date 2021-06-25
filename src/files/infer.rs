@@ -1,15 +1,15 @@
-use std::io::Error;
-use std::fs::File;
-use std::path::Path;
-use std::io::BufReader;
 
-use infer::Type;
-use infer::get_from_path;
+
+use std::path::Path;
+
+
+
+
 
 /// Check whether is a gz file type with the Infer crate and return a boolean
 pub fn is_gz(path: &Path) -> bool {
     let kind = infer_kind(path);
-    if kind.extension() == "gz" {true} else {false}
+    kind.extension() == "gz"
 }
 
 /// Use the Infer crate to get the mime type and extension

@@ -6,15 +6,15 @@ For a related bioinformatics resource and walkthough:
 [Bioinformatics in Rust](https://kana4.github.io/bioinformatics_rust_book/)
 
 <p>Bioutils provides simple biological utilities including:
-    <ul> Check for subsequences & cut reads </ul>
-    <ul> Check if reads have a % bases passing quality threshold </ul>
+    <ul> Check if reads have % bases passing quality threshold </ul>
     <ul> Create new random IUPAC sequences </ul>
+    <ul> Replace N or gaps with pseudorandom nucleotides </ul>
     <ul> Download human and mouse Gencode reference files </ul>
     <ul> Common genomic sequences (PhiX and ERCC) </ul>
     <ul> Download fastq files </ul>
-    <ul> Replace N or gaps with pseudorandom nucleotides </ul>
     <ul> Check sequence validity and content (palindromes too!) </ul>
     <ul> Complete iupac and quality character sets </ul>
+    <ul> Colors by colloqial name ported from Colorbrewer </ul>
 </p>
 
 <p> Pull requests and suggestions for improvement always welcome!</p>

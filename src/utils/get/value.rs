@@ -26,9 +26,6 @@ use std::convert::TryInto;
 pub trait ValueU8<T> {
     /// Returns the percent (0-100) of the quality u8 in bases (rounded) above the quality score supplied. Should be used when mapq scores are required.
     fn quality_percent_passing(&self, quality_score: &u8) -> usize;
-    //TODO
-    // /// Find subsequence in a sequence
-    // fn subseq()
 
     /// Returns the number of iterators greater than criteria. Used for calculating percents/numerators
     fn count_greater_than(&self, criteria:&u8)-> usize;
@@ -55,9 +52,6 @@ where
     fn quality_percent_passing(&self, quality_score: &u8)-> usize {
         percentage(self.count_greater_than(quality_score), self.as_ref().len())
     }
-    //TODO
-    // /// Find subsequence in a sequence
-    // fn subseq()
 
     /// Returns the number of iterations greater than the criteria
     fn count_greater_than(&self, criteria: &u8)-> usize {

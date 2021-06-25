@@ -71,8 +71,6 @@ where
 }
 
 pub trait CheckU8<T> {
-    /// Checks the sequence for a subsequence at the given index (zero-based).
-    fn has_sequence_at(&self, subsequence: &[u8], index: &usize) -> Result<bool, &str>;
     /// Checks the sequence has the percent bases (rounded) above the quality score
     fn is_qual_passing_percent(&self, quality_score: &u8, percent: &u8) -> Result<bool, &str>;
     /// Checks the encoded sequence has a quality score above greater than or equal to the supplied mean. Decodes from raw read from fastq file with phred33 encoding. Commonly done per base in fastqc.
@@ -129,16 +127,6 @@ impl<T> CheckU8<T> for T
 where
     T: AsRef<[u8]>,
 {
-    /// Checks the sequence for a subsequence at the given index (zero-based).
-    fn has_sequence_at(&self, subsequence: &[u8], index: &usize) -> Result<bool, &str> {
-        let subsequence_length = subsequence.len();
-        let sequence_result = self.cut_sequence(&index, &subsequence_length);
-        match sequence_result {
-            Ok(_) => {if sequence_result.unwrap() == subsequence {Ok(true)} else {Ok(false)} },
-            Err(_) => Err("Index out of bounds, check index usize"),
-        }
-    }
-
     /// Checks the sequence has a number of bases (percent rounded) greater than or equal to the supplied quality score
     fn is_qual_passing_percent(&self, quality_score: &u8, percent: &u8) -> Result<bool, &str> {
         if validate_percentage_u8(percent).unwrap() {

@@ -19,7 +19,7 @@ pub fn build_url(url: &str, filename: &str) -> Result<Url, ParseError> {
 }
 
 
-/// Function to curl (download) a file from a base url.
+/// Curl (download) a file from a base url.
 pub fn curl_url(url: &str, output_directory: &std::path::Path) {
     // Generate url to get file
     let mut easy = Easy::new();
@@ -40,7 +40,7 @@ pub fn curl_url(url: &str, output_directory: &std::path::Path) {
     // println!("{}", easy.response_code().unwrap());
 }
 
-/// Function to curl (download) a file from a base url and a filename.
+/// Curl (download) a file from a base url and a filename.
 pub fn curl(url: &str, filename: &str, output_directory: &std::path::Path) {
     // Generate url to get file
     let mut easy = Easy::new();
@@ -59,19 +59,3 @@ pub fn curl(url: &str, filename: &str, output_directory: &std::path::Path) {
     easy.perform().unwrap();
     // println!("{}", easy.response_code().unwrap());
 }
-
-// pub fn paste_prefix_version_suffix(prefix: &str, suffix: &str) -> String {
-//     let mut fname: String = prefix.to_owned();
-//     fname.push_str(VERSION); fname.push_str(suffix); fname
-// }
-
-// Get links from the latest gencode release page
-// ftp://ftp.ebi.ac.uk/pub/databases/gencode/Gencode_human/latest_release
-
-// /// Function to read a downloaded reference as a [u8]. Please run download_reference() prior to using this method. download_reference() only needs to be completed once for the reference of choice.
-
-
-// /// Function to read a downloaded reference as a &str. Please run download_reference() prior to using this method. download_reference() only needs to be completed once for the reference of choice.
-
-
-

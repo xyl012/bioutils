@@ -17,13 +17,6 @@ use crate::charsets::quality::PHRED64_HASHMAP_U8;
 use crate::charsets::quality::PHRED33_HASHMAP_ENCODE_U8;
 use crate::charsets::quality::PHRED64_HASHMAP_ENCODE_U8;
 
-
-
-
-
-
-
-
 pub trait GetItemU8<T> {
     /// Returns the reverse nucleotide complement
     fn reverse_nucleotide_complement(&self) -> Vec<u8>;

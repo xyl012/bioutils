@@ -287,7 +287,6 @@ where
     }
 }
 
-
 pub trait CheckPalindrome<T> {
     /// Generic trait to check if T is a palindrome
     fn is_palindrome(&self) -> Result<bool>;

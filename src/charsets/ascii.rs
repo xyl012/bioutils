@@ -1,4 +1,3 @@
-
 //! English/ASCII letter sets provided as u8, str arrays, and hashsets.
 
 use super::*;
@@ -15,6 +14,9 @@ pub const ASCII_LETTERS_STR: [&str; 52] = [
     "T", "U", "V", "W", "X", "Y", "Z", "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l",
     "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z",
 ];
+
+// pub const ASCII_LETTERS_U8_RANGE = Range {ASCII_LETTERS_U8};
+
 lazy_static! {
     pub static ref ASCII_LETTERS_HASHSET_U8: HashSet<u8> = new_u8_hashset(&ASCII_LETTERS_U8);
 }

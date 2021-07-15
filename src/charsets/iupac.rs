@@ -1,7 +1,5 @@
-
 //! IUPAC character (sub-)sets including basic and full sets. Provided as u8 and str arrays.
 
-use std::collections::HashMap;
 use super::*;
 
 // Full IUPAC charset including nucleotides and amino acids

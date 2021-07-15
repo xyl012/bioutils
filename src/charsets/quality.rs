@@ -1,8 +1,7 @@
-
 //! Quality character (sub-)sets including Phred33, Phred64, and Solexa/Illumina 1.0 (for compatibility). Provided as u8 and str arrays.
 
-use std::collections::HashMap;
 use super::*;
+use std::ops::RangeInclusive;
 
 /// Phred33 charset: ASCII 33-75
 pub const PHRED33_U8: [u8; 43] = [
@@ -13,12 +12,21 @@ pub const PHRED33_U8: [u8; 43] = [
 /// Phred33 scores: 0-42
 pub const PHRED33_SCORES_U8: [u8; 43] = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42];
 
-/// Phred33 charset: ASCII 33-73
+/// Phred33 charset: ASCII 33-75
     pub const PHRED33_STR: [&str; 43] = [
     r#"!"#, r#"""#, r##"#"##, r#"$"#, r#"%"#, r#"&"#, r#"'"#, r#"("#, r#")"#, r#"*"#, r#"+"#,
     r#","#, r#"-"#, r#"."#, r#"/"#, r#"0"#, r#"1"#, r#"2"#, r#"3"#, r#"4"#, r#"5"#, r#"6"#, r#"7"#,
     r#"8"#, r#"9"#, r#":"#, r#";"#, r#"<"#, r#"="#, r#">"#, r#"?"#, r#"@"#, r#"A"#, r#"B"#, r#"C"#,
     r#"D"#, r#"E"#, r#"F"#, r#"G"#, r#"H"#, r#"I"#, r#"J"#, r#"K"#];
+
+pub const PHRED33_RANGE_START: usize = 33;
+pub const PHRED33_RANGE_END: usize = 75;
+pub const PHRED33_SCORE_RANGE_START: usize = 0;
+pub const PHRED33_SCORE_RANGE_END: usize = 42;
+/// Phred33 range: 33-75
+pub const PHRED33_RANGE: RangeInclusive<usize> = PHRED33_RANGE_START..=PHRED33_RANGE_END;
+/// Phred33 score range: 0-42
+pub const PHRED33_SCORE_RANGE: RangeInclusive<usize> = PHRED33_SCORE_RANGE_START..=PHRED33_SCORE_RANGE_END;
 
 lazy_static! {
     /// Phred33 charset as hashset: ASCII 33-73
@@ -47,11 +55,6 @@ lazy_static!{
     ].into_iter().collect();
 }
 
-// lazy_static!{
-//     /// PHRED33 (key) to probability (value) hashmap.
-//     pub static ref PHRED33_PROBABILITY_HASHMAP_U8: HashMap<u8, u8> = vec![].into_iter().collect();
-// }
-
 /// Phred64 charset: ASCII 64-126
 pub const PHRED64_U8: [u8; 63] = [
     b'@', b'A', b'B', b'C', b'D', b'E', b'F', b'G', b'H', b'I', b'J', b'K', b'L', b'M', b'N', b'O',
@@ -73,6 +76,16 @@ pub const PHRED64_STR: [&str; 63] = [
     r#"p"#, r#"q"#, r#"r"#, r#"s"#, r#"t"#, r#"u"#, r#"v"#, r#"w"#, r#"x"#, r#"y"#, r#"z"#, r#"{"#,
     r#"|"#, r#"}"#, r#"~"#,
 ];
+
+pub const PHRED64_RANGE_START: usize = 64;
+pub const PHRED64_RANGE_END: usize = 126;
+pub const PHRED64_SCORE_RANGE_START: usize = 0;
+pub const PHRED64_SCORE_RANGE_END: usize = 62;
+/// Phred64 range: 64-126
+pub const PHRED64_RANGE: RangeInclusive<usize> = PHRED64_RANGE_START..=PHRED64_RANGE_END;
+/// Phred64 range: 0-62
+pub const PHRED64_SCORE_RANGE: RangeInclusive<usize> = PHRED64_SCORE_RANGE_START..=PHRED64_SCORE_RANGE_END;
+
 lazy_static! {
     /// Phred64 charset as hashset: ASCII 64-126
     pub static ref PHRED64_HASHSET_U8: HashSet<u8> = new_u8_hashset(&PHRED64_U8);
@@ -173,6 +186,15 @@ lazy_static!{
         (78, b'o'), (79, b'p'), (80, b'q'), (81, b'r'), (82, b's'), (83, b't'), (84, b'u'), (85, b'v'), (86, b'w'), (87, b'x'), (88, b'y'), (89, b'z'), (90, b'{'), (91, b'|'), (92, b'}'), (93, b'~')
     ].into_iter().collect();
 }
+
+pub const SANGER_RANGE_START: usize = 33;
+pub const SANGER_RANGE_END: usize = 126;
+pub const SANGER_SCORE_RANGE_START: usize = 0;
+pub const SANGER_SCORE_RANGE_END: usize = 93;
+/// Sanger range: 33-126
+pub const SANGER_RANGE: RangeInclusive<usize> = SANGER_RANGE_START..=SANGER_RANGE_END;
+/// Phred64 range: 0-93
+pub const SANGER_SCORE_RANGE: RangeInclusive<usize> = SANGER_SCORE_RANGE_START..=SANGER_SCORE_RANGE_END;
 
 lazy_static! {
     /// Sanger charset as hashset: ASCII 33-126. Used by nanopore (u8-33)

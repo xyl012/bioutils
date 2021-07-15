@@ -3,7 +3,7 @@ name = "bioutils"
 version = "0.2.2"
 authors = ["Kana4"]
 edition = "2018"
-description = "A crate containing simple utilities and alphabets for biological sequence data."
+description = "Simple utilities and alphabets for biological sequence data."
 license = "MIT OR Apache-2.0"
 readme = "README.md"
 
@@ -23,6 +23,7 @@ seq_io = "0.3.1"
 suffix_array = "0.5.0"
 image = "0.23.14"
 infer = "0.5.0"
+anyhow = "1.0.42"
 
 [features]
 

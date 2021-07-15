@@ -11,6 +11,7 @@
 //! img.put_pixel(x as u32, y as u32, RED_RGB);
 //! ``
 
+use super::*;
 use image::{Rgb};
 
 /// General colors as rgb structs with common names

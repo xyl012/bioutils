@@ -1,22 +1,8 @@
-
-use crate::utils::get::value::percentage;
-
-use crate::charsets::PERCENTAGE_RANGE;
-
-use crate::charsets::ascii::*;
-
-use crate::utils::get::value::ValueU8;
-use crate::utils::get::value::AsMutValueU8;
-use crate::utils::get::item::CodeItemU8;
-use crate::utils::mutate::item::MutCodeItemU8;
-
-
-
 /// Trait for checking specific criteria for a u8 of biological file origin. Types include sequence (nucleotide/amino acid) and quality (phred33/64/solexa, phred33 being all printable ascii).
 /// These should be used with closely with the is_ascii/make/to_ascii_lowercase/make/to_ascii_uppercase functions in standard rust.
 /// Additional functionality for common checks including has_n, has_gap, is_homopolymer, is_palindrome, etc.
-use crate::charsets::iupac::*;
-use crate::charsets::quality::*;
+
+use super::*;
 
 pub trait Check<K> {
     // fn find_subseq(haystack: &[u8], needle: &[u8]) -> Option<usize> {
@@ -72,16 +58,16 @@ where
 
 pub trait CheckU8<T> {
     /// Checks the sequence has the percent bases (rounded) above the quality score
-    fn is_qual_passing_percent(&self, quality_score: &u8, percent: &u8) -> Result<bool, &str>;
+    fn is_qual_passing_percent(&self, quality_score: &u8, percent: &u8) -> Result<bool>;
     /// Checks the encoded sequence has a quality score above greater than or equal to the supplied mean. Decodes from raw read from fastq file with phred33 encoding. Commonly done per base in fastqc.
-    fn is_qual_passing_mean(&self, mean_quality_score: &u8) -> Result<bool, &str>;
+    fn is_qual_passing_mean(&self, mean_quality_score: &u8) -> Result<bool>;
     /// Checks the encoded sequence has a quality score above greater than or equal to the supplied mean. Decodes from raw read from fastq file with phred64 encoding. Commonly done per base in fastqc.
-    fn is_qual_passing_mean_phred64(&self, mean_quality_score: &u8) -> Result<bool, &str>;
+    fn is_qual_passing_mean_phred64(&self, mean_quality_score: &u8) -> Result<bool>;
 
     /// Checks if the sequence is a homopolymer with percentage cutoff.
-    fn is_percent_homopolymer(&self, percent: &u8) -> Result<bool, &str>;
+    fn is_percent_homopolymer(&self, percent: &u8) -> Result<bool>;
     /// Checks if the sequence is a x homopolymer with percentage cutoff.
-    fn is_percent_homopolymer_x(&self, x: &u8, percent: &u8) -> Result<bool, &str>;
+    fn is_percent_homopolymer_x(&self, x: &u8, percent: &u8) -> Result<bool>;
 
     /// Checks if the u8 sequence is homopolymer. Possible to use with Rust's window function for checking homopolymer sequences of arbitrary length.
     fn is_homopolymer(&self) -> bool;
@@ -128,8 +114,8 @@ where
     T: AsRef<[u8]>,
 {
     /// Checks the sequence has a number of bases (percent rounded) greater than or equal to the supplied quality score
-    fn is_qual_passing_percent(&self, quality_score: &u8, percent: &u8) -> Result<bool, &str> {
-        if validate_percentage_u8(percent).unwrap() {
+    fn is_qual_passing_percent(&self, quality_score: &u8, percent: &u8) -> Result<bool> {
+        if validate_percentage_u8(percent)? {
             if self.quality_percent_passing(&quality_score) >= (*percent).into() {
                 Ok(true)
             } else { Ok(false) }
@@ -137,25 +123,25 @@ where
     }
 
     /// Checks the encoded sequence has a quality score above greater than or equal to the supplied mean. Decodes from raw read from fastq file with phred33 encoding. Commonly done per base in fastqc.
-    fn is_qual_passing_mean(&self, mean_quality_score: &u8) -> Result<bool, &str> {
-        if validate_phred33_score_u8(mean_quality_score).unwrap() {
-            if self.decode_qual().mean() >= (*mean_quality_score).into() {
+    fn is_qual_passing_mean(&self, mean_quality_score: &u8) -> Result<bool> {
+        if validate_phred33_score_u8(mean_quality_score)? {
+            if self.decode_qual().mean()? >= (*mean_quality_score).into() {
                 Ok(true)
             } else { Ok(false) }
         } else { validate_phred33_score_u8(mean_quality_score) }
     }
     
     /// Checks the encoded sequence has a quality score above greater than or equal to the supplied mean. Decodes from raw read from fastq file with phred64 encoding. Commonly done per base in fastqc.
-    fn is_qual_passing_mean_phred64(&self, mean_quality_score: &u8) -> Result<bool, &str> {
+    fn is_qual_passing_mean_phred64(&self, mean_quality_score: &u8) -> Result<bool> {
         if validate_phred64_score_u8(mean_quality_score).unwrap() {
-            if self.decode_qual_phred64().mean() >= (*mean_quality_score).into() {
+            if self.decode_qual_phred64().mean()? >= (*mean_quality_score).into() {
                 Ok(true)
             } else { Ok(false) }
         } else { validate_phred64_score_u8(mean_quality_score) }
     }
 
     /// Checks if the sequence is a homopolymer with percentage cutoff
-    fn is_percent_homopolymer(&self, percent: &u8) -> Result<bool, &str> {
+    fn is_percent_homopolymer(&self, percent: &u8) -> Result<bool> {
         if validate_percentage_u8(&percent).unwrap() {
             if percentage(self.count_mode(), self.as_ref().len()) >= (*percent).into() {
                 Ok(true)
@@ -164,7 +150,7 @@ where
     }
 
     /// Checks if the sequence is comprised of 'x' base greater than 'percent' cutoff. Primary use is for filtering for reads with >90% percent N's or A's
-    fn is_percent_homopolymer_x(&self, x: &u8, percent: &u8) -> Result<bool, &str> {
+    fn is_percent_homopolymer_x(&self, x: &u8, percent: &u8) -> Result<bool> {
         if validate_percentage_u8(&percent).unwrap() {
             if percentage(self.count_xu8(x), self.as_ref().len()) >= (*percent).into() {
                 Ok(true)
@@ -264,10 +250,9 @@ where
     }
 }
 
-
 pub trait MutCheckU8<T> {
     /// Checks the sequence has a quality score above greater than or equal to the supplied mean.
-    fn is_qual_passing_mean(&mut self, mean_quality_score: &u8) -> Result<bool, &str>;
+    fn is_qual_passing_mean(&mut self, mean_quality_score: &u8) -> Result<bool>;
 }
 
 impl<T> MutCheckU8<T> for T
@@ -275,7 +260,7 @@ where
     T: AsMut<[u8]>,
 {
     /// Checks the sequence has a quality score above greater than or equal to the supplied mean. Commonly done per base in fastqc.
-    fn is_qual_passing_mean(&mut self, mean_quality_score: &u8) -> Result<bool, &str> {
+    fn is_qual_passing_mean(&mut self, mean_quality_score: &u8) -> Result<bool> {
         if validate_phred33_score_u8(mean_quality_score).unwrap() {
             if self.mut_decode_qual().mut_mean() >= (*mean_quality_score).into() {
                 Ok(true)
@@ -296,7 +281,7 @@ where
     K: AsRef<[T]>,
     K: PartialEq,
 {
-    /// Checks if two items are the same length. 
+    /// Checks if two items are the same length.
     fn is_seq_qual_length_equal(&self, comparison: &K)-> bool {
         self.as_ref().len() == comparison.as_ref().len()
     }
@@ -305,7 +290,7 @@ where
 
 pub trait CheckPalindrome<T> {
     /// Generic trait to check if T is a palindrome
-    fn is_palindrome(&self) -> bool;
+    fn is_palindrome(&self) -> Result<bool>;
 }
 
 impl<T> CheckPalindrome<T> for T
@@ -316,20 +301,19 @@ where
     T: Copy,
 {
     /// Generic impl to check if T is a palindrome
-    fn is_palindrome(&self) -> bool {
+    fn is_palindrome(&self) -> Result<bool> {
     let mut iter = self.into_iter();
     while let (Some(front), Some(back)) = (iter.next(), iter.next_back()) {
         if front != back {
-            return false;
+            return Ok(false);
         }
     }
-    true
+    Ok(true)
     }
 }
 
-
 /// Generic function to check if T is a palindrome.
-pub fn is_palindrome<T>(iterable: T) -> bool
+pub fn is_palindrome<T>(iterable: T) -> Result<bool>
 where
     T: IntoIterator,
     T::Item: PartialEq,
@@ -338,34 +322,33 @@ where
     let mut iter = iterable.into_iter();
     while let (Some(forward), Some(backward)) = (iter.next(), iter.next_back()) {
         if forward != backward {
-            return false;
+            return Ok(false);
         }
-    }
-    true
+    };
+    Ok(true)
 }
 
-
 /// Validate a u8 is 0 to 100 and return a wrapped boolean
-pub fn validate_percentage_u8(percent: &u8) -> Result<bool, &'static str> {
+pub fn validate_percentage_u8(percent: &u8) -> Result<bool> {
     match PERCENTAGE_RANGE.contains(percent){    
     true => Ok(true),
-    false => Err("Please supply a percent (0-100, not fractional) as u8"),
+    false => bail!("Please supply a percent (0-100, not fractional) as u8"),
     }
 }
 
 /// Validate a u8 is phred33 score 0-42
-pub fn validate_phred33_score_u8(quality_score: &u8) -> Result<bool, &'static str> {
+pub fn validate_phred33_score_u8(quality_score: &u8) -> Result<bool> {
     match PHRED33_SCORES_U8.contains(quality_score){    
     true => Ok(true),
-    false => Err("Please supply a quality score (0-42, not fractional) as u8"),
+    false => bail!("Please supply a quality score (0-42, not fractional) as u8"),
     }
 }
 
 /// Validate a u8 is phred64 score 0-42
-pub fn validate_phred64_score_u8(quality_score: &u8) -> Result<bool, &'static str> {
+pub fn validate_phred64_score_u8(quality_score: &u8) -> Result<bool> {
     match PHRED64_SCORES_U8.contains(quality_score){    
     true => Ok(true),
-    false => Err("Please supply a quality score (0-42, not fractional) as u8"),
+    false => bail!("Please supply a quality score (0-42, not fractional) as u8"),
     }
 }
 
@@ -383,7 +366,7 @@ pub fn validate_phred64_score_u8(quality_score: &u8) -> Result<bool, &'static st
     // /// Validates whether is a valid something based on the boolean is_x smaller functions in this trait and returns a wrapped boolean. Example: check_u8(b"ACTG","is_basic_dna") returns a wrapped "true". Options for is_what are the names of the charset boolean functions:
     // /// is_basic_dna, is_phred33, is_basic_rna,  
     // /// The goal of this function would be to set is_what to a constant in the program, for example a program focused on illumina data might set a constant to phred33 and input as is_what, rather than having to call is_phred33 each time. This means we can easily make our program take phred33 or 64 by just changing the constant.
-    // fn check_u8(&self, is_what: &str) -> Result<bool, &str>;
+    // fn check_u8(&self, is_what: &str) -> Result<bool>;
 
 // /// Validates whether is a valid something based on the boolean is_x smaller functions in this trait and returns a wrapped boolean. Example: check_u8(b"ACTG","is_basic_dna") returns a wrapped "true". Options for is_what are the names of the charset boolean functions:
     // /// "is_iupac_nucleotide", "is_iupac_amino_acid", "is_iupac",
@@ -393,7 +376,7 @@ pub fn validate_phred64_score_u8(quality_score: &u8) -> Result<bool, &'static st
     // /// "has_n", "has_gap",
     // /// "is_ascii_letters", "is_ascii_letters_uppercase", "is_ascii_letters_lowercase" 
     // /// The goal of this function would be to set is_what to a constant in the program, for example a program focused on dna data might set a constant to is_basic_dna and input as is_what rather than having to call is_basic_dna each time. Later, if we want to focus on rna, we can easily change our constant to is_basic_rna just by changing the constant.
-    // fn check_u8(&self, is_what: &str) -> Result<bool, &str>{
+    // fn check_u8(&self, is_what: &str) -> Result<bool>{
     //     if validate_is_what(&is_what).unwrap() {
     //         match is_what {
     //             "is_phred33" => Ok(self.is_phred33()),

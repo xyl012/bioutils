@@ -18,9 +18,7 @@
 //! println!("{:?}", printseq);
 //! ```
 
-use rand::rngs::ThreadRng;
-use rand::seq::SliceRandom;
-use crate::charsets::iupac::*;
+use super::*;
 
 pub trait AsMutRandomU8 {
     /// Random all other than ACGTUactgu with pseudorandom nucleotides ACTGU. Should be used last after other functions or for cleanup of unknown characters.
@@ -199,10 +197,6 @@ where T: AsMut<[u8]>,
 pub trait CopyRandomNucleotide<T> {
     fn copy_random_replace_n(&self, xna: &str, rng: ThreadRng) -> Vec<u8>  ;
     fn copy_random_replace_gap(&self, xna: &str, rng: ThreadRng) -> Vec<u8> ;
-    // fn mut_random_replace_non_basic(&mut self, xna: &str, rng: ThreadRng) ;
-    // fn mut_random_replace_iupac(&mut self, xna: &str, rng: ThreadRng) ;
-    // fn mut_to_upper_basic(&mut self) ;
-    // fn mut_to_lower_basic(&mut self) ;
 }
 
 impl<T> CopyRandomNucleotide<T> for T
@@ -248,6 +242,39 @@ where
     }
 }
 
+pub trait MutCodeItemU8<T> {
+    /// Returns the PHRED33 quality score from a PHRED33 quality encoding. The score is the u8 minus 33.
+    fn mut_decode_qual(&mut self);
+    // /// Returns the PHRED64 quality score from a PHRED64 quality encoding. The score is the u8 minus 64.
+    // fn mut_decode_qual_phred64(&mut self) -> &mut Self;
+    /// Returns the PHRED33 quality encoding from a PHRED33 quality score. The score is the u8 minus 33.
+    fn mut_encode_qual(&mut self);
+    // /// Returns the PHRED64 quality encoding from a PHRED64 quality score. The score is the u8 minus 64.
+    // fn mut_encode_qual_phred64(&mut self) -> &mut Self;
+}
 
+impl<T> MutCodeItemU8<T> for T
+where
+    T: AsMut<[u8]>,
+{
+    /// Returns the PHRED33 quality score from a raw PHRED33 quality encoding (-33).
+    fn mut_decode_qual(&mut self) {
+        self.as_mut().iter_mut().for_each(|u| *u = *u-33)
+    }
 
-// if non-ascii found, will replace with !, a q score of 0 by default. May also return error.
+    // fn mut_decode_qual_phred64(&mut self) -> &mut Self {
+    //     self.as_mut().iter_mut().for_each(|u| *u = *u-33);
+    //     Ok(self)
+    // }
+    
+    /// Returns the PHRED33 quality encoding from a PHRED33 quality score (+33).
+    fn mut_encode_qual(&mut self) {
+        self.as_mut().iter_mut().for_each(|u| *u = *u+33)
+    }
+
+    // /// Returns the PHRED64 quality encoding from a PHRED64 quality score.
+    // fn mut_encode_qual_phred64(&mut self) -> &mut Self {
+    //     self.as_mut().iter_mut().for_each(|u| *u = *PHRED64_HASHMAP_ENCODE_U8.get(&u).unwrap());
+    //     Ok(self)
+    // }
+}

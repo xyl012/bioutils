@@ -17,10 +17,7 @@
 //! println!("{:?}", quality.to_owned());
 //! ```
 
-use crate::charsets::iupac::*;
-use crate::charsets::quality::*;
-use rand::rngs::ThreadRng;
-use rand::seq::SliceRandom;
+use super::*;
 
 /// Create new random DNA sequence with specified number of bases.
 pub fn random_dna(nbases: usize, mut rng: ThreadRng) -> Vec<u8> {

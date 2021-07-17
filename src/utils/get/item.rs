@@ -53,27 +53,29 @@ where
 
 pub trait CodeItemU8<T> {
     /// Returns the PHRED33 quality score from a PHRED33 quality encoding. The score is the u8 minus 33.
-    fn decode_qual(&self) -> Result<Vec<u8>>;
+    fn decode_qual(&self) ->  Result<Vec<u8>>;
     /// Returns the PHRED64 quality score from a PHRED64 quality encoding. The score is the u8 minus 64.
-    fn decode_qual_phred64(&self) -> Result<Vec<u8>>;
+    fn decode_qual_phred64(&self) ->  Result<Vec<u8>>;
     /// Returns the SANGER quality score from a SANGER quality encoding. The score is the u8 minus 33.
-    fn decode_qual_sanger(&self) -> Result<Vec<u8>>;
+    fn decode_qual_sanger(&self) ->  Result<Vec<u8>>;
     /// Returns the PHRED33 quality encoding from a PHRED33 quality score. The score is the u8 minus 33.
-    fn encode_qual(&self) -> Result<Vec<u8>>;
+    fn encode_qual(&self) ->  Result<Vec<u8>>;
     /// Returns the PHRED64 quality encoding from a PHRED64 quality score. The score is the u8 minus 64.
-    fn encode_qual_phred64(&self) -> Result<Vec<u8>>;
+    fn encode_qual_phred64(&self) ->  Result<Vec<u8>>;
     /// Returns the SANGER quality encoding from a SANGER quality score. The score is the u8 minus 33.
     fn encode_qual_sanger(&self) -> Result<Vec<u8>>;
 }
 
 impl<T> CodeItemU8<T> for T
 where
-    T: AsRef<[u8]>,
+    T: AsRef<[u8]>
 {
     /// Returns the PHRED33 quality score from a raw PHRED33 quality encoding. The score is simply the u8 minus 33.
-    fn decode_qual(&self) -> Result<Vec<u8>> {
-        self.as_ref().iter().map(|q| PHRED33_HASHMAP_U8.get(&q)?.to_owned()).collect::<Result<Vec<u8>>>()
+    fn decode_qual(&self) -> Result<&'a [u8]> {
+        let decoded = self.as_ref().iter().map(|u| u-33).collect::<Vec<u8>>();
+        Ok(decoded)
     }
+
     /// Returns the PHRED64 quality score from a raw PHRED64 quality encoding. The score is simply the u8 minus 64.
     fn decode_qual_phred64(&self) -> Result<Vec<u8>> {
         self.as_ref().iter().map(|q| PHRED64_HASHMAP_U8.get(&q)?.to_owned()).collect::<Result<Vec<u8>>>()

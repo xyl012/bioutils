@@ -259,22 +259,18 @@ where
 {
     /// Returns the PHRED33 quality score from a raw PHRED33 quality encoding (-33).
     fn mut_decode_qual(&mut self) -> Result<&mut Self> {
-        self.as_mut().iter_mut().for_each(|u| *u = *u-33);
-        Ok(self)
+        self.as_mut().iter_mut().map(|u| Ok(u)).for_each(|u| u = PHRED33_HASHMAP_U8.get(u).ok_or(bail!("Non-Phred33 Present"))).collect::<Result<&mut Self>>()
     }
     /// Returns the PHRED64 quality score from a raw PHRED64 quality encoding (-64).
     fn mut_decode_qual_phred64(&mut self) -> Result<&mut Self> {
-        self.as_mut().iter_mut().for_each(|u| *u = *u-64);
-        Ok(self)
+        self.as_mut().iter_mut().map(|u| Ok(u)).for_each(|u| u = PHRED64_HASHMAP_U8.get(u).ok_or(bail!("Non-Phred64 Present"))).collect::<Result<&mut Self>>()
     }
     /// Returns the PHRED33 quality encoding from a PHRED33 quality score (+33).
     fn mut_encode_qual(&mut self) -> Result<&mut Self> {
-        self.as_mut().iter_mut().for_each(|u| *u = *u+33);
-        Ok(self)
+        self.as_mut().iter_mut().map(|u| Ok(u)).for_each(|u| u = PHRED33_HASHMAP_ENCODE_U8.get(u).ok_or(bail!("Non-Phred33 Present"))).collect::<Result<&mut Self>>()
     }
     /// Returns the PHRED64 quality encoding from the quality score (+64).
     fn mut_encode_qual_phred64(&mut self) -> Result<&mut Self> {
-        self.as_mut().iter_mut().for_each(|u| *u = *u+64);
-        Ok(self)
+        self.as_mut().iter_mut().map(|u| Ok(u)).for_each(|u| u = PHRED64_HASHMAP_ENCODE_U8.get(u).ok_or(bail!("Non-Phred64 Present"))).collect::<Result<&mut Self>>()
     }
 }

@@ -3,6 +3,9 @@
 /// Additional functionality for common checks including has_n, has_gap, is_homopolymer, is_palindrome, etc.
 
 use super::*;
+use crate::utils::mutate::MutCodeItemU8;
+use crate::utils::get::item::CodeItemU8;
+use crate::utils::get::value::ValueU8;
 
 pub trait Check<K> {
     // fn find_subseq(haystack: &[u8], needle: &[u8]) -> Option<usize> {
@@ -125,7 +128,7 @@ where
     /// Checks the encoded sequence has a quality score above greater than or equal to the supplied mean. Decodes from raw read from fastq file with phred33 encoding. Commonly done per base in fastqc.
     fn is_qual_passing_mean(&self, mean_quality_score: &u8) -> Result<bool> {
         if validate_phred33_score_u8(mean_quality_score)? {
-            if self.decode_qual().mean()? >= (*mean_quality_score).into() {
+            if self.decode_qual()?.mean()? >= (*mean_quality_score).into() {
                 Ok(true)
             } else { Ok(false) }
         } else { validate_phred33_score_u8(mean_quality_score) }
@@ -134,7 +137,7 @@ where
     /// Checks the encoded sequence has a quality score above greater than or equal to the supplied mean. Decodes from raw read from fastq file with phred64 encoding. Commonly done per base in fastqc.
     fn is_qual_passing_mean_phred64(&self, mean_quality_score: &u8) -> Result<bool> {
         if validate_phred64_score_u8(mean_quality_score).unwrap() {
-            if self.decode_qual_phred64().mean()? >= (*mean_quality_score).into() {
+            if self.as_ref().decode_qual_phred64().mean()? >= (*mean_quality_score).into() {
                 Ok(true)
             } else { Ok(false) }
         } else { validate_phred64_score_u8(mean_quality_score) }
@@ -350,8 +353,6 @@ pub fn validate_phred64_score_u8(quality_score: &u8) -> Result<bool> {
     false => bail!("Please supply a quality score (0-42, not fractional) as u8"),
     }
 }
-
-
 
 // pub const IS_WHAT_OPTIONS: [&str; 17] = 
 // ["is_iupac_nucleotide", "is_iupac_amino_acid", "is_iupac",

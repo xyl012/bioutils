@@ -19,8 +19,9 @@
 //! ```
 
 use super::*;
+use crate::utils::check::*;
 
-pub trait AsMutRandomU8 {
+pub trait AsMutRandomReplace {
     /// Random all other than ACGTUactgu with pseudorandom nucleotides ACTGU. Should be used last after other functions or for cleanup of unknown characters.
     fn mut_random_replace_non_basic(&mut self, xna: &str, rng: ThreadRng) -> &mut Self ;
     /// Fill {N,n} with pseudorandom nucleotides ACUG if xna is "RNA" or ACTG for all other xna.
@@ -35,7 +36,7 @@ pub trait AsMutRandomU8 {
     fn mut_random_replace_iupac(&mut self, xna: &str, rng: ThreadRng) -> &mut Self ;
 }
 
-impl<T> AsMutRandomU8 for T
+impl<T> AsMutRandomReplace for T
 where T: AsMut<[u8]>,
 {
     /// random all other than ACGTUactgu with pseudorandom nucleotides ACTGU. Should be used last after other functions or for cleanup of unknown characters.
@@ -201,7 +202,7 @@ pub trait CopyRandomNucleotide<T> {
 
 impl<T> CopyRandomNucleotide<T> for T
 where
-    for<'a> &'a T: IntoIterator<Item = &'a u8>,
+    T: IntoIterator<Item = u8>,
 {
     /// Fill {N,n} with pseudorandom nucleotides ACUG if xna is "RNA" or ACTG for all other xna.
     fn copy_random_replace_n(&self, xna: &str, mut rng: ThreadRng) -> Vec<u8> {
@@ -210,14 +211,14 @@ where
                 .map(|ch| match ch {
                     b'N' => *BASIC_RNA_U8.choose(&mut rng).unwrap(),
                     b'n' => *BASIC_LOWERCASE_RNA_U8.choose(&mut rng).unwrap(),
-                    _ => *ch,
+                    _ => ch,
                 }).collect::<Vec<u8>>()
         } else {
             self.into_iter()
             .map(|ch| match ch {
                 b'N' => *BASIC_DNA_U8.choose(&mut rng).unwrap(),
                 b'n' => *BASIC_LOWERCASE_DNA_U8.choose(&mut rng).unwrap(),
-                _ => *ch,
+                _ => ch,
             }).collect::<Vec<u8>>()
         }
     }
@@ -229,14 +230,14 @@ where
                 .map(|ch| match ch {
                     b'.' => *BASIC_RNA_U8.choose(&mut rng).unwrap(),
                     b'-' => *BASIC_RNA_U8.choose(&mut rng).unwrap(),
-                    _ => *ch,
+                    _ => ch,
                 }).collect::<Vec<u8>>()
         } else {
             self.into_iter()
                 .map(|ch| match ch {
                     b'.' => *BASIC_DNA_U8.choose(&mut rng).unwrap(),
                     b'-' => *BASIC_DNA_U8.choose(&mut rng).unwrap(),
-                    _ => *ch,
+                    _ => ch,
                 }).collect::<Vec<u8>>()
         }
     }
@@ -259,18 +260,27 @@ where
 {
     /// Returns the PHRED33 quality score from a raw PHRED33 quality encoding (-33).
     fn mut_decode_qual(&mut self) -> Result<&mut Self> {
-        self.as_mut().iter_mut().map(|u| Ok(u)).for_each(|u| u = PHRED33_HASHMAP_U8.get(u).ok_or(bail!("Non-Phred33 Present"))).collect::<Result<&mut Self>>()
+        match self.mut_is_phred33() {
+            true => {self.as_mut().iter_mut().for_each(|u| *u = *u-33); Ok(self)},
+            false => bail!("Contains non-PHRED33 u8s")
+        }
     }
     /// Returns the PHRED64 quality score from a raw PHRED64 quality encoding (-64).
     fn mut_decode_qual_phred64(&mut self) -> Result<&mut Self> {
-        self.as_mut().iter_mut().map(|u| Ok(u)).for_each(|u| u = PHRED64_HASHMAP_U8.get(u).ok_or(bail!("Non-Phred64 Present"))).collect::<Result<&mut Self>>()
+        match self.mut_is_phred64() {
+            true => {self.as_mut().iter_mut().for_each(|u| *u = *u-64); Ok(self)},
+            false => bail!("Contains non-PHRED64 u8s")
+        } 
     }
     /// Returns the PHRED33 quality encoding from a PHRED33 quality score (+33).
     fn mut_encode_qual(&mut self) -> Result<&mut Self> {
-        self.as_mut().iter_mut().map(|u| Ok(u)).for_each(|u| u = PHRED33_HASHMAP_ENCODE_U8.get(u).ok_or(bail!("Non-Phred33 Present"))).collect::<Result<&mut Self>>()
+        match self.mut_is_phred33_scores() {
+            true => {self.as_mut().iter_mut().for_each(|u| *u = *u+33); Ok(self)},
+            false => bail!("Contains non-PHRED33 score u8s")
+        }
     }
     /// Returns the PHRED64 quality encoding from the quality score (+64).
     fn mut_encode_qual_phred64(&mut self) -> Result<&mut Self> {
-        self.as_mut().iter_mut().map(|u| Ok(u)).for_each(|u| u = PHRED64_HASHMAP_ENCODE_U8.get(u).ok_or(bail!("Non-Phred64 Present"))).collect::<Result<&mut Self>>()
+        // self.as_mut().iter_mut().map(|u| Ok(u)).for_each(|u| u = PHRED64_HASHMAP_ENCODE_U8.get(u).ok_or(bail!("Non-Phred64 Present"))).collect::<Result<&mut Self>>()
     }
 }

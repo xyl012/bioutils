@@ -3,6 +3,7 @@ use anyhow::{Result, Error, bail};
 use crate::charsets::iupac::*;
 use crate::charsets::quality::*;
 use crate::charsets::ascii::*;
+use crate::charsets::*;
 
 use rand::rngs::ThreadRng;
 use rand::seq::SliceRandom;

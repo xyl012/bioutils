@@ -128,20 +128,20 @@ lazy_static! {
 }
 
 // Basic AA charset
-pub const BASIC_AMINO_ACID_U8: [u8; 21] = [
+pub const AMINO_ACID_U8: [u8; 21] = [
     b'A', b'C', b'D', b'E', b'F', b'G', b'H', b'I', b'K', b'L', b'M', b'N', b'P', b'Q', b'R', b'S',
     b'T', b'U', b'V', b'W', b'Y',
 ];
-pub const BASIC_AMINO_ACID_STR: [&str; 21] = [
+pub const AMINO_ACID_STR: [&str; 21] = [
     "A", "C", "D", "E", "F", "G", "H", "I", "K", "L", "M", "N", "P", "Q", "R", "S", "T", "U", "V",
     "W", "Y",
 ];
 lazy_static! {
-    pub static ref BASIC_AMINO_ACID_HASHSET_U8: HashSet<u8> = new_u8_hashset(&BASIC_AMINO_ACID_U8);
+    pub static ref AMINO_ACID_HASHSET_U8: HashSet<u8> = new_u8_hashset(&AMINO_ACID_U8);
 }
 lazy_static! {
-    pub static ref BASIC_AMINO_ACID_HASHSET_STR: HashSet<&'static str> =
-        new_str_hashset(&BASIC_AMINO_ACID_STR);
+    pub static ref AMINO_ACID_HASHSET_STR: HashSet<&'static str> =
+        new_str_hashset(&AMINO_ACID_STR);
 }
 
 // Only gap charset
@@ -208,7 +208,7 @@ lazy_static! {
 // #[cfg(test)]
 // mod tests {
 //     use super::{
-//         BASIC_AMINO_ACID_U8, BASIC_DNA_U8, BASIC_RNA_U8, IUPAC_AMINO_ACID_U8, IUPAC_NUCLEOTIDE_U8,
+//         AMINO_ACID_U8, BASIC_DNA_U8, BASIC_RNA_U8, IUPAC_AMINO_ACID_U8, IUPAC_NUCLEOTIDE_U8,
 //         IUPAC_U8,
 //     };
 //     #[test]
@@ -248,10 +248,10 @@ lazy_static! {
 //         assert_eq!(dec, BASIC_RNA_U8);
 //     }
 //     #[test]
-//     fn test_basic_amino_acid() {
+//     fn test_AMINO_ACID() {
 //         let dec: [u8; 21] = [
 //             65, 67, 68, 69, 70, 71, 72, 73, 75, 76, 77, 78, 80, 81, 82, 83, 84, 85, 86, 87, 89,
 //         ];
-//         assert_eq!(dec, BASIC_AMINO_ACID_U8);
+//         assert_eq!(dec, AMINO_ACID_U8);
 //     }
 // }

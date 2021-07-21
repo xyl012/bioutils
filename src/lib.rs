@@ -3,6 +3,7 @@ use anyhow::{Result, Error, bail};
 use std::collections::{BTreeMap, HashMap, HashSet};
 
 use std::convert::TryFrom;
+use core::num::TryFromIntError;
 
 use crate::charsets::iupac::*;
 use crate::charsets::quality::*;

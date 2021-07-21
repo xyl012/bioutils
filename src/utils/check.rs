@@ -24,11 +24,11 @@ pub trait Check<K> {
 
 pub trait CheckAsRefSlice<T> {
     /// Checks the sequence has the percent bases (rounded) above the quality score
-    fn is_qual_passing_percent(&self, quality_score: &u8, percent: &u8) -> Result<&Self>;
+    fn is_qual_passing_percent(&self, quality_score: &u8, percent: &u8) -> Result<bool>;
     /// Checks the encoded sequence has a quality score above greater than or equal to the supplied mean. Decodes from raw read from fastq file with phred33 encoding. Commonly done per base in fastqc.
-    fn is_qual_passing_mean(&self, mean_quality_score: &u8) -> Result<&Self>;
+    fn is_qual_passing_mean(&self, mean_quality_score: &u8) -> Result<bool>;
     /// Checks the encoded sequence has a quality score above greater than or equal to the supplied mean. Decodes from raw read from fastq file with phred64 encoding. Commonly done per base in fastqc.
-    fn is_qual_passing_mean_phred64(&self, mean_quality_score: &u8) -> Result<&Self>;
+    fn is_qual_passing_mean_phred64(&self, mean_quality_score: &u8) -> Result<bool>;
 
     /// Checks if the sequence is a homopolymer with percentage cutoff.
     fn is_percent_homopolymer(&self, percent: &u8) -> Result<&Self>;
@@ -264,7 +264,7 @@ where
     T: AsRef<[u8]>,
 {
     /// Checks the sequence has a number of bases (percent rounded) greater than or equal to the supplied quality score
-    fn is_qual_passing_percent(&self, quality_score: &u8, percent: &u8) -> Result<&Self> {
+    fn is_qual_passing_percent(&self, quality_score: &u8, percent: &u8) -> Result<bool> {
         if validate_percentage_u8(percent)? {
             if self.quality_percent_passing(&quality_score) >= (*percent).into() {
                 Ok(true)
@@ -273,7 +273,7 @@ where
     }
 
     /// Checks the encoded sequence has a quality score above greater than or equal to the supplied mean. Decodes from raw read from fastq file with phred33 encoding. Commonly done per base in fastqc.
-    fn is_qual_passing_mean(&self, mean_quality_score: &u8) -> Result<&Self> {
+    fn is_qual_passing_mean(&self, mean_quality_score: &u8) -> Result<bool> {
         if validate_phred33_score_u8(mean_quality_score)? {
             if self.decode_qual()?.mean()? >= (*mean_quality_score).into() {
                 Ok(true)
@@ -282,7 +282,7 @@ where
     }
     
     /// Checks the encoded sequence has a quality score above greater than or equal to the supplied mean. Decodes from raw read from fastq file with phred64 encoding. Commonly done per base in fastqc.
-    fn is_qual_passing_mean_phred64(&self, mean_quality_score: &u8) -> Result<&Self> {
+    fn is_qual_passing_mean_phred64(&self, mean_quality_score: &u8) -> Result<bool> {
         if validate_phred64_score_u8(mean_quality_score).unwrap() {
             if self.as_ref().decode_qual_phred64().mean()? >= (*mean_quality_score).into() {
                 Ok(true)
@@ -291,7 +291,7 @@ where
     }
 
     /// Checks if the sequence is a homopolymer with percentage cutoff
-    fn is_percent_homopolymer(&self, percent: &u8) -> Result<&Self> {
+    fn is_percent_homopolymer(&self, percent: &u8) -> Result<bool> {
         if validate_percentage_u8(&percent).unwrap() {
             if percentage(self.count_mode(), self.as_ref().len()) >= (*percent).into() {
                 Ok(true)
@@ -300,7 +300,7 @@ where
     }
 
     /// Checks if the sequence is comprised of 'x' base greater than 'percent' cutoff. Primary use is for filtering for reads with >90% percent N's or A's
-    fn is_percent_homopolymer_x(&self, x: &u8, percent: &u8) -> Result<&Self> {
+    fn is_percent_homopolymer_x(&self, x: &u8, percent: &u8) -> Result<bool> {
         if validate_percentage_u8(&percent).unwrap() {
             if percentage(self.count_xu8(x), self.as_ref().len()) >= (*percent).into() {
                 Ok(true)
@@ -399,7 +399,7 @@ where
     fn error_on_homopolymer(&self) -> Result<&Self> {
         match self.is_homopolymer() {
             true => Ok(self),
-            false => bail!("Contains non-ACUG u8s")
+            false => bail!("Is homopolymer")
         }
     }
     fn is_homopolymer(&self) -> bool {
@@ -409,13 +409,12 @@ where
     fn error_on_homopolymer_n(&self) -> Result<&Self> {
         match self.is_homopolymer_n() {
             true => Ok(self),
-            false => bail!("Is a homopolymer (not Nn homopolymer)")
+            false => bail!("Is a Nn homopolymer")
         }
     }
     fn is_homopolymer_n(&self) -> bool {
         self.as_ref().iter().all(|x| N_U8.contains(&x))
     }
-
 
     fn error_on_homopolymer_not_n(&self) -> Result<&Self> {
         match self.is_homopolymer_not_n() {

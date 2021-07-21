@@ -1,5 +1,9 @@
 use anyhow::{Result, Error, bail};
 
+use std::collections::{BTreeMap, HashMap, HashSet};
+
+use std::convert::TryFrom;
+
 use crate::charsets::iupac::*;
 use crate::charsets::quality::*;
 use crate::charsets::ascii::*;
@@ -24,3 +28,4 @@ mod tests {
         assert_eq!(2 + 2, 4);
     }
 }
+

@@ -1,11 +1,11 @@
 # Bioutils
 
-<h2 id="quick-start" class="section-header"><a href="#quick-start">Simple Biological Utilities in Rust</a></h2>
+<h2 id="quick-start" class="section-header"><a href="#quick-start">Biological Utilities in Rust</a></h2>
 
-For a related bioinformatics resource and walkthough:
+For a related bioinformatics resource:
 [Bioinformatics in Rust](https://kana4.github.io/bioinformatics_rust_book/)
 
-<p>Bioutils provides simple biological utilities including:
+<p>Bioutils provides biological utilities including:
     <ul> Check if reads have % bases passing quality threshold </ul>
     <ul> Create new random IUPAC sequences </ul>
     <ul> Replace N or gaps with pseudorandom nucleotides </ul>

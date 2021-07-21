@@ -15,12 +15,8 @@
 // ! ``
 
 
-
+use super::*;
 use std::collections::HashMap;
-
-use crate::charsets::quality::*;
-
-
 
 
 pub trait ValueU8<T> {
@@ -32,12 +28,6 @@ pub trait ValueU8<T> {
 
     /// Returns the number of occurrences of the mode
     fn count_mode(&self) -> usize;
-
-    /// Returns the mean of u8s
-    fn mean(&self) -> u64;
-
-    /// Returns the mode
-    fn mode(&self) -> Option<&u8>;
 
     /// Returns the count of a specific u8
     fn count_xu8(&self, x: &u8) -> usize;
@@ -64,19 +54,6 @@ where
         self.as_ref().iter().filter(|&q| q==mode).count()
     }
 
-    /// Returns the mean of u8s as u64 rounded
-    fn mean(&self) -> u64 {
-        self.as_ref().iter().map(|x| *x as u64).sum::<u64>() / self.as_ref().len() as u64
-    }
-
-    /// Returns the mode of u8s
-    fn mode(&self)-> Option<&u8> {
-        let mut counts = HashMap::new();
-        self.as_ref().iter().max_by_key(|&s| {
-            let count = counts.entry(s).or_insert(0);
-            *count += 1; *count})
-    }
-    
     /// Returns the count of a specific u8
     fn count_xu8(&self, x: &u8) -> usize {
         self.as_ref().iter().filter(|&q| q==x).count()
@@ -150,16 +127,11 @@ pub fn phred_to_prob(phred: &u8) -> f64 {-10f64 * (*phred as f64).log10()}
 /// Probability (p) to phred score (q): q = -10log10(p), p = 10 ^(-q/10)
 pub fn prob_to_phred(prob: &f64)-> u8 {(10f64.powf(-prob / 10f64)) as u8}
 
-fn mean(numbers: &[u8]) -> u64 {
-    numbers.iter().sum::<u8>() as u64 / numbers.len() as u64
-}
+// fn mean(numbers: &[u8]) -> Result<u64> {
+//     numbers.iter().map(|u| {u64::try_from(*u) }).sum::<Result<u64>>()// / numbers.len() as u64)
+// }
 
-/// Calculate an alignment flag of user's option. This is just the sum of the flags, so we can add together the options "read paired" and "read mapped in proper pair"
-pub fn alignment_flag(input_flags: Vec<&str>) -> u16 {
-    input_flags.iter().map(|e| FLAGS_HASHMAP_U16.get(e).unwrap().to_owned()).sum()
-}
-
-/// Calculates percentage with usizes
-pub fn percentage(numerator: usize, denominator: usize) -> usize {
-    (100 * numerator + denominator / 2) / denominator
-}
+// /// Calculate an alignment flag of user's option. This is just the sum of the flags, so we can add together the options "read paired" and "read mapped in proper pair"
+// pub fn alignment_flag(input_flags: Vec<&str>) -> u16 {
+//     input_flags.iter().map(|e| FLAGS_HASHMAP_U16.get(e).to_owned()).collect()?
+// }

@@ -281,6 +281,9 @@ where
     }
     /// Returns the PHRED64 quality encoding from the quality score (+64).
     fn mut_encode_qual_phred64(&mut self) -> Result<&mut Self> {
-        // self.as_mut().iter_mut().map(|u| Ok(u)).for_each(|u| u = PHRED64_HASHMAP_ENCODE_U8.get(u).ok_or(bail!("Non-Phred64 Present"))).collect::<Result<&mut Self>>()
+        match self.mut_is_phred64_scores() {
+            true => {self.as_mut().iter_mut().for_each(|u| *u = *u+64); Ok(self)},
+            false => bail!("Contains non-PHRED64 score u8s")
+        }
     }
 }

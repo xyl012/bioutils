@@ -59,11 +59,21 @@ impl<'a> TryFrom<&'a mut usize> for PercentUsize {
 }
 
 /// Calculates percentage with usizes
-pub fn percentage_usize(numerator: usize, denominator: usize) -> Result<usize> {
+pub fn percent_usize(numerator: usize, denominator: usize) -> Result<usize> {
     Ok((100 * numerator + denominator / 2) / denominator)
 }
 
 /// Calculates percentage with u8
-pub fn percentage_u8(numerator: u8, denominator: u8) -> Result<u8> {
+pub fn percent_u8(numerator: u8, denominator: u8) -> Result<u8> {
+    Ok((100 * numerator + denominator / 2) / denominator)
+}
+
+/// Calculates percentage with usizes
+pub fn mut_percent_usize(mut numerator: usize, mut denominator: usize) -> Result<usize> {
+    Ok((100 * numerator + denominator / 2) / denominator)
+}
+
+/// Calculates percentage with u8
+pub fn mut_percent_u8(mut numerator: u8, mut denominator: u8) -> Result<u8> {
     Ok((100 * numerator + denominator / 2) / denominator)
 }

@@ -5,20 +5,20 @@
 use super::*;
 use crate::utils::element::percent::*;
 use crate::utils::element::recode_quality::*;
-use crate::utils::element::value::*;
+use crate::utils::item::quality::*;
 
 pub trait Check<K> {
     // fn find_subseq(haystack: &[u8], needle: &[u8]) -> Option<usize> {
     //     haystack.windows(needle.len()).position(|window| window == needle)
     // }
-        /// Checks if the sequence or quality u8 is less than or equal to the given length. Used to cut read to minimum length.
-        fn is_at_least_length(&self, length: &usize) -> bool;
-        /// Checks if the sequence or quality u8 is greater than or equal to the given length. Used to cut read to maximum length.
-        fn is_at_most_length(&self, length: &usize) -> bool;
-        /// Checks if the sequence or quality u8 is equal to the given length.
-        fn is_length(&self, length: &usize) -> bool;
-        /// Checks if u8 is completely comprised of the same character. Does not use a character set, so could be all gaps, etc. Use has_mixed_case and to_uppercase/to_lowercase prior if mixed case.
-        fn is_homopolymer_generic(&self) -> bool;
+    /// Checks if the sequence or quality u8 is less than or equal to the given length. Used to cut read to minimum length.
+    fn is_at_least_length(&self, length: &usize) -> bool;
+    /// Checks if the sequence or quality u8 is greater than or equal to the given length. Used to cut read to maximum length.
+    fn is_at_most_length(&self, length: &usize) -> bool;
+    /// Checks if the sequence or quality u8 is equal to the given length.
+    fn is_length(&self, length: &usize) -> bool;
+    /// Checks if u8 is completely comprised of the same character. Does not use a character set, so could be all gaps, etc. Use has_mixed_case and to_uppercase/to_lowercase prior if mixed case.
+    fn is_homopolymer_generic(&self) -> bool;
 }
 
 pub trait CheckAsRefSlice<T> {
@@ -263,7 +263,7 @@ where
     fn is_qual_passing_percent(&self, quality_score: &u8, percent: &u8) -> Result<bool> {
         PercentU8::try_from(percent)?;
         Phred33U8::try_from(quality_score)?;
-            if self.quality_percent_passing(&quality_score) >= (*percent).into() {
+            if self.quality_percent_passing(quality_score)? >= (*percent).into() {
                 Ok(true)
             } else { Ok(false) }
     }
@@ -514,7 +514,7 @@ where
     fn mut_check_qual_passing_percent(&mut self, quality_score: &u8, percent: &u8) -> Result<&mut Self> {
         Phred33U8::try_from(quality_score)?;
         PercentU8::try_from(percent)?;
-        if self.mut_quality_percent_passing(quality_score) >= (*percent).into() {
+        if self.mut_quality_percent_passing(quality_score)? >= (*percent).into() {
             Ok(self)
         } else { Ok(self) }
     }
@@ -837,34 +837,6 @@ where
         }
     };
     Ok(true)
-}
-
-
-pub trait ArithmeticU8<T> {
-
-    /// Returns the mean of u8s as u64
-    fn mean_u8(&self) -> Result<u8, TryFromIntError>;
-
-    /// Returns the mode of u8s
-    fn mode_u8(&self) -> Option<&u8>;
-}
-
-impl<T> ArithmeticU8<T> for T where
-T: AsRef<[u8]>
-{
-    
-    /// Returns the mean of u8s as u8
-    fn mean_u8(&self) -> Result<u8, TryFromIntError> {
-        u8::try_from(self.as_ref().iter().map(|x| *x as u64).sum::<u64>() / self.as_ref().len() as u64)
-    }
-
-    /// Returns the mode of u8s
-    fn mode_u8(&self)-> Option<&u8> {
-        let mut counts = BTreeMap::new();
-        self.as_ref().iter().max_by_key(|&s| {
-            let count = counts.entry(s).or_insert(0);
-            *count += 1; *count})
-    }
 }
 
 // /// Validate a u8 is a percentage (0-100)

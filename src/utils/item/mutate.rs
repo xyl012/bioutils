@@ -20,10 +20,11 @@
 
 use super::*;
 use super::check::*;
+use crate::utils::item::quality::*;
 
 pub trait RandomReplaceAsMutSlice {
-    /// Random all other than ACGTUactgu with pseudorandom nucleotides ACTGU. Should be used last after other functions or for cleanup of unknown characters.
-    fn mut_random_replace_non_basic(&mut self, xna: &str, rng: ThreadRng) -> Result<&mut Self>;
+    /// Random all other than ACG(T/U)acg(t/u) with pseudorandom nucleotides ACTGU. Should be used last after other functions or for cleanup of unknown characters.
+    fn mut_random_replace(&mut self, xna: &str, rng: ThreadRng) -> Result<&mut Self>;
     /// Fill {N,n} with pseudorandom nucleotides ACUG if xna is "RNA" or ACTG for all other xna.
     fn mut_random_replace_n(&mut self, xna: &str, rng: ThreadRng) -> Result<&mut Self>;
     /// Fill gaps {.,-} with pseudorandom nucleotides ACUG if xna is "RNA" or ACTG for all other xna.
@@ -36,8 +37,8 @@ pub trait RandomReplaceAsMutSlice {
     fn mut_random_replace_iupac(&mut self, xna: &str, rng: ThreadRng) -> Result<&mut Self>;
 }
 
-impl<T> RandomReplaceAsMutSlice for T
-where T: AsMut<[u8]>,
+impl<T> RandomReplaceAsMutSlice for T where 
+T: AsMut<[u8]>,
 {
     /// random all other than ACGTUactgu with pseudorandom nucleotides ACTGU. Should be used last after other functions or for cleanup of unknown characters.
     fn mut_random_replace_non_basic(&mut self, xna: &str, mut rng: ThreadRng) -> Result<&mut Self> {

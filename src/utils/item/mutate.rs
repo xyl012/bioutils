@@ -23,36 +23,38 @@ use super::check::*;
 
 pub trait RandomReplaceAsMutSlice {
     /// Random all other than ACGTUactgu with pseudorandom nucleotides ACTGU. Should be used last after other functions or for cleanup of unknown characters.
-    fn mut_random_replace_non_basic(&mut self, xna: &str, rng: ThreadRng) -> &mut Self ;
+    fn mut_random_replace_non_basic(&mut self, xna: &str, rng: ThreadRng) -> Result<&mut Self>;
     /// Fill {N,n} with pseudorandom nucleotides ACUG if xna is "RNA" or ACTG for all other xna.
-    fn mut_random_replace_n(&mut self, xna: &str, rng: ThreadRng) -> &mut Self ;
+    fn mut_random_replace_n(&mut self, xna: &str, rng: ThreadRng) -> Result<&mut Self>;
     /// Fill gaps {.,-} with pseudorandom nucleotides ACUG if xna is "RNA" or ACTG for all other xna.
-    fn mut_random_replace_gap(&mut self, xna: &str, rng: ThreadRng) -> &mut Self ;
+    fn mut_random_replace_gap(&mut self, xna: &str, rng: ThreadRng) -> Result<&mut Self>;
     /// Specifically make actgu into ACTGU
-    fn mut_to_upper_basic(&mut self) -> &mut Self ;
+    fn mut_to_upper_basic(&mut self) -> Result<&mut Self>;
     /// Specifically make ACTGU into actgu
-    fn mut_to_lower_basic(&mut self) -> &mut Self ;
+    fn mut_to_lower_basic(&mut self) -> Result<&mut Self>;
     /// Pseudorandom nucleotide randomments within IUPAC specifications, e.g. R: either A or G. Case specific, r: either a or g.
-    fn mut_random_replace_iupac(&mut self, xna: &str, rng: ThreadRng) -> &mut Self ;
+    fn mut_random_replace_iupac(&mut self, xna: &str, rng: ThreadRng) -> Result<&mut Self>;
 }
 
 impl<T> RandomReplaceAsMutSlice for T
 where T: AsMut<[u8]>,
 {
     /// random all other than ACGTUactgu with pseudorandom nucleotides ACTGU. Should be used last after other functions or for cleanup of unknown characters.
-    fn mut_random_replace_non_basic(&mut self, xna: &str, mut rng: ThreadRng) -> &mut Self {
+    fn mut_random_replace_non_basic(&mut self, xna: &str, mut rng: ThreadRng) -> Result<&mut Self> {
         if xna == "RNA" {
-            self.as_mut().iter_mut().for_each(|c| match c {
-                    b'A' => {},
-                    b'a' => {},
-                    b'C' => {},
-                    b'c' => {},
-                    b'G' => {},
-                    b'g' => {},
-                    b'U' => {},
-                    b'u' => {},
-                    _ => *c = *BASIC_RNA_U8.choose(&mut rng).unwrap()
-                })
+            self.as_mut().iter_mut().map(|u| u.mut_check_basic_rna()).for_each(|c| match c {
+                    Some(b'A') => {_},
+                    b'a' => {Some(b'a')},
+                    b'C' => {Some(b'C')},
+                    b'c' => {Some(b'c')},
+                    b'G' => {Some(b'G')},
+                    b'g' => {Some(b'g')},
+                    b'U' => {Some(b'U')},
+                    b'u' => {Some(b'u')},
+                    _ => *c = *BASIC_RNA_U8.choose(&mut rng)
+                }
+            self.collect()
+            )
         } else if xna == "DNA" {
             self.as_mut().iter_mut().for_each(|c| match c {
                     b'A' => {},

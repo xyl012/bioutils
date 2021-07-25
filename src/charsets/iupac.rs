@@ -65,66 +65,100 @@ lazy_static! {
 }
 
 // Basic DNA charset
-pub const BASIC_DNA_U8: [u8; 4] = [b'A', b'C', b'G', b'T'];
-pub const BASIC_DNA_STR: [&str; 4] = ["A", "C", "G", "T"];
-lazy_static! {
-    pub static ref BASIC_DNA_HASHSET_U8: HashSet<u8> = new_u8_hashset(&BASIC_DNA_U8);
-}
-lazy_static! {
-    pub static ref BASIC_DNA_HASHSET_STR: HashSet<&'static str> = new_str_hashset(&BASIC_DNA_STR);
-}
+pub const DNA_U8: [u8; 4] = [b'A', b'C', b'G', b'T'];
+pub const DNA_STR: [&str; 4] = ["A", "C", "G", "T"];
+pub const DNA_MIX_CASE_U8: [u8; 8] = [b'A', b'a', b'C', b'c', b'G', b'g', b'T', b't'];
+pub const DNA_MIX_CASE_STR: [&str; 8] = ["A", "a", "C", "c", "G", "g","T", "t"];
 
+lazy_static! {
+    pub static ref DNA_HASHSET_U8: HashSet<u8> = new_u8_hashset(&DNA_U8);
+}
+lazy_static! {
+    pub static ref DNA_HASHSET_STR: HashSet<&'static str> = new_str_hashset(&DNA_STR);
+}
+lazy_static! {
+    pub static ref DNA_MIX_CASE_HASHSET_U8: HashSet<u8> = new_u8_hashset(&DNA_MIX_CASE_U8);
+}
+lazy_static! {
+    pub static ref DNA_MIX_CASE_HASHSET_STR: HashSet<&'static str> = new_str_hashset(&DNA_MIX_CASE_STR);
+}
 // Basic DNAN charset
-pub const BASIC_DNAN_U8: [u8; 5] = [b'A', b'C', b'G', b'T', b'N'];
-pub const BASIC_DNAN_STR: [&str; 5] = ["A", "C", "G", "T", "N"];
-lazy_static! {
-    pub static ref BASIC_DNAN_HASHSET_U8: HashSet<u8> = new_u8_hashset(&BASIC_DNAN_U8);
-}
-lazy_static! {
-    pub static ref BASIC_DNAN_HASHSET_STR: HashSet<&'static str> = new_str_hashset(&BASIC_DNAN_STR);
-}
+pub const DNAN_U8: [u8; 5] = [b'A', b'C', b'G', b'T', b'N'];
+pub const DNAN_STR: [&str; 5] = ["A", "C", "G", "T", "N"];
+pub const DNAN_MIX_CASE_U8: [u8; 10] = [b'A', b'a', b'C', b'c', b'G', b'g', b'T', b't', b'N', b'n'];
+pub const DNAN_MIX_CASE_STR: [&str; 10] = ["A", "a", "C", "c", "G", "g","T", "t", "N", "n"];
 
-// Basic RNAN charset
-pub const BASIC_RNAN_U8: [u8; 5] = [b'A', b'C', b'G', b'U', b'N'];
-pub const BASIC_RNAN_STR: [&str; 5] = ["A", "C", "G", "U", "N"];
 lazy_static! {
-    pub static ref BASIC_RNAN_HASHSET_U8: HashSet<u8> = new_u8_hashset(&BASIC_RNAN_U8);
+    pub static ref DNAN_HASHSET_U8: HashSet<u8> = new_u8_hashset(&DNAN_U8);
 }
 lazy_static! {
-    pub static ref BASIC_RNAN_HASHSET_STR: HashSet<&'static str> = new_str_hashset(&BASIC_RNAN_STR);
-}
-
-pub const BASIC_LOWERCASE_DNA_U8: [u8; 4] = [b'a', b'c', b'g', b't'];
-pub const BASIC_LOWERCASE_DNA_STR: [&str; 4] = ["a", "c", "g", "t"];
-lazy_static! {
-    pub static ref BASIC_LOWERCASE_DNA_HASHSET_U8: HashSet<u8> =
-        new_u8_hashset(&BASIC_LOWERCASE_DNA_U8);
+    pub static ref DNAN_HASHSET_STR: HashSet<&'static str> = new_str_hashset(&DNAN_STR);
 }
 lazy_static! {
-    pub static ref BASIC_LOWERCASE_DNA_HASHSET_STR: HashSet<&'static str> =
-        new_str_hashset(&BASIC_LOWERCASE_DNA_STR);
+    pub static ref DNAN_MIX_CASE_HASHSET_U8: HashSet<u8> = new_u8_hashset(&DNAN_MIX_CASE_U8);
+}
+lazy_static! {
+    pub static ref DNAN_MIX_CASE_HASHSET_STR: HashSet<&'static str> = new_str_hashset(&DNAN_MIX_CASE_STR);
 }
 
 // Basic RNA charset
-pub const BASIC_RNA_U8: [u8; 4] = [b'A', b'C', b'G', b'U'];
-pub const BASIC_RNA_STR: [&str; 4] = ["A", "C", "G", "U"];
+pub const RNA_U8: [u8; 4] = [b'A', b'C', b'G', b'U'];
+pub const RNA_STR: [&str; 4] = ["A", "C", "G", "U"];
+pub const RNA_MIX_CASE_U8: [u8; 8] = [b'A', b'a', b'C', b'c', b'G', b'g', b'U', b'u'];
+pub const RNA_MIX_CASE_STR: [&str; 8] = ["A", "a", "C", "c", "G", "g", "U", "u"];
 
 lazy_static! {
-    pub static ref BASIC_RNA_HASHSET_U8: HashSet<u8> = new_u8_hashset(&BASIC_RNA_U8);
+    pub static ref RNA_HASHSET_U8: HashSet<u8> = new_u8_hashset(&RNA_U8);
 }
 lazy_static! {
-    pub static ref BASIC_RNA_HASHSET_STR: HashSet<&'static str> = new_str_hashset(&BASIC_RNA_STR);
+    pub static ref RNA_HASHSET_STR: HashSet<&'static str> = new_str_hashset(&RNA_STR);
+}
+lazy_static! {
+    pub static ref RNA_MIX_CASE_HASHSET_U8: HashSet<u8> = new_u8_hashset(&RNA_MIX_CASE_U8);
+}
+lazy_static! {
+    pub static ref RNA_MIX_CASE_HASHSET_STR: HashSet<&'static str> = new_str_hashset(&RNA_MIX_CASE_STR);
 }
 
-pub const BASIC_LOWERCASE_RNA_U8: [u8; 4] = [b'a', b'c', b'g', b'u'];
-pub const BASIC_LOWERCASE_RNA_STR: [&str; 4] = ["a", "c", "g", "u"];
+// Basic RNAN charset
+pub const RNAN_U8: [u8; 5] = [b'A', b'C', b'G', b'U', b'N'];
+pub const RNAN_STR: [&str; 5] = ["A", "C", "G", "U", "N"];
+pub const RNAN_MIX_CASE_U8: [u8; 10] = [b'A', b'a', b'C', b'c', b'G', b'g', b'U', b'u', b'N', b'n'];
+pub const RNAN_MIX_CASE_STR: [&str; 10] = ["A", "a", "C", "c", "G", "g", "U", "u", "N", "n"];
+
 lazy_static! {
-    pub static ref BASIC_LOWERCASE_RNA_HASHSET_U8: HashSet<u8> =
-        new_u8_hashset(&BASIC_LOWERCASE_RNA_U8);
+    pub static ref RNAN_HASHSET_U8: HashSet<u8> = new_u8_hashset(&RNAN_U8);
 }
 lazy_static! {
-    pub static ref BASIC_LOWERCASE_RNA_HASHSET_STR: HashSet<&'static str> =
-        new_str_hashset(&BASIC_LOWERCASE_RNA_STR);
+    pub static ref RNAN_HASHSET_STR: HashSet<&'static str> = new_str_hashset(&RNAN_STR);
+}
+lazy_static! {
+    pub static ref RNAN_MIX_CASE_HASHSET_U8: HashSet<u8> = new_u8_hashset(&RNAN_MIX_CASE_U8);
+}
+lazy_static! {
+    pub static ref RNAN_MIX_CASE_HASHSET_STR: HashSet<&'static str> = new_str_hashset(&RNAN_MIX_CASE_STR);
+}
+
+pub const LOWERCASE_DNA_U8: [u8; 4] = [b'a', b'c', b'g', b't'];
+pub const LOWERCASE_DNA_STR: [&str; 4] = ["a", "c", "g", "t"];
+lazy_static! {
+    pub static ref LOWERCASE_DNA_HASHSET_U8: HashSet<u8> =
+        new_u8_hashset(&LOWERCASE_DNA_U8);
+}
+lazy_static! {
+    pub static ref LOWERCASE_DNA_HASHSET_STR: HashSet<&'static str> =
+        new_str_hashset(&LOWERCASE_DNA_STR);
+}
+
+pub const LOWERCASE_RNA_U8: [u8; 4] = [b'a', b'c', b'g', b'u'];
+pub const LOWERCASE_RNA_STR: [&str; 4] = ["a", "c", "g", "u"];
+lazy_static! {
+    pub static ref LOWERCASE_RNA_HASHSET_U8: HashSet<u8> =
+        new_u8_hashset(&LOWERCASE_RNA_U8);
+}
+lazy_static! {
+    pub static ref LOWERCASE_RNA_HASHSET_STR: HashSet<&'static str> =
+        new_str_hashset(&LOWERCASE_RNA_STR);
 }
 
 // Basic AA charset
@@ -208,7 +242,7 @@ lazy_static! {
 // #[cfg(test)]
 // mod tests {
 //     use super::{
-//         AMINO_ACID_U8, BASIC_DNA_U8, BASIC_RNA_U8, IUPAC_AMINO_ACID_U8, IUPAC_NUCLEOTIDE_U8,
+//         AMINO_ACID_U8, DNA_U8, RNA_U8, IUPAC_AMINO_ACID_U8, IUPAC_NUCLEOTIDE_U8,
 //         IUPAC_U8,
 //     };
 //     #[test]
@@ -238,14 +272,14 @@ lazy_static! {
 //         assert_eq!(dec, IUPAC_AMINO_ACID_U8);
 //     }
 //     #[test]
-//     fn test_basic_dna() {
+//     fn test_dna() {
 //         let dec: [u8; 4] = [65, 67, 71, 84];
-//         assert_eq!(dec, BASIC_DNA_U8);
+//         assert_eq!(dec, DNA_U8);
 //     }
 //     #[test]
-//     fn test_basic_rna() {
+//     fn test_rna() {
 //         let dec: [u8; 4] = [65, 67, 71, 85];
-//         assert_eq!(dec, BASIC_RNA_U8);
+//         assert_eq!(dec, RNA_U8);
 //     }
 //     #[test]
 //     fn test_AMINO_ACID() {

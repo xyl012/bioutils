@@ -14,7 +14,6 @@
 //! println!("{:?}", distance);
 // ! ``
 
-
 use super::*;
 
 pub trait ValueU8<T> {

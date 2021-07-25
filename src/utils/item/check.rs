@@ -62,13 +62,13 @@ pub trait CheckAsRefSlice<T> {
     /// Returns a boolean if T is completely comprised of IUPAC amino acid u8s.
     fn is_iupac_amino_acid(&self) -> bool;
     /// Checks if T is completely comprised of ACTG.
-    fn check_basic_dna(&self) -> Result<&Self>;
+    fn check_dna(&self) -> Result<&Self>;
     /// Returns a bolean if T is completely comprised of ACTG.
-    fn is_basic_dna(&self) -> bool;
+    fn is_dna(&self) -> bool;
     /// Checks if T is completely comprised of ACUG.
-    fn check_basic_rna(&self) -> Result<&Self>;
+    fn check_rna(&self) -> Result<&Self>;
     /// Returns a boolean if T is completely comprised of ACUG.
-    fn is_basic_rna(&self) -> bool;
+    fn is_rna(&self) -> bool;
     /// Checks if T is completely comprised of basic amino acids.
     fn check_amino_acid(&self) -> Result<&Self>;
     /// Returns a boolean if T is completely comprised of basic amino acids.
@@ -157,13 +157,13 @@ pub trait CheckAsMutSlice<T> {
     /// Returns a boolean if T is completely comprised of IUPAC amino acid u8s.
     fn mut_is_iupac_amino_acid(&mut self) -> bool;
     /// Checks if T is completely comprised of ACTG.
-    fn mut_check_basic_dna(&mut self) -> Result<&mut Self>;
+    fn mut_check_dna(&mut self) -> Result<&mut Self>;
     /// Returns a bolean if T is completely comprised of ACTG.
-    fn mut_is_basic_dna(&mut self) -> bool;
+    fn mut_is_dna(&mut self) -> bool;
     /// Checks if T is completely comprised of ACUG.
-    fn mut_check_basic_rna(&mut self) -> Result<&mut Self>;
+    fn mut_check_rna(&mut self) -> Result<&mut Self>;
     /// Returns a boolean if T is completely comprised of ACUG.
-    fn mut_is_basic_rna(&mut self) -> bool;
+    fn mut_is_rna(&mut self) -> bool;
     /// Checks if T is completely comprised of basic amino acids.
     fn mut_check_amino_acid(&mut self) -> Result<&mut Self>;
     /// Returns a boolean if T is completely comprised of basic amino acids.
@@ -334,25 +334,25 @@ where
     }
 
     /// Checks if T is completely comprised of ACTG.
-    fn check_basic_dna(&self) -> Result<&Self> {
-        match self.is_basic_dna() {
+    fn check_dna(&self) -> Result<&Self> {
+        match self.is_dna() {
             true => Ok(self),
             false => bail!("Contains non-ACTG u8s")
         }
     }
-    fn is_basic_dna(&self) -> bool {
-        self.as_ref().iter().all(|x| BASIC_DNA_U8.contains(&x))
+    fn is_dna(&self) -> bool {
+        self.as_ref().iter().all(|x| DNA_U8.contains(&x))
     }
 
     /// Checks if T is completely comprised of ACUG.
-    fn check_basic_rna(&self) -> Result<&Self> {
-        match self.is_basic_rna() {
+    fn check_rna(&self) -> Result<&Self> {
+        match self.is_rna() {
             true => Ok(self),
             false => bail!("Contains non-ACUG u8s")
         }
     }
-    fn is_basic_rna(&self) -> bool {
-        self.as_ref().iter().all(|x| BASIC_RNA_U8.contains(&x))
+    fn is_rna(&self) -> bool {
+        self.as_ref().iter().all(|x| RNA_U8.contains(&x))
     }
 
     /// Checks if T is completely comprised of basic amino acids.
@@ -585,24 +585,24 @@ where
         self.as_mut().iter_mut().all(|x| IUPAC_AMINO_ACID_U8.contains(&x))
     }
 
-    fn mut_check_basic_dna(&mut self) -> Result<&mut Self> {
-        match self.mut_is_basic_dna() {
+    fn mut_check_dna(&mut self) -> Result<&mut Self> {
+        match self.mut_is_dna() {
             true => Ok(self),
             false => bail!("Contains non-basic DNA u8s")
         }
     }
-    fn mut_is_basic_dna(&mut self) -> bool {
-        self.as_mut().iter_mut().all(|x| BASIC_DNA_U8.contains(&x))
+    fn mut_is_dna(&mut self) -> bool {
+        self.as_mut().iter_mut().all(|x| DNA_U8.contains(&x))
     }
 
-    fn mut_check_basic_rna(&mut self) -> Result<&mut Self> {
-        match self.mut_is_basic_rna() {
+    fn mut_check_rna(&mut self) -> Result<&mut Self> {
+        match self.mut_is_rna() {
             true => Ok(self),
             false => bail!("Contains non-basic RNA u8s")
         }
     }
-    fn mut_is_basic_rna(&mut self) -> bool {
-        self.as_mut().iter_mut().all(|x| BASIC_RNA_U8.contains(&x))
+    fn mut_is_rna(&mut self) -> bool {
+        self.as_mut().iter_mut().all(|x| RNA_U8.contains(&x))
     }
 
     fn mut_check_amino_acid(&mut self) -> Result<&mut Self> {
@@ -902,25 +902,25 @@ T: AsRef<[u8]>
 // pub const IS_WHAT_OPTIONS: [&str; 17] = 
 // ["is_iupac_nucleotide", "is_iupac_amino_acid", "is_iupac",
 // "is_phred33", "is_phred64", "is_solexa",  
-// "is_basic_dna", "is_basic_rna", "is_AMINO_ACID",
+// "is_dna", "is_rna", "is_AMINO_ACID",
 // "is_homopolymer", "is_homopolymer_n", "is_homopolymer_not_n",
 // "has_n", "has_gap",
 // "is_ascii_letters", "is_ascii_letters_uppercase", "is_ascii_letters_lowercase"
 // ];
 
-    // /// Validates whether is a valid something based on the boolean is_x smaller functions in this trait and returns a wrapped boolean. Example: check_u8(b"ACTG","is_basic_dna") returns a wrapped "true". Options for is_what are the names of the charset boolean functions:
-    // /// is_basic_dna, is_phred33, is_basic_rna,  
+    // /// Validates whether is a valid something based on the boolean is_x smaller functions in this trait and returns a wrapped boolean. Example: check_u8(b"ACTG","is_dna") returns a wrapped "true". Options for is_what are the names of the charset boolean functions:
+    // /// is_dna, is_phred33, is_rna,  
     // /// The goal of this function would be to set is_what to a constant in the program, for example a program focused on illumina data might set a constant to phred33 and input as is_what, rather than having to call is_phred33 each time. This means we can easily make our program take phred33 or 64 by just changing the constant.
     // fn check_u8(&self, is_what: &str) -> Result<bool>;
 
-// /// Validates whether is a valid something based on the boolean is_x smaller functions in this trait and returns a wrapped boolean. Example: check_u8(b"ACTG","is_basic_dna") returns a wrapped "true". Options for is_what are the names of the charset boolean functions:
+// /// Validates whether is a valid something based on the boolean is_x smaller functions in this trait and returns a wrapped boolean. Example: check_u8(b"ACTG","is_dna") returns a wrapped "true". Options for is_what are the names of the charset boolean functions:
     // /// "is_iupac_nucleotide", "is_iupac_amino_acid", "is_iupac",
     // /// "is_phred33", "is_phred64", "is_solexa",  
-    // /// "is_basic_dna", "is_basic_rna", "is_AMINO_ACID",
+    // /// "is_dna", "is_rna", "is_AMINO_ACID",
     // /// "is_homopolymer", "is_homopolymer_n", "is_homopolymer_not_n",
     // /// "has_n", "has_gap",
     // /// "is_ascii_letters", "is_ascii_letters_uppercase", "is_ascii_letters_lowercase" 
-    // /// The goal of this function would be to set is_what to a constant in the program, for example a program focused on dna data might set a constant to is_basic_dna and input as is_what rather than having to call is_basic_dna each time. Later, if we want to focus on rna, we can easily change our constant to is_basic_rna just by changing the constant.
+    // /// The goal of this function would be to set is_what to a constant in the program, for example a program focused on dna data might set a constant to is_dna and input as is_what rather than having to call is_dna each time. Later, if we want to focus on rna, we can easily change our constant to is_rna just by changing the constant.
     // fn check_u8(&self, is_what: &str) -> Result<bool>{
     //     if validate_is_what(&is_what).unwrap() {
     //         match is_what {
@@ -930,8 +930,8 @@ T: AsRef<[u8]>
     //             "is_iupac_nucleotide" => Ok(self.is_iupac_nucleotide()),
     //             "is_iupac_amino_acid" => Ok(self.is_iupac_amino_acid()),
     //             "is_iupac" => Ok(self.is_iupac()),
-    //             "is_basic_dna" => Ok(self.is_basic_dna()),
-    //             "is_basic_rna" => Ok(self.is_basic_rna()),
+    //             "is_dna" => Ok(self.is_dna()),
+    //             "is_rna" => Ok(self.is_rna()),
     //             "is_AMINO_ACID" => Ok(self.is_AMINO_ACID()),
     //             "is_homopolymer" => Ok(CheckU8::is_homopolymer(&self)),
     //             "is_homopolymer_n" => Ok(self.is_homopolymer_n()),
@@ -958,7 +958,7 @@ T: AsRef<[u8]>
 
 // #[cfg(test)]
 // mod tests {
-//     use super::{IUPAC_U8, IUPAC_NUCLEOTIDE_U8, IUPAC_AMINO_ACID_U8, BASIC_DNA_U8, BASIC_RNA_U8, AMINO_ACID_U8};
+//     use super::{IUPAC_U8, IUPAC_NUCLEOTIDE_U8, IUPAC_AMINO_ACID_U8, DNA_U8, RNA_U8, AMINO_ACID_U8};
 //     #[test]
 //     fn test_iupac() {
 //         let dec: [u8; 46] = [65, 97, 67, 99, 71, 103, 84, 116, 85, 117, 82, 114, 89, 121, 83, 115, 87, 119, 75, 107, 77, 109, 66, 98, 68, 100, 72, 104, 86, 118, 78, 110, 45, 46, 70, 102, 71, 103, 73, 105, 76, 108, 80, 112, 81, 113];

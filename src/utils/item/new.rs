@@ -39,7 +39,7 @@ impl NewRandomBio for Vec<u8>
         let mut rng = rand::thread_rng();
         let mut vec = Vec::with_capacity(*nbases);
         for _base in 0..*nbases {
-            vec.push(BASIC_DNA_U8.choose(&mut rng).expect("Could not make random DNA sequence").to_owned())
+            vec.push(DNA_U8.choose(&mut rng).expect("Could not make random DNA sequence").to_owned())
         };
         vec
     }
@@ -48,7 +48,7 @@ impl NewRandomBio for Vec<u8>
         let mut rng = rand::thread_rng();
         let mut vec = Vec::with_capacity(*nbases);
         for _base in 0..*nbases {
-            vec.push(BASIC_RNA_U8.choose(&mut rng).expect("Could not make random RNA sequence").to_owned())
+            vec.push(RNA_U8.choose(&mut rng).expect("Could not make random RNA sequence").to_owned())
         };
         vec
     }
@@ -85,7 +85,7 @@ impl NewRandomBio for Vec<u8>
 pub fn random_dna(nbases: &usize, mut rng: ThreadRng) -> Vec<u8> {
     let mut vec = Vec::with_capacity(*nbases);
     for _base in 0..*nbases {
-        vec.push(BASIC_DNA_U8.choose(&mut rng).expect("Could not make random dna").to_owned())
+        vec.push(DNA_U8.choose(&mut rng).expect("Could not make random dna").to_owned())
     };
     vec
 }
@@ -93,7 +93,7 @@ pub fn random_dna(nbases: &usize, mut rng: ThreadRng) -> Vec<u8> {
 pub fn random_rna(nbases: usize, mut rng: ThreadRng) -> Vec<u8> {
     let mut vec = Vec::with_capacity(nbases);
     for _base in 0..nbases {
-        vec.push(BASIC_RNA_U8.choose(&mut rng).expect("Could not make random RNA sequence").to_owned())
+        vec.push(RNA_U8.choose(&mut rng).expect("Could not make random RNA sequence").to_owned())
     }
     vec
 }

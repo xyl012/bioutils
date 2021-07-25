@@ -42,7 +42,7 @@ where T: AsMut<[u8]>,
     /// random all other than ACGTUactgu with pseudorandom nucleotides ACTGU. Should be used last after other functions or for cleanup of unknown characters.
     fn mut_random_replace_non_basic(&mut self, xna: &str, mut rng: ThreadRng) -> Result<&mut Self> {
         if xna == "RNA" {
-            self.as_mut().iter_mut().map(|u| u.mut_check_basic_rna()).for_each(|c| match c {
+            self.as_mut().iter_mut().map(|u| u.mut_check_rna()).for_each(|c| match c {
                     Some(b'A') => {_},
                     b'a' => {Some(b'a')},
                     b'C' => {Some(b'C')},
@@ -51,7 +51,7 @@ where T: AsMut<[u8]>,
                     b'g' => {Some(b'g')},
                     b'U' => {Some(b'U')},
                     b'u' => {Some(b'u')},
-                    _ => *c = *BASIC_RNA_U8.choose(&mut rng)
+                    _ => *c = *RNA_U8.choose(&mut rng)
                 }
             self.collect()
             )
@@ -65,7 +65,7 @@ where T: AsMut<[u8]>,
                     b't' => {},
                     b'G' => {},
                     b'g' => {},
-                    _ => *c = *BASIC_DNA_U8.choose(&mut rng).unwrap()
+                    _ => *c = *DNA_U8.choose(&mut rng).unwrap()
                 })
         }
         self
@@ -75,14 +75,14 @@ where T: AsMut<[u8]>,
     fn mut_random_replace_n(&mut self, xna: &str, mut rng: ThreadRng) -> &mut Self {
         if xna == "RNA" {
             self.as_mut().iter_mut().for_each(|c| match c {
-                b'N' => *c = *BASIC_RNA_U8.choose(&mut rng).unwrap(),
-                b'n' => *c = *BASIC_LOWERCASE_RNA_U8.choose(&mut rng).unwrap(),
+                b'N' => *c = *RNA_U8.choose(&mut rng).unwrap(),
+                b'n' => *c = *LOWERCASE_RNA_U8.choose(&mut rng).unwrap(),
                     _ => {}
                 })
         } else if xna == "DNA" {
             self.as_mut().iter_mut().for_each(|c| match c {
-                b'N' => *c = *BASIC_DNA_U8.choose(&mut rng).unwrap(),
-                b'n' => *c = *BASIC_LOWERCASE_DNA_U8.choose(&mut rng).unwrap(),
+                b'N' => *c = *DNA_U8.choose(&mut rng).unwrap(),
+                b'n' => *c = *LOWERCASE_DNA_U8.choose(&mut rng).unwrap(),
                     _ => {}
                 })
         }
@@ -93,14 +93,14 @@ where T: AsMut<[u8]>,
     fn mut_random_replace_gap(&mut self, xna: &str, mut rng: ThreadRng) -> &mut Self {
         if xna == "RNA" {
             self.as_mut().iter_mut().for_each(|c| match c {
-                    b'.' => *c = *BASIC_RNA_U8.choose(&mut rng).unwrap(),
-                    b'-' => *c = *BASIC_RNA_U8.choose(&mut rng).unwrap(),
+                    b'.' => *c = *RNA_U8.choose(&mut rng).unwrap(),
+                    b'-' => *c = *RNA_U8.choose(&mut rng).unwrap(),
                     _ => {}
                 })
         } else if xna == "DNA" {
             self.as_mut().iter_mut().for_each(|c| match c {
-                    b'.' => *c = *BASIC_DNA_U8.choose(&mut rng).unwrap(),
-                    b'-' => *c = *BASIC_DNA_U8.choose(&mut rng).unwrap(),
+                    b'.' => *c = *DNA_U8.choose(&mut rng).unwrap(),
+                    b'-' => *c = *DNA_U8.choose(&mut rng).unwrap(),
                     _ => {}
                 })
         }
@@ -211,15 +211,15 @@ where
         if xna == "RNA" {
             self.into_iter()
                 .map(|ch| match ch {
-                    b'N' => *BASIC_RNA_U8.choose(&mut rng).unwrap(),
-                    b'n' => *BASIC_LOWERCASE_RNA_U8.choose(&mut rng).unwrap(),
+                    b'N' => *RNA_U8.choose(&mut rng).unwrap(),
+                    b'n' => *LOWERCASE_RNA_U8.choose(&mut rng).unwrap(),
                     _ => ch,
                 }).collect::<Vec<u8>>()
         } else {
             self.into_iter()
             .map(|ch| match ch {
-                b'N' => *BASIC_DNA_U8.choose(&mut rng).unwrap(),
-                b'n' => *BASIC_LOWERCASE_DNA_U8.choose(&mut rng).unwrap(),
+                b'N' => *DNA_U8.choose(&mut rng).unwrap(),
+                b'n' => *LOWERCASE_DNA_U8.choose(&mut rng).unwrap(),
                 _ => ch,
             }).collect::<Vec<u8>>()
         }
@@ -230,15 +230,15 @@ where
         if xna == "RNA" {
             self.into_iter()
                 .map(|ch| match ch {
-                    b'.' => *BASIC_RNA_U8.choose(&mut rng).unwrap(),
-                    b'-' => *BASIC_RNA_U8.choose(&mut rng).unwrap(),
+                    b'.' => *RNA_U8.choose(&mut rng).unwrap(),
+                    b'-' => *RNA_U8.choose(&mut rng).unwrap(),
                     _ => ch,
                 }).collect::<Vec<u8>>()
         } else {
             self.into_iter()
                 .map(|ch| match ch {
-                    b'.' => *BASIC_DNA_U8.choose(&mut rng).unwrap(),
-                    b'-' => *BASIC_DNA_U8.choose(&mut rng).unwrap(),
+                    b'.' => *DNA_U8.choose(&mut rng).unwrap(),
+                    b'-' => *DNA_U8.choose(&mut rng).unwrap(),
                     _ => ch,
                 }).collect::<Vec<u8>>()
         }

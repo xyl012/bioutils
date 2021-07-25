@@ -39,7 +39,7 @@ lazy_static! {
 
 lazy_static!{
     /// This is the quality score shifted 33 so if the u8 is 33, the score is 0. We can look that up with this hashmap.
-    pub static ref PHRED33_HASHMAP_U8: HashMap<u8, u8> = vec![
+    pub static ref PHRED33_HASHMAP_DECODE_U8: HashMap<u8, u8> = vec![
         (b'!', 0), (b'"', 1), (b'#', 2), (b'$', 3), (b'%', 4), (b'&', 5), (0x0027, 6), (b'(', 7), (b')', 8), (b'*', 9), (b'+', 10), (b',', 11), (b'-', 12), (b'.', 13), (b'/', 14),
         (b'0', 15), (b'1', 16), (b'2', 17), (b'3',18), (b'4', 19), (b'5', 20), (b'6', 21), (b'7', 22), (b'8', 23), (b'9', 24), (b':', 25), (b';', 26), (b'<', 27), (b'=', 28), (b'>', 29), (b'?', 30),
         (b'@', 31), (b'A', 32), (b'B', 33), (b'C', 34), (b'D', 35), (b'E', 36), (b'F', 37), (b'G', 38), (b'H', 39), (b'I', 40), (b'J', 41), (b'K', 42)
@@ -97,7 +97,7 @@ lazy_static! {
 
 lazy_static!{
     /// This is the quality score shifted 64 so if the u8 is 64, the score is 0. We can look that up with this hashmap.
-    pub static ref PHRED64_HASHMAP_U8: HashMap<u8, u8> = vec![
+    pub static ref PHRED64_HASHMAP_DECODE_U8: HashMap<u8, u8> = vec![
         (b'@', 0), (b'A', 1), (b'B', 2), (b'C', 3), (b'D', 4), (b'E', 5), (b'F', 6), (b'G', 7), (b'H', 8), (b'I', 9), (b'J', 10), (b'K', 11), (b'L', 12), (b'M', 13), (b'N', 14), (b'O', 15),
         (b'P', 16), (b'Q', 17), (b'R', 18), (b'S', 19), (b'T', 20), (b'U', 21), (b'V', 22), (b'W', 23), (b'X', 24), (b'Y', 25), (b'Z', 26), (0x005B, 27), (0x005C, 28), (0x005D, 29), (b'^', 30),
         (b'_', 31), (b'`', 32), (b'a', 33), (b'b', 34), (b'c', 35), (b'd', 36), (b'e', 37), (b'f', 38), (b'g', 39), (b'h', 40), (b'i', 41), (b'j', 42), (b'k', 43), (b'l', 44), (b'm', 45), (b'n', 46),

@@ -19,9 +19,9 @@
 //! ```
 
 use super::*;
-use crate::utils::check::*;
+use super::check::*;
 
-pub trait AsMutRandomReplace {
+pub trait RandomReplaceAsMutSlice {
     /// Random all other than ACGTUactgu with pseudorandom nucleotides ACTGU. Should be used last after other functions or for cleanup of unknown characters.
     fn mut_random_replace_non_basic(&mut self, xna: &str, rng: ThreadRng) -> &mut Self ;
     /// Fill {N,n} with pseudorandom nucleotides ACUG if xna is "RNA" or ACTG for all other xna.
@@ -36,7 +36,7 @@ pub trait AsMutRandomReplace {
     fn mut_random_replace_iupac(&mut self, xna: &str, rng: ThreadRng) -> &mut Self ;
 }
 
-impl<T> AsMutRandomReplace for T
+impl<T> RandomReplaceAsMutSlice for T
 where T: AsMut<[u8]>,
 {
     /// random all other than ACGTUactgu with pseudorandom nucleotides ACTGU. Should be used last after other functions or for cleanup of unknown characters.
@@ -195,12 +195,12 @@ where T: AsMut<[u8]>,
     }
 }
 
-pub trait CopyRandomNucleotide<T> {
+pub trait RandomReplaceIntoIteratorSlice<T> {
     fn copy_random_replace_n(&self, xna: &str, rng: ThreadRng) -> Vec<u8>  ;
     fn copy_random_replace_gap(&self, xna: &str, rng: ThreadRng) -> Vec<u8> ;
 }
 
-impl<T> CopyRandomNucleotide<T> for T
+impl<T> RandomReplaceIntoIteratorSlice<T> for T
 where
     T: IntoIterator<Item = u8>,
 {
@@ -243,47 +243,3 @@ where
     }
 }
 
-pub trait MutCodeItemU8<T> {
-    /// Returns the PHRED33 quality score from a PHRED33 quality encoding. The score is the u8 minus 33. Sanger is also shifted 33.
-    fn mut_decode_qual(&mut self) -> Result<&mut Self>;
-    /// Returns the PHRED64 quality score from a PHRED64 quality encoding. The score is the u8 minus 64.
-    fn mut_decode_qual_phred64(&mut self) -> Result<&mut Self>;
-    /// Returns the PHRED33 quality encoding from a PHRED33 quality score. The score is the u8 minus 33. Sanger is also shifted 33.
-    fn mut_encode_qual(&mut self) -> Result<&mut Self>;
-    /// Returns the PHRED64 quality encoding from a PHRED64 quality score. The score is the u8 minus 64.
-    fn mut_encode_qual_phred64(&mut self) -> Result<&mut Self>;
-}
-
-impl<T> MutCodeItemU8<T> for T
-where
-    T: AsMut<[u8]>,
-{
-    /// Returns the PHRED33 quality score from a raw PHRED33 quality encoding (-33).
-    fn mut_decode_qual(&mut self) -> Result<&mut Self> {
-        match self.mut_is_phred33() {
-            true => {self.as_mut().iter_mut().for_each(|u| *u = *u-33); Ok(self)},
-            false => bail!("Contains non-PHRED33 u8s")
-        }
-    }
-    /// Returns the PHRED64 quality score from a raw PHRED64 quality encoding (-64).
-    fn mut_decode_qual_phred64(&mut self) -> Result<&mut Self> {
-        match self.mut_is_phred64() {
-            true => {self.as_mut().iter_mut().for_each(|u| *u = *u-64); Ok(self)},
-            false => bail!("Contains non-PHRED64 u8s")
-        } 
-    }
-    /// Returns the PHRED33 quality encoding from a PHRED33 quality score (+33).
-    fn mut_encode_qual(&mut self) -> Result<&mut Self> {
-        match self.mut_is_phred33_scores() {
-            true => {self.as_mut().iter_mut().for_each(|u| *u = *u+33); Ok(self)},
-            false => bail!("Contains non-PHRED33 score u8s")
-        }
-    }
-    /// Returns the PHRED64 quality encoding from the quality score (+64).
-    fn mut_encode_qual_phred64(&mut self) -> Result<&mut Self> {
-        match self.mut_is_phred64_scores() {
-            true => {self.as_mut().iter_mut().for_each(|u| *u = *u+64); Ok(self)},
-            false => bail!("Contains non-PHRED64 score u8s")
-        }
-    }
-}

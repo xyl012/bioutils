@@ -16,8 +16,6 @@
 
 
 use super::*;
-use std::collections::HashMap;
-
 
 pub trait ValueU8<T> {
     /// Returns the percent (0-100) of the quality u8 in bases (rounded) above the quality score supplied. Should be used when mapq scores are required.
@@ -50,7 +48,7 @@ where
 
     /// Returns the number of occurrences of the mode
     fn count_mode(&self) -> usize {
-        let mode = self.mode().unwrap();
+        let mode = self.mode_u8().unwrap();
         self.as_ref().iter().filter(|&q| q==mode).count()
     }
 

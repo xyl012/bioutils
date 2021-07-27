@@ -21,9 +21,6 @@ pub mod quality;
 //     }
 // }
 
-
-// pub const PERCENTAGE_RANGE: std::ops::Range<u8> = 0..100;
-
 pub const PERCENTAGE_RANGE_START: usize = 0;
 pub const PERCENTAGE_RANGE_END: usize = 100;
 pub const PERCENTAGE_RANGE: RangeInclusive<usize> = PERCENTAGE_RANGE_START..=PERCENTAGE_RANGE_END;

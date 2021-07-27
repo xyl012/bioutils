@@ -11,7 +11,7 @@ use std::iter::FromIterator;
 use crate::charsets::iupac::*;
 use crate::charsets::quality::*;
 use crate::charsets::ascii::*;
-use crate::charsets::*;
+use crate::charsets::percent::*;
 
 use rand::rngs::ThreadRng;
 use rand::seq::SliceRandom;

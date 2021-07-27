@@ -3,26 +3,72 @@ use super::*;
 pub mod ascii;
 pub mod iupac;
 pub mod quality;
+pub mod percent;
 
-// enum CharSetArray {
-//     Phred33U8,
-//     Phred64U8,
-// }
+pub enum BioUtilsCharSet {
+    Percent,
+    Letters,
+    LettersUppercase,
+    LettersLowercase,
+    Nucleotide,
+    Dna,
+    DnaMixCase,
+    Dnan,
+    DnanMixCase,
+    DnaLowercase,
+    Rna,
+    RnaMixCase,
+    Rnan,
+    RnanMixCase,
+    RnaLowercase,
+    Gap,
+    N,
+    NMixCase,
+    Gc,
+    GcMixCase,
+    AminoAcid,
+    Phred33,
+    Phred64,
+    Sanger,
+    Solexa,
+    Phred33Scores,
+    Phred64Scores,
+}
 
-// impl CharSetArray {
-//     fn value(&self) -> [u8] {
-//         match *self {
-//             CharSetArray::Phred33U8 => PHRED33,
-//             CharSetArray::Phred64U8 => PHRED64,
-//         }
-//     }
-// }
+impl BioUtilsCharSet {
+    fn value(&self) -> &[u8] {
+        match *self {
+            BioUtilsCharSet::Percent => PERCENT_SLICE,
+            BioUtilsCharSet::Letters => ASCII_LETTERS_SLICE,
+            BioUtilsCharSet::LettersUppercase => ASCII_LETTERS_UPPERCASE_SLICE,
+            BioUtilsCharSet::LettersLowercase => ASCII_LETTERS_LOWERCASE_SLICE,
+            BioUtilsCharSet::Nucleotide => IUPAC_NUCLEOTIDE_SLICE,
+            BioUtilsCharSet::Dna => DNA_SLICE,
+            BioUtilsCharSet::DnaMixCase => DNA_MIX_CASE_SLICE,
+            BioUtilsCharSet::Dnan => DNAN_SLICE,
+            BioUtilsCharSet::DnanMixCase => DNAN_MIX_CASE_SLICE,
+            BioUtilsCharSet::DnaLowercase => DNA_LOWERCASE_SLICE,
+            BioUtilsCharSet::Rna => RNA_SLICE,
+            BioUtilsCharSet::RnaMixCase => RNA_MIX_CASE_SLICE,
+            BioUtilsCharSet::Rnan => RNAN_SLICE,
+            BioUtilsCharSet::RnanMixCase => RNAN_MIX_CASE_SLICE,
+            BioUtilsCharSet::RnaLowercase => RNA_LOWERCASE_SLICE,
+            BioUtilsCharSet::Gap => GAP_SLICE,
+            BioUtilsCharSet::N => N_SLICE,
+            BioUtilsCharSet::NMixCase => N_MIX_CASE_SLICE,
+            BioUtilsCharSet::Gc => GC_SLICE,
+            BioUtilsCharSet::GcMixCase => GC_MIX_CASE_SLICE,
+            BioUtilsCharSet::AminoAcid => AMINO_ACID_SLICE,
+            BioUtilsCharSet::Phred33 => PHRED33_SLICE,
+            BioUtilsCharSet::Phred64 => PHRED64_SLICE,
+            BioUtilsCharSet::Solexa => SOLEXA_SLICE,
+            BioUtilsCharSet::Sanger => SANGER_SLICE,
+            BioUtilsCharSet::Phred33Scores => PHRED33_SCORES_SLICE,
+            BioUtilsCharSet::Phred64Scores => PHRED64_SCORES_SLICE,
 
-pub const PERCENTAGE_RANGE_START: usize = 0;
-pub const PERCENTAGE_RANGE_END: usize = 100;
-pub const PERCENTAGE_RANGE: RangeInclusive<usize> = PERCENTAGE_RANGE_START..=PERCENTAGE_RANGE_END;
-
-pub const PERCENTAGE: [u8; 101] = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,91,92,93,94,95,96,97,98,99,100];
+        }
+    }
+}
 
 pub fn new_str_hashset<'a>(array: &'a [&str]) -> HashSet<&'a str> {
     HashSet::from_iter(array.iter().cloned())

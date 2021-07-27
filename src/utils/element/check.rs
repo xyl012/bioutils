@@ -1,8 +1,8 @@
 use super::*;
 
 pub trait CheckAsRefU8<T>{
-    fn check_percentage(&self) -> Result<&Self>;
-    fn is_percentage(&self) -> bool;
+    fn check_percent(&self) -> Result<&Self>;
+    fn is_percent(&self) -> bool;
     fn check_phred33(&self) -> Result<&Self>;
     fn is_phred33(&self) -> bool;
     fn check_phred33_score(&self) -> Result<&Self>;
@@ -14,8 +14,8 @@ pub trait CheckAsRefU8<T>{
 }
 
 pub trait CheckAsMutU8<T>{
-    fn mut_check_percentage(&mut self) -> Result<&mut Self>;
-    fn mut_is_percentage(&mut self) -> bool;
+    fn mut_check_percent(&mut self) -> Result<&mut Self>;
+    fn mut_is_percent(&mut self) -> bool;
     fn mut_check_phred33(&mut self) -> Result<&mut Self>;
     fn mut_is_phred33(&mut self) -> bool;
     fn mut_check_phred33_score(&mut self) -> Result<&mut Self>;
@@ -29,14 +29,14 @@ pub trait CheckAsMutU8<T>{
 impl<T> CheckAsRefU8<T> for T where 
 T: AsRef<u8>
 {
-    fn check_percentage(&self) -> Result<&Self> {
-        match self.is_percentage() {    
+    fn check_percent(&self) -> Result<&Self> {
+        match self.is_percent() {    
             true => Ok(self),
-            false => bail!("Please supply a valid percentage (0-100, not fractional) as u8"),
+            false => bail!("Please supply a valid PERCENT (0-100, not fractional) as u8"),
         }
     }
-    fn is_percentage(&self) -> bool {
-        PERCENTAGE.contains(self.as_ref())
+    fn is_percent(&self) -> bool {
+        PERCENT.contains(self.as_ref())
     }
     
     /// Validate a u8 is phred33 (33-75)
@@ -85,14 +85,14 @@ T: AsRef<u8>
 impl<T> CheckAsMutU8<T> for T where 
 T: AsMut<u8>
 {
-    fn mut_check_percentage(&mut self) -> Result<&mut Self> {
-        match self.mut_is_percentage() {    
+    fn mut_check_percent(&mut self) -> Result<&mut Self> {
+        match self.mut_is_percent() {    
             true => Ok(self),
-            false => bail!("Please supply a valid percentage (0-100, not fractional) as u8"),
+            false => bail!("Please supply a valid PERCENT (0-100, not fractional) as u8"),
         }
     }
-    fn mut_is_percentage(&mut self) -> bool {
-        PERCENTAGE.contains(self.as_mut())
+    fn mut_is_percent(&mut self) -> bool {
+        PERCENT.contains(self.as_mut())
     }
     
     /// Validate a u8 is phred33 (33-75)

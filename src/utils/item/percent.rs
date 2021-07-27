@@ -4,10 +4,10 @@ use crate::utils::item::count::*;
 use crate::utils::element::percent::*;
 
 pub trait CheckPercentAsRefSlice<T> {
-    /// Checks if T is comprised of valid percentages
-    fn check_slice_percentages(&self) -> Result<&Self>;
-    /// Returns a boolean if T is comprised of valid percentages
-    fn is_slice_percentages(&self) -> bool;
+    /// Checks if T is comprised of valid percents
+    fn check_slice_percents(&self) -> Result<&Self>;
+    /// Returns a boolean if T is comprised of valid percents
+    fn is_slice_percents(&self) -> bool;
     /// Get the total percent of elements above the cutoff u8 and return a boolean if total above supplied percent
     fn is_slice_passing_percent(&self, cutoff_value: &u8, cutoff_percent: &u8) -> Result<bool>;
     /// Returns the total percent of elements above the cutoff
@@ -17,16 +17,16 @@ pub trait CheckPercentAsRefSlice<T> {
 impl<T> CheckPercentAsRefSlice<T> for T where
 T: AsRef<[u8]>
 {
-    /// Checks if T is comprised of valid percentages
-    fn check_slice_percentages(&self) -> Result<&Self> {
-        match self.is_slice_percentages() {
+    /// Checks if T is comprised of valid percents
+    fn check_slice_percents(&self) -> Result<&Self> {
+        match self.is_slice_percents() {
             true => Ok(self),
-            false => bail!("Contains non-percentage elements"),
+            false => bail!("Contains non-PERCENT elements"),
         }
     }
-    /// Returns a boolean if T is comprised of valid percentages
-    fn is_slice_percentages(&self) -> bool {
-        self.as_ref().iter().all(|x| PERCENTAGE.contains(&x))
+    /// Returns a boolean if T is comprised of valid percents
+    fn is_slice_percents(&self) -> bool {
+        self.as_ref().iter().all(|x| PERCENT.contains(&x))
     }
     /// Get the total percent of elements above the cutoff u8 and return a boolean if total above supplied percent
     fn is_slice_passing_percent(&self, cutoff_value: &u8, cutoff_percent: &u8) -> Result<bool> {
@@ -42,10 +42,10 @@ T: AsRef<[u8]>
 }
 
 pub trait CheckPercentAsMutSlice<T> {
-    /// Checks if T is comprised of valid percentages
-    fn mut_check_slice_percentages(&mut self) -> Result<&mut Self>;
-    /// Returns a boolean if T is comprised of valid percentages
-    fn mut_is_slice_percentages(&mut self) -> bool;
+    /// Checks if T is comprised of valid percents
+    fn mut_check_slice_percents(&mut self) -> Result<&mut Self>;
+    /// Returns a boolean if T is comprised of valid percents
+    fn mut_is_slice_percents(&mut self) -> bool;
     /// Returns a boolean if the total percent of elements above the cutoff u8 is above the supplied percent
     fn mut_is_slice_passing_percent(&mut self, cutoff_value: &u8, cutoff_percent: &u8) -> Result<bool>;
     /// Returns the total percent of elements above the cutoff
@@ -56,16 +56,16 @@ pub trait CheckPercentAsMutSlice<T> {
 impl<T> CheckPercentAsMutSlice<T> for T where
 T: AsMut<[u8]>
 {
-    /// Checks if T is comprised of valid percentages
-    fn mut_check_slice_percentages(&mut self) -> Result<&mut Self> {
-        match self.mut_is_slice_percentages() {
+    /// Checks if T is comprised of valid percents
+    fn mut_check_slice_percents(&mut self) -> Result<&mut Self> {
+        match self.mut_is_slice_percents() {
             true => Ok(self),
-            false => bail!("Contains non-percentage elements"),
+            false => bail!("Contains non-PERCENT elements"),
         }
     }
-    /// Returns a boolean if T is comprised of valid percentages
-    fn mut_is_slice_percentages(&mut self) -> bool {
-        self.as_mut().iter().all(|x| PERCENTAGE.contains(&x))
+    /// Returns a boolean if T is comprised of valid percents
+    fn mut_is_slice_percents(&mut self) -> bool {
+        self.as_mut().iter().all(|x| PERCENT.contains(&x))
     }
     /// Get the total percent of elements above the cutoff u8 and return a boolean if total above supplied percent
     fn mut_is_slice_passing_percent(&mut self, cutoff_value: &u8, cutoff_percent: &u8) -> Result<bool> {

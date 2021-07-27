@@ -39,7 +39,7 @@ impl NewRandomBio for Vec<u8>
         let mut rng = rand::thread_rng();
         let mut vec = Vec::with_capacity(*nbases);
         for _base in 0..*nbases {
-            vec.push(DNA_U8.choose(&mut rng).expect("Could not make random DNA sequence").to_owned())
+            vec.push(DNA.choose(&mut rng).expect("Could not make random DNA sequence").to_owned())
         };
         vec
     }
@@ -48,7 +48,7 @@ impl NewRandomBio for Vec<u8>
         let mut rng = rand::thread_rng();
         let mut vec = Vec::with_capacity(*nbases);
         for _base in 0..*nbases {
-            vec.push(RNA_U8.choose(&mut rng).expect("Could not make random RNA sequence").to_owned())
+            vec.push(RNA.choose(&mut rng).expect("Could not make random RNA sequence").to_owned())
         };
         vec
     }
@@ -57,7 +57,7 @@ impl NewRandomBio for Vec<u8>
         let mut rng = rand::thread_rng();
         let mut vec = Vec::with_capacity(*nbases);
         for _base in 0..*nbases {
-            vec.push(AMINO_ACID_U8.choose(&mut rng).expect("Could not make random amino acid sequence").to_owned())
+            vec.push(AMINO_ACID.choose(&mut rng).expect("Could not make random amino acid sequence").to_owned())
         };
         vec
     }
@@ -66,7 +66,7 @@ impl NewRandomBio for Vec<u8>
         let mut rng = rand::thread_rng();
         let mut vec = Vec::with_capacity(*nbases);
         for _base in 0..*nbases {
-            vec.push(PHRED33_U8.choose(&mut rng).expect("Could not make random PHRED33 sequence").to_owned())
+            vec.push(PHRED33.choose(&mut rng).expect("Could not make random PHRED33 sequence").to_owned())
         };
         vec
     }
@@ -75,7 +75,7 @@ impl NewRandomBio for Vec<u8>
         let mut rng = rand::thread_rng();
         let mut vec = Vec::with_capacity(*nbases);
         for _base in 0..*nbases {
-            vec.push(PHRED64_U8.choose(&mut rng).expect("Could not make random PHRED64 sequence").to_owned())
+            vec.push(PHRED64.choose(&mut rng).expect("Could not make random PHRED64 sequence").to_owned())
         };
         vec
     }
@@ -85,7 +85,7 @@ impl NewRandomBio for Vec<u8>
 pub fn random_dna(nbases: &usize, mut rng: ThreadRng) -> Vec<u8> {
     let mut vec = Vec::with_capacity(*nbases);
     for _base in 0..*nbases {
-        vec.push(DNA_U8.choose(&mut rng).expect("Could not make random dna").to_owned())
+        vec.push(DNA.choose(&mut rng).expect("Could not make random dna").to_owned())
     };
     vec
 }
@@ -93,7 +93,7 @@ pub fn random_dna(nbases: &usize, mut rng: ThreadRng) -> Vec<u8> {
 pub fn random_rna(nbases: usize, mut rng: ThreadRng) -> Vec<u8> {
     let mut vec = Vec::with_capacity(nbases);
     for _base in 0..nbases {
-        vec.push(RNA_U8.choose(&mut rng).expect("Could not make random RNA sequence").to_owned())
+        vec.push(RNA.choose(&mut rng).expect("Could not make random RNA sequence").to_owned())
     }
     vec
 }
@@ -101,7 +101,7 @@ pub fn random_rna(nbases: usize, mut rng: ThreadRng) -> Vec<u8> {
 pub fn random_aa(nbases: usize, mut rng: ThreadRng) -> Vec<u8> {
     let mut vec = Vec::with_capacity(nbases);
     for _base in 0..nbases {
-        vec.push(AMINO_ACID_U8.choose(&mut rng).expect("Could not make random amino acid sequence").to_owned())
+        vec.push(AMINO_ACID.choose(&mut rng).expect("Could not make random amino acid sequence").to_owned())
     }
     vec
 }
@@ -109,7 +109,7 @@ pub fn random_aa(nbases: usize, mut rng: ThreadRng) -> Vec<u8> {
 pub fn random_quality(nbases: usize, mut rng: ThreadRng) -> Vec<u8> {
     let mut vec = Vec::with_capacity(nbases);
     for _base in 0..nbases {
-        vec.push(PHRED33_U8.choose(&mut rng).expect("Could not make random PHRED33 sequence").to_owned())
+        vec.push(PHRED33.choose(&mut rng).expect("Could not make random PHRED33 sequence").to_owned())
     };
     vec
 }
@@ -117,7 +117,7 @@ pub fn random_quality(nbases: usize, mut rng: ThreadRng) -> Vec<u8> {
 pub fn random_phred64_quality(nbases: usize, mut rng: ThreadRng) -> Vec<u8> {
     let mut vec = Vec::with_capacity(nbases);
     for _base in 0..nbases {
-        vec.push(PHRED64_U8.choose(&mut rng).expect("Could not make random PHRED64 sequence").to_owned())
+        vec.push(PHRED64.choose(&mut rng).expect("Could not make random PHRED64 sequence").to_owned())
     };
     vec
 }

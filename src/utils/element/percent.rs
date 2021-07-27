@@ -9,7 +9,7 @@ pub struct PercentUsize(usize);
 impl TryFrom<u8> for PercentU8 {
     type Error = anyhow::Error;
     fn try_from(value: u8) -> Result<PercentU8> {
-        if PERCENTAGE_U8.contains(&value) {
+        if PERCENTAGE.contains(&value) {
             Ok(PercentU8(value))
         } else {bail!("Not a valid percentage")}
     }
@@ -18,7 +18,7 @@ impl TryFrom<u8> for PercentU8 {
 impl<'a> TryFrom<&'a u8> for PercentU8 {
     type Error = anyhow::Error;
     fn try_from(value: &'a u8) -> Result<PercentU8> {
-        if PERCENTAGE_U8.contains(value) {
+        if PERCENTAGE.contains(value) {
             Ok(PercentU8(*value))
         } else {bail!("Not a valid percentage")}
     }
@@ -27,7 +27,7 @@ impl<'a> TryFrom<&'a u8> for PercentU8 {
 impl<'a> TryFrom<&'a mut u8> for PercentU8 {
     type Error = anyhow::Error;
     fn try_from(value: &'a mut u8) -> Result<PercentU8> {
-        if PERCENTAGE_U8.contains(value) {
+        if PERCENTAGE.contains(value) {
             Ok(PercentU8(*value))
         } else {bail!("Not a valid percentage")}
     }

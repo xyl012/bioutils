@@ -26,7 +26,7 @@ T: AsRef<[u8]>
     }
     /// Returns a boolean if T is comprised of valid percentages
     fn is_slice_percentages(&self) -> bool {
-        self.as_ref().iter().all(|x| PERCENTAGE_U8.contains(&x))
+        self.as_ref().iter().all(|x| PERCENTAGE.contains(&x))
     }
     /// Get the total percent of elements above the cutoff u8 and return a boolean if total above supplied percent
     fn is_slice_passing_percent(&self, cutoff_value: &u8, cutoff_percent: &u8) -> Result<bool> {
@@ -65,7 +65,7 @@ T: AsMut<[u8]>
     }
     /// Returns a boolean if T is comprised of valid percentages
     fn mut_is_slice_percentages(&mut self) -> bool {
-        self.as_mut().iter().all(|x| PERCENTAGE_U8.contains(&x))
+        self.as_mut().iter().all(|x| PERCENTAGE.contains(&x))
     }
     /// Get the total percent of elements above the cutoff u8 and return a boolean if total above supplied percent
     fn mut_is_slice_passing_percent(&mut self, cutoff_value: &u8, cutoff_percent: &u8) -> Result<bool> {

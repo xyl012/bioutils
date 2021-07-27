@@ -3,14 +3,44 @@
 use super::*;
 use std::ops::RangeInclusive;
 
+
+pub enum QualityCharSet {
+    Phred33,
+    Phred64,
+    Sanger,
+    Solexa,
+    Phred33Scores,
+    Phred64Scores,
+}
+
+impl QualityCharSet {
+    pub const fn value(&self) -> &[u8] {
+        match *self {
+            QualityCharSet::Phred33 => PHRED33_SLICE,
+            QualityCharSet::Phred64 => PHRED64_SLICE,
+            QualityCharSet::Solexa => SOLEXA_SLICE,
+            QualityCharSet::Sanger => SANGER_SLICE,
+            QualityCharSet::Phred33Scores => PHRED33_SCORES_SLICE,
+            QualityCharSet::Phred64Scores => PHRED64_SCORES_SLICE,
+        }
+    }
+}
+
+pub const PHRED33_SLICE: &'static [u8] = &PHRED33;
+pub const PHRED64_SLICE: &'static [u8] = &PHRED64;
+pub const SOLEXA_SLICE: &'static [u8] = &SOLEXA;
+pub const SANGER_SLICE: &'static [u8] = &SANGER;
+pub const PHRED33_SCORES_SLICE: &'static [u8] = &PHRED33_SCORES;
+pub const PHRED64_SCORES_SLICE: &'static [u8] = &PHRED64_SCORES;
+
 /// Phred33 charset: ASCII 33-75
-pub const PHRED33_U8: [u8; 43] = [
+pub const PHRED33: [u8; 43] = [
     b'!', b'"', b'#', b'$', b'%', b'&', 0x0027, b'(', b')', b'*', b'+', b',', b'-', b'.', b'/',
     b'0', b'1', b'2', b'3', b'4', b'5', b'6', b'7', b'8', b'9', b':', b';', b'<', b'=', b'>', b'?',
     b'@', b'A', b'B', b'C', b'D', b'E', b'F', b'G', b'H', b'I', b'J', b'K'];
 
 /// Phred33 scores: 0-42
-pub const PHRED33_SCORES_U8: [u8; 43] = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42];
+pub const PHRED33_SCORES: [u8; 43] = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42];
 
 /// Phred33 charset: ASCII 33-75
     pub const PHRED33_STR: [&str; 43] = [
@@ -30,7 +60,7 @@ pub const PHRED33_SCORE_RANGE: RangeInclusive<usize> = PHRED33_SCORE_RANGE_START
 
 lazy_static! {
     /// Phred33 charset as hashset: ASCII 33-73
-    pub static ref PHRED33_HASHSET_U8: HashSet<u8> = new_u8_hashset(&PHRED33_U8);
+    pub static ref PHRED33_HASHSET: HashSet<u8> = new_hashset(&PHRED33);
 }
 lazy_static! {
     /// Phred33 charset as hashset: ASCII 33-73
@@ -39,7 +69,7 @@ lazy_static! {
 
 lazy_static!{
     /// This is the quality score shifted 33 so if the u8 is 33, the score is 0. We can look that up with this hashmap.
-    pub static ref PHRED33_HASHMAP_DECODE_U8: HashMap<u8, u8> = vec![
+    pub static ref PHRED33_HASHMAP_DECODE: HashMap<u8, u8> = vec![
         (b'!', 0), (b'"', 1), (b'#', 2), (b'$', 3), (b'%', 4), (b'&', 5), (0x0027, 6), (b'(', 7), (b')', 8), (b'*', 9), (b'+', 10), (b',', 11), (b'-', 12), (b'.', 13), (b'/', 14),
         (b'0', 15), (b'1', 16), (b'2', 17), (b'3',18), (b'4', 19), (b'5', 20), (b'6', 21), (b'7', 22), (b'8', 23), (b'9', 24), (b':', 25), (b';', 26), (b'<', 27), (b'=', 28), (b'>', 29), (b'?', 30),
         (b'@', 31), (b'A', 32), (b'B', 33), (b'C', 34), (b'D', 35), (b'E', 36), (b'F', 37), (b'G', 38), (b'H', 39), (b'I', 40), (b'J', 41), (b'K', 42)
@@ -48,7 +78,7 @@ lazy_static!{
 
 lazy_static!{
     /// This is the quality score shifted 33 so if the u8 is 33, the score is 0. We can look that up with this hashmap.
-    pub static ref PHRED33_HASHMAP_ENCODE_U8: HashMap<u8, u8> = vec![
+    pub static ref PHRED33_HASHMAP_ENCODE: HashMap<u8, u8> = vec![
         (0 , b'!'), (1, b'"'), (2, b'#'), (3, b'$'), (4, b'%'), (5, b'&'), (6, 0x0027), (7, b'('), (8, b')'), (9, b'*'), (10, b'+'), (11, b','), (12, b'-'), (13, b'.'), (14, b'/'),
         (15, b'0'), (16, b'1'), (17, b'2'), (18, b'3'), (19, b'4'), (20, b'5'), (21, b'6'), (22, b'7'), (23, b'8'), (24, b'9'), (25, b':'), (26, b';'), (27, b'<'), (28, b'='), (29, b'>'), (30, b'?'),
         (31, b'@'), (32, b'A'), (33, b'B'), (34, b'C'), (35, b'D'), (36, b'E'), (37, b'F'), (38, b'G'), (39, b'H'), (40, b'I'), (41, b'J'), (42, b'K')
@@ -56,7 +86,7 @@ lazy_static!{
 }
 
 /// Phred64 charset: ASCII 64-126
-pub const PHRED64_U8: [u8; 63] = [
+pub const PHRED64: [u8; 63] = [
     b'@', b'A', b'B', b'C', b'D', b'E', b'F', b'G', b'H', b'I', b'J', b'K', b'L', b'M', b'N', b'O',
     b'P', b'Q', b'R', b'S', b'T', b'U', b'V', b'W', b'X', b'Y', b'Z', 0x005B, 0x005C, 0x005D, b'^',
     b'_', b'`', b'a', b'b', b'c', b'd', b'e', b'f', b'g', b'h', b'i', b'j', b'k', b'l', b'm', b'n',
@@ -64,8 +94,7 @@ pub const PHRED64_U8: [u8; 63] = [
 ];
 
 /// Phred64 scores: 0-62
-pub const PHRED64_SCORES_U8: [u8; 63] = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62];
-
+pub const PHRED64_SCORES: [u8; 63] = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62];
 
 /// Phred64 charset: ASCII 64-126
 pub const PHRED64_STR: [&str; 63] = [
@@ -88,7 +117,7 @@ pub const PHRED64_SCORE_RANGE: RangeInclusive<usize> = PHRED64_SCORE_RANGE_START
 
 lazy_static! {
     /// Phred64 charset as hashset: ASCII 64-126
-    pub static ref PHRED64_HASHSET_U8: HashSet<u8> = new_u8_hashset(&PHRED64_U8);
+    pub static ref PHRED64_HASHSET: HashSet<u8> = new_hashset(&PHRED64);
 }
 lazy_static! {
     /// Phred64 charset as hashset: ASCII 64-126
@@ -97,7 +126,7 @@ lazy_static! {
 
 lazy_static!{
     /// This is the quality score shifted 64 so if the u8 is 64, the score is 0. We can look that up with this hashmap.
-    pub static ref PHRED64_HASHMAP_DECODE_U8: HashMap<u8, u8> = vec![
+    pub static ref PHRED64_HASHMAP_DECODE: HashMap<u8, u8> = vec![
         (b'@', 0), (b'A', 1), (b'B', 2), (b'C', 3), (b'D', 4), (b'E', 5), (b'F', 6), (b'G', 7), (b'H', 8), (b'I', 9), (b'J', 10), (b'K', 11), (b'L', 12), (b'M', 13), (b'N', 14), (b'O', 15),
         (b'P', 16), (b'Q', 17), (b'R', 18), (b'S', 19), (b'T', 20), (b'U', 21), (b'V', 22), (b'W', 23), (b'X', 24), (b'Y', 25), (b'Z', 26), (0x005B, 27), (0x005C, 28), (0x005D, 29), (b'^', 30),
         (b'_', 31), (b'`', 32), (b'a', 33), (b'b', 34), (b'c', 35), (b'd', 36), (b'e', 37), (b'f', 38), (b'g', 39), (b'h', 40), (b'i', 41), (b'j', 42), (b'k', 43), (b'l', 44), (b'm', 45), (b'n', 46),
@@ -107,7 +136,7 @@ lazy_static!{
 
 lazy_static!{
     /// This is the quality score shifted 64 so if the u8 is 64, the score is 0. We can look that up with this hashmap.
-    pub static ref PHRED64_HASHMAP_ENCODE_U8: HashMap<u8, u8> = vec![
+    pub static ref PHRED64_HASHMAP_ENCODE: HashMap<u8, u8> = vec![
         (0, b'@'), (1, b'A'), (2, b'B'), (3, b'C'), (4, b'D'), (5, b'E'), (6, b'F'), (7, b'G'), (8, b'H'), (9, b'I'), (10, b'J'), (11, b'K'), (12, b'L'), (13, b'M'), (14, b'N'), (15, b'O'),
         (16, b'P'), (17, b'Q'), (18, b'R'), (19, b'S'), (20, b'T'), (21, b'U'), (22, b'V'), (23, b'W'), (24, b'X'), (25, b'Y'), (26, b'Z'), (27, 0x005B), (28, 0x005C), (29, 0x005D), (30, b'^'),
         (31, b'_'), (32, b'`'), (33, b'a'), (34, b'b'), (35, b'c'), (36, b'd'), (37, b'e'), (38, b'f'), (39, b'g'), (40, b'h'), (41, b'i'), (42, b'j'), (43, b'k'), (44, b'l'), (45, b'm'), (46, b'n'),
@@ -116,7 +145,7 @@ lazy_static!{
 }
 
 /// Solexa/Illumina 1.0 charset: ASCII 59-126.
-pub const SOLEXA_U8: [u8; 68] = [
+pub const SOLEXA: [u8; 68] = [
     b';', b'<', b'=', b'>', b'?', b'@', b'A', b'B', b'C', b'D', b'E', b'F', b'G', b'H', b'I', b'J',
     b'K', b'L', b'M', b'N', b'O', b'P', b'Q', b'R', b'S', b'T', b'U', b'V', b'W', b'X', b'Y', b'Z',
     0x005B, 0x005C, 0x005D, b'^', b'_', b'`', b'a', b'b', b'c', b'd', b'e', b'f', b'g', b'h', b'i',
@@ -135,7 +164,7 @@ pub const SOLEXA_STR: [&str; 68] = [
 ];
 lazy_static! {
     /// Solexa/Illumina 1.0 charset: ASCII 59-126.
-    pub static ref SOLEXA_HASHSET_U8: HashSet<u8> = new_u8_hashset(&SOLEXA_U8);
+    pub static ref SOLEXA_HASHSET: HashSet<u8> = new_hashset(&SOLEXA);
 }
 lazy_static! {
     /// Solexa/Illumina 1.0 charset: ASCII 59-126.
@@ -143,7 +172,7 @@ lazy_static! {
 }
 
 /// Sanger charset: ASCII 33-126. Used by nanopore (u8-33)
-pub const SANGER_U8: [u8; 94] = [
+pub const SANGER: [u8; 94] = [
     b'!', b'"', b'#', b'$', b'%', b'&', 0x0027, b'(', b')', b'*', b'+', b',', b'-', b'.', b'/',
     b'0', b'1', b'2', b'3', b'4', b'5', b'6', b'7', b'8', b'9', b':', b';', b'<', b'=', b'>', b'?',
     b'@', b'A', b'B', b'C', b'D', b'E', b'F', b'G', b'H', b'I', b'J', b'K', b'L', b'M', b'N', b'O',
@@ -165,7 +194,7 @@ pub const SANGER_STR: [&str; 94] = [
 
 lazy_static!{
     /// This is the quality score shifted 33 so if the u8 is 33, the score is 0. We can look that up with this hashmap. Used by nanopore (u8-33)
-    pub static ref SANGER_HASHMAP_DECODE_U8: HashMap<u8, u8> = vec![
+    pub static ref SANGER_HASHMAP_DECODE: HashMap<u8, u8> = vec![
         (b'!', 0), (b'"', 1), (b'#', 2), (b'$', 3), (b'%', 4), (b'&', 5), (0x0027, 6), (b'(', 7), (b')', 8), (b'*', 9), (b'+', 10), (b',', 11), (b'-', 12), (b'.', 13), (b'/', 14),
         (b'0', 15), (b'1', 16), (b'2', 17), (b'3',18), (b'4', 19), (b'5', 20), (b'6', 21), (b'7', 22), (b'8', 23), (b'9', 24), (b':', 25), (b';', 26), (b'<', 27), (b'=', 28), (b'>', 29), (b'?', 30),
         (b'@', 31), (b'A', 32), (b'B', 33), (b'C', 34), (b'D', 35), (b'E', 36), (b'F', 37), (b'G', 38), (b'H', 39), (b'I', 40), (b'J', 41), (b'K', 42), 
@@ -177,7 +206,7 @@ lazy_static!{
 
 lazy_static!{
     /// This is the quality score shifted 33 so if the u8 is 33, the score is 0. We can look that up with this hashmap. Used by nanopore (u8-33)
-    pub static ref SANGER_HASHMAP_ENCODE_U8: HashMap<u8, u8> = vec![
+    pub static ref SANGER_HASHMAP_ENCODE: HashMap<u8, u8> = vec![
         (0 , b'!'), (1, b'"'), (2, b'#'), (3, b'$'), (4, b'%'), (5, b'&'), (6, 0x0027), (7, b'('), (8, b')'), (9, b'*'), (10, b'+'), (11, b','), (12, b'-'), (13, b'.'), (14, b'/'),
         (15, b'0'), (16, b'1'), (17, b'2'), (18, b'3'), (19, b'4'), (20, b'5'), (21, b'6'), (22, b'7'), (23, b'8'), (24, b'9'), (25, b':'), (26, b';'), (27, b'<'), (28, b'='), (29, b'>'), (30, b'?'),
         (31, b'@'), (32, b'A'), (33, b'B'), (34, b'C'), (35, b'D'), (36, b'E'), (37, b'F'), (38, b'G'), (39, b'H'), (40, b'I'), (41, b'J'), (42, b'K'),
@@ -198,7 +227,7 @@ pub const SANGER_SCORE_RANGE: RangeInclusive<usize> = SANGER_SCORE_RANGE_START..
 
 lazy_static! {
     /// Sanger charset as hashset: ASCII 33-126. Used by nanopore (u8-33)
-    pub static ref SANGER_HASHSET_U8: HashSet<u8> = new_u8_hashset(&SANGER_U8);
+    pub static ref SANGER_HASHSET: HashSet<u8> = new_hashset(&SANGER);
 }
 lazy_static! {
     /// Sanger charset as hashset: ASCII 33-126. Used by nanopore (u8-33)
@@ -348,21 +377,21 @@ lazy_static! {
 
 // #[cfg(test)]
 // mod tests {
-//     use super::{PHRED33_U8, PHRED64_U8, SOLEXA_U8};
+//     use super::{PHRED33, PHRED64, SOLEXA};
 //     #[test]
 //     fn test_phred33() {
 //         let dec: Vec<u8> = (33..127).collect();
-//         assert_eq!(dec, PHRED33_U8);
+//         assert_eq!(dec, PHRED33);
 //     }
 //     #[test]
 //     fn test_phred64() {
 //         let dec: Vec<u8> = (64..127).collect();
-//         assert_eq!(dec, PHRED64_U8);
+//         assert_eq!(dec, PHRED64);
 //     }
 //     #[test]
 //     fn test_solexa() {
 //         let dec: Vec<u8> = (59..127).collect();
-//         assert_eq!(dec, SOLEXA_U8);
+//         assert_eq!(dec, SOLEXA);
 //     }
 // }
 

@@ -3,5 +3,5 @@
 use super::*;
 
 pub mod percent;
-pub mod recode_quality;
+pub mod quality;
 pub mod check;

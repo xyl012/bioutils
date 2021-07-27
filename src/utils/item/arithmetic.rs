@@ -1,7 +1,6 @@
 use super::*;
 
-pub trait ArithmeticU8<T> {
-
+pub trait ArithmeticSlice<T> {
     /// Returns the mean of u8s as u64
     fn mean_u8(&self) -> Result<u8, TryFromIntError>;
 
@@ -9,7 +8,7 @@ pub trait ArithmeticU8<T> {
     fn mode_u8(&self) -> Option<u8>;
 }
 
-impl<T> ArithmeticU8<T> for T where
+impl<T> ArithmeticSlice<T> for T where
 T: AsRef<[u8]>
 {
     

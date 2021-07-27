@@ -23,7 +23,7 @@ use super::check::*;
 use crate::utils::item::quality::*;
 
 pub trait RandomReplaceAsMutSlice {
-    /// Random all other than ACG(T/U)acg(t/u) with pseudorandom nucleotides ACTGU. Should be used last after other functions or for cleanup of unknown characters.
+    /// Random all other than ACG(T/U)acg(t/u) with pseudorandom nucleotides ACG(T/U). Should be used last after other functions or for cleanup of unknown characters.
     fn mut_random_replace(&mut self, xna: &str, rng: ThreadRng) -> Result<&mut Self>;
     /// Fill {N,n} with pseudorandom nucleotides ACUG if xna is "RNA" or ACTG for all other xna.
     fn mut_random_replace_n(&mut self, xna: &str, rng: ThreadRng) -> Result<&mut Self>;
@@ -41,20 +41,20 @@ impl<T> RandomReplaceAsMutSlice for T where
 T: AsMut<[u8]>,
 {
     /// random all other than ACGTUactgu with pseudorandom nucleotides ACTGU. Should be used last after other functions or for cleanup of unknown characters.
-    fn mut_random_replace_non_basic(&mut self, xna: &str, mut rng: ThreadRng) -> Result<&mut Self> {
+    fn mut_random_replace(&mut self, xna: &str, mut rng: ThreadRng) -> Result<&mut Self> {
         if xna == "RNA" {
-            self.as_mut().iter_mut().map(|u| u.mut_check_rna()).for_each(|c| match c {
-                    Some(b'A') => {_},
-                    b'a' => {Some(b'a')},
-                    b'C' => {Some(b'C')},
-                    b'c' => {Some(b'c')},
-                    b'G' => {Some(b'G')},
-                    b'g' => {Some(b'g')},
-                    b'U' => {Some(b'U')},
-                    b'u' => {Some(b'u')},
-                    _ => *c = *RNA_U8.choose(&mut rng)
+            self.as_mut().iter_mut().for_each(|c| match c {
+                    b'A' => {},
+                    b'a' => {},
+                    b'C' => {},
+                    b'c' => {},
+                    b'G' => {},
+                    b'g' => {},
+                    b'U' => {},
+                    b'u' => {},
+                    _ => c = RNA_U8.choose(&mut rng)
                 }
-            self.collect()
+            // self.collect()
             )
         } else if xna == "DNA" {
             self.as_mut().iter_mut().for_each(|c| match c {

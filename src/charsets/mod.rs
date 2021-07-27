@@ -1,11 +1,29 @@
 use super::*;
 
+use std::ops::RangeInclusive;
+
 pub mod ascii;
 pub mod iupac;
 pub mod quality;
 
+
+// enum CharSetArray {
+//     Phred33U8,
+//     Phred64U8,
+// }
+
+// impl CharSetArray {
+//     fn value(&self) -> [u8] {
+//         match *self {
+//             CharSetArray::Phred33U8 => PHRED33_U8,
+//             CharSetArray::Phred64U8 => PHRED64_U8,
+//         }
+//     }
+// }
+
+
 // pub const PERCENTAGE_RANGE: std::ops::Range<u8> = 0..100;
-use std::ops::RangeInclusive;
+
 pub const PERCENTAGE_RANGE_START: usize = 0;
 pub const PERCENTAGE_RANGE_END: usize = 100;
 pub const PERCENTAGE_RANGE: RangeInclusive<usize> = PERCENTAGE_RANGE_START..=PERCENTAGE_RANGE_END;
@@ -19,6 +37,6 @@ pub fn new_str_hashset<'a>(array: &'a [&str]) -> HashSet<&'a str> {
     HashSet::from_iter(array.iter().cloned())
 }
 
-pub fn new_u8_hashset(array: &[u8]) -> HashSet<u8> {
+pub fn new_hashset(array: &[u8]) -> HashSet<u8> {
     HashSet::from_iter(array.iter().cloned())
 }

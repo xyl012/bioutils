@@ -14,7 +14,7 @@
 //     // fn is_percent_homopolymer_x(&self, x: &u8, percent: &u8) -> Result<&Self>;
 
 //     //TODO Possible to use with Rust's window function for checking homopolymer sequences of arbitrary length.
-    
+
 //     /// Returns an error if T is a homopolymer
 //     fn error_on_homopolymer(&self) -> Result<&Self>;
 //     /// Returns a boolean if T a homopolymer

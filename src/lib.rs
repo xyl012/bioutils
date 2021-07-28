@@ -8,6 +8,7 @@ use core::num::TryFromIntError;
 use std::ops::RangeInclusive;
 use std::iter::FromIterator;
 
+use crate::charsets::bioutils::*;
 use crate::charsets::iupac::*;
 use crate::charsets::quality::*;
 use crate::charsets::ascii::*;

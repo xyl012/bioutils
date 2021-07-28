@@ -42,10 +42,10 @@ T: AsRef<[u8]>
 }
 
 pub trait CheckPercentAsMutSlice<T> {
-    /// Checks if T is comprised of valid percents
-    fn mut_check_slice_percents(&mut self) -> Result<&mut Self>;
-    /// Returns a boolean if T is comprised of valid percents
-    fn mut_is_slice_percents(&mut self) -> bool;
+    // /// Checks if T is comprised of valid percents
+    // fn mut_check_slice_percents(&mut self) -> Result<&mut Self>;
+    // /// Returns a boolean if T is comprised of valid percents
+    // fn mut_is_slice_percents(&mut self) -> bool;
     /// Returns a boolean if the total percent of elements above the cutoff u8 is above the supplied percent
     fn mut_is_slice_passing_percent(&mut self, cutoff_value: &u8, cutoff_percent: &u8) -> Result<bool>;
     /// Returns the total percent of elements above the cutoff
@@ -56,17 +56,17 @@ pub trait CheckPercentAsMutSlice<T> {
 impl<T> CheckPercentAsMutSlice<T> for T where
 T: AsMut<[u8]>
 {
-    /// Checks if T is comprised of valid percents
-    fn mut_check_slice_percents(&mut self) -> Result<&mut Self> {
-        match self.mut_is_slice_percents() {
-            true => Ok(self),
-            false => bail!("Contains non-PERCENT elements"),
-        }
-    }
-    /// Returns a boolean if T is comprised of valid percents
-    fn mut_is_slice_percents(&mut self) -> bool {
-        self.as_mut().iter().all(|x| PERCENT.contains(&x))
-    }
+    // /// Checks if T is comprised of valid percents
+    // fn mut_check_slice_percents(&mut self) -> Result<&mut Self> {
+    //     match self.mut_is_slice_percents() {
+    //         true => Ok(self),
+    //         false => bail!("Contains non-PERCENT elements"),
+    //     }
+    // }
+    // /// Returns a boolean if T is comprised of valid percents
+    // fn mut_is_slice_percents(&mut self) -> bool {
+    //     self.as_mut().iter().all(|x| PERCENT.contains(&x))
+    // }
     /// Get the total percent of elements above the cutoff u8 and return a boolean if total above supplied percent
     fn mut_is_slice_passing_percent(&mut self, cutoff_value: &u8, cutoff_percent: &u8) -> Result<bool> {
         PercentU8::try_from(cutoff_percent)?;

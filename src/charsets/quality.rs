@@ -3,14 +3,14 @@
 use super::*;
 use std::ops::RangeInclusive;
 
-
 pub enum QualityCharSet {
     Phred33,
     Phred64,
     Sanger,
     Solexa,
-    Phred33Scores,
-    Phred64Scores,
+    Phred33Score,
+    Phred64Score,
+    SangerScore,
 }
 
 impl QualityCharSet {
@@ -20,8 +20,9 @@ impl QualityCharSet {
             QualityCharSet::Phred64 => PHRED64_SLICE,
             QualityCharSet::Solexa => SOLEXA_SLICE,
             QualityCharSet::Sanger => SANGER_SLICE,
-            QualityCharSet::Phred33Scores => PHRED33_SCORES_SLICE,
-            QualityCharSet::Phred64Scores => PHRED64_SCORES_SLICE,
+            QualityCharSet::Phred33Score => PHRED33_SCORE_SLICE,
+            QualityCharSet::Phred64Score => PHRED64_SCORE_SLICE,
+            QualityCharSet::SangerScore => SANGER_SCORE_SLICE,
         }
     }
 }
@@ -30,8 +31,31 @@ pub const PHRED33_SLICE: &'static [u8] = &PHRED33;
 pub const PHRED64_SLICE: &'static [u8] = &PHRED64;
 pub const SOLEXA_SLICE: &'static [u8] = &SOLEXA;
 pub const SANGER_SLICE: &'static [u8] = &SANGER;
-pub const PHRED33_SCORES_SLICE: &'static [u8] = &PHRED33_SCORES;
-pub const PHRED64_SCORES_SLICE: &'static [u8] = &PHRED64_SCORES;
+pub const PHRED33_SCORE_SLICE: &'static [u8] = &PHRED33_SCORE;
+pub const PHRED64_SCORE_SLICE: &'static [u8] = &PHRED64_SCORE;
+pub const SANGER_SCORE_SLICE: &'static [u8] = &SANGER_SCORE;
+
+
+// pub enum QualityHashMap {
+//     Phred33Encode,
+//     Phred33Decode,
+//     Phred64Encode,
+//     Phred64Decode,
+//     SangerEncode,
+//     SangerDecode,
+// }
+// impl QualityHashMap {
+//     pub const fn value(&self) -> HashMap<u8,u8> {
+//         match *self {
+//             QualityHashMap::Phred33Encode => PHRED33_HASHMAP_ENCODE,
+//             QualityHashMap::Phred33Decode => PHRED33_HASHMAP_DECODE,
+//             QualityHashMap::Phred64Encode => PHRED64_HASHMAP_ENCODE,
+//             QualityHashMap::Phred64Decode => PHRED64_HASHMAP_DECODE,
+//             QualityHashMap::SangerEncode => SANGER_HASHMAP_ENCODE,
+//             QualityHashMap::SangerDecode => SANGER_HASHMAP_DECODE,
+//         }
+//     }
+// }
 
 /// Phred33 charset: ASCII 33-75
 pub const PHRED33: [u8; 43] = [
@@ -40,7 +64,7 @@ pub const PHRED33: [u8; 43] = [
     b'@', b'A', b'B', b'C', b'D', b'E', b'F', b'G', b'H', b'I', b'J', b'K'];
 
 /// Phred33 scores: 0-42
-pub const PHRED33_SCORES: [u8; 43] = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42];
+pub const PHRED33_SCORE: [u8; 43] = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42];
 
 /// Phred33 charset: ASCII 33-75
     pub const PHRED33_STR: [&str; 43] = [
@@ -94,7 +118,7 @@ pub const PHRED64: [u8; 63] = [
 ];
 
 /// Phred64 scores: 0-62
-pub const PHRED64_SCORES: [u8; 63] = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62];
+pub const PHRED64_SCORE: [u8; 63] = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62];
 
 /// Phred64 charset: ASCII 64-126
 pub const PHRED64_STR: [&str; 63] = [
@@ -171,6 +195,25 @@ lazy_static! {
     pub static ref SOLEXA_HASHSET_STR: HashSet<&'static str> = new_str_hashset(&SOLEXA_STR);
 }
 
+
+lazy_static!{
+    pub static ref SOLEXA_HASHMAP_DECODE: HashMap<u8, u8> = vec![
+        (b'@', 0), (b'A', 1), (b'B', 2), (b'C', 3), (b'D', 4), (b'E', 5), (b'F', 6), (b'G', 7), (b'H', 8), (b'I', 9), (b'J', 10), (b'K', 11), (b'L', 12), (b'M', 13), (b'N', 14), (b'O', 15),
+        (b'P', 16), (b'Q', 17), (b'R', 18), (b'S', 19), (b'T', 20), (b'U', 21), (b'V', 22), (b'W', 23), (b'X', 24), (b'Y', 25), (b'Z', 26), (0x005B, 27), (0x005C, 28), (0x005D, 29), (b'^', 30),
+        (b'_', 31), (b'`', 32), (b'a', 33), (b'b', 34), (b'c', 35), (b'd', 36), (b'e', 37), (b'f', 38), (b'g', 39), (b'h', 40), (b'i', 41), (b'j', 42), (b'k', 43), (b'l', 44), (b'm', 45), (b'n', 46),
+        (b'o', 47), (b'p', 48), (b'q', 49), (b'r', 50), (b's', 51), (b't', 52), (b'u', 53), (b'v', 54), (b'w', 55), (b'x', 56), (b'y', 57), (b'z', 58), (b'{', 59), (b'|', 60), (b'}', 61), (b'~', 62),
+    ].into_iter().collect();
+}
+
+lazy_static!{
+    pub static ref SOLEXA_HASHMAP_ENCODE: HashMap<u8, u8> = vec![
+        (b'@', 0), (b'A', 1), (b'B', 2), (b'C', 3), (b'D', 4), (b'E', 5), (b'F', 6), (b'G', 7), (b'H', 8), (b'I', 9), (b'J', 10), (b'K', 11), (b'L', 12), (b'M', 13), (b'N', 14), (b'O', 15),
+        (b'P', 16), (b'Q', 17), (b'R', 18), (b'S', 19), (b'T', 20), (b'U', 21), (b'V', 22), (b'W', 23), (b'X', 24), (b'Y', 25), (b'Z', 26), (0x005B, 27), (0x005C, 28), (0x005D, 29), (b'^', 30),
+        (b'_', 31), (b'`', 32), (b'a', 33), (b'b', 34), (b'c', 35), (b'd', 36), (b'e', 37), (b'f', 38), (b'g', 39), (b'h', 40), (b'i', 41), (b'j', 42), (b'k', 43), (b'l', 44), (b'm', 45), (b'n', 46),
+        (b'o', 47), (b'p', 48), (b'q', 49), (b'r', 50), (b's', 51), (b't', 52), (b'u', 53), (b'v', 54), (b'w', 55), (b'x', 56), (b'y', 57), (b'z', 58), (b'{', 59), (b'|', 60), (b'}', 61), (b'~', 62),
+    ].into_iter().collect();
+}
+
 /// Sanger charset: ASCII 33-126. Used by nanopore (u8-33)
 pub const SANGER: [u8; 94] = [
     b'!', b'"', b'#', b'$', b'%', b'&', 0x0027, b'(', b')', b'*', b'+', b',', b'-', b'.', b'/',
@@ -222,8 +265,9 @@ pub const SANGER_SCORE_RANGE_START: usize = 0;
 pub const SANGER_SCORE_RANGE_END: usize = 93;
 /// Sanger range: 33-126
 pub const SANGER_RANGE: RangeInclusive<usize> = SANGER_RANGE_START..=SANGER_RANGE_END;
-/// Phred64 range: 0-93
+/// Sanger range: 0-93
 pub const SANGER_SCORE_RANGE: RangeInclusive<usize> = SANGER_SCORE_RANGE_START..=SANGER_SCORE_RANGE_END;
+pub const SANGER_SCORE: [u8; 94] = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,91,92,93];
 
 lazy_static! {
     /// Sanger charset as hashset: ASCII 33-126. Used by nanopore (u8-33)
@@ -233,146 +277,6 @@ lazy_static! {
     /// Sanger charset as hashset: ASCII 33-126. Used by nanopore (u8-33)
     pub static ref SANGER_HASHSET_STR: HashSet<&'static str> = new_str_hashset(&SANGER_STR);
 }
-
-/// Flags In Order: read paired: 1, read mapped in proper pair: 2, read unmapped: 4, mate unmapped: 8, read reverse strand: 16, mate reverse strand: 32, first in pair: 64, second in pair: 128, not primary alignment: 256, read fails quality checks: 512, read is PCR or optical duplicate: 1024, supplementary alignment: 2048
-pub const FLAGS_U16: [u16; 12] = [1,2,4,8,16,32,64,128,256,512,1024,2048];
-lazy_static! {
-    /// Common alignment explanations with their associated bit
-    pub static ref FLAGS_HASHMAP_U16: HashMap<&'static str, u16> = vec![("is_paired",1), ("is_proper_pair",2), ("reads unmapped", 4), ("mate unmapped", 8), ("read reverse strand", 16), ("mate reverse strand", 32), ("first in pair", 64), ("second in pair", 128), ("not primary alignment",256), ("read fails quality checks", 512), ("read is PCR or optical duplicate", 1024), ("supplementary alignment",2048)].into_iter().collect();
-}
-
-
-
-
-
-// pub const TAGS: [u8; 1] = ["AM", "AS", ];
-
-// ub enum Tag {
-//     /// (`AM`).
-//     MinMappingQuality,
-//     /// (`AS`).
-//     AlignmentScore,
-//     /// (`BC`).
-//     SampleBarcodeSequence,
-//     /// (`BQ`).
-//     BaseAlignmentQualityOffsets,
-//     /// (`BZ`).
-//     OriginalUmiQualityScores,
-//     /// (`CB`).
-//     CellBarcodeId,
-//     /// (`CC`).
-//     NextHitReferenceSequenceName,
-//     /// (`CG`).
-//     Cigar,
-//     /// (`CM`).
-//     ColorEditDistance,
-//     /// (`CO`).
-//     Comment,
-//     /// (`CP`).
-//     NextHitPosition,
-//     /// (`CQ`).
-//     ColarQualityScores,
-//     /// (`CR`).
-//     CellBarcodeSequence,
-//     /// (`CS`).
-//     ColorSequence,
-//     /// (`CT`).
-//     CompleteReadAnnotations,
-//     /// (`CY`).
-//     CellBarcodeQualityScores,
-//     /// (`E2`).
-//     NextHitSequence,
-//     /// (`FI`).
-//     SegmentIndex,
-//     /// (`FS`).
-//     SegmentSuffix,
-//     /// (`FZ`).
-//     AlternativeSequence,
-//     /// (`GC`).
-//     ReservedGc,
-//     /// (`GQ`).
-//     ReservedGq,
-//     /// (`GS`).
-//     ReservedGs,
-//     /// (`H0`).
-//     PerfectHitCount,
-//     /// (`H1`).
-//     OneDifferenceHitCount,
-//     /// (`H2`).
-//     TwoDifferenceHitCount,
-//     /// (`HI`).
-//     HitIndex,
-//     /// (`IH`).
-//     TotalHitCount,
-//     /// (`LB`).
-//     Library,
-//     /// (`MC`).
-//     MateCigar,
-//     /// (`MD`).
-//     MismatchedPositions,
-//     /// (`MF`).
-//     ReservedMf,
-//     /// (`MI`).
-//     UmiId,
-//     /// (`MQ`).
-//     MateMappingQuality,
-//     /// (`NH`).
-//     AlignmentHitCount,
-//     /// (`NM`).
-//     EditDistance,
-//     /// (`OA`).
-//     OriginalAlignment,
-//     /// (`OC`).
-//     OriginalCigar,
-//     /// (`OP`).
-//     OriginalPosition,
-//     /// (`OQ`).
-//     OriginalQualityScores,
-//     /// (`OX`).
-//     OriginalUmiBarcodeSequence,
-//     /// (`PG`).
-//     Program,
-//     /// (`PQ`).
-//     TemplateLikelihood,
-//     /// (`PT`).
-//     PaddedReadAnnotations,
-//     /// (`PU`).
-//     PlatformUnit,
-//     /// (`Q2`).
-//     MateQualityScores,
-//     /// (`QT`).
-//     SampleBarcodeQualityScores,
-//     /// (`QX`).
-//     UmiQualityScores,
-//     /// (`R2`).
-//     MateSequence,
-//     /// (`RG`).
-//     ReadGroup,
-//     /// (`RT`).
-//     ReservedRt,
-//     /// (`RX`).
-//     UmiSequence,
-//     /// (`S2`).
-//     ReservedS2,
-//     /// (`SA`).
-//     OtherAlignments,
-//     /// (`SM`).
-//     TemplateMappingQuality,
-//     /// (`SQ`).
-//     ReservedSq,
-//     /// (`TC`).
-//     SegmentCount,
-//     /// (`TS`).
-//     TranscriptStrand,
-//     /// (`U2`).
-//     NextHitQualityScores,
-//     /// (`UQ`).
-//     SegmentLikelihood,
-//     /// Any other non-standard tag.
-//     Other(String),
-// }
-
-// If any other tags please create your own constant and make a pull request!
 
 
 // #[cfg(test)]

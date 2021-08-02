@@ -58,8 +58,8 @@ impl BioUtilsCharSet {
             BioUtilsCharSet::Phred64 => PHRED64_SLICE,
             BioUtilsCharSet::Solexa => SOLEXA_SLICE,
             BioUtilsCharSet::Sanger => SANGER_SLICE,
-            BioUtilsCharSet::Phred33Scores => PHRED33_SCORES_SLICE,
-            BioUtilsCharSet::Phred64Scores => PHRED64_SCORES_SLICE,
+            BioUtilsCharSet::Phred33Scores => PHRED33_SCORE_SLICE,
+            BioUtilsCharSet::Phred64Scores => PHRED64_SCORE_SLICE,
 
         }
     }

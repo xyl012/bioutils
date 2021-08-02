@@ -78,4 +78,4 @@ T: AsMut<[u8]>
     fn mut_slice_passing_percent(&mut self, cutoff_value: &u8) -> Result<usize> {
         percent_usize(self.mut_count_greater_than(cutoff_value)?, self.as_mut().len())
     }
-}
+// }

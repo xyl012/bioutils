@@ -4,6 +4,7 @@ pub mod ascii;
 pub mod iupac;
 pub mod quality;
 pub mod percent;
+pub mod flags;
 pub mod bioutils;
 
 pub fn new_str_hashset<'a>(array: &'a [&str]) -> HashSet<&'a str> {

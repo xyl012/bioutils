@@ -4,4 +4,3 @@ use super::*;
 
 pub mod percent;
 pub mod quality;
-pub mod check;

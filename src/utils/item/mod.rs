@@ -6,6 +6,5 @@ pub mod mutate;
 pub mod recode_quality;
 
 pub mod count;
-pub mod percent;
 pub mod arithmetic;
 pub mod quality;

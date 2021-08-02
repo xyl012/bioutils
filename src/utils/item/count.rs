@@ -57,7 +57,6 @@ where
 
 }
 
-
 pub trait CountAsMutSlice<T> {
     /// Returns the number of iterators greater than criteria. Used for calculating percents/numerators
     fn mut_count_greater_than(&mut self, criteria:&u8)-> Result<usize>;

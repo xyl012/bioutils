@@ -6,7 +6,7 @@ use super::*;
 pub const FLAG_U16: [u16; 12] = [1,2,4,8,16,32,64,128,256,512,1024,2048];
 lazy_static! {
     /// Common alignment explanations with their associated bit
-    pub static ref FLAG_HASHMAP: HashMap<&'static str, u16> = vec![("is_paired",1), ("is_proper_pair",2), ("reads unmapped", 4), ("mate unmapped", 8), ("read reverse strand", 16), ("mate reverse strand", 32), ("first in pair", 64), ("second in pair", 128), ("not primary alignment",256), ("read fails quality checks", 512), ("read is PCR or optical duplicate", 1024), ("supplementary alignment",2048)].into_iter().collect();
+    pub static ref FLAG_HASHMAP: HashMap<u16, &'static str,> = vec![(FLAG_U16[0], "is_paired"), (FLAG_U16[1], "is_proper_pair"), (FLAG_U16[2], "reads unmapped"), (FLAG_U16[3], "mate unmapped"), (FLAG_U16[4], "read reverse strand"), (FLAG_U16[5], "mate reverse strand"), (FLAG_U16[6], "first in pair"), (FLAG_U16[7], "second in pair"), (FLAG_U16[8], "not primary alignment"), (FLAG_U16[9], "read fails quality checks"), (FLAG_U16[10], "read is PCR or optical duplicate"), (FLAG_U16[11], "supplementary alignment")].into_iter().collect();
 }
 
 // Predefined standard tags are listed in the following table and described in greater detail in later subsections. Optional fields are usually displayed as TAG:TYPE:VALUE; the type may be one of A (character), B (general array), f (real number), H (hexadecimal array), i (integer), or Z (string).

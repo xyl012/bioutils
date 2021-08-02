@@ -25,8 +25,8 @@ pub trait CountAsRefSlice<T> {
     /// Returns the count of a specific u8
     fn count_xu8(&self, x: &u8) -> Result<usize>;
 
-    // /// Returns the number of occurrences of the mode
-    // fn count_mode(&self) -> usize;
+    /// Returns the number of occurrences of the mode
+    fn count_mode(&self) -> Option<u64>;
 
 }
 
@@ -40,15 +40,14 @@ where
         Ok(self.as_ref().iter().filter(|&s| s>=criteria).count())
     }
 
-    // /// Returns the number of occurrences of the mode
-    // fn count_mode(&self) -> Option<usize> {
-    //     let mut counts = BTreeMap::new();
-    //     let mode = self.as_ref().iter().max_by_key(|&s| {
-    //         let count = counts.entry(s).or_insert(0);
-    //         *count += 1; *count})?;
-        
-        // counts.get(mode as u8).ok_or(bail!("err"))
-    // }
+    /// Returns the number of occurrences of the mode
+    fn count_mode(&self) -> Option<u64> {
+        let mut counts: BTreeMap<u8, u64> = BTreeMap::new();
+        let mode = self.as_ref().iter().max_by_key(|&s| {
+            let count = counts.entry(*s).or_insert(0);
+            *count += 1; *count})?;
+        counts.get(mode).copied()
+    }
 
     /// Returns the count of a specific u8
     fn count_xu8(&self, x: &u8) -> Result<usize> {

@@ -120,7 +120,6 @@ T: AsRef<[u8]>
 {
     /// Get the total percent of elements above the cutoff u8 and return a boolean if total above supplied percent
     fn is_slice_passing_percent(&self, cutoff_value: &u8, cutoff_percent: &u8) -> Result<bool> {
-        PercentU8::try_from(cutoff_percent)?;
         if self.slice_passing_percent(cutoff_value)? >= (*cutoff_percent).into() {
             Ok(true)
         } else { Ok(false) }
@@ -144,7 +143,6 @@ T: AsMut<[u8]>
 
     /// Get the total percent of elements above the cutoff u8 and return a boolean if total above supplied percent
     fn mut_is_slice_passing_percent(&mut self, cutoff_value: &u8, cutoff_percent: &u8) -> Result<bool> {
-        PercentU8::try_from(cutoff_percent)?;
         if self.mut_slice_passing_percent(cutoff_value)? >= (*cutoff_percent).into() {
             Ok(true)
         } else { Ok(false) }

@@ -58,22 +58,20 @@ impl<'a> TryFrom<&'a mut usize> for PercentUsize {
     }
 }
 
-/// Calculates PERCENT with usizes
+/// Checks PERCENT with usizes
 pub fn percent_usize(numerator: usize, denominator: usize) -> Result<usize> {
-    Ok((100 * numerator + denominator / 2) / denominator)
+    let percent = (100 * numerator + denominator / 2) / denominator;
+    match PercentUsize::try_from(percent) {
+        Ok(_) => Ok(percent),
+        Err(_) => bail!("Not valid percent"),
+    }
 }
 
-/// Calculates PERCENT with u8
+/// Checks PERCENT with u8
 pub fn percent_u8(numerator: u8, denominator: u8) -> Result<u8> {
-    Ok((100 * numerator + denominator / 2) / denominator)
-}
-
-/// Calculates PERCENT with usizes
-pub fn mut_percent_usize(mut numerator: usize, mut denominator: usize) -> Result<usize> {
-    Ok((100 * numerator + denominator / 2) / denominator)
-}
-
-/// Calculates PERCENT with u8
-pub fn mut_percent_u8(mut numerator: u8, mut denominator: u8) -> Result<u8> {
-    Ok((100 * numerator + denominator / 2) / denominator)
+    let percent = (100 * numerator + denominator / 2) / denominator;
+    match PercentU8::try_from(percent) {
+        Ok(_) => Ok(percent),
+        Err(_) => bail!("Not valid percent"),
+    }
 }

@@ -74,7 +74,7 @@
 // pub trait QualityAsMutSlice<T> {
 //     /// Get the total percent of elements above the cutoff u8 and return a boolean if total above supplied percent
 //     fn mut_is_quality_slice_passing_percent(&mut self, cutoff_value: &u8, cutoff_percent: &u8) -> Result<bool>;
-    
+
 //     // /// Checks the sequence has the percent bases (rounded) greater than or equal to the quality score
 //     // fn mut_is_quality_slice_passing_percent(&self, quality_score: &u8, percent: &u8) -> Result<bool>;
 //     // /// Returns the percent (0-100) of the quality u8 in bases (rounded) above the quality score supplied. Should be used when mapq scores are required.

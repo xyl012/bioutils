@@ -1,50 +1,58 @@
 use super::*;
 use crate::utils::element::percent::*;
-use crate::utils::element::quality::*;
-use crate::utils::item::quality::*;
-use crate::utils::charsets::*;
-
 use crate::utils::item::count::*;
+use crate::utils::item::arithmetic::*;
 
 pub trait CheckAsRefSlice<T> {
-    /// 
-    fn is_slice_all_charset(&self, charset: BioUtilsCharSet) -> bool;
-    fn result_slice_all_charset(&self, charset: BioUtilsCharSet) -> Result<&Self>;
-    fn option_slice_all_charset(&self, charset: BioUtilsCharSet) -> Option<&Self>;
-    fn slice_has_charset(&self, charset: BioUtilsCharSet) -> bool;
-    fn result_slice_has_charset(&self, charset: BioUtilsCharSet) -> Result<&Self>;
-    fn option_slice_has_charset(&self, charset: BioUtilsCharSet) -> Option<&Self>;
+    /// Checks if all elements in the slice are contained in a character set (bool).
+    fn is_all_charset(&self, charset: BioUtilsCharSet) -> bool;
+    /// Checks if all elements in the slice are contained in a character set (Ok if true, Err if false).
+    fn result_is_all_charset(&self, charset: BioUtilsCharSet) -> Result<&Self>;
+    /// Checks if all elements in the slice are contained in a character set (Some if true, None if false).
+    fn option_is_all_charset(&self, charset: BioUtilsCharSet) -> Option<&Self>;
+    /// Checks if the slice contains any from the character set (bool).
+    fn has_charset(&self, charset: BioUtilsCharSet) -> bool;
+    /// Checks if the slice contains any from the character set (Ok if true, Err if false).
+    fn result_has_charset(&self, charset: BioUtilsCharSet) -> Result<&Self>;
+    /// Checks if the slice contains any from the character set (Some if true, None if false).
+    fn option_has_charset(&self, charset: BioUtilsCharSet) -> Option<&Self>;
 }
 
 impl<T> CheckAsRefSlice<T> for T where
 T: AsRef<[u8]> 
 {
-    fn is_slice_all_charset(&self, charset: BioUtilsCharSet) -> bool {
+    /// Checks if all elements in the slice are contained in a character set (bool).
+    fn is_all_charset(&self, charset: BioUtilsCharSet) -> bool {
         self.as_ref().iter().all(|u| charset.value().contains(u))
     }
-    fn result_slice_all_charset(&self, charset: BioUtilsCharSet) -> Result<&Self> {
-        match self.is_slice_all_charset(charset) {
+    /// Checks if all elements in the slice are contained in a character set (Ok if true, Err if false).
+    fn result_is_all_charset(&self, charset: BioUtilsCharSet) -> Result<&Self> {
+        match self.is_all_charset(charset) {
             true => Ok(self),
             false => bail!("Slice is not all charset"),
         }
     }
-    fn option_slice_all_charset(&self, charset: BioUtilsCharSet) -> Option<&Self> {
-        match self.is_slice_all_charset(charset) {
+    /// Checks if all elements in the slice are contained in a character set (Some if true, None if false).
+    fn option_is_all_charset(&self, charset: BioUtilsCharSet) -> Option<&Self> {
+        match self.is_all_charset(charset) {
             true => Some(self),
             false => None,
         }
     }
-    fn slice_has_charset(&self, charset: BioUtilsCharSet) -> bool {
+    /// Checks if the slice contains any from the character set (bool).
+    fn has_charset(&self, charset: BioUtilsCharSet) -> bool {
         self.as_ref().iter().any(|u| charset.value().contains(u))
     }
-    fn result_slice_has_charset(&self, charset: BioUtilsCharSet) -> Result<&Self> {
-        match self.slice_has_charset(charset) {
+    /// Checks if the slice contains any from the character set (Ok if true, Err if false).
+    fn result_has_charset(&self, charset: BioUtilsCharSet) -> Result<&Self> {
+        match self.has_charset(charset) {
             true => Ok(self),
             false => bail!("Slice does not have the charset"),
         }
     }
-    fn option_slice_has_charset(&self, charset: BioUtilsCharSet) -> Option<&Self> {
-        match self.slice_has_charset(charset) {
+    /// Checks if the slice contains any from the character set (Some if true, None if false).
+    fn option_has_charset(&self, charset: BioUtilsCharSet) -> Option<&Self> {
+        match self.has_charset(charset) {
             true => Some(self),
             false => None,
         }
@@ -52,44 +60,55 @@ T: AsRef<[u8]>
 }
 
 pub trait CheckAsMutSlice<T> {
-    /// 
-    fn mut_is_slice_all_charset(&mut self, charset: BioUtilsCharSet) -> bool;
-    fn mut_result_slice_all_charset(&mut self, charset: BioUtilsCharSet) -> Result<&mut Self>;
-    fn mut_option_slice_all_charset(&mut self, charset: BioUtilsCharSet) -> Option<&mut Self>;
-    fn mut_slice_has_charset(&mut self, charset: BioUtilsCharSet) -> bool;
-    fn mut_result_slice_has_charset(&mut self, charset: BioUtilsCharSet) -> Result<&mut Self>;
-    fn mut_option_slice_has_charset(&mut self, charset: BioUtilsCharSet) -> Option<&mut Self>;
+    /// Checks if all elements in the slice are contained in a character set (bool).
+    fn mut_is_all_charset(&mut self, charset: BioUtilsCharSet) -> bool;
+    /// Checks if all elements in the slice are contained in a character set (Ok if true, Err if false).
+    fn mut_result_is_all_charset(&mut self, charset: BioUtilsCharSet) -> Result<&mut Self>;
+    /// Checks if all elements in the slice are contained in a character set (Some if true, None if false).
+    fn mut_option_is_all_charset(&mut self, charset: BioUtilsCharSet) -> Option<&mut Self>;
+    /// Checks if the slice contains any from the character set (bool).
+    fn mut_has_charset(&mut self, charset: BioUtilsCharSet) -> bool;
+    /// Checks if the slice contains any from the character set (Ok if true, Err if false).
+    fn mut_result_has_charset(&mut self, charset: BioUtilsCharSet) -> Result<&mut Self>;
+    /// Checks if the slice contains any from the character set (Some if true, None if false).
+    fn mut_option_has_charset(&mut self, charset: BioUtilsCharSet) -> Option<&mut Self>;
 }
 
 impl<T> CheckAsMutSlice<T> for T where
 T: AsMut<[u8]> 
 {
-    fn mut_is_slice_all_charset(&mut self, charset: BioUtilsCharSet) -> bool {
+    /// Checks if all elements in the slice are contained in a character set (bool).
+    fn mut_is_all_charset(&mut self, charset: BioUtilsCharSet) -> bool {
         self.as_mut().iter().all(|u| charset.value().contains(u))
     }
-    fn mut_result_slice_all_charset(&mut self, charset: BioUtilsCharSet) -> Result<&mut Self> {
-        match self.mut_is_slice_all_charset(charset) {
+    /// Checks if all elements in the slice are contained in a character set (Ok if true, Err if false).
+    fn mut_result_is_all_charset(&mut self, charset: BioUtilsCharSet) -> Result<&mut Self> {
+        match self.mut_is_all_charset(charset) {
             true => Ok(self),
             false => bail!("Slice is not all charset"),
         }
     }
-    fn mut_option_slice_all_charset(&mut self, charset: BioUtilsCharSet) -> Option<&mut Self> {
-        match self.mut_is_slice_all_charset(charset) {
+    /// Checks if all elements in the slice are contained in a character set (Some if true, None if false).
+    fn mut_option_is_all_charset(&mut self, charset: BioUtilsCharSet) -> Option<&mut Self> {
+        match self.mut_is_all_charset(charset) {
             true => Some(self),
             false => None,
         }
     }
-    fn mut_slice_has_charset(&mut self, charset: BioUtilsCharSet) -> bool {
+    /// Checks if the slice contains any from the character set (bool).
+    fn mut_has_charset(&mut self, charset: BioUtilsCharSet) -> bool {
         self.as_mut().iter().any(|u| charset.value().contains(u))
     }
-    fn mut_result_slice_has_charset(&mut self, charset: BioUtilsCharSet) -> Result<&mut Self> {
-        match self.mut_slice_has_charset(charset) {
+    /// Checks if the slice contains any from the character set (Ok if true, Err if false).
+    fn mut_result_has_charset(&mut self, charset: BioUtilsCharSet) -> Result<&mut Self> {
+        match self.mut_has_charset(charset) {
             true => Ok(self),
             false => bail!("Slice does not have the charset"),
         }
     }
-    fn mut_option_slice_has_charset(&mut self, charset: BioUtilsCharSet) -> Option<&mut Self> {
-        match self.mut_slice_has_charset(charset) {
+    /// Checks if the slice contains any from the character set (Some if true, None if false).
+    fn mut_option_has_charset(&mut self, charset: BioUtilsCharSet) -> Option<&mut Self> {
+        match self.mut_has_charset(charset) {
             true => Some(self),
             false => None,
         }
@@ -104,37 +123,58 @@ mod tests {
     #[test]
     fn checking_slice() {
         let test = &[67,67,67,67];
-        assert!(test.is_slice_all_charset(charset: BioUtilsCharSet::Dna), true);
+        assert!(test.is_all_charset(charset: BioUtilsCharSet::Dna), true);
+    }
+}
+
+pub trait CheckMeanAsRefSlice<T> {
+    /// Returns a boolean if the mean of the slice is greater than the cutoff value. Common use case is filter for mean quaity score.
+    fn is_mean_greater_equal(&self, cutoff_value: &u8) -> Result<bool>;
+    
+    // /// Get the total percent of elements above the cutoff u8 and return a boolean if total above supplied percent
+    // fn is_passing_percent(&self, cutoff_value: &u8, cutoff_percent: &u8) -> Result<bool>;
+    // /// Returns the total percent of elements above the cutoff
+    // fn passing_percent(&self, cutoff_value: &u8) -> Result<usize>;
+}
+
+impl<T> CheckMeanAsRefSlice<T> for T where 
+T:AsRef<[u8]>
+{
+    fn is_mean_greater_equal(&self, cutoff_value: &u8) -> Result<bool> {
+        let mean = self.mean_u8()?;
+        if mean >= *cutoff_value {
+            Ok(true)
+        } else { Ok(false) }
     }
 }
 
 pub trait CheckPercentAsRefSlice<T> {
-    /// Get the total percent of elements above the cutoff u8 and return a boolean if total above supplied percent
-    fn is_slice_passing_percent(&self, cutoff_value: &u8, cutoff_percent: &u8) -> Result<bool>;
+    /// Returns a boolean if the total percent of elements above the cutoff u8 is above the supplied percent
+    fn is_passing_percent_greater_equal(&self, cutoff_value: &u8, cutoff_percent: &u8) -> Result<bool>;
     /// Returns the total percent of elements above the cutoff
-    fn slice_passing_percent(&self, cutoff_value: &u8) -> Result<usize>;
+    fn passing_percent(&self, cutoff_value: &u8) -> Result<usize>;
 }
 
 impl<T> CheckPercentAsRefSlice<T> for T where
 T: AsRef<[u8]>
 {
     /// Get the total percent of elements above the cutoff u8 and return a boolean if total above supplied percent
-    fn is_slice_passing_percent(&self, cutoff_value: &u8, cutoff_percent: &u8) -> Result<bool> {
-        if self.slice_passing_percent(cutoff_value)? >= (*cutoff_percent).into() {
+    fn is_passing_percent_greater_equal(&self, cutoff_value: &u8, cutoff_percent: &u8) -> Result<bool> {
+        if self.passing_percent(cutoff_value)? >= (*cutoff_percent).into() {
             Ok(true)
         } else { Ok(false) }
     }
     /// Returns the total percent of elements above the cutoff
-    fn slice_passing_percent(&self, cutoff_value: &u8) -> Result<usize> {
-        percent_usize(self.count_greater_than(cutoff_value)?, self.as_ref().len())
+    fn passing_percent(&self, cutoff_value: &u8) -> Result<usize> {
+        percent_usize(self.count_greater_equal(cutoff_value)?, self.as_ref().len())
     }
 }
 
 pub trait CheckPercentAsMutSlice<T> {
     /// Returns a boolean if the total percent of elements above the cutoff u8 is above the supplied percent
-    fn mut_is_slice_passing_percent(&mut self, cutoff_value: &u8, cutoff_percent: &u8) -> Result<bool>;
+    fn mut_is_passing_percent_greater_equal(&mut self, cutoff_value: &u8, cutoff_percent: &u8) -> Result<bool>;
     /// Returns the total percent of elements above the cutoff
-    fn mut_slice_passing_percent(&mut self, cutoff_value: &u8) -> Result<usize>;
+    fn mut_passing_percent(&mut self, cutoff_value: &u8) -> Result<usize>;
 }
 
 impl<T> CheckPercentAsMutSlice<T> for T where
@@ -142,13 +182,13 @@ T: AsMut<[u8]>
 {
 
     /// Get the total percent of elements above the cutoff u8 and return a boolean if total above supplied percent
-    fn mut_is_slice_passing_percent(&mut self, cutoff_value: &u8, cutoff_percent: &u8) -> Result<bool> {
-        if self.mut_slice_passing_percent(cutoff_value)? >= (*cutoff_percent).into() {
+    fn mut_is_passing_percent_greater_equal(&mut self, cutoff_value: &u8, cutoff_percent: &u8) -> Result<bool> {
+        if self.mut_passing_percent(cutoff_value)? >= (*cutoff_percent).into() {
             Ok(true)
         } else { Ok(false) }
     }
     /// Returns the total percent of elements above the cutoff
-    fn mut_slice_passing_percent(&mut self, cutoff_value: &u8) -> Result<usize> {
-        percent_usize(self.mut_count_greater_than(cutoff_value)?, self.as_mut().len())
+    fn mut_passing_percent(&mut self, cutoff_value: &u8) -> Result<usize> {
+        percent_usize(self.mut_count_greater_equal(cutoff_value)?, self.as_mut().len())
     }
 }

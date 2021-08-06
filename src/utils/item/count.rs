@@ -15,15 +15,13 @@
 // ! ``
 
 use super::*;
-use crate::utils::element::percent::*;
-use crate::utils::item::arithmetic::*;
 
 pub trait CountAsRefSlice<T> {
     /// Returns the number of iterators greater than criteria. Used for calculating percents/numerators
-    fn count_greater_than(&self, criteria:&u8)-> Result<usize>;
+    fn count_greater_equal(&self, criteria:&u8)-> Result<usize>;
 
     /// Returns the count of a specific u8
-    fn count_xu8(&self, x: &u8) -> Result<usize>;
+    fn count_u8(&self, x: &u8) -> Result<usize>;
 
     /// Returns the number of occurrences of the mode
     fn count_mode(&self) -> Option<u64>;
@@ -36,7 +34,7 @@ where
 {
 
     /// Returns the number of iterations greater than the criteria
-    fn count_greater_than(&self, criteria: &u8)-> Result<usize> {
+    fn count_greater_equal(&self, criteria: &u8)-> Result<usize> {
         Ok(self.as_ref().iter().filter(|&s| s>=criteria).count())
     }
 
@@ -50,7 +48,7 @@ where
     }
 
     /// Returns the count of a specific u8
-    fn count_xu8(&self, x: &u8) -> Result<usize> {
+    fn count_u8(&self, x: &u8) -> Result<usize> {
         Ok(self.as_ref().iter().filter(|&q| q==x).count())
     }
 
@@ -58,10 +56,10 @@ where
 
 pub trait CountAsMutSlice<T> {
     /// Returns the number of iterators greater than criteria. Used for calculating percents/numerators
-    fn mut_count_greater_than(&mut self, criteria:&u8)-> Result<usize>;
+    fn mut_count_greater_equal(&mut self, criteria:&u8)-> Result<usize>;
 
     /// Returns the count of a specific u8
-    fn mut_count_xu8(&mut self, x: &u8) -> Result<usize>;
+    fn mut_count_u8(&mut self, x: &u8) -> Result<usize>;
 
     /// Returns the number of occurrences of the mode
     fn mut_count_mode(&mut self) -> Option<u64>;
@@ -74,7 +72,7 @@ where
 {
 
     /// Returns the number of iterations greater than the criteria
-    fn mut_count_greater_than(&mut self, criteria: &u8)-> Result<usize> {
+    fn mut_count_greater_equal(&mut self, criteria: &u8)-> Result<usize> {
         Ok(self.as_mut().iter().filter(|&s| s>=criteria).count())
     }
 
@@ -88,7 +86,7 @@ where
     }
 
     /// Returns the count of a specific u8
-    fn mut_count_xu8(&mut self, x: &u8) -> Result<usize> {
+    fn mut_count_u8(&mut self, x: &u8) -> Result<usize> {
         Ok(self.as_mut().iter().filter(|&q| q==x).count())
     }
 
@@ -100,7 +98,7 @@ where
 //     fn mut_quality_percent_passing(&mut self, quality_score: &u8) -> usize;
 
 //     /// Returns the number of iterators greater than criteria. Used for calculating percents/numerators
-//     fn mut_count_greater_than(&mut self, criteria:&u8)-> usize;
+//     fn mut_count_greater_equal(&mut self, criteria:&u8)-> usize;
 
 //     /// Returns the number of occurrences of the mode
 //     fn mut_count_mode(&mut self) -> usize;
@@ -122,11 +120,11 @@ where
 // {
 //     /// Checks each quality u8 and returns the percent above (passing) the given u8
 //     fn mut_quality_percent_passing(&mut self, quality_score: &u8)-> usize {
-//         percent_usize(self.mut_count_greater_than(quality_score)?, self.as_mut().len())
+//         percent_usize(self.mut_count_greater_equal(quality_score)?, self.as_mut().len())
 //     }
 
 //     /// Returns the number of iterations greater than the criteria
-//     fn mut_count_greater_than(&mut self, criteria: &u8)-> Result<usize> {
+//     fn mut_count_greater_equal(&mut self, criteria: &u8)-> Result<usize> {
 //         self.as_mut().iter().filter(|&s| s>=criteria).count()
 //     }
 

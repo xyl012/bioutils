@@ -1,5 +1,6 @@
 use super::*;
 use crate::utils::element::percent::*;
+use crate::utils::element::tryfrom::*;
 use crate::utils::item::count::*;
 use crate::utils::item::arithmetic::*;
 
@@ -130,18 +131,34 @@ mod tests {
 pub trait CheckMeanAsRefSlice<T> {
     /// Returns a boolean if the mean of the slice is greater than the cutoff value. Common use case is filter for mean quaity score.
     fn is_mean_greater_equal(&self, cutoff_value: &u8) -> Result<bool>;
-    
-    // /// Get the total percent of elements above the cutoff u8 and return a boolean if total above supplied percent
-    // fn is_passing_percent(&self, cutoff_value: &u8, cutoff_percent: &u8) -> Result<bool>;
-    // /// Returns the total percent of elements above the cutoff
-    // fn passing_percent(&self, cutoff_value: &u8) -> Result<usize>;
 }
 
 impl<T> CheckMeanAsRefSlice<T> for T where 
 T:AsRef<[u8]>
 {
+    /// Returns a boolean if the mean of the slice is greater than the cutoff value. Common use case is filter for mean quaity score.
     fn is_mean_greater_equal(&self, cutoff_value: &u8) -> Result<bool> {
+        PercentU8::try_from(cutoff_value)?;
         let mean = self.mean_u8()?;
+        if mean >= *cutoff_value {
+            Ok(true)
+        } else { Ok(false) }
+    }
+}
+
+
+pub trait CheckMeanAsMutSlice<T> {
+    /// Returns a boolean if the mean of the slice is greater than the cutoff value. Common use case is filter for mean quaity score.
+    fn mut_is_mean_greater_equal(&mut self, cutoff_value: &u8) -> Result<bool>;
+}
+
+impl<T> CheckMeanAsMutSlice<T> for T where 
+T:AsMut<[u8]>
+{
+    /// Returns a boolean if the mean of the slice is greater than the cutoff value. Common use case is filter for mean quaity score.
+    fn mut_is_mean_greater_equal(&mut self, cutoff_value: &u8) -> Result<bool> {
+        PercentU8::try_from(cutoff_value)?;
+        let mean = self.mut_mean_u8()?;
         if mean >= *cutoff_value {
             Ok(true)
         } else { Ok(false) }
@@ -150,31 +167,31 @@ T:AsRef<[u8]>
 
 pub trait CheckPercentAsRefSlice<T> {
     /// Returns a boolean if the total percent of elements above the cutoff u8 is above the supplied percent
-    fn is_passing_percent_greater_equal(&self, cutoff_value: &u8, cutoff_percent: &u8) -> Result<bool>;
+    fn is_percent_passing_greater_equal(&self, cutoff_value: &u8, cutoff_percent: &u8) -> Result<bool>;
     /// Returns the total percent of elements above the cutoff
-    fn passing_percent(&self, cutoff_value: &u8) -> Result<usize>;
+    fn percent_passing(&self, cutoff_value: &u8) -> Result<usize>;
 }
 
 impl<T> CheckPercentAsRefSlice<T> for T where
 T: AsRef<[u8]>
 {
     /// Get the total percent of elements above the cutoff u8 and return a boolean if total above supplied percent
-    fn is_passing_percent_greater_equal(&self, cutoff_value: &u8, cutoff_percent: &u8) -> Result<bool> {
-        if self.passing_percent(cutoff_value)? >= (*cutoff_percent).into() {
+    fn is_percent_passing_greater_equal(&self, cutoff_value: &u8, cutoff_percent: &u8) -> Result<bool> {
+        if self.percent_passing(cutoff_value)? >= (*cutoff_percent).into() {
             Ok(true)
         } else { Ok(false) }
     }
     /// Returns the total percent of elements above the cutoff
-    fn passing_percent(&self, cutoff_value: &u8) -> Result<usize> {
+    fn percent_passing(&self, cutoff_value: &u8) -> Result<usize> {
         percent_usize(self.count_greater_equal(cutoff_value)?, self.as_ref().len())
     }
 }
 
 pub trait CheckPercentAsMutSlice<T> {
     /// Returns a boolean if the total percent of elements above the cutoff u8 is above the supplied percent
-    fn mut_is_passing_percent_greater_equal(&mut self, cutoff_value: &u8, cutoff_percent: &u8) -> Result<bool>;
+    fn mut_is_percent_passing_greater_equal(&mut self, cutoff_value: &u8, cutoff_percent: &u8) -> Result<bool>;
     /// Returns the total percent of elements above the cutoff
-    fn mut_passing_percent(&mut self, cutoff_value: &u8) -> Result<usize>;
+    fn mut_percent_passing(&mut self, cutoff_value: &u8) -> Result<usize>;
 }
 
 impl<T> CheckPercentAsMutSlice<T> for T where
@@ -182,13 +199,13 @@ T: AsMut<[u8]>
 {
 
     /// Get the total percent of elements above the cutoff u8 and return a boolean if total above supplied percent
-    fn mut_is_passing_percent_greater_equal(&mut self, cutoff_value: &u8, cutoff_percent: &u8) -> Result<bool> {
-        if self.mut_passing_percent(cutoff_value)? >= (*cutoff_percent).into() {
+    fn mut_is_percent_passing_greater_equal(&mut self, cutoff_value: &u8, cutoff_percent: &u8) -> Result<bool> {
+        if self.mut_percent_passing(cutoff_value)? >= (*cutoff_percent).into() {
             Ok(true)
         } else { Ok(false) }
     }
     /// Returns the total percent of elements above the cutoff
-    fn mut_passing_percent(&mut self, cutoff_value: &u8) -> Result<usize> {
+    fn mut_percent_passing(&mut self, cutoff_value: &u8) -> Result<usize> {
         percent_usize(self.mut_count_greater_equal(cutoff_value)?, self.as_mut().len())
     }
 }

@@ -146,7 +146,6 @@ T:AsRef<[u8]>
     }
 }
 
-
 pub trait CheckMeanAsMutSlice<T> {
     /// Returns a boolean if the mean of the slice is greater than the cutoff value. Common use case is filter for mean quaity score.
     fn mut_is_mean_greater_equal(&mut self, cutoff_value: &u8) -> Result<bool>;

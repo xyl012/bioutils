@@ -45,8 +45,6 @@ T: AsRef<[u8]>
     }
 }
 
-
-
 pub trait ArithmeticAsMutSlice<T> {
     /// Returns the mean of u8s as u64
     fn mut_mean_u8(&mut self) -> Result<u8, TryFromIntError>;

@@ -205,6 +205,6 @@ T: AsMut<[u8]>
     }
     /// Returns the total percent of elements above the cutoff
     fn mut_percent_passing(&mut self, cutoff_value: &u8) -> Result<usize> {
-        percent_usize(self.mut_count_greater_equal(cutoff_value)?, self.as_mut().len())
+        percent_usize(self.mut_count_ge(cutoff_value), self.as_mut().len())
     }
 }

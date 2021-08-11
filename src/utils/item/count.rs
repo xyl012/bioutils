@@ -15,10 +15,9 @@
 // ! ``
 
 use super::*;
+use std::cmp::Ordering;
 
 pub trait CountAsRefSlice<T> {
-    /// Returns the number of iterators greater than criteria. Used for calculating percents/numerators
-    fn count_greater_equal(&self, criteria:&u8)-> Result<usize>;
 
     /// Returns the count of a specific u8
     fn count_u8(&self, x: &u8) -> Result<usize>;
@@ -32,12 +31,6 @@ impl<T> CountAsRefSlice<T> for T
 where
     T: AsRef<[u8]>,
 {
-
-    /// Returns the number of iterations greater than the criteria
-    fn count_greater_equal(&self, criteria: &u8)-> Result<usize> {
-        Ok(self.as_ref().iter().filter(|&s| s>=criteria).count())
-    }
-
     /// Returns the number of occurrences of the mode
     fn count_mode(&self) -> Option<u64> {
         let mut counts: BTreeMap<u8, u64> = BTreeMap::new();
@@ -54,9 +47,31 @@ where
 
 }
 
+pub trait CountAsRefOrdSlice<T> {
+    /// Returns the number of elements greater, equal, and less than the given value. Used for calculating percents/numerators
+    fn count_cmp(&self, value:&u8) -> BTreeMap<Ordering, u64>;
+}
+
+impl<T> CountAsRefOrdSlice<T> for T where
+T: AsRef<[u8]>,
+T: Ord,
+{
+    /// Returns the number of elements greater, equal, and less than the given value. Used for calculating percents/numerators
+    fn count_cmp(&self, value: &u8) -> BTreeMap<Ordering, u64> {
+        let mut btree: BTreeMap<Ordering, u64> = BTreeMap::new();
+        self.as_ref().iter().for_each(|u| match u.cmp(value) {
+            Ordering::Less => {let count = btree.entry(Ordering::Less).or_insert(0); *count +=1},
+            Ordering::Equal => {let count = btree.entry(Ordering::Equal).or_insert(0); *count +=1},
+            Ordering::Greater => {let count = btree.entry(Ordering::Greater).or_insert(0); *count +=1},
+        });
+        btree
+    }
+}
+
+
 pub trait CountAsMutSlice<T> {
     /// Returns the number of iterators greater than criteria. Used for calculating percents/numerators
-    fn mut_count_greater_equal(&mut self, criteria:&u8)-> Result<usize>;
+    fn mut_count_ordering(&mut self, criteria:&u8)-> Result<usize>;
 
     /// Returns the count of a specific u8
     fn mut_count_u8(&mut self, x: &u8) -> Result<usize>;
@@ -92,6 +107,20 @@ where
 
 }
 
+// fn solve_quadratic(a: f32, b: f32, c: f32) -> QuadraticResult {
+//     let delta = b * b - 4.0 * a * c;
+//     match delta.partial_cmp(&0.0).expect("I don't like NaNs") {
+//         Ordering::Less => QuadraticResult::None,
+//         Ordering::Greater => QuadraticResult::TwoRoots(0.0, 1.0),
+//         Ordering::Equal => QuadraticResult::OneRoot(0.0),
+//     }
+// }
+
+// return match delta {
+//     d if d < 0 => QuadraticResult::None,
+//     d if d > 0 => QuadraticResult::TwoRoots(0.0, 1.0),
+//     _   => QuadraticResult::OneRoot(0.0),
+// }
 
 // pub trait CountAsMutSlice<T> {
 //     /// Returns the percent (0-100) of the quality u8 in bases (rounded) above the quality score supplied. Should be used when mapq scores are required.

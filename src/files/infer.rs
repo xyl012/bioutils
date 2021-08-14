@@ -1,10 +1,4 @@
-
-
-use std::path::Path;
-
-
-
-
+use super::*;
 
 /// Check whether is a gz file type with the Infer crate and return a boolean
 pub fn is_gz(path: &Path) -> bool {

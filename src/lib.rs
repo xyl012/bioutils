@@ -7,6 +7,8 @@ use core::num::TryFromIntError;
 
 use std::ops::RangeInclusive;
 use std::iter::FromIterator;
+use std::cmp::Ordering;
+use std::path::Path;
 
 use crate::charsets::bioutils::*;
 use crate::charsets::iupac::*;

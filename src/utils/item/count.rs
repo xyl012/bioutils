@@ -15,7 +15,9 @@
 // ! ``
 
 use super::*;
-use std::cmp::Ordering;
+
+use crate::utils::item::arithmetic::*;
+
 
 pub trait CountAsRefSlice<T> {
 
@@ -43,44 +45,6 @@ where
     /// Returns the count of a specific u8
     fn count_u8(&self, x: &u8) -> Result<usize> {
         Ok(self.as_ref().iter().filter(|&q| q==x).count())
-    }
-
-}
-
-pub trait CountAsRefOrdSlice<T> {
-    /// Returns the number of elements greater, equal, and less than the given value as an Ordering enum (std::cmp::Ordering).
-    fn count_cmp(&self, value:&u8) -> BTreeMap<Ordering, u64>;
-    /// Returns the number of elements greater or equal to the given value.
-    fn count_ge(&self, value:&u8) -> u64;
-    /// Returns the number of elements less than or equal to the given value.
-    fn count_le(&self, value:&u8) -> u64;
-}
-
-impl<T> CountAsRefOrdSlice<T> for T where
-T: AsRef<[u8]>,
-T: Ord,
-{
-    /// Returns the number of elements greater, equal, and less than the given value. Used for calculating percents/numerators
-    fn count_cmp(&self, value: &u8) -> BTreeMap<Ordering, u64> {
-        let mut btree: BTreeMap<Ordering, u64> = BTreeMap::new();
-        self.as_ref().iter().for_each(|u| match u.cmp(value) {
-            Ordering::Less => {let count = btree.entry(Ordering::Less).or_insert(0); *count +=1},
-            Ordering::Equal => {let count = btree.entry(Ordering::Equal).or_insert(0); *count +=1},
-            Ordering::Greater => {let count = btree.entry(Ordering::Greater).or_insert(0); *count +=1},
-        });
-        btree
-    }
-    /// Returns the number of elements greater or equal to the given value.
-    fn count_ge(&self, value:&u8) -> u64 {
-        let mut count = 0u64;
-        self.as_ref().iter().for_each(|u| if u.cmp(value).is_ge() {count += 1});
-        count
-    }
-    /// Returns the number of elements less than or equal to the given value.
-    fn count_le(&self, value:&u8) -> u64 {
-        let mut count = 0u64;
-        self.as_ref().iter().for_each(|u| if u.cmp(value).is_le() {count += 1});
-        count
     }
 }
 
@@ -114,7 +78,91 @@ where
 
 }
 
-pub trait CountAsMutOrdSlice<T> {
+pub trait CmpAsRefOrdSlice<T> {
+    /// Returns the number of elements greater, equal, and less than the given value as an Ordering enum (std::cmp::Ordering).
+    fn count_cmp(&self, value:&u8) -> BTreeMap<Ordering, u64>;
+    /// Returns the number of elements greater or equal to the given value.
+    fn count_ge(&self, value:&u8) -> u64;
+    /// Returns the number of elements less than or equal to the given value.
+    fn count_le(&self, value:&u8) -> u64;
+    /// Returns an Ordering if the mean of the slice is greater, equal, or less than the given value.
+    fn mean_cmp(&self, value: &u8) -> Result<Ordering>;
+    /// Returns an Ordering if the percent of the slice is greater, equal, or less than the given value.
+    fn percent_cmp(&self, value: &u8, ord: &Ordering) -> Result<Ordering>;
+}
+
+impl<T> CmpAsRefOrdSlice<T> for T where
+T: AsRef<[u8]>,
+T: Ord,
+{
+    /// Returns the number of elements greater, equal, and less than the given value. Used for calculating percents/numerators
+    fn count_cmp(&self, value: &u8) -> BTreeMap<Ordering, u64> {
+        let mut btree: BTreeMap<Ordering, u64> = BTreeMap::new();
+        self.as_ref().iter().for_each(|u| match u.cmp(value) {
+            Ordering::Less => {let count = btree.entry(Ordering::Less).or_insert(0); *count +=1},
+            Ordering::Equal => {let count = btree.entry(Ordering::Equal).or_insert(0); *count +=1},
+            Ordering::Greater => {let count = btree.entry(Ordering::Greater).or_insert(0); *count +=1},
+        });
+        btree
+    }
+    /// Returns the number of elements greater or equal to the given value.
+    fn count_ge(&self, value:&u8) -> u64 {
+        let mut count = 0u64;
+        self.as_ref().iter().for_each(|u| if u.cmp(value).is_ge() {count += 1});
+        count
+    }
+    /// Returns the number of elements less than or equal to the given value.
+    fn count_le(&self, value:&u8) -> u64 {
+        let mut count = 0u64;
+        self.as_ref().iter().for_each(|u| if u.cmp(value).is_le() {count += 1});
+        count
+    }
+    /// Returns an Ordering if the mean of the slice is greater, equal, or less than the given value.
+    fn mean_cmp(&self, value: &u8) -> Result<Ordering> {
+        match self.mean_u8()?.cmp(value) {
+            Ordering::Greater => Ok(Ordering::Greater),
+            Ordering::Equal => Ok(Ordering::Equal),
+            Ordering::Less => Ok(Ordering::Less),
+            _ => bail!("Comparison error"),
+        }
+    }
+    /// Returns an Ordering if the mean of the slice is greater, equal, or less than the given value.
+    fn percent_cmp(&self, value: &u8) -> Result<Ordering> {
+        match self.percent_u8()?.cmp(value) {
+            Ordering::Greater => Ok(Ordering::Greater),
+            Ordering::Equal => Ok(Ordering::Equal),
+            Ordering::Less => Ok(Ordering::Less),
+            _ => bail!("Comparison error"),
+        }
+    }
+}
+
+
+pub trait PercentAsRefOrdSlice<T> {
+    /// Returns a boolean if the total percent of elements above the cutoff u8 is above the supplied percent
+    fn is_percent_ge(&self, cutoff_value: &u8, cutoff_percent: &usize) -> Result<bool>;
+    /// Returns the total percent of elements above the cutoff
+    fn percent_ge(&self, cutoff_value: &u8) -> Result<usize>;
+}
+
+impl<T> PercentAsRefOrdSlice<T> for T where
+T: AsRef<[u8]>,
+T: Ord,
+{
+
+    /// Get the total percent of elements above the cutoff u8 and return a boolean if total above supplied percent
+    fn is_percent_ge(&self, cutoff_value: &u8, cutoff_percent: &usize) -> Result<bool> {
+        if self.percent_ge(cutoff_value)? >= (*cutoff_percent) { //.into()
+            Ok(true)
+        } else { Ok(false) }
+    }
+    /// Returns the total percent of elements greater than or equal to the cutoff
+    fn percent_ge(&self, cutoff_value: &u8) -> Result<usize> {
+        percent_usize(usize::try_from(self.count_ge(cutoff_value))?, usize::try_from(self.as_ref().len())?)
+    }
+}
+
+pub trait CmpAsMutOrdSlice<T> {
     /// Returns the number of elements greater, equal, and less than the given value. Used for calculating percents/numerators
     fn mut_count_cmp(&mut self, value:&u8) -> BTreeMap<Ordering, u64>;
     /// Returns the number of elements greater or equal to the given value.
@@ -123,7 +171,7 @@ pub trait CountAsMutOrdSlice<T> {
     fn mut_count_le(&mut self, value:&u8) -> u64;
 }
 
-impl<T> CountAsMutOrdSlice<T> for T where
+impl<T> CmpAsMutOrdSlice<T> for T where
 T: AsMut<[u8]>,
 T: Ord,
 {
@@ -151,20 +199,6 @@ T: Ord,
     }
 }
 
-// fn solve_quadratic(a: f32, b: f32, c: f32) -> QuadraticResult {
-//     let delta = b * b - 4.0 * a * c;
-//     match delta.partial_cmp(&0.0).expect("I don't like NaNs") {
-//         Ordering::Less => QuadraticResult::None,
-//         Ordering::Greater => QuadraticResult::TwoRoots(0.0, 1.0),
-//         Ordering::Equal => QuadraticResult::OneRoot(0.0),
-//     }
-// }
-
-// return match delta {
-//     d if d < 0 => QuadraticResult::None,
-//     d if d > 0 => QuadraticResult::TwoRoots(0.0, 1.0),
-//     _   => QuadraticResult::OneRoot(0.0),
-// }
 
 // pub trait CountAsMutSlice<T> {
 //     /// Returns the percent (0-100) of the quality u8 in bases (rounded) above the quality score supplied. Should be used when mapq scores are required.

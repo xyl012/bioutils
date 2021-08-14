@@ -3,6 +3,8 @@ use super::*;
 #[derive(Debug, PartialEq, Hash)]
 pub struct PercentU8(u8);
 #[derive(Debug, PartialEq, Hash)]
+pub struct PercentU64(u64);
+#[derive(Debug, PartialEq, Hash)]
 pub struct PercentUsize(usize);
 #[derive(Debug, PartialEq, Hash)]
 pub struct Phred33U8(u8);
@@ -32,6 +34,33 @@ impl<'a> TryFrom<&'a mut u8> for PercentU8 {
     fn try_from(value: &'a mut u8) -> Result<PercentU8> {
         if PERCENT.contains(value) {
             Ok(PercentU8(*value))
+        } else {bail!("Not a valid PERCENT")}
+    }
+}
+
+impl TryFrom<u64> for PercentU64 {
+    type Error = anyhow::Error;
+    fn try_from(value: u64) -> Result<PercentU64> {
+        if PERCENT_U64.contains(&value) {
+            Ok(PercentU64(value))
+        } else {bail!("Not a valid PERCENT")}
+    }
+}
+
+impl<'a> TryFrom<&'a u64> for PercentU64 {
+    type Error = anyhow::Error;
+    fn try_from(value: &'a u64) -> Result<PercentU64> {
+        if PERCENT_U64.contains(value) {
+            Ok(PercentU64(*value))
+        } else {bail!("Not a valid PERCENT")}
+    }
+}
+
+impl<'a> TryFrom<&'a mut u64> for PercentU64 {
+    type Error = anyhow::Error;
+    fn try_from(value: &'a mut u64) -> Result<PercentU64> {
+        if PERCENT_U64.contains(value) {
+            Ok(PercentU64(*value))
         } else {bail!("Not a valid PERCENT")}
     }
 }

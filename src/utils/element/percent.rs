@@ -6,12 +6,12 @@ use super::tryfrom::*;
 use anyhow::{Result, Error, bail};
 
 /// Intakes self as u8 and denominator as u8, returns percent as a u8. 
-pub trait PercentAsRefU8<T> {
+pub trait PercentAsRefU8 {
     /// Returns the percent of u8s as u8
     fn percent_u8(&self, denominator: &u8) -> Result<u8>;
 }
 
-impl<T> PercentAsRefU8<T> for u8
+impl PercentAsRefU8 for u8
 {
     /// Returns the percent of u8s as u8
     fn percent_u8(&self, denominator: &u8) -> Result<u8> {
@@ -23,12 +23,12 @@ impl<T> PercentAsRefU8<T> for u8
 }
 
 /// Intakes self as u8 and denominator as usize, returns percent as a usize. 
-pub trait PercentAsRefUsize<T> {
+pub trait PercentAsRefUsize {
     /// Returns the percent of u8 and usize as usize
     fn percent_usize(&self, denominator: &usize) -> Result<usize>;
 }
 
-impl<T> PercentAsRefUsize<T> for u8
+impl PercentAsRefUsize for u8
 {
     /// Returns the percent of u8 and usize as usize
     fn percent_usize(&self, denominator: &usize) -> Result<usize> {
@@ -40,12 +40,12 @@ impl<T> PercentAsRefUsize<T> for u8
 }
 
 /// Intakes self as u8 and denominator as u64, returns percent as a u64.
-pub trait PercentAsRefU64<T> {
+pub trait PercentAsRefU64 {
     /// Returns the percent of u8 and u64 as u64
     fn percent_u64(&self, denominator: &u64) -> Result<u64>;
 }
 
-impl<T> PercentAsRefU64<T> for u8
+impl PercentAsRefU64 for u8
 {
     /// Returns the percent of u8 and u64 as u64
     fn percent_u64(&self, denominator: &u64) -> Result<u64> {
@@ -56,7 +56,7 @@ impl<T> PercentAsRefU64<T> for u8
     }}
 }
 
-impl<T> PercentAsRefU64<T> for u64
+impl PercentAsRefU64 for u64
 {
     /// Returns the percent of u64 and u64 as u64
     fn percent_u64(&self, denominator: &u64) -> Result<u64> {

@@ -141,10 +141,14 @@ T: Ord,
 pub trait PercentAsRefOrdSlice<T> {
     /// Counts the elements greater, equal, and less than the value and returns a btree where the values are a percentage of the length
     fn percent_cmp(&self, value: &u8) -> Result<BTreeMap<Ordering, u64>>;
-    // /// Returns a boolean if the total percent of elements above the cutoff u8 is above the supplied percent
-    // fn is_percent_ge(&self, cutoff_value: &u8, cutoff_percent: &usize) -> Result<bool>;
-    // /// Returns the total percent of elements above the cutoff
-    // fn percent_ge(&self, cutoff_value: &u8) -> Result<usize>;
+    /// Returns a boolean if the total percent of elements above the cutoff u8 is above the supplied percent
+    fn is_percent_ge(&self, cutoff_value: &u8, cutoff_percent: &usize) -> Result<bool>;
+    /// Returns the total percent of elements above the cutoff
+    fn percent_ge(&self, cutoff_value: &u8) -> Result<usize>;
+    /// Returns a boolean if the total percent of elements above the cutoff u8 is above the supplied percent
+    fn is_percent_le(&self, cutoff_value: &u8, cutoff_percent: &usize) -> Result<bool>;
+    /// Returns the total percent of elements above the cutoff
+    fn percent_le(&self, cutoff_value: &u8) -> Result<usize>;
 }
 
 impl<T> PercentAsRefOrdSlice<T> for T where
@@ -155,21 +159,33 @@ T: Ord,
         let mut percent_btree: BTreeMap<Ordering, u64> = BTreeMap::new();
         let length = u64::try_from(self.as_ref().len())?;
         for (k, v) in &self.count_cmp(value) {
-            percent_btree.insert(*k, percent_u64(v, &length)?);
+            percent_btree.insert(*k, v.percent_u64(&length)?);
         };
         Ok(percent_btree)
     }
 
-    // /// Get the total percent of elements above the cutoff u8 and return a boolean if total above supplied percent
-    // fn is_percent_ge(&self, cutoff_value: &u8, cutoff_percent: &usize) -> Result<bool> {
-    //     if self.percent_ge(cutoff_value)? >= (*cutoff_percent) { //.into()
-    //         Ok(true)
-    //     } else { Ok(false) }
-    // }
-    // /// Returns the total percent of elements greater than or equal to the cutoff
-    // fn percent_ge(&self, cutoff_value: &u8) -> Result<usize> {
-    //     percent_usize(usize::try_from(self.count_ge(cutoff_value))?, usize::try_from(self.as_ref().len())?)
-    // }
+    /// Get the total percent of elements above the cutoff u8 and return a boolean if total above supplied percent
+    fn is_percent_ge(&self, cutoff_value: &u8, cutoff_percent: &usize) -> Result<bool> {
+        if self.percent_ge(cutoff_value)? >= (*cutoff_percent) { //.into()
+            Ok(true)
+        } else { Ok(false) }
+    }
+
+    /// Returns the total percent of elements greater than or equal to the cutoff
+    fn percent_ge(&self, cutoff_value: &u8) -> Result<usize> {
+        percent_usize(&usize::try_from(self.count_ge(cutoff_value))?, &usize::try_from(self.as_ref().len())?)
+    }
+    /// Get the total percent of elements above the cutoff u8 and return a boolean if total above supplied percent
+    fn is_percent_le(&self, cutoff_value: &u8, cutoff_percent: &usize) -> Result<bool> {
+        if self.percent_le(cutoff_value)? <= (*cutoff_percent) { //.into()
+            Ok(true)
+        } else { Ok(false) }
+    }
+
+    /// Returns the total percent of elements greater than or equal to the cutoff
+    fn percent_le(&self, cutoff_value: &u8) -> Result<usize> {
+        percent_usize(&usize::try_from(self.count_le(cutoff_value))?, &usize::try_from(self.as_ref().len())?)
+    }
 }
 
 pub trait CmpAsMutOrdSlice<T> {

@@ -198,49 +198,84 @@ T: AsMut<[u8]>,
 }
 
 pub trait RandomReplaceIntoIteratorSlice<T> {
-    fn random_replace_n(&self, xna: &str, rng: ThreadRng) -> Vec<u8>  ;
-    fn random_replace_gap(&self, xna: &str, rng: ThreadRng) -> Vec<u8> ;
+    /// Random all other than ACG(T/U)acg(t/u) with pseudorandom nucleotides ACG(T/U). Should be used last after other functions or for cleanup of unknown characters.
+    fn vec_random_replace(&self, xna: &str, rng: ThreadRng) -> Vec<u8> ;
+    /// Fill {N,n} with pseudorandom nucleotides ACUG if xna is "RNA" or ACTG for all other xna.
+    fn vec_random_replace_n(&self, xna: &str, rng: ThreadRng) -> Vec<u8> ;
+    /// Fill gaps {.,-} with pseudorandom nucleotides ACUG if xna is "RNA" or ACTG for all other xna.
+    fn vec_random_replace_gap(&self, xna: &str, rng: ThreadRng) -> Vec<u8> ;
 }
 
 impl<T> RandomReplaceIntoIteratorSlice<T> for T
 where
     T: IntoIterator<Item = u8>,
+    T: Copy,
 {
-
-    /// Fill {N,n} with pseudorandom nucleotides ACUG if xna is "RNA" or ACTG for all other xna.
-    fn random_replace_n(&self, xna: &str, mut rng: ThreadRng) -> Vec<u8> {
+    /// Random all other than ACG(T/U)acg(t/u) with pseudorandom nucleotides ACG(T/U). Should be used last after other functions or for cleanup of unknown characters.
+    fn vec_random_replace(&self, xna: &str, mut rng: ThreadRng) -> Vec<u8> {
         if xna == "RNA" {
             self.into_iter()
-                .map(|ch| match ch {
-                    b'N' => *RNA.choose(&mut rng).expect("Could not choose base"),
-                    b'n' => *RNA_LOWERCASE.choose(&mut rng).expect("Could not choose base"),
-                    _ => ch,
+                .map(|base| match base {
+                    b'A' => b'A',
+                    b'a' => b'a',
+                    b'C' => b'C',
+                    b'c' => b'c',
+                    b'G' => b'G',
+                    b'g' => b'g',
+                    b'U' => b'U',
+                    b'u' => b'u',
+                    _ => *RNA.choose(&mut rng).expect("Could not choose base"),
                 }).collect::<Vec<u8>>()
         } else {
             self.into_iter()
-            .map(|ch| match ch {
+            .map(|base| match base {
+                b'A' => b'A',
+                b'a' => b'a',
+                b'C' => b'C',
+                b'c' => b'c',
+                b'G' => b'G',
+                b'g' => b'g',
+                b'U' => b'U',
+                b'u' => b'u',
+                _ => *DNA.choose(&mut rng).expect("Could not choose base"),
+            }).collect::<Vec<u8>>()
+        }
+    }
+
+    /// Fill {N,n} with pseudorandom nucleotides ACUG if xna is "RNA" or ACTG for all other xna.
+    fn vec_random_replace_n(&self, xna: &str, mut rng: ThreadRng) -> Vec<u8> {
+        if xna == "RNA" {
+            self.into_iter()
+                .map(|base| match base {
+                    b'N' => *RNA.choose(&mut rng).expect("Could not choose base"),
+                    b'n' => *RNA_LOWERCASE.choose(&mut rng).expect("Could not choose base"),
+                    _ => base,
+                }).collect::<Vec<u8>>()
+        } else {
+            self.into_iter()
+            .map(|base| match base {
                 b'N' => *DNA.choose(&mut rng).expect("Could not choose base"),
                 b'n' => *DNA_LOWERCASE.choose(&mut rng).expect("Could not choose base"),
-                _ => ch,
+                _ => base,
             }).collect::<Vec<u8>>()
         }
     }
 
     /// Fill gaps {.,-} with pseudorandom nucleotides ACUG if xna is "RNA" or ACTG for all other xna.
-    fn random_replace_gap(&self, xna: &str, mut rng: ThreadRng) -> Vec<u8> {
+    fn vec_random_replace_gap(&self, xna: &str, mut rng: ThreadRng) -> Vec<u8> {
         if xna == "RNA" {
             self.into_iter()
-                .map(|ch| match ch {
+                .map(|base| match base {
                     b'.' => *RNA.choose(&mut rng).expect("Could not choose base"),
                     b'-' => *RNA.choose(&mut rng).expect("Could not choose base"),
-                    _ => ch,
+                    _ => base,
                 }).collect::<Vec<u8>>()
         } else {
             self.into_iter()
-                .map(|ch| match ch {
+                .map(|base| match base {
                     b'.' => *DNA.choose(&mut rng).expect("Could not choose base"),
                     b'-' => *DNA.choose(&mut rng).expect("Could not choose base"),
-                    _ => ch,
+                    _ => base,
                 }).collect::<Vec<u8>>()
         }
     }

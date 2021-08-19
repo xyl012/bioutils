@@ -2,8 +2,10 @@ use super::*;
 
 pub mod check;
 pub mod new;
-pub mod mutate;
+pub mod replace;
 
 pub mod count;
 pub mod arithmetic;
-pub mod quality;
+
+pub mod complement;
+pub mod find;

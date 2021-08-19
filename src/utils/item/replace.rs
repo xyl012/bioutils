@@ -13,35 +13,33 @@
 //! let mut rng1 = rand::thread_rng(); //create a random number generator
 //! let mut rng2 = rand::thread_rng(); //create a random number generator
 //! let mut seq = b"acugnnnqqq".to_owned(); // or by *: let mut seq = *b"acugnnnqqq";
-//! let mut seq = seq.mut_random_replace_non_basic("RNA", rng1).mut_random_replace_n("RNA", rng2).mut_to_upper_basic();
+//! let mut seq = seq.mut_clean_non_basic("RNA", rng1).mut_clean_n("RNA", rng2).mut_to_upper_basic();
 //! let printseq = str::from_utf8(seq).expect("Could not choose base"); // turn into utf8
 //! println!("{:?}", printseq);
 //! ```
 
 use super::*;
-use super::check::*;
-use crate::utils::item::quality::*;
 
-pub trait RandomReplaceAsMutSlice {
+pub trait CleanAsMutSlice {
     /// Random all other than ACG(T/U)acg(t/u) with pseudorandom nucleotides ACG(T/U). Should be used last after other functions or for cleanup of unknown characters.
-    fn mut_random_replace(&mut self, xna: &str, rng: ThreadRng) -> Result<&mut Self>;
+    fn mut_xna_clean(&mut self, xna: &str, rng: ThreadRng) -> Result<&mut Self>;
     /// Fill {N,n} with pseudorandom nucleotides ACUG if xna is "RNA" or ACTG for all other xna.
-    fn mut_random_replace_n(&mut self, xna: &str, rng: ThreadRng) -> Result<&mut Self>;
+    fn mut_xna_clean_n(&mut self, xna: &str, rng: ThreadRng) -> Result<&mut Self>;
     /// Fill gaps {.,-} with pseudorandom nucleotides ACUG if xna is "RNA" or ACTG for all other xna.
-    fn mut_random_replace_gap(&mut self, xna: &str, rng: ThreadRng) -> Result<&mut Self>;
+    fn mut_xna_clean_gap(&mut self, xna: &str, rng: ThreadRng) -> Result<&mut Self>;
     /// Specifically make actgu into ACTGU
     fn mut_to_upper_basic(&mut self) -> Result<&mut Self>;
     /// Specifically make ACTGU into actgu
     fn mut_to_lower_basic(&mut self) -> Result<&mut Self>;
     /// Pseudorandom nucleotide randomments within IUPAC specifications, e.g. R: either A or G. Case specific, r: either a or g.
-    fn mut_random_replace_iupac(&mut self, xna: &str, rng: ThreadRng) -> Result<&mut Self>;
+    fn mut_xna_clean_iupac(&mut self, xna: &str, rng: ThreadRng) -> Result<&mut Self>;
 }
 
-impl<T> RandomReplaceAsMutSlice for T where 
+impl<T> CleanAsMutSlice for T where 
 T: AsMut<[u8]>,
 {
     /// random all other than ACGTUactgu with pseudorandom nucleotides ACTGU. Should be used last after other functions or for cleanup of unknown characters.
-    fn mut_random_replace(&mut self, xna: &str, mut rng: ThreadRng) -> Result<&mut Self> {
+    fn mut_xna_clean(&mut self, xna: &str, mut rng: ThreadRng) -> Result<&mut Self> {
         if xna == "RNA" {
             self.as_mut().iter_mut().for_each(|c| match c {
                     b'A' => {},
@@ -72,7 +70,7 @@ T: AsMut<[u8]>,
     }
 
     /// Fill {N,n} with pseudorandom nucleotides ACUG if xna is "RNA" or ACTG for all other xna.
-    fn mut_random_replace_n(&mut self, xna: &str, mut rng: ThreadRng) -> Result<&mut Self> {
+    fn mut_xna_clean_n(&mut self, xna: &str, mut rng: ThreadRng) -> Result<&mut Self> {
         if xna == "RNA" {
             self.as_mut().iter_mut().for_each(|c| match c {
                 b'N' => *c = *RNA.choose(&mut rng).expect("Could not choose base"),
@@ -90,7 +88,7 @@ T: AsMut<[u8]>,
     }
 
     /// Fill gaps {.,-} with pseudorandom nucleotides ACUG if xna is "RNA" or ACTG for all other xna.
-    fn mut_random_replace_gap(&mut self, xna: &str, mut rng: ThreadRng) -> Result<&mut Self> {
+    fn mut_xna_clean_gap(&mut self, xna: &str, mut rng: ThreadRng) -> Result<&mut Self> {
         if xna == "RNA" {
             self.as_mut().iter_mut().for_each(|c| match c {
                     b'.' => *c = *RNA.choose(&mut rng).expect("Could not choose base"),
@@ -143,7 +141,7 @@ T: AsMut<[u8]>,
         Ok(self)
     }
     /// Pseudorandom nucleotide randomments within IUPAC specifications, e.g. R: either A or G. Case specific, r: either a or g.
-    fn mut_random_replace_iupac(&mut self, xna: &str, mut rng: ThreadRng) -> Result<&mut Self> {
+    fn mut_xna_clean_iupac(&mut self, xna: &str, mut rng: ThreadRng) -> Result<&mut Self> {
         if xna == "RNA" {
             self.as_mut().iter_mut().for_each(|c| match c {
                     b'R' => *c = *R_BASES.choose(&mut rng).expect("Could not choose base"),
@@ -197,22 +195,22 @@ T: AsMut<[u8]>,
     }
 }
 
-pub trait RandomReplaceIntoIteratorSlice<T> {
+pub trait CleanIntoIteratorSlice<T> {
     /// Random all other than ACG(T/U)acg(t/u) with pseudorandom nucleotides ACG(T/U). Should be used last after other functions or for cleanup of unknown characters.
-    fn vec_random_replace(&self, xna: &str, rng: ThreadRng) -> Vec<u8> ;
+    fn vec_xna_clean(&self, xna: &str, rng: ThreadRng) -> Vec<u8> ;
     /// Fill {N,n} with pseudorandom nucleotides ACUG if xna is "RNA" or ACTG for all other xna.
-    fn vec_random_replace_n(&self, xna: &str, rng: ThreadRng) -> Vec<u8> ;
+    fn vec_xna_clean_n(&self, xna: &str, rng: ThreadRng) -> Vec<u8> ;
     /// Fill gaps {.,-} with pseudorandom nucleotides ACUG if xna is "RNA" or ACTG for all other xna.
-    fn vec_random_replace_gap(&self, xna: &str, rng: ThreadRng) -> Vec<u8> ;
+    fn vec_xna_clean_gap(&self, xna: &str, rng: ThreadRng) -> Vec<u8> ;
 }
 
-impl<T> RandomReplaceIntoIteratorSlice<T> for T
+impl<T> CleanIntoIteratorSlice<T> for T
 where
     T: IntoIterator<Item = u8>,
     T: Copy,
 {
     /// Random all other than ACG(T/U)acg(t/u) with pseudorandom nucleotides ACG(T/U). Should be used last after other functions or for cleanup of unknown characters.
-    fn vec_random_replace(&self, xna: &str, mut rng: ThreadRng) -> Vec<u8> {
+    fn vec_xna_clean(&self, xna: &str, mut rng: ThreadRng) -> Vec<u8> {
         if xna == "RNA" {
             self.into_iter()
                 .map(|base| match base {
@@ -243,7 +241,7 @@ where
     }
 
     /// Fill {N,n} with pseudorandom nucleotides ACUG if xna is "RNA" or ACTG for all other xna.
-    fn vec_random_replace_n(&self, xna: &str, mut rng: ThreadRng) -> Vec<u8> {
+    fn vec_xna_clean_n(&self, xna: &str, mut rng: ThreadRng) -> Vec<u8> {
         if xna == "RNA" {
             self.into_iter()
                 .map(|base| match base {
@@ -262,7 +260,7 @@ where
     }
 
     /// Fill gaps {.,-} with pseudorandom nucleotides ACUG if xna is "RNA" or ACTG for all other xna.
-    fn vec_random_replace_gap(&self, xna: &str, mut rng: ThreadRng) -> Vec<u8> {
+    fn vec_xna_clean_gap(&self, xna: &str, mut rng: ThreadRng) -> Vec<u8> {
         if xna == "RNA" {
             self.into_iter()
                 .map(|base| match base {

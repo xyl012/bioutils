@@ -1,39 +1,4 @@
-
-//! use bioutils::utils::get::item::all_positions;
-//! let dna = b"ACTGCGACG";
-//! let target: u8 = 65;
-//! let matching = all_positions(dna, |x| x == &&target);
-//! println!("{:?}", dna);
-//! println!("{:?}", target);
-//! println!("{:?}", matching) // Returns the 0 based index;
 use super::*;
-
-pub trait GetItemU8<T> {
-    /// Returns the reverse nucleotide complement
-    fn reverse_nucleotide_complement(&self) -> Result<Vec<u8>>;
-    /// Returns the nucleotide complement
-    fn nucleotide_complement(&self) -> Result<Vec<u8>>;
-}
-
-impl<T> GetItemU8<T> for T
-where
-    T: AsRef<[u8]>,
-{
-    /// Returns the reverse nucleotide complement
-    fn reverse_nucleotide_complement(&self) -> Option<Vec<u8>> {
-        self.as_ref().iter()
-            .rev()
-            .map(|nt| NUCLEOTIDE_COMPLEMENT_HASHMAP_U8.get(nt).to_owned())
-            .collect()
-    }
-    /// Returns the nucleotide complement
-    fn nucleotide_complement(&self) -> Result<Vec<u8>> {
-        self.as_ref().iter()
-            .map(|nt| NUCLEOTIDE_COMPLEMENT_HASHMAP_U8.get(nt).to_owned())
-            .collect()
-    }
-}
-
 
 pub trait Get<T> {
     /// Returns the index of the subsequence if present in self

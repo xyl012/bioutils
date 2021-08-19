@@ -1,3 +1,67 @@
+
+// pub trait CountAsMutSlice<T> {
+//     /// Returns the percent (0-100) of the quality u8 in bases (rounded) above the quality score supplied. Should be used when mapq scores are required.
+//     fn mut_quality_percent_passing(&mut self, quality_score: &u8) -> usize;
+
+//     /// Returns the number of iterators greater than criteria. Used for calculating percents/numerators
+//     fn mut_count_greater_equal(&mut self, criteria:&u8)-> usize;
+
+//     /// Returns the number of occurrences of the mode
+//     fn mut_count_mode(&mut self) -> usize;
+
+//     /// Returns the mean of u8s
+//     fn mut_mean(&mut self) -> u64;
+
+//     /// Returns the mode
+//     fn mut_mode(&mut self) -> Option<&u8>;
+
+//     /// Returns the count of a specific u8
+//     fn mut_count_xu8(&mut self, x: &u8) -> usize;
+
+// }
+
+// impl<T> CountAsMutSlice<T> for T
+// where
+// T: AsMut<[u8]>,
+// {
+//     /// Checks each quality u8 and returns the percent above (passing) the given u8
+//     fn mut_quality_percent_passing(&mut self, quality_score: &u8)-> usize {
+//         percent_usize(self.mut_count_greater_equal(quality_score)?, self.as_mut().len())
+//     }
+
+//     /// Returns the number of iterations greater than the criteria
+//     fn mut_count_greater_equal(&mut self, criteria: &u8)-> Result<usize> {
+//         self.as_mut().iter().filter(|&s| s>=criteria).count()
+//     }
+
+//     /// Returns the number of occurrences of the mode
+//     fn mut_count_mode(&mut self) -> usize {
+//         let mode = *self.mut_mode().unwrap();
+//         self.as_mut().iter().filter(|&q| q==&mode).count()
+//     }
+
+//     /// Returns the mean of u8s as u64 rounded
+//     fn mut_mean(&mut self) -> u64 {
+//         self.as_mut().iter().map(|x| *x as u64).sum::<u64>() / self.as_mut().len() as u64
+//     }
+
+//     /// Returns the mode of u8s
+//     fn mut_mode(&mut self)-> Option<&u8> {
+//         let mut counts = HashMap::new();
+//         self.as_mut().iter().max_by_key(|&s| {
+//             let count = counts.entry(s).or_insert(0);
+//             *count += 1; *count})
+//     }
+    
+//     /// Returns the count of a specific u8
+//     fn mut_count_xu8(&mut self, x: &u8) -> usize {
+//         self.as_mut().iter().filter(|&q| q==x).count()
+//     }
+
+// }
+
+
+
 // /// Trait for checking specific criteria for a u8 of biological file origin. Types include sequence (nucleotide/amino acid) and quality (phred33/64/solexa, phred33 being all printable ascii).
 // /// These should be used with closely with the is_ascii/make/to_ascii_lowercase/make/to_ascii_uppercase functions in standard rust.
 // /// Additional functionality for common checks including has_n, has_gap, is_homopolymer, is_palindrome, etc.

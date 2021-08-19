@@ -3,7 +3,6 @@
 
 use super::*;
 use super::tryfrom::*;
-use anyhow::{Result, Error, bail};
 
 /// Intakes self as u8 and denominator as u8, returns percent as a u8. 
 pub trait PercentAsRefU8 {

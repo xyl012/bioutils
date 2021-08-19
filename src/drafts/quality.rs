@@ -1,10 +1,6 @@
 // use super::*;
 // use crate::utils::element::percent::*;
-// use crate::utils::item::percent::*;
-// use crate::utils::element::quality::*;
-// // use crate::utils::item::quality::*;
 // use crate::utils::item::count::*;
-// use crate::utils::item::recode_quality::*;
 // use crate::utils::item::arithmetic::*;
 
 // pub trait QualityAsRefSlice<T> {
@@ -33,11 +29,13 @@
 //     //     ::try_from(cutoff_value)?;
 //     //     self.is_passing_percent(cutoff_value, cutoff_percent)
 //     // }
-//     /// Checks the slice mean is greater than or equal to the given value.
-//     fn is_quality_slice_passing_mean(&self, cutoff_value: &u8) -> Result<bool> {
-//         self.mean_u8();
-//         Ok(true)
-//     }
+
+//     // /// Checks the slice mean is greater than or equal to the given value.
+//     // fn is_quality_slice_passing_mean(&self, cutoff_value: &u8) -> Result<bool> {
+//     //     self.mean_u8();
+//     //     Ok(true)
+//     // }
+
 //     // /// Checks the encoded sequence has a quality score above greater than or equal to the supplied mean. Decodes from raw read from fastq file with phred33 encoding. Commonly done per base in fastqc.
 //     // fn is_quality_slice_passing_mean(&self, mean_quality_score: &u8) -> Result<bool> {
 //     //     Phred33U8::try_from(mean_quality_score)?;

@@ -137,10 +137,11 @@ T: AsMut<[u8]>,
 mod tests {
     use super::*;
     use crate::utils::item::check::*;
-    use bioutils::utils::item::check::CheckAsRefSlice;
+    use crate::utils::item::check::AllAsRefSlice;
+    use crate::BioUtilsCharSet::*;
     #[test]
     fn checking_slice() {
         let test = &[67,67,67,67];
-        assert!(test.is_all_charset(charset: BioUtilsCharSet::Dna), true);
+        assert!(test.is_all_charset(BioUtilsCharSet::Dna), true);
     }
 }

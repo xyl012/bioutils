@@ -4,17 +4,17 @@
 //! ```
 //! extern crate rand;
 //!
-//! use crate::bioutils::utils::mutate::random::AsMutRandomU8;
 //! use rand::rngs::ThreadRng;
 //! use std::string::String;
 //! use std::str;
 //! use rand::seq::SliceRandom;
-//!
+//! use crate::bioutils::utils::item::replace::CleanAsMutSlice;
+
 //! let mut rng1 = rand::thread_rng(); //create a random number generator
 //! let mut rng2 = rand::thread_rng(); //create a random number generator
 //! let mut seq = b"acugnnnqqq".to_owned(); // or by *: let mut seq = *b"acugnnnqqq";
-//! let mut seq = seq.mut_clean_non_basic("RNA", rng1).mut_clean_n("RNA", rng2).mut_to_upper_basic();
-//! let printseq = str::from_utf8(seq).expect("Could not choose base"); // turn into utf8
+//! seq.mut_xna_clean("RNA", rng1).unwrap().mut_xna_clean_n("RNA", rng2).unwrap().mut_to_upper_basic().unwrap();
+//! let printseq = str::from_utf8(&seq); // turn into utf8
 //! println!("{:?}", printseq);
 //! ```
 

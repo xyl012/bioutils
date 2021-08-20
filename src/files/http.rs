@@ -53,9 +53,9 @@ pub fn curl(url: &str, filename: &str, output_directory: &std::path::Path) {
     };
     // Write to file on system
     easy.write_function(move |data| {
-        file.write_all(data).unwrap();
+        file.write_all(data).expect("Cannot write to file");
         Ok(data.len())
     }).unwrap();
-    easy.perform().unwrap();
+    easy.perform().expect("Cannot write to file");
     // println!("{}", easy.response_code().unwrap());
 }

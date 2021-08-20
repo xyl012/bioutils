@@ -3,7 +3,7 @@ name = "bioutils"
 version = "0.2.2"
 authors = ["Kana4"]
 edition = "2018"
-description = "Simple utilities and alphabets for biological sequence data."
+description = "Utilities and alphabets for biological sequence data."
 license = "MIT OR Apache-2.0"
 readme = "README.md"
 

@@ -1,8 +1,9 @@
 # Bioutils
 
+New and updated! (but still a work in progress)
+
 For a related bioinformatics resource:
 [Bioinformatics in Rust](https://kana4.github.io/bioinformatics_rust_book/)
-ls
 
 ```
 //! // Downloading reference files
@@ -16,22 +17,10 @@ ls
 //! let fastq_gz = "SRR1700869.fastq.gz";
 //! let out_directory = Path::new("./")
 //! bioutils::files::http::curl(fastq_ftp, fastq_gz, &out_directory);
-//!
-//! // Creating a new random sequence and quality 
-//!
-//! let mut rng1 = rand::thread_rng(); // Create a random number generator
-//! let dna = random_dna(4,rng1); // Create a random dna sequence
-//! let mut rng2 = rand::thread_rng();
-//! let quality = random_quality(4,rng2); // Create a random quality string
-//! println!("{:?}", dna.to_owned());
-//! println!("{:?}", quality.to_owned());
-//!
-//! // Replacing nucleotides
-//!
-//! let mut rng3 = rand::thread_rng(); //create a random number generator
-//! let mut rng4 = rand::thread_rng(); //create a random number generator
-//! let mut seq = b"acugnnnqqq".to_owned(); // or by *: let mut seq = *b"acugnnnqqq";
-//! let mut seq = seq.mut_random_replace_non_basic("RNA", rng4).mut_random_replace_n("RNA", rng3).mut_to_upper_basic();
-//! let printseq = str::from_utf8(seq).unwrap();
-//! println!("{:?}", printseq);
+//! 
+//! /// Checks if all elements in the slice are contained in a character set. Boolean version shown, but also available in result and option.
+//! 
+//! let dna_reference = &[67,67,67,67];
+//! assert!(dna_reference.is_all_charset(BioUtilsCharSet::Dna), true);
+//! 
 ```

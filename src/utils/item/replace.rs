@@ -1,5 +1,6 @@
 
 //! Trait to random characters with pseudorandom bases (Nn->{AC{TU}G}, IUPAC R to {AG}).
+//! Clean up (replace) non-target characters in a slice with target random characters.
 //! # Examples
 //! ```
 //! extern crate rand;
@@ -20,7 +21,21 @@
 
 use super::*;
 
-pub trait CleanAsMutSlice {
+pub trait CleanAsMutSlice<T> {
+    /// Takes a BioUtilsCharSet and a ThreadRng and replaces any character not in the charset with a random character from the characterset.
+    fn mut_clean(&mut self, charset: BioUtilsCharSet, rng: ThreadRng) -> Result<&mut Self>;
+}
+
+impl<T> CleanAsMutSlice<T> for T where 
+T: AsMut<[u8]>,
+{
+    fn mut_clean(&mut self, charset: BioUtilsCharSet, mut rng: ThreadRng) -> Result<&mut Self> {
+        self.as_mut().iter_mut().for_each(|c| if charset.value().contains(c) {} else {*c = *charset.value().choose(&mut rng).expect("Could not choose character")});
+        Ok(self)
+    }
+}
+
+pub trait XnaCleanAsMutSlice {
     /// Random all other than ACG(T/U)acg(t/u) with pseudorandom nucleotides ACG(T/U). Should be used last after other functions or for cleanup of unknown characters.
     fn mut_xna_clean(&mut self, xna: &str, rng: ThreadRng) -> Result<&mut Self>;
     /// Fill {N,n} with pseudorandom nucleotides ACUG if xna is "RNA" or ACTG for all other xna.
@@ -35,7 +50,7 @@ pub trait CleanAsMutSlice {
     fn mut_xna_clean_iupac(&mut self, xna: &str, rng: ThreadRng) -> Result<&mut Self>;
 }
 
-impl<T> CleanAsMutSlice for T where 
+impl<T> XnaCleanAsMutSlice for T where 
 T: AsMut<[u8]>,
 {
     /// random all other than ACGTUactgu with pseudorandom nucleotides ACTGU. Should be used last after other functions or for cleanup of unknown characters.

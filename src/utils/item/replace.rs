@@ -24,6 +24,8 @@ use super::*;
 pub trait CleanAsMutSlice<T> {
     /// Takes a BioUtilsCharSet and a ThreadRng and replaces any character not in the charset with a random character from the characterset.
     fn mut_clean(&mut self, charset: BioUtilsCharSet, rng: ThreadRng) -> Result<&mut Self>;
+    /// Takes a character slice and a ThreadRng and replaces any character not in the charset with a random character from the characterset.
+    fn mut_clean_with(&mut self, charset: &[u8], rng: ThreadRng) -> Result<&mut Self>;
 }
 
 impl<T> CleanAsMutSlice<T> for T where 
@@ -31,6 +33,10 @@ T: AsMut<[u8]>,
 {
     fn mut_clean(&mut self, charset: BioUtilsCharSet, mut rng: ThreadRng) -> Result<&mut Self> {
         self.as_mut().iter_mut().for_each(|c| if charset.value().contains(c) {} else {*c = *charset.value().choose(&mut rng).expect("Could not choose character")});
+        Ok(self)
+    }
+    fn mut_clean_with(&mut self, charset: &[u8], mut rng: ThreadRng) -> Result<&mut Self> {
+        self.as_mut().iter_mut().for_each(|c| if charset.contains(c) {} else {*c = *charset.choose(&mut rng).expect("Could not choose character")});
         Ok(self)
     }
 }

@@ -1,3 +1,12 @@
+//! Creates new random vectors and u8s from given charsets. Charsets can be a bioutils charset or a u8 slice
+//! ```
+//! use bioutils::utils::item::new::RandomBioVec;
+//! use bioutils::charsets::bioutils::*;
+//! // let vec = vec![];
+//! let test = Vec::<u8>::random_vec(&12, BioUtilsCharSet::Dna);
+//! println!("{:?}", test);
+//! ```
+
 use super::*;
 
 pub trait RandomBioVec<T> {
@@ -41,5 +50,18 @@ impl<T> RandomBioVec<T> for T
     fn random_u8_with(charset: &[u8]) -> Result<u8> {
         let mut rng = rand::thread_rng();
         charset.choose(&mut rng).copied().ok_or(bail!("Cannot create new random"))
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use crate::utils::item::new::RandomBioVec;
+    use crate::charsets::bioutils::*;
+    
+    #[test]
+    fn test() {
+        let test = Vec::<u8>::random_vec(&12, BioUtilsCharSet::Dna);
+        println!("{:?}", test);
     }
 }

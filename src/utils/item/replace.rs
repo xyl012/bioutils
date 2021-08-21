@@ -4,13 +4,13 @@
 //! # Examples
 //! ```
 //! extern crate rand;
-//!
 //! use rand::rngs::ThreadRng;
 //! use std::string::String;
 //! use std::str;
 //! use rand::seq::SliceRandom;
 //! use crate::bioutils::utils::item::replace::CleanAsMutSlice;
-
+//! use crate::bioutils::utils::item::replace::XnaCleanAsMutSlice;
+//! 
 //! let mut rng1 = rand::thread_rng(); //create a random number generator
 //! let mut rng2 = rand::thread_rng(); //create a random number generator
 //! let mut seq = b"acugnnnqqq".to_owned(); // or by *: let mut seq = *b"acugnnnqqq";

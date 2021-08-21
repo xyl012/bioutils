@@ -34,7 +34,6 @@ where
         .map(|(idx, _)| idx).collect::<Vec<usize>>())
 }
 
-
 // pub trait FindKey<T>{
 //     fn find(&self, key: &T) -> Option<usize>;
 // }

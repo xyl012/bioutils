@@ -1,11 +1,11 @@
 use super::*;
 
-pub trait Get<T> {
+pub trait FindAsRef<T> {
     /// Returns the index of the subsequence if present in self
     fn find_subsequence(&self, subsequence: &[T]) -> Option<usize>;
 }
 
-impl<T> Get<T> for T
+impl<T> FindAsRef<T> for T
 where
     T: AsRef<[T]>,
     T: PartialEq, 

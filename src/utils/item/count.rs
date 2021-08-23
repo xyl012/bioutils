@@ -75,7 +75,6 @@ where
     fn mut_count_u8(&mut self, x: &u8) -> Result<usize> {
         Ok(self.as_mut().iter().filter(|&q| q==x).count())
     }
-
 }
 
 pub trait CmpAsRefOrdSlice<T> {

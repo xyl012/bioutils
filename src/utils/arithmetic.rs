@@ -1,7 +1,7 @@
 use super::*;
-use crate::utils::element::percent::*;
-use crate::utils::element::tryfrom::*;
-use crate::utils::item::count::*;
+use crate::utils::percent::*;
+use crate::utils::tryfrom::*;
+use crate::utils::count::*;
 
 pub trait ArithmeticAsRefSlice<T> {
     /// Returns the mean of the slice as u8

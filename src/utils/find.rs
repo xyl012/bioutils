@@ -13,7 +13,6 @@ use memchr::memmem;
 use memchr::memmem::FindIter;
 
 pub trait MemChrAsRef<T> {
-
     /// Convenience wrapper around the memmem crates find_iter to find b"CG"
     fn iter_cg(&self) -> FindIter<'_, '_>;
 }

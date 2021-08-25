@@ -16,8 +16,8 @@
 
 use super::*;
 
-use crate::utils::item::arithmetic::*;
-use crate::utils::element::percent::*;
+use crate::utils::arithmetic::*;
+use crate::utils::percent::*;
 
 pub trait CountAsRefSlice<T> {
 

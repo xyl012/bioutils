@@ -1,8 +1,8 @@
 use super::*;
-use crate::utils::element::percent::*;
-use crate::utils::element::tryfrom::*;
-use crate::utils::item::count::*;
-use crate::utils::item::arithmetic::*;
+use crate::utils::percent::*;
+use crate::utils::tryfrom::*;
+use crate::utils::count::*;
+use crate::utils::arithmetic::*;
 
 pub trait AllAsRefSlice<T> {
     /// Checks if all elements in the slice are contained in a character set (bool).

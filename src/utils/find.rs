@@ -1,4 +1,4 @@
-
+//! Convenience wrapper around the memmem crates find_iter to find b"CG"
 //! ```
 //! use memchr::memmem;
 //! use memchr::memmem::FindIter;
@@ -13,8 +13,13 @@ use memchr::memmem;
 use memchr::memmem::FindIter;
 
 pub trait MemChrAsRef<T> {
+    /// Returns all positions of a byte slice by memchr search.
+    fn all_positions(&self, slice: &T) -> Vec<usize>;
+    /// Convenience wrapper around the memmem crates find_iter to return all positions of b"CG".
+    fn all_positions_cg(&self) -> Vec<usize>;
     /// Convenience wrapper around the memmem crates find_iter to find b"CG"
     fn iter_cg(&self) -> FindIter<'_, '_>;
+
 }
 
 impl<T> MemChrAsRef<T> for T
@@ -22,11 +27,21 @@ where
     T: AsRef<[u8]>,
     T: Sized,
 {
+    /// Returns all positions of a byte slice by memchr search.
+    fn all_positions(&self, slice: &T) -> Vec<usize> {
+        memmem::find_iter(self.as_ref(), slice.as_ref()).collect::<Vec<usize>>()
+    }
 
     /// Convenience wrapper around the memmem crates find_iter to find b"CG"
     fn iter_cg(&self) -> FindIter<'_, '_> {
         memmem::find_iter(self.as_ref(), b"CG")
     }
+
+    /// Convenience wrapper around the memmem crates find_iter to return all positions of b"CG".
+    fn all_positions_cg(&self) -> Vec<usize> {
+        memmem::find_iter(self.as_ref(), b"CG").collect::<Vec<usize>>()
+    }
+    
 }
 
 pub trait FindAsRef<T> {

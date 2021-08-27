@@ -12,3 +12,5 @@ pub mod find;
 
 pub mod percent;
 pub mod tryfrom;
+
+pub mod recode;

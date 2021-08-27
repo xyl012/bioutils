@@ -11,16 +11,12 @@ pub enum AsciiCharSet {
 impl AsciiCharSet {
     pub const fn value(&self) -> &[u8] {
         match *self {
-            AsciiCharSet::Letters => ASCII_LETTERS_SLICE,
-            AsciiCharSet::LettersUppercase => ASCII_LETTERS_UPPERCASE_SLICE,
-            AsciiCharSet::LettersLowercase => ASCII_LETTERS_LOWERCASE_SLICE,
+            AsciiCharSet::Letters => &ASCII_LETTERS,
+            AsciiCharSet::LettersUppercase => &ASCII_LETTERS_UPPERCASE,
+            AsciiCharSet::LettersLowercase => &ASCII_LETTERS_LOWERCASE,
         }
     }
 }
-
-pub const ASCII_LETTERS_SLICE: &'static [u8] = &ASCII_LETTERS;
-pub const ASCII_LETTERS_UPPERCASE_SLICE: &'static [u8] = &ASCII_LETTERS_UPPERCASE;
-pub const ASCII_LETTERS_LOWERCASE_SLICE: &'static [u8] = &ASCII_LETTERS_LOWERCASE;
 
 // Upper and lower case
 pub const ASCII_LETTERS: [u8; 52] = [

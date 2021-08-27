@@ -16,55 +16,39 @@ pub enum QualityCharSet {
 impl QualityCharSet {
     pub const fn value(&self) -> &[u8] {
         match *self {
-            QualityCharSet::Phred33 => PHRED33_SLICE,
-            QualityCharSet::Phred64 => PHRED64_SLICE,
-            QualityCharSet::Solexa => SOLEXA_SLICE,
-            QualityCharSet::Sanger => SANGER_SLICE,
-            QualityCharSet::Phred33Score => PHRED33_SCORE_SLICE,
-            QualityCharSet::Phred64Score => PHRED64_SCORE_SLICE,
-            QualityCharSet::SangerScore => SANGER_SCORE_SLICE,
+            QualityCharSet::Phred33 => &PHRED33_ENCODE,
+            QualityCharSet::Phred64 => &PHRED64_ENCODE,
+            QualityCharSet::Solexa => &SOLEXA,
+            QualityCharSet::Sanger => &SANGER,
+            QualityCharSet::Phred33Score => &PHRED33_SCORE,
+            QualityCharSet::Phred64Score => &PHRED64_SCORE,
+            QualityCharSet::SangerScore => &SANGER,
         }
     }
 }
 
-pub const PHRED33_SLICE: &'static [u8] = &PHRED33;
-pub const PHRED64_SLICE: &'static [u8] = &PHRED64;
-pub const SOLEXA_SLICE: &'static [u8] = &SOLEXA;
-pub const SANGER_SLICE: &'static [u8] = &SANGER;
-pub const PHRED33_SCORE_SLICE: &'static [u8] = &PHRED33_SCORE;
-pub const PHRED64_SCORE_SLICE: &'static [u8] = &PHRED64_SCORE;
-pub const SANGER_SCORE_SLICE: &'static [u8] = &SANGER_SCORE;
-
-
-// pub enum QualityHashMap {
-//     Phred33Encode,
-//     Phred33Decode,
-//     Phred64Encode,
-//     Phred64Decode,
-//     SangerEncode,
-//     SangerDecode,
-// }
-// impl QualityHashMap {
-//     pub const fn value(&self) -> HashMap<u8,u8> {
-//         match *self {
-//             QualityHashMap::Phred33Encode => PHRED33_HASHMAP_ENCODE,
-//             QualityHashMap::Phred33Decode => PHRED33_HASHMAP_DECODE,
-//             QualityHashMap::Phred64Encode => PHRED64_HASHMAP_ENCODE,
-//             QualityHashMap::Phred64Decode => PHRED64_HASHMAP_DECODE,
-//             QualityHashMap::SangerEncode => SANGER_HASHMAP_ENCODE,
-//             QualityHashMap::SangerDecode => SANGER_HASHMAP_DECODE,
-//         }
-//     }
-// }
-
 /// Phred33 charset: ASCII 33-75
-pub const PHRED33: [u8; 43] = [
+pub const PHRED33_ENCODE: [u8; 43] = [
     b'!', b'"', b'#', b'$', b'%', b'&', 0x0027, b'(', b')', b'*', b'+', b',', b'-', b'.', b'/',
     b'0', b'1', b'2', b'3', b'4', b'5', b'6', b'7', b'8', b'9', b':', b';', b'<', b'=', b'>', b'?',
     b'@', b'A', b'B', b'C', b'D', b'E', b'F', b'G', b'H', b'I', b'J', b'K'];
 
 /// Phred33 scores: 0-42
 pub const PHRED33_SCORE: [u8; 43] = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42];
+
+/// Phred33 DECODE scores. Array that has filler up til 33, where it starts at 0 for phred33 scores. Should not be used directly, as filler will give wrong information. We use it as "Check the ENCODE is valid phred33 (33-75), and if so get the DECODE from this array"
+pub const PHRED33_DECODE: [u8; 75] = [
+    255,255,255,255,255,
+    255,255,255,255,255,
+    255,255,255,255,255,
+    255,255,255,255,255,
+    255,255,255,255,255,
+    255,255,255,255,255,
+    255,255,
+    0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,
+    16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,
+    31,32,33,34,35,36,37,38,39,40,41,42,
+];
 
 /// Phred33 charset: ASCII 33-75
     pub const PHRED33_STR: [&str; 43] = [
@@ -77,6 +61,7 @@ pub const PHRED33_RANGE_START: usize = 33;
 pub const PHRED33_RANGE_END: usize = 75;
 pub const PHRED33_SCORE_RANGE_START: usize = 0;
 pub const PHRED33_SCORE_RANGE_END: usize = 42;
+
 /// Phred33 range: 33-75
 pub const PHRED33_RANGE: RangeInclusive<usize> = PHRED33_RANGE_START..=PHRED33_RANGE_END;
 /// Phred33 score range: 0-42
@@ -84,7 +69,7 @@ pub const PHRED33_SCORE_RANGE: RangeInclusive<usize> = PHRED33_SCORE_RANGE_START
 
 lazy_static! {
     /// Phred33 charset as hashset: ASCII 33-73
-    pub static ref PHRED33_HASHSET: HashSet<u8> = new_hashset(&PHRED33);
+    pub static ref PHRED33_HASHSET: HashSet<u8> = new_hashset(&PHRED33_ENCODE);
 }
 lazy_static! {
     /// Phred33 charset as hashset: ASCII 33-73
@@ -110,7 +95,7 @@ lazy_static!{
 }
 
 /// Phred64 charset: ASCII 64-126
-pub const PHRED64: [u8; 63] = [
+pub const PHRED64_ENCODE: [u8; 63] = [
     b'@', b'A', b'B', b'C', b'D', b'E', b'F', b'G', b'H', b'I', b'J', b'K', b'L', b'M', b'N', b'O',
     b'P', b'Q', b'R', b'S', b'T', b'U', b'V', b'W', b'X', b'Y', b'Z', 0x005B, 0x005C, 0x005D, b'^',
     b'_', b'`', b'a', b'b', b'c', b'd', b'e', b'f', b'g', b'h', b'i', b'j', b'k', b'l', b'm', b'n',
@@ -119,6 +104,29 @@ pub const PHRED64: [u8; 63] = [
 
 /// Phred64 scores: 0-62
 pub const PHRED64_SCORE: [u8; 63] = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62];
+
+/// Phred64 DECODE scores. Array that has filler up til 64, where it starts at 0 for phred64 scores. Should not be used directly, as filler will give wrong information. We use it as "Check the ENCODE is valid phred64 (64-126), and if so get the DECODE from this array"
+pub const PHRED64_DECODE: [u8; 127] = [
+    255,255,255,255,255,
+    255,255,255,255,255,
+    255,255,255,255,255,
+    255,255,255,255,255,
+    255,255,255,255,255,
+    255,255,255,255,255,
+    255,255,255,255,255,
+    255,255,255,255,255,
+    255,255,255,255,255,
+    255,255,255,255,255,
+    255,255,255,255,255,
+    255,255,255,255,255,
+    255,255,255,255,
+    0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,
+    16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,
+    31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,
+    46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,
+    61,62
+];
+
 
 /// Phred64 charset: ASCII 64-126
 pub const PHRED64_STR: [&str; 63] = [
@@ -141,7 +149,7 @@ pub const PHRED64_SCORE_RANGE: RangeInclusive<usize> = PHRED64_SCORE_RANGE_START
 
 lazy_static! {
     /// Phred64 charset as hashset: ASCII 64-126
-    pub static ref PHRED64_HASHSET: HashSet<u8> = new_hashset(&PHRED64);
+    pub static ref PHRED64_HASHSET: HashSet<u8> = new_hashset(&PHRED64_ENCODE);
 }
 lazy_static! {
     /// Phred64 charset as hashset: ASCII 64-126
@@ -194,7 +202,6 @@ lazy_static! {
     /// Solexa/Illumina 1.0 charset: ASCII 59-126.
     pub static ref SOLEXA_HASHSET_STR: HashSet<&'static str> = new_str_hashset(&SOLEXA_STR);
 }
-
 
 lazy_static!{
     pub static ref SOLEXA_HASHMAP_DECODE: HashMap<u8, u8> = vec![
@@ -266,7 +273,7 @@ pub const SANGER_SCORE_RANGE_END: usize = 93;
 /// Sanger range: 33-126
 pub const SANGER_RANGE: RangeInclusive<usize> = SANGER_RANGE_START..=SANGER_RANGE_END;
 /// Sanger range: 0-93
-pub const SANGER_SCORE_RANGE: RangeInclusive<usize> = SANGER_SCORE_RANGE_START..=SANGER_SCORE_RANGE_END;
+pub const SANGER_SCORE_RANGE: RangeInclusive<usize> = SANGER_RANGE_START..=SANGER_RANGE_END;
 pub const SANGER_SCORE: [u8; 94] = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,91,92,93];
 
 lazy_static! {
@@ -277,7 +284,6 @@ lazy_static! {
     /// Sanger charset as hashset: ASCII 33-126. Used by nanopore (u8-33)
     pub static ref SANGER_HASHSET_STR: HashSet<&'static str> = new_str_hashset(&SANGER_STR);
 }
-
 
 // #[cfg(test)]
 // mod tests {

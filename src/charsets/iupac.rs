@@ -25,45 +25,26 @@ pub enum IupacCharSet {
 impl IupacCharSet {
     pub const fn value(&self) -> &[u8] {
         match *self {
-            IupacCharSet::Nucleotide => IUPAC_NUCLEOTIDE_SLICE,
-            IupacCharSet::Dna => DNA_SLICE,
-            IupacCharSet::DnaMixCase => DNA_MIX_CASE_SLICE,
-            IupacCharSet::Dnan => DNAN_SLICE,
-            IupacCharSet::DnanMixCase => DNAN_MIX_CASE_SLICE,
-            IupacCharSet::DnaLowercase => DNA_LOWERCASE_SLICE,
-            IupacCharSet::Rna => RNA_SLICE,
-            IupacCharSet::RnaMixCase => RNA_MIX_CASE_SLICE,
-            IupacCharSet::Rnan => RNAN_SLICE,
-            IupacCharSet::RnanMixCase => RNAN_MIX_CASE_SLICE,
-            IupacCharSet::RnaLowercase => RNA_LOWERCASE_SLICE,
-            IupacCharSet::Gap => GAP_SLICE,
-            IupacCharSet::N => N_SLICE,
-            IupacCharSet::NMixCase => N_MIX_CASE_SLICE,
-            IupacCharSet::Gc => GC_SLICE,
-            IupacCharSet::GcMixCase => GC_MIX_CASE_SLICE,
-            IupacCharSet::AminoAcid => AMINO_ACID_SLICE,
+            IupacCharSet::Nucleotide => &IUPAC_NUCLEOTIDE,
+            IupacCharSet::Dna => &DNA,
+            IupacCharSet::DnaMixCase => &DNA_MIX_CASE,
+            IupacCharSet::Dnan => &DNAN,
+            IupacCharSet::DnanMixCase => &DNAN_MIX_CASE,
+            IupacCharSet::DnaLowercase => &DNA_LOWERCASE,
+            IupacCharSet::Rna => &RNA,
+            IupacCharSet::RnaMixCase => &RNA_MIX_CASE,
+            IupacCharSet::Rnan => &RNAN,
+            IupacCharSet::RnanMixCase => &RNAN_MIX_CASE,
+            IupacCharSet::RnaLowercase => &RNA_LOWERCASE,
+            IupacCharSet::Gap => &GAP,
+            IupacCharSet::N => &N,
+            IupacCharSet::NMixCase => &N_MIX_CASE,
+            IupacCharSet::Gc => &GC,
+            IupacCharSet::GcMixCase => &GC_MIX_CASE,
+            IupacCharSet::AminoAcid => &AMINO_ACID,
         }
     }
 }
-
-pub const IUPAC_NUCLEOTIDE_SLICE: &'static [u8] = &IUPAC_NUCLEOTIDE;
-pub const IUPAC_AMINO_ACID_SLICE: &'static [u8] = &IUPAC_AMINO_ACID;
-pub const DNA_SLICE: &'static [u8] = &DNA;
-pub const DNA_MIX_CASE_SLICE : &'static [u8] = &DNA_MIX_CASE;
-pub const DNAN_SLICE: &'static [u8] = &DNAN;
-pub const DNAN_MIX_CASE_SLICE: &'static [u8] = &DNAN_MIX_CASE;
-pub const DNA_LOWERCASE_SLICE: &'static [u8] = &DNA_LOWERCASE;
-pub const RNA_SLICE: &'static [u8] = &RNA;
-pub const RNA_MIX_CASE_SLICE : &'static [u8] = &RNA_MIX_CASE;
-pub const RNAN_SLICE: &'static [u8] = &RNAN;
-pub const RNAN_MIX_CASE_SLICE: &'static [u8] = &RNAN_MIX_CASE;
-pub const RNA_LOWERCASE_SLICE: &'static [u8] = &RNA_LOWERCASE;
-pub const GAP_SLICE: &'static [u8] = &GAP;
-pub const N_SLICE: &'static [u8] = &N;
-pub const N_MIX_CASE_SLICE: &'static [u8] = &N_MIX_CASE;
-pub const GC_SLICE: &'static [u8] = &GC;
-pub const GC_MIX_CASE_SLICE: &'static [u8] = &GC_MIX_CASE;
-pub const AMINO_ACID_SLICE: &'static [u8] = &AMINO_ACID;
 
 // Full IUPAC charset including nucleotides and amino acids
 pub const IUPAC: [u8; 46] = [

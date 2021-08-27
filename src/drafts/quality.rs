@@ -6,8 +6,8 @@
 // pub trait QualityAsRefSlice<T> {
 //     /// Get the total percent of elements above the cutoff u8 and return a boolean if total above supplied percent
 //     fn is_quality_slice_passing_percent(&self, cutoff_value: &u8, cutoff_percent: &u8) -> Result<bool>;
-//     /// Checks the slice mean is greater than or equal to the given value.
-//     fn is_quality_slice_passing_score_mean(&self, cutoff_value: &u8) -> Result<bool>;
+//     // /// Checks the slice mean is greater than or equal to the given value.
+//     // fn is_quality_slice_passing_score_mean(&self, cutoff_value: &u8) -> Result<bool>;
 //     // /// Check if valid phred and calculate the mean of a quality slice.
 //     // fn quality_slice_mean(&self) -> Result<u8>;
 //     // /// Checks the encoded sequence has a quality score above greater than or equal to the supplied mean. Decodes from raw read from fastq file with phred64 encoding. Commonly done per base in fastqc.

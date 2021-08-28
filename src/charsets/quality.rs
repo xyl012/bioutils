@@ -18,11 +18,11 @@ impl QualityCharSet {
         match *self {
             QualityCharSet::Phred33 => &PHRED33_ENCODE,
             QualityCharSet::Phred64 => &PHRED64_ENCODE,
-            QualityCharSet::Solexa => &SOLEXA,
-            QualityCharSet::Sanger => &SANGER,
+            QualityCharSet::Solexa => &SOLEXA_ENCODE,
+            QualityCharSet::Sanger => &SOLEXA_ENCODE,
             QualityCharSet::Phred33Score => &PHRED33_SCORE,
             QualityCharSet::Phred64Score => &PHRED64_SCORE,
-            QualityCharSet::SangerScore => &SANGER,
+            // QualityCharSet::SangerScore => &SANGER,
         }
     }
 }
@@ -177,7 +177,7 @@ lazy_static!{
 }
 
 /// Solexa/Illumina 1.0 charset: ASCII 59-126.
-pub const SOLEXA: [u8; 68] = [
+pub const SOLEXA_ENCODE: [u8; 68] = [
     b';', b'<', b'=', b'>', b'?', b'@', b'A', b'B', b'C', b'D', b'E', b'F', b'G', b'H', b'I', b'J',
     b'K', b'L', b'M', b'N', b'O', b'P', b'Q', b'R', b'S', b'T', b'U', b'V', b'W', b'X', b'Y', b'Z',
     0x005B, 0x005C, 0x005D, b'^', b'_', b'`', b'a', b'b', b'c', b'd', b'e', b'f', b'g', b'h', b'i',
@@ -196,7 +196,7 @@ pub const SOLEXA_STR: [&str; 68] = [
 ];
 lazy_static! {
     /// Solexa/Illumina 1.0 charset: ASCII 59-126.
-    pub static ref SOLEXA_HASHSET: HashSet<u8> = new_hashset(&SOLEXA);
+    pub static ref SOLEXA_HASHSET: HashSet<u8> = new_hashset(&SOLEXA_ENCODE);
 }
 lazy_static! {
     /// Solexa/Illumina 1.0 charset: ASCII 59-126.
@@ -222,7 +222,7 @@ lazy_static!{
 }
 
 /// Sanger charset: ASCII 33-126. Used by nanopore (u8-33)
-pub const SANGER: [u8; 94] = [
+pub const SANGER_ENCODE: [u8; 94] = [
     b'!', b'"', b'#', b'$', b'%', b'&', 0x0027, b'(', b')', b'*', b'+', b',', b'-', b'.', b'/',
     b'0', b'1', b'2', b'3', b'4', b'5', b'6', b'7', b'8', b'9', b':', b';', b'<', b'=', b'>', b'?',
     b'@', b'A', b'B', b'C', b'D', b'E', b'F', b'G', b'H', b'I', b'J', b'K', b'L', b'M', b'N', b'O',
@@ -278,7 +278,7 @@ pub const SANGER_SCORE: [u8; 94] = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,
 
 lazy_static! {
     /// Sanger charset as hashset: ASCII 33-126. Used by nanopore (u8-33)
-    pub static ref SANGER_HASHSET: HashSet<u8> = new_hashset(&SANGER);
+    pub static ref SANGER_HASHSET: HashSet<u8> = new_hashset(&SANGER_ENCODE);
 }
 lazy_static! {
     /// Sanger charset as hashset: ASCII 33-126. Used by nanopore (u8-33)

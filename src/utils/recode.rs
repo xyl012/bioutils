@@ -2,29 +2,72 @@
 use super::*;
 use crate::utils::check;
 
-pub fn encode_phred33(temp: &u8) -> Option<u8> { 
-    if PHRED33_SCORE.contains(temp) {
-        PHRED33_ENCODE.get(*temp as usize).copied()
-    } else {
-        None
-    }
+// pub fn encode_phred33(temp: &u8) -> Option<u8> { 
+//     if PHRED33_SCORE.contains(temp) {
+//         PHRED33_ENCODE.get(*temp as usize).copied()
+//     } else {
+//         None
+//     }
+// }
+
+// pub fn decode_phred33(temp: &u8) -> Option<u8> { 
+//     if PHRED33_ENCODE.contains(temp) {
+//         PHRED33_DECODE.get(*temp as usize).copied()
+//     } else {
+//         None
+//     }
+// }
+
+
+pub trait RecodeTryFrom<T> {
+    /// Checks if self can be encoded (encoding contains all u8 in self) and encodes self.
+    fn encode(&self, code: BioUtilsRecodeSet) -> Result<&Self>;
+    /// Checks if self can be decoded (decoding contains all u8 in self) and decodes self.
+    fn decode(&self, code: BioUtilsRecodeSet) -> Result<&Self>;
 }
 
-pub fn decode_phred33(temp: &u8) -> Option<u8> { 
-    if PHRED33_ENCODE.contains(temp) {
-        PHRED33_DECODE.get(*temp as usize).copied()
-    } else {
-        None
+
+impl<T> RecodeTryFrom<T> for T where
+    T: AsRef<u8>,
+{
+    /// Checks if self can be encoded (encoding contains all u8 in self) and encodes self.
+    fn encode(&self, code: BioUtilsRecodeSet) -> Result<&Self> {
+        (self.as_ref())
+    }
+    /// Checks if self can be decoded (decoding contains all u8 in self) and decodes self.
+    fn decode(&mut self, code: BioUtilsRecodeSet) -> Result<&Self> {
+
     }
 }
 
 // pub trait RecodeAsMutSlice<T> {
 //     /// Checks if self can be encoded (encoding contains all u8 in self) and encodes self.
-//     fn mut_encode(&mut self, encoding: ) -> Result<&mut Self>;
+//     fn mut_encode(&mut self, encoding: BioUtilsRecodeSet) -> Result<&mut Self>;
 //     /// Checks if self can be decoded (decoding contains all u8 in self) and decodes self.
-//     fn mut_decode(&mut self encoding: ) -> Result<&mut Self>;
+//     fn mut_decode(&mut self, encoding: BioUtilsRecodeSet) -> Result<&mut Self>;
 // }
 
+// impl<T> RecodeAsMutSlice<T> for T where
+//     T: AsMut<[u8]>
+// {
+
+//     /// Checks if self can be encoded (encoding contains all u8 in self) and encodes self.
+//     fn mut_encode(&mut self, code: BioUtilsRecodeSet) -> Result<&mut Self> {
+//         if code.value().score.contains(self) {
+//             code.value().encode.get(*code as usize).copied()
+//         } else {
+//             None
+//         }
+//     }
+
+//     /// Checks if self can be decoded (decoding contains all u8 in self) and decodes self.
+//     fn mut_decode(&mut self, code: BioUtilsRecodeSet) -> Result<&mut Self> {
+//         code.value().score;
+//         code.value().encode;
+//         code.value().code;
+//     }
+
+// }
 // pub trait CodeItemU8<T> {
 //     /// Returns the PHRED33 quality score from a PHRED33 quality encoding. The score is the u8 minus 33.
 //     fn decode_qual(&self) ->  Result<Vec<u8>>;

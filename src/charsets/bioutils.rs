@@ -21,12 +21,14 @@ pub enum BioUtilsCharSet {
     Gc,
     GcMixCase,
     AminoAcid,
-    Phred33,
-    Phred64,
-    Sanger,
-    Solexa,
+    Phred33Encode,
+    Phred33Decode,
+    Phred64Encode,
+    Phred64Decode,
     Phred33Score,
     Phred64Score,
+    SangerEncode,
+    SolexaEncode,
     Percent,
 }
 
@@ -53,12 +55,14 @@ impl BioUtilsCharSet {
             BioUtilsCharSet::Gc => &GC,
             BioUtilsCharSet::GcMixCase => &GC_MIX_CASE,
             BioUtilsCharSet::AminoAcid => &AMINO_ACID,
-            BioUtilsCharSet::Phred33 => &PHRED33_ENCODE,
-            BioUtilsCharSet::Phred64 => &PHRED64_ENCODE,
-            BioUtilsCharSet::Solexa => &SOLEXA,
-            BioUtilsCharSet::Sanger => &SANGER,
+            BioUtilsCharSet::Phred33Encode => &PHRED33_ENCODE,
+            BioUtilsCharSet::Phred33Decode => &PHRED33_DECODE,
             BioUtilsCharSet::Phred33Score => &PHRED33_SCORE,
+            BioUtilsCharSet::Phred64Encode => &PHRED64_ENCODE,
+            BioUtilsCharSet::Phred64Decode => &PHRED64_DECODE,
             BioUtilsCharSet::Phred64Score => &PHRED64_SCORE,
+            BioUtilsCharSet::SolexaEncode => &SOLEXA_ENCODE,
+            BioUtilsCharSet::SangerEncode => &SANGER_ENCODE,
             BioUtilsCharSet::Percent => &PERCENT,
         }
     }
@@ -89,25 +93,38 @@ impl BioUtilsU64Set {
 }
 
 pub enum BioUtilsRecodeSet {
-    Phred33Score,
-    Phred33Encode,
-    Phred33Decode,
-    Phred64Score,
-    Phred64Encode,
-    Phred64Decode,
-    // Sanger,
-    // Solexa,
+    Phred33,
+    Phred64,
 }
 
+pub struct BioUtilsRecodeStruct<'a> {
+    pub score: &'a [u8],
+    pub encode: &'a [u8],
+    pub decode: &'a [u8],
+}
+
+// pub enum BioUtilsRecodeSet {
+    // Phred33Score,
+    // Phred33Encode,
+    // Phred33Decode,
+    // Phred64Score,
+    // Phred64Encode,
+    // Phred64Decode,
+    // Sanger,
+    // Solexa,
+// }
+
 impl BioUtilsRecodeSet {
-    pub const fn value(&self) -> &[u8] {
+    pub const fn value(&self) -> BioUtilsRecodeStruct {
         match *self {
-            BioUtilsRecodeSet::Phred33Score => &PHRED33_SCORE,
-            BioUtilsRecodeSet::Phred33Encode => &PHRED33_ENCODE,
-            BioUtilsRecodeSet::Phred33Decode => &PHRED64_DECODE,
-            BioUtilsRecodeSet::Phred64Score => &PHRED64_SCORE,
-            BioUtilsRecodeSet::Phred64Encode => &PHRED64_ENCODE,
-            BioUtilsRecodeSet::Phred64Decode => &PHRED64_DECODE,
+            BioUtilsRecodeSet::Phred33 => BioUtilsRecodeStruct{ score: BioUtilsCharSet::Phred33Score.value(), encode: BioUtilsCharSet::Phred33Encode.value(), decode: BioUtilsCharSet::Phred33Decode.value(), },
+            BioUtilsRecodeSet::Phred64 => BioUtilsRecodeStruct{ score: BioUtilsCharSet::Phred64Score.value(), encode: BioUtilsCharSet::Phred64Encode.value(), decode: BioUtilsCharSet::Phred64Decode.value(), },
+            // BioUtilsRecodeSet::Phred33Score => &PHRED33_SCORE,
+            // BioUtilsRecodeSet::Phred33Encode => &PHRED33_ENCODE,
+            // BioUtilsRecodeSet::Phred33Decode => &PHRED64_DECODE,
+            // BioUtilsRecodeSet::Phred64Score => &PHRED64_SCORE,
+            // BioUtilsRecodeSet::Phred64Encode => &PHRED64_ENCODE,
+            // BioUtilsRecodeSet::Phred64Decode => &PHRED64_DECODE,
         }
     }
 }

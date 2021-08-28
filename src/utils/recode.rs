@@ -19,24 +19,30 @@ use crate::utils::check;
 // }
 
 
-pub trait RecodeTryFrom<T> {
+pub trait BioUtilsRecodeU8 {
     /// Checks if self can be encoded (encoding contains all u8 in self) and encodes self.
-    fn encode(&self, code: BioUtilsRecodeSet) -> Result<&Self>;
+    fn encode(&self, code: BioUtilsRecodeSet) -> Option<u8>;
     /// Checks if self can be decoded (decoding contains all u8 in self) and decodes self.
-    fn decode(&self, code: BioUtilsRecodeSet) -> Result<&Self>;
+    fn decode(&self, code: BioUtilsRecodeSet) -> Option<u8>;
 }
 
-
-impl<T> RecodeTryFrom<T> for T where
-    T: AsRef<u8>,
+impl BioUtilsRecodeU8 for u8
 {
     /// Checks if self can be encoded (encoding contains all u8 in self) and encodes self.
-    fn encode(&self, code: BioUtilsRecodeSet) -> Result<&Self> {
-        (self.as_ref())
+    fn encode(&self, code: BioUtilsRecodeSet) -> Option<u8> {
+        if code.value().score.contains(self) {
+            code.value().encode.get(*self as usize).copied()
+        } else {
+            None
+        }
     }
     /// Checks if self can be decoded (decoding contains all u8 in self) and decodes self.
-    fn decode(&mut self, code: BioUtilsRecodeSet) -> Result<&Self> {
-
+    fn decode(&self, code: BioUtilsRecodeSet) -> Option<u8> {
+        if code.value().encode.contains(self) {
+            code.value().decode.get(*self as usize).copied()
+        } else {
+            None
+        }
     }
 }
 

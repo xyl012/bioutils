@@ -22,7 +22,7 @@ impl QualityCharSet {
             QualityCharSet::Sanger => &SOLEXA_ENCODE,
             QualityCharSet::Phred33Score => &PHRED33_SCORE,
             QualityCharSet::Phred64Score => &PHRED64_SCORE,
-            // QualityCharSet::SangerScore => &SANGER,
+            QualityCharSet::SangerScore => &SANGER_SCORE,
         }
     }
 }

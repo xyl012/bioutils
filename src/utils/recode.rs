@@ -2,44 +2,59 @@
 use super::*;
 use crate::utils::check;
 
-// pub fn encode_phred33(temp: &u8) -> Option<u8> { 
-//     if PHRED33_SCORE.contains(temp) {
-//         PHRED33_ENCODE.get(*temp as usize).copied()
-//     } else {
-//         None
-//     }
-// }
-
-// pub fn decode_phred33(temp: &u8) -> Option<u8> { 
-//     if PHRED33_ENCODE.contains(temp) {
-//         PHRED33_DECODE.get(*temp as usize).copied()
-//     } else {
-//         None
-//     }
-// }
-
-
-pub trait BioUtilsRecodeU8 {
+pub trait BioUtilsRecodeCopyFromU8<T> {
     /// Checks if self can be encoded (encoding contains all u8 in self) and encodes self.
     fn encode(&self, code: BioUtilsRecodeSet) -> Option<u8>;
     /// Checks if self can be decoded (decoding contains all u8 in self) and decodes self.
     fn decode(&self, code: BioUtilsRecodeSet) -> Option<u8>;
 }
 
-impl BioUtilsRecodeU8 for u8
+impl<T> BioUtilsRecodeCopyFromU8<T> for T where 
+// u8: From<T>,
+T: AsRef<u8>,
 {
     /// Checks if self can be encoded (encoding contains all u8 in self) and encodes self.
     fn encode(&self, code: BioUtilsRecodeSet) -> Option<u8> {
-        if code.value().score.contains(self) {
-            code.value().encode.get(*self as usize).copied()
+        if code.value().score.contains(&self.as_ref()) {
+            Some(*code.value().encode.get(*self.as_ref() as usize)?)
         } else {
             None
         }
     }
     /// Checks if self can be decoded (decoding contains all u8 in self) and decodes self.
     fn decode(&self, code: BioUtilsRecodeSet) -> Option<u8> {
-        if code.value().encode.contains(self) {
-            code.value().decode.get(*self as usize).copied()
+        if code.value().encode.contains(&self.as_ref()) {
+            Some(*code.value().decode.get(*self.as_ref() as usize)?)
+        } else {
+            None
+        }
+    }
+}
+
+pub trait BioUtilsRecodeAsMutU8<T> {
+    /// Checks if self can be encoded (encoding contains all u8 in self) and encodes self.
+    fn mut_encode(&mut self, code: BioUtilsRecodeSet) -> Option<&mut Self>;
+    /// Checks if self can be decoded (decoding contains all u8 in self) and decodes self.
+    fn mut_decode(&mut self, code: BioUtilsRecodeSet) -> Option<&mut Self>;
+}
+
+impl<T> BioUtilsRecodeAsMutU8<T> for T where 
+T: AsMut<u8>,
+{
+    /// Checks if self can be encoded (encoding contains all u8 in self) and encodes self.
+    fn mut_encode(&mut self, code: BioUtilsRecodeSet) -> Option<&mut Self> {
+        if code.value().score.contains(&self.as_mut()) {
+            *self.as_mut() = *code.value().encode.get(*self.as_mut() as usize)?;
+            Some(self)
+        } else {
+            None
+        }
+    }
+    /// Checks if self can be decoded (decoding contains all u8 in self) and decodes self.
+    fn mut_decode(&mut self, code: BioUtilsRecodeSet) -> Option<&mut Self> {
+        if code.value().encode.contains(&self.as_mut()) {
+            *self.as_mut() = *code.value().decode.get(*self.as_mut() as usize)?;
+            Some(self)
         } else {
             None
         }
@@ -56,6 +71,15 @@ impl BioUtilsRecodeU8 for u8
 // impl<T> RecodeAsMutSlice<T> for T where
 //     T: AsMut<[u8]>
 // {
+//     /// Checks if self can be encoded (encoding contains all u8 in self) and encodes self.
+//     fn mut_encode(&mut self, encoding: BioUtilsRecodeSet) -> Result<&mut Self> {
+//         self.as_mut().iter_mut().for_each(|u| )
+//     }
+//     /// Checks if self can be decoded (decoding contains all u8 in self) and decodes self.
+//     fn mut_decode(&mut self, encoding: BioUtilsRecodeSet) -> Result<&mut Self> {
+
+//     }
+// }
 
 //     /// Checks if self can be encoded (encoding contains all u8 in self) and encodes self.
 //     fn mut_encode(&mut self, code: BioUtilsRecodeSet) -> Result<&mut Self> {
@@ -215,3 +239,20 @@ impl BioUtilsRecodeU8 for u8
 // //         }
 // //     }
 // // }
+
+
+// pub fn encode_phred33(temp: &u8) -> Option<u8> { 
+//     if PHRED33_SCORE.contains(temp) {
+//         PHRED33_ENCODE.get(*temp as usize).copied()
+//     } else {
+//         None
+//     }
+// }
+
+// pub fn decode_phred33(temp: &u8) -> Option<u8> { 
+//     if PHRED33_ENCODE.contains(temp) {
+//         PHRED33_DECODE.get(*temp as usize).copied()
+//     } else {
+//         None
+//     }
+// }

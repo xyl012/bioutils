@@ -236,11 +236,88 @@ T: AsMut<[u8]>,
     }
 }
 
+pub trait CheckAsRefPartialEq<K>{
+    /// Checks if the sequence and quality u8 vectors are the same length. Generally checks two u8 items for length against each other
+    fn is_length_eq(&self, comparison: &K) -> bool;
+}
+
+impl<T, K> CheckAsRefPartialEq<K> for T
+where
+    T: AsRef<[K]>,
+    T: PartialEq,
+    K: AsRef<[T]>,
+    K: PartialEq,
+{
+    /// Checks if two items are the same length.
+    fn is_length_eq(&self, comparison: &K)-> bool {
+        self.as_ref().len() == comparison.as_ref().len()
+    }
+}
+
+
+pub trait CheckAsMutPartialEq<K>{
+    /// Checks if the sequence and quality u8 vectors are the same length. Generally checks two u8 items for length against each other
+    fn mut_is_length_eq(&mut self, comparison: &mut K) -> bool;
+}
+
+impl<T, K> CheckAsMutPartialEq<K> for T
+where
+    T: AsMut<[K]>,
+    T: PartialEq,
+    K: AsMut<[T]>,
+    K: PartialEq,
+{
+    /// Checks if two items are the same length.
+    fn mut_is_length_eq(&mut self, comparison: &mut K)-> bool {
+        self.as_mut().len() == comparison.as_mut().len()
+    }
+}
+
+pub trait CheckPalindrome<T> {
+    /// Generic trait to check if T is a palindrome
+    fn is_palindrome(&self) -> Result<bool>;
+}
+
+impl<T> CheckPalindrome<T> for T
+where
+    T: IntoIterator,
+    T::Item: PartialEq,
+    T::IntoIter: DoubleEndedIterator,
+    T: Copy,
+{
+    /// Generic impl to check if T is a palindrome
+    fn is_palindrome(&self) -> Result<bool> {
+    let mut iter = self.into_iter();
+    while let (Some(front), Some(back)) = (iter.next(), iter.next_back()) {
+        if front != back {
+            return Ok(false);
+        }
+    }
+    Ok(true)
+    }
+}
+
+/// Generic function to check if T is a palindrome.
+pub fn is_palindrome<T>(iterable: T) -> Result<bool>
+where
+    T: IntoIterator,
+    T::Item: PartialEq,
+    T::IntoIter: DoubleEndedIterator,
+{
+    let mut iter = iterable.into_iter();
+    while let (Some(forward), Some(backward)) = (iter.next(), iter.next_back()) {
+        if forward != backward {
+            return Ok(false);
+        }
+    };
+    Ok(true)
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
-    use crate::utils::item::check::*;
-    use crate::utils::item::check::AllAsRefSlice;
+    use crate::utils::check::*;
+    use crate::utils::check::AllAsRefSlice;
     use crate::BioUtilsCharSet::*;
     #[test]
     fn checking_slice() {

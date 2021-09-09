@@ -8,8 +8,8 @@
 //! use std::string::String;
 //! use std::str;
 //! use rand::seq::SliceRandom;
-//! use crate::bioutils::utils::item::replace::CleanAsMutSlice;
-//! use crate::bioutils::utils::item::replace::XnaCleanAsMutSlice;
+//! use crate::bioutils::utils::replace::CleanAsMutSlice;
+//! use crate::bioutils::utils::replace::XnaCleanAsMutSlice;
 //! 
 //! let mut rng1 = rand::thread_rng(); //create a random number generator
 //! let mut rng2 = rand::thread_rng(); //create a random number generator

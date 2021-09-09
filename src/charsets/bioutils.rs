@@ -21,6 +21,7 @@ pub enum BioUtilsCharSet {
     Gc,
     GcMixCase,
     AminoAcid,
+    DnaComplementDecode,
     Phred33Encode,
     Phred33Decode,
     Phred64Encode,
@@ -55,6 +56,7 @@ impl BioUtilsCharSet {
             BioUtilsCharSet::Gc => &GC,
             BioUtilsCharSet::GcMixCase => &GC_MIX_CASE,
             BioUtilsCharSet::AminoAcid => &AMINO_ACID,
+            BioUtilsCharSet::DnaComplementDecode => &DNA_COMPLEMENT_DECODE,
             BioUtilsCharSet::Phred33Encode => &PHRED33_ENCODE,
             BioUtilsCharSet::Phred33Decode => &PHRED33_DECODE,
             BioUtilsCharSet::Phred33Score => &PHRED33_SCORE,
@@ -93,38 +95,48 @@ impl BioUtilsU64Set {
 }
 
 pub enum BioUtilsRecodeSet {
-    Phred33,
-    Phred64,
+    Phred33Encode,
+    Phred33Decode,
+    Phred64Encode,
+    Phred64Decode,
+    DnaComplement,
+    DnanComplement,
+    // Sanger,
+    // Solexa,
 }
 
 pub struct BioUtilsRecodeStruct<'a> {
-    pub score: &'a [u8],
-    pub encode: &'a [u8],
-    pub decode: &'a [u8],
+    pub charset: &'a [u8],
+    pub recode: &'a [u8],
 }
-
-// pub enum BioUtilsRecodeSet {
-    // Phred33Score,
-    // Phred33Encode,
-    // Phred33Decode,
-    // Phred64Score,
-    // Phred64Encode,
-    // Phred64Decode,
-    // Sanger,
-    // Solexa,
-// }
 
 impl BioUtilsRecodeSet {
     pub const fn value(&self) -> BioUtilsRecodeStruct {
         match *self {
-            BioUtilsRecodeSet::Phred33 => BioUtilsRecodeStruct{ score: BioUtilsCharSet::Phred33Score.value(), encode: BioUtilsCharSet::Phred33Encode.value(), decode: BioUtilsCharSet::Phred33Decode.value(), },
-            BioUtilsRecodeSet::Phred64 => BioUtilsRecodeStruct{ score: BioUtilsCharSet::Phred64Score.value(), encode: BioUtilsCharSet::Phred64Encode.value(), decode: BioUtilsCharSet::Phred64Decode.value(), },
-            // BioUtilsRecodeSet::Phred33Score => &PHRED33_SCORE,
-            // BioUtilsRecodeSet::Phred33Encode => &PHRED33_ENCODE,
-            // BioUtilsRecodeSet::Phred33Decode => &PHRED64_DECODE,
-            // BioUtilsRecodeSet::Phred64Score => &PHRED64_SCORE,
-            // BioUtilsRecodeSet::Phred64Encode => &PHRED64_ENCODE,
-            // BioUtilsRecodeSet::Phred64Decode => &PHRED64_DECODE,
+            BioUtilsRecodeSet::Phred33Encode => BioUtilsRecodeStruct{ charset: BioUtilsCharSet::Phred33Score.value(), recode: BioUtilsCharSet::Phred33Encode.value(), },
+            BioUtilsRecodeSet::Phred33Decode => BioUtilsRecodeStruct{ charset: BioUtilsCharSet::Phred33Encode.value(), recode: BioUtilsCharSet::Phred33Decode.value(), },
+            BioUtilsRecodeSet::Phred64Encode => BioUtilsRecodeStruct{ charset: BioUtilsCharSet::Phred64Score.value(), recode: BioUtilsCharSet::Phred64Encode.value(), },
+            BioUtilsRecodeSet::Phred64Decode => BioUtilsRecodeStruct{ charset: BioUtilsCharSet::Phred64Encode.value(), recode: BioUtilsCharSet::Phred64Decode.value(), },
+            BioUtilsRecodeSet::DnaComplement => BioUtilsRecodeStruct{ charset: BioUtilsCharSet::Dna.value(), recode: BioUtilsCharSet::DnaComplement.value(), },
+            BioUtilsRecodeSet::DnanComplement => BioUtilsRecodeStruct{ charset: BioUtilsCharSet::Dnan.value(), recode: BioUtilsCharSet::DnaComplement.value(), },
         }
     }
 }
+
+// pub struct BioUtilsComplementStruct<'a> {
+//     pub charset: &'a [u8],
+//     pub complement: &'a [u8],
+// }
+
+// pub enum BioUtilsComplementSet {
+//     Dna,
+// }
+
+// impl BioUtilsComplementSet {
+//     pub const fn value(&self) -> BioUtilsComplementStruct {
+//         match *self {
+//             BioUtilsComplementSet::Dna => BioUtilsComplementStruct{ charset: BioUtilsCharSet::Dna.value(), complement: BioUtilsCharSet::DnaComplementDecode, },
+//         }
+//     }
+// }
+

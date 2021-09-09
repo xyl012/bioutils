@@ -2,7 +2,7 @@
 //! ```
 //! use memchr::memmem;
 //! use memchr::memmem::FindIter;
-//! use bioutils::utils::item::find::*;
+//! use bioutils::utils::find::*;
 //! let test = b"ACGA";
 //! let mut iter = test.iter_cg();
 //! 

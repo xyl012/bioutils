@@ -116,7 +116,7 @@ T: Ord,
     }
     /// Returns an Ordering if the mean of the slice is greater, equal, or less than the given value.
     fn mean_cmp(&self, value: &u8) -> Result<Ordering> {
-        match self.mean_u8()?.cmp(value) {
+        match self.u8_mean()?.cmp(value) {
             Ordering::Greater => Ok(Ordering::Greater),
             Ordering::Equal => Ok(Ordering::Equal),
             Ordering::Less => Ok(Ordering::Less),

@@ -49,18 +49,38 @@ pub trait BioUtilsRecodeAsMutSlice<T> {
 
 impl<T> BioUtilsRecodeAsMutSlice<T> for T where
 T: AsMut<[u8]>,
-// F: FnMut(Self) -> T,
-// T: Try<Output = Option<u8>>,
 {
     /// Checks if self can be encoded (encoding contains all u8 in self) and encodes self.
     fn mut_recode(&mut self, code: BioUtilsRecodeSet) -> Option<&mut Self> {
-        self.as_mut().iter_mut().for_each(|u| { u.mut_recode_u8(code)?;
-            // let matcher = encoding.value().encode.get(*u as usize);
-            // *u = *matcher;
-        });
-        // Ok(self)
+        let mut target = self.as_mut().iter_mut();
+        if target.all(|u| code.value().charset.contains(u)) {
+            target.for_each(|u| *u = code.value().recode[*u as usize]);
+            Some(self)
+        } else {
+            None
+        }
     }
 }
+
+// pub trait BioUtilsRecodeAsMutSlice<T> {
+//     /// Checks if self can be encoded (encoding contains all u8 in self) and encodes self.
+//     fn mut_recode(&mut self, code: BioUtilsRecodeSet) -> Option<&mut Self>;
+// }
+
+// impl<T> BioUtilsRecodeAsMutSlice<T> for T where
+// T: AsMut<[u8]>,
+// {
+//     /// Checks if self can be encoded (encoding contains all u8 in self) and encodes self.
+//     fn mut_recode(&mut self, code: BioUtilsRecodeSet) -> Option<&mut Self> {
+//         let mut target = self.as_mut().iter_mut();
+//         if target.all(|u| code.value().charset.contains(u)) {
+//             target.for_each(|u| *u = code.value().recode[*u as usize]);
+//             Some(self)
+//         } else {
+//             None
+//         }
+//     }
+// }
 
 // pub fn reverse_complement(seq: &[u8]) {
 //     seq.rev()

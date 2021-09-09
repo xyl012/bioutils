@@ -60,15 +60,23 @@ pub const PHRED33_DECODE: [u8; 75] = [
     r#"8"#, r#"9"#, r#":"#, r#";"#, r#"<"#, r#"="#, r#">"#, r#"?"#, r#"@"#, r#"A"#, r#"B"#, r#"C"#,
     r#"D"#, r#"E"#, r#"F"#, r#"G"#, r#"H"#, r#"I"#, r#"J"#, r#"K"#];
 
-pub const PHRED33_RANGE_START: usize = 33;
-pub const PHRED33_RANGE_END: usize = 75;
-pub const PHRED33_SCORE_RANGE_START: usize = 0;
-pub const PHRED33_SCORE_RANGE_END: usize = 42;
+pub const PHRED33_MIN_USIZE: usize = 33;
+pub const PHRED33_MAX_USIZE: usize = 75;
+pub const PHRED33_SCORE_MIN_USIZE: usize = 0;
+pub const PHRED33_SCORE_MAX_USIZE: usize = 42;
+pub const PHRED33_MIN_U8: u8 = 33;
+pub const PHRED33_MAX_U8: u8 = 75;
+pub const PHRED33_SCORE_MIN_U8: u8 = 0;
+pub const PHRED33_SCORE_MAX_U8: u8 = 42;
+pub const PHRED33_MIN_U64: u64 = 33;
+pub const PHRED33_MAX_U64: u64 = 75;
+pub const PHRED33_SCORE_MIN_U64: u64 = 0;
+pub const PHRED33_SCORE_MAX_U64: u64 = 42;
 
 /// Phred33 range: 33-75
-pub const PHRED33_RANGE: RangeInclusive<usize> = PHRED33_RANGE_START..=PHRED33_RANGE_END;
+pub const PHRED33_RANGE: RangeInclusive<usize> = PHRED33_MIN_USIZE..=PHRED33_MAX_USIZE;
 /// Phred33 score range: 0-42
-pub const PHRED33_SCORE_RANGE: RangeInclusive<usize> = PHRED33_SCORE_RANGE_START..=PHRED33_SCORE_RANGE_END;
+pub const PHRED33_SCORE_RANGE: RangeInclusive<usize> = PHRED33_SCORE_MIN_USIZE..=PHRED33_SCORE_MAX_USIZE;
 
 lazy_static! {
     /// Phred33 charset as hashset: ASCII 33-73
@@ -140,14 +148,22 @@ pub const PHRED64_STR: [&str; 63] = [
     r#"|"#, r#"}"#, r#"~"#,
 ];
 
-pub const PHRED64_RANGE_START: usize = 64;
-pub const PHRED64_RANGE_END: usize = 126;
-pub const PHRED64_SCORE_RANGE_START: usize = 0;
-pub const PHRED64_SCORE_RANGE_END: usize = 62;
+pub const PHRED64_MIN_USIZE: usize = 64;
+pub const PHRED64_MAX_USIZE: usize = 126;
+pub const PHRED64_SCORE_MIN_USIZE: usize = 0;
+pub const PHRED64_SCORE_MAX_USIZE: usize = 62;
+pub const PHRED64_MIN_U8: u8 = 64;
+pub const PHRED64_MAX_U8: u8 = 126;
+pub const PHRED64_SCORE_MIN_U8: u8 = 0;
+pub const PHRED64_SCORE_MAX_U8: u8 = 62;
+pub const PHRED64_MIN_U64: u64 = 64;
+pub const PHRED64_MAX_U64: u64 = 126;
+pub const PHRED64_SCORE_MIN_U64: u64 = 0;
+pub const PHRED64_SCORE_MAX_U64: u64 = 62;
 /// Phred64 range: 64-126
-pub const PHRED64_RANGE: RangeInclusive<usize> = PHRED64_RANGE_START..=PHRED64_RANGE_END;
+pub const PHRED64_RANGE: RangeInclusive<usize> = PHRED64_MIN_USIZE..=PHRED64_MAX_USIZE;
 /// Phred64 range: 0-62
-pub const PHRED64_SCORE_RANGE: RangeInclusive<usize> = PHRED64_SCORE_RANGE_START..=PHRED64_SCORE_RANGE_END;
+pub const PHRED64_SCORE_RANGE: RangeInclusive<usize> = PHRED64_SCORE_MIN_USIZE..=PHRED64_SCORE_MAX_USIZE;
 
 lazy_static! {
     /// Phred64 charset as hashset: ASCII 64-126
@@ -268,14 +284,14 @@ lazy_static!{
     ].into_iter().collect();
 }
 
-pub const SANGER_RANGE_START: usize = 33;
-pub const SANGER_RANGE_END: usize = 126;
-pub const SANGER_SCORE_RANGE_START: usize = 0;
-pub const SANGER_SCORE_RANGE_END: usize = 93;
+pub const SANGER_MIN: usize = 33;
+pub const SANGER_MAX: usize = 126;
+pub const SANGER_SCORE_MIN: usize = 0;
+pub const SANGER_SCORE_MAX: usize = 93;
 /// Sanger range: 33-126
-pub const SANGER_RANGE: RangeInclusive<usize> = SANGER_RANGE_START..=SANGER_RANGE_END;
+pub const SANGER_RANGE: RangeInclusive<usize> = SANGER_MIN..=SANGER_MAX;
 /// Sanger range: 0-93
-pub const SANGER_SCORE_RANGE: RangeInclusive<usize> = SANGER_RANGE_START..=SANGER_RANGE_END;
+pub const SANGER_SCORE_RANGE: RangeInclusive<usize> = SANGER_MIN..=SANGER_MAX;
 pub const SANGER_SCORE: [u8; 94] = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,91,92,93];
 
 lazy_static! {

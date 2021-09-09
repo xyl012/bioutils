@@ -1,11 +1,10 @@
 // use super::*;
-
+//TODO move into recoding
 // use crate::utils::check::*;
 
-// // TODO move into recode as basically the same thing.
 // pub trait ComplementAsRefU8 {
-//     // /// Returns the reverse nucleotide complement
-//     // fn reverse_nucleotide_complement(&self) -> Result<Vec<u8>>;
+//     /// Returns the reverse nucleotide complement
+//     fn reverse_nucleotide_complement(&self) -> Result<Vec<u8>>;
 //     /// Returns the nucleotide complement
 //     fn nucleotide_complement(&self) -> Result<Vec<u8>>;
 // }

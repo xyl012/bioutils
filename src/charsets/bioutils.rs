@@ -21,7 +21,7 @@ pub enum BioUtilsCharSet {
     Gc,
     GcMixCase,
     AminoAcid,
-    DnaComplementDecode,
+    DnaComplement,
     Phred33Encode,
     Phred33Decode,
     Phred64Encode,
@@ -56,7 +56,7 @@ impl BioUtilsCharSet {
             BioUtilsCharSet::Gc => &GC,
             BioUtilsCharSet::GcMixCase => &GC_MIX_CASE,
             BioUtilsCharSet::AminoAcid => &AMINO_ACID,
-            BioUtilsCharSet::DnaComplementDecode => &DNA_COMPLEMENT_DECODE,
+            BioUtilsCharSet::DnaComplement => &DNA_COMPLEMENT,
             BioUtilsCharSet::Phred33Encode => &PHRED33_ENCODE,
             BioUtilsCharSet::Phred33Decode => &PHRED33_DECODE,
             BioUtilsCharSet::Phred33Score => &PHRED33_SCORE,
@@ -122,21 +122,3 @@ impl BioUtilsRecodeSet {
         }
     }
 }
-
-// pub struct BioUtilsComplementStruct<'a> {
-//     pub charset: &'a [u8],
-//     pub complement: &'a [u8],
-// }
-
-// pub enum BioUtilsComplementSet {
-//     Dna,
-// }
-
-// impl BioUtilsComplementSet {
-//     pub const fn value(&self) -> BioUtilsComplementStruct {
-//         match *self {
-//             BioUtilsComplementSet::Dna => BioUtilsComplementStruct{ charset: BioUtilsCharSet::Dna.value(), complement: BioUtilsCharSet::DnaComplementDecode, },
-//         }
-//     }
-// }
-

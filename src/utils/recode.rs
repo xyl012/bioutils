@@ -5,21 +5,19 @@
 //! let mut score = 48u8;
 //! score.encode_u8(BioUtilsRecodeSet::Phred33);
 //! let mut slice = vec![45u8,45u8,45u8];
-//! &slice.mut_encode(BioUtilsRecodeSet::Phred33);
+//! &slice.mut_recode_u8(BioUtilsRecodeSet::Phred33);
 //! println!("{:?}", score);
 //! 
 //! ```
 
 use super::*;
 use crate::utils::check;
-// use crate::utils::recode::BioUtilsRecodeU8;
-// use std::ops::Try;
 
 pub trait BioUtilsRecodeU8 {
     /// Checks if self can be encoded (encoding contains all u8 in self) and encodes self.
     fn recode_u8(&self, code: BioUtilsRecodeSet) -> Option<u8>;
-    // /// Checks if self can be decoded (decoding contains all u8 in self) and decodes self.
-    // fn decode_u8(&self, code: BioUtilsRecodeSet) -> Option<u8>;
+    /// Checks if self can be recoded (charset contains all u8 in self) and recodes self.
+    fn mut_recode_u8(&mut self, code: BioUtilsRecodeSet) -> Option<&mut Self>;
 }
 
 impl BioUtilsRecodeU8 for u8
@@ -32,26 +30,7 @@ impl BioUtilsRecodeU8 for u8
             None
         }
     }
-    // /// Checks if self can be decoded (decoding contains all u8 in self) and decodes self.
-    // fn decode_u8(&self, code: BioUtilsRecodeSet) -> Option<u8> {
-    //     if code.value().encode.contains(&self) {
-    //         Some(*code.value().decode.get(*self as usize)?)
-    //     } else {
-    //         None
-    //     }
-    // }
-}
-
-pub trait BioUtilsRecodeAsMutU8 {
-    /// Checks if self can be recoded (charset contains all u8 in self) and recodes self.
-    fn mut_recode_u8(&mut self, code: BioUtilsRecodeSet) -> Option<&mut Self>;
-    // /// Checks if self can be encoded (encoding contains all u8 in self) and encodes self.
-    // /// Checks if self can be decoded (decoding contains all u8 in self) and decodes self.
-    // fn mut_decode_u8(&mut self, code: BioUtilsRecodeSet) -> Option<&mut Self>;
-}
-
-impl BioUtilsRecodeAsMutU8 for u8
-{
+    
     /// Checks if self can be encoded (encoding contains all u8 in self) and encodes self.
     fn mut_recode_u8(&mut self, code: BioUtilsRecodeSet) -> Option<&mut Self> {
         if code.value().charset.contains(&self) {
@@ -61,11 +40,61 @@ impl BioUtilsRecodeAsMutU8 for u8
             None
         }
     }
+}
+
+pub trait BioUtilsRecodeAsMutSlice<T> {
+    /// Checks if self can be encoded (encoding contains all u8 in self) and encodes self.
+    fn mut_recode(&mut self, code: BioUtilsRecodeSet) -> Option<&mut Self>;
+}
+
+impl<T> BioUtilsRecodeAsMutSlice<T> for T where
+T: AsMut<[u8]>,
+// F: FnMut(Self) -> T,
+// T: Try<Output = Option<u8>>,
+{
+    /// Checks if self can be encoded (encoding contains all u8 in self) and encodes self.
+    fn mut_recode(&mut self, code: BioUtilsRecodeSet) -> Option<&mut Self> {
+        self.as_mut().iter_mut().for_each(|u| { u.mut_recode_u8(code)?;
+            // let matcher = encoding.value().encode.get(*u as usize);
+            // *u = *matcher;
+        });
+        // Ok(self)
+    }
+}
+
+// pub fn reverse_complement(seq: &[u8]) {
+//     seq.rev()
+
+// }
+
+    // /// Checks if self can be decoded (decoding contains all u8 in self) and decodes self.
+    // fn mut_decode(&'a mut self, encoding: BioUtilsRecodeSet) -> Result<&'a mut Self>;
+
+    // /// Checks if self can be decoded (decoding contains all u8 in self) and decodes self.
+    // fn mut_decode(&mut self, encoding: BioUtilsRecodeSet) -> Result<&mut Self> {
+
+    // }
+
+    // use crate::utils::recode::BioUtilsRecodeU8;
+    // use std::ops::Try;
+    // /// Checks if self can be decoded (decoding contains all u8 in self) and decodes self.
+    // fn decode_u8(&self, code: BioUtilsRecodeSet) -> Option<u8>;
+    // /// Checks if self can be encoded (encoding contains all u8 in self) and encodes self.
+    // /// Checks if self can be decoded (decoding contains all u8 in self) and decodes self.
+    // fn mut_decode_u8(&mut self, code: BioUtilsRecodeSet) -> Option<&mut Self>;
     // /// Checks if self can be encoded (encoding contains all u8 in self) and encodes self.
     // fn mut_encode_u8(&mut self, code: BioUtilsRecodeSet) -> Option<&mut Self> {
     //     if code.value().score.contains(&self) {
     //         *self = *code.value().encode.get(*self as usize)?;
     //         Some(self)
+    //     } else {
+    //         None
+    //     }
+    // }
+        // /// Checks if self can be decoded (decoding contains all u8 in self) and decodes self.
+    // fn decode_u8(&self, code: BioUtilsRecodeSet) -> Option<u8> {
+    //     if code.value().encode.contains(&self) {
+    //         Some(*code.value().decode.get(*self as usize)?)
     //     } else {
     //         None
     //     }
@@ -79,34 +108,6 @@ impl BioUtilsRecodeAsMutU8 for u8
     //         None
     //     }
     // }
-}
-
-// pub trait BioUtilsRecodeAsMutSlice<'a, T, F> {
-//     /// Checks if self can be encoded (encoding contains all u8 in self) and encodes self.
-//     fn mut_encode(&mut self, encoding: BioUtilsRecodeSet) -> Option<&mut Self>;
-//     // /// Checks if self can be decoded (decoding contains all u8 in self) and decodes self.
-//     // fn mut_decode(&'a mut self, encoding: BioUtilsRecodeSet) -> Result<&'a mut Self>;
-// }
-
-// impl<'a ,T, F> BioUtilsRecodeAsMutSlice<'a, T, F> for T where
-// T: AsMut<[u8]>,
-// F: FnMut(Self) -> T,
-// T: Try<Output = Option<u8>>,
-// {
-//     /// Checks if self can be encoded (encoding contains all u8 in self) and encodes self.
-//     fn mut_encode(&mut self, encoding: BioUtilsRecodeSet) -> Option<&mut Self> {
-//         self.as_mut().iter().try_for_each(|u| { mut_encode_u8(u)
-//             // let matcher = encoding.value().encode.get(*u as usize);
-//             // *u = *matcher;
-//         });
-//         // Ok(self)
-//     }
-    
-//     // /// Checks if self can be decoded (decoding contains all u8 in self) and decodes self.
-//     // fn mut_decode(&mut self, encoding: BioUtilsRecodeSet) -> Result<&mut Self> {
-
-//     // }
-// }
 
 //     /// Checks if self can be encoded (encoding contains all u8 in self) and encodes self.
 //     fn mut_encode(&mut self, code: BioUtilsRecodeSet) -> Result<&mut Self> {

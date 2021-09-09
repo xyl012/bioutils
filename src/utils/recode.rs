@@ -11,7 +11,7 @@
 //! ```
 
 use super::*;
-use crate::utils::check;
+use crate::utils::check::AllAsRefSlice;
 
 pub trait BioUtilsRecodeU8 {
     /// Checks if self can be encoded (encoding contains all u8 in self) and encodes self.
@@ -62,25 +62,24 @@ T: AsMut<[u8]>,
     }
 }
 
-// pub trait BioUtilsRecodeAsMutSlice<T> {
-//     /// Checks if self can be encoded (encoding contains all u8 in self) and encodes self.
-//     fn mut_recode(&mut self, code: BioUtilsRecodeSet) -> Option<&mut Self>;
-// }
+pub trait BioUtilsRecodeAsRefSlice<T> {
+    /// Checks if self can be encoded (encoding contains all u8 in self) and encodes self.
+    fn recode(&self, code: BioUtilsRecodeSet) -> Option<Vec<u8>>;
+}
 
-// impl<T> BioUtilsRecodeAsMutSlice<T> for T where
-// T: AsMut<[u8]>,
-// {
-//     /// Checks if self can be encoded (encoding contains all u8 in self) and encodes self.
-//     fn mut_recode(&mut self, code: BioUtilsRecodeSet) -> Option<&mut Self> {
-//         let mut target = self.as_mut().iter_mut();
-//         if target.all(|u| code.value().charset.contains(u)) {
-//             target.for_each(|u| *u = code.value().recode[*u as usize]);
-//             Some(self)
-//         } else {
-//             None
-//         }
-//     }
-// }
+impl<T> BioUtilsRecodeAsRefSlice<T> for T where
+T: AsRef<[u8]>,
+{
+    /// Checks if self can be encoded (encoding contains all u8 in self) and encodes self.
+    fn recode(&self, code: BioUtilsRecodeSet) -> Option<Vec<u8>> {
+        // let target = self.as_ref().iter();
+        if self.is_all_charset_with(code.value().charset) {
+            Some(self.as_ref().iter().map(|u| code.value().recode[*u as usize]).collect::<Vec<u8>>())
+        } else {
+            None
+        }
+    }
+}
 
 // pub fn reverse_complement(seq: &[u8]) {
 //     seq.rev()

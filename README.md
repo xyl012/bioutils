@@ -23,6 +23,10 @@ For a related bioinformatics resource:
 //! let dna_reference = &[67,67,67,67];
 //! assert!(dna_reference.is_all_charset(BioUtilsCharSet::Dna), true);
 //! 
+//! // Also possible to use a custom &[u8] to check if all elements are contained in the character set.
+//! let dna_reference_2 = &[67,67,67,67];
+//! assert!(dna_reference_2.is_all_charset_with(&[2u8,3u8,4u8]), true);
+//! 
 //! // Create a new random vector of specific length with a Bioutils charset or choosing from u8s in a given slice
 //! 
 //! let test = Vec::<u8>::random_vec(&12, BioUtilsCharSet::Dna);
@@ -34,4 +38,19 @@ For a related bioinformatics resource:
 //! let mut rng1 = rand::thread_rng(); //create a random number generator
 //! let mut dna_correction = b"ACTGQQQ";
 //! dna_correction.mut_clean(BioUtilsCharSet::Dna, rng1);
+//! 
+//! // Recode can be used if we want to convert between PHRED, etc. scores and encodings or find the complement. Recode checks if contains non-encoding values and will return none if there are any.
+//! 
+//! let mut phred33_score = 12u8;
+//! phred33_score.recode_u8(BioUtilsRecodeSet::Phred33Encode);
+//! println!("{:?}", phred33_score); 
+//! 
+//! let mut phred33_encoding = 34u8;
+//! &phred33_encoding.mut_recode_u8(BioUtilsRecodeSet::Phred33Decode);
+//! println!("{:?}", phred33_encoding);
+//! 
+//! let mut phred33_score_2 = b"00000".to_owned();
+//! phred33_score_2.mut_recode(BioUtilsRecodeSet::Phred33Encode);
+//! println!("{:?}", phred33_score_2);
+//! 
 ```

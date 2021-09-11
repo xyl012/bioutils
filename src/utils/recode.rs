@@ -2,12 +2,18 @@
 //! use crate::bioutils::utils::recode::BioUtilsRecodeU8;
 //! use crate::bioutils::utils::recode::BioUtilsRecodeAsMutSlice;
 //! use bioutils::charsets::bioutils::*;
-//! let mut score = 48u8;
-//! score.encode_u8(BioUtilsRecodeSet::Phred33);
-//! let mut slice = vec![45u8,45u8,45u8];
-//! &slice.mut_recode_u8(BioUtilsRecodeSet::Phred33);
-//! println!("{:?}", score);
 //! 
+//! let mut phred33_score = 12u8;
+//! phred33_score.recode_u8(BioUtilsRecodeSet::Phred33Encode);
+//! println!("{:?}", phred33_score); 
+//! 
+//! let mut phred33_encoding = 34u8;
+//! &phred33_encoding.mut_recode_u8(BioUtilsRecodeSet::Phred33Decode);
+//! println!("{:?}", phred33_encoding);
+//! 
+//! let mut phred33_score_2 = b"00000".to_owned();
+//! phred33_score_2.mut_recode(BioUtilsRecodeSet::Phred33Encode);
+//! println!("{:?}", phred33_score_2);
 //! ```
 
 use super::*;
@@ -81,8 +87,26 @@ T: AsRef<[u8]>,
     }
 }
 
-// pub fn reverse_complement(seq: &[u8]) {
-//     seq.rev()
+// pub trait BioUtilsAsRefDoubleEndedIterator<T> {
+//     pub fn reverse_nucleotide_complement(&self) -> Option<Vec<u8>>;
+// }
+
+// pub trait BioUtilsAsMutDoubleEndedIterator<T> {
+//     pub fn mut_reverse_nucleotide_complement(&mut self) -> Option<&mut Self>;
+// }
+
+// impl BioUtilsAsRefDoubleEndedIterator<T> for T where
+// T: AsMut<[u8]>
+// T: DoubleEndedIterator,
+// {
+    
+// }
+
+
+// impl BioUtilsAsRefDoubleEndedIterator<T> for T where
+// T: AsRef<[u8]>
+// T: DoubleEndedIterator,
+// {
 
 // }
 

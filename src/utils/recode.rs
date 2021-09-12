@@ -78,7 +78,6 @@ T: AsRef<[u8]>,
 {
     /// Checks if self can be encoded (encoding contains all u8 in self) and encodes self.
     fn recode(&self, code: BioUtilsRecodeSet) -> Option<Vec<u8>> {
-        // let target = self.as_ref().iter();
         if self.is_all_charset_with(code.value().charset) {
             Some(self.as_ref().iter().map(|u| code.value().recode[*u as usize]).collect::<Vec<u8>>())
         } else {
@@ -87,28 +86,45 @@ T: AsRef<[u8]>,
     }
 }
 
-// pub trait BioUtilsAsRefDoubleEndedIterator<T> {
-//     pub fn reverse_nucleotide_complement(&self) -> Option<Vec<u8>>;
-// }
+pub trait BioUtilsAsMutDoubleEndedIterator<T> {
+    /// Recode the reverse of self, commonly for generating the reverse complement.
+    fn mut_rev_recode(&mut self, code: BioUtilsRecodeSet) -> Option<&mut Self>;
+}
 
-// pub trait BioUtilsAsMutDoubleEndedIterator<T> {
-//     pub fn mut_reverse_nucleotide_complement(&mut self) -> Option<&mut Self>;
-// }
+impl<T> BioUtilsAsMutDoubleEndedIterator<T> for T where
+T: AsMut<[u8]>,
+T: DoubleEndedIterator,
+{
+    /// Recode the reverse of self, commonly for generating the reverse complement.
+    fn mut_rev_recode(&mut self, code: BioUtilsRecodeSet) -> Option<&mut Self> {
+        let mut target = self.as_mut().iter_mut().rev();
+        if target.all(|u| code.value().charset.contains(u)) {
+            target.for_each(|u| *u = code.value().recode[*u as usize]);
+            Some(self)
+        } else {
+            None
+        }
+    }
+}
 
-// impl BioUtilsAsRefDoubleEndedIterator<T> for T where
-// T: AsMut<[u8]>
-// T: DoubleEndedIterator,
-// {
-    
-// }
+pub trait BioUtilsAsRefDoubleEndedIterator<T> {
+    /// Recode the reverse of self, commonly for generating the reverse complement.
+    fn rev_recode(&self, code: BioUtilsRecodeSet) -> Option<Vec<u8>>;
+}
 
-
-// impl BioUtilsAsRefDoubleEndedIterator<T> for T where
-// T: AsRef<[u8]>
-// T: DoubleEndedIterator,
-// {
-
-// }
+impl<T> BioUtilsAsRefDoubleEndedIterator<T> for T where
+T: AsRef<[u8]>,
+T: DoubleEndedIterator,
+{
+    /// Recode the reverse of self, commonly for generating the reverse complement.
+    fn rev_recode(&self, code: BioUtilsRecodeSet) -> Option<Vec<u8>> {
+        if self.is_all_charset_with(code.value().charset) {
+            Some(self.as_ref().iter().rev().map(|u| code.value().recode[*u as usize]).collect::<Vec<u8>>())
+        } else {
+            None
+        }
+    }
+}
 
     // /// Checks if self can be decoded (decoding contains all u8 in self) and decodes self.
     // fn mut_decode(&'a mut self, encoding: BioUtilsRecodeSet) -> Result<&'a mut Self>;

@@ -30,7 +30,7 @@ impl BioUtilsRecodeU8 for u8
 {
     /// Checks if self can be encoded (encoding contains all u8 in self) and encodes self.
     fn recode_u8(&self, code: BioUtilsRecodeSet) -> Option<u8> {
-        if code.value().charset.contains(&self) {
+        if code.value().charset.contains(self) {
             Some(*code.value().recode.get(*self as usize)?)
         } else {
             None
@@ -39,7 +39,7 @@ impl BioUtilsRecodeU8 for u8
     
     /// Checks if self can be encoded (encoding contains all u8 in self) and encodes self.
     fn mut_recode_u8(&mut self, code: BioUtilsRecodeSet) -> Option<&mut Self> {
-        if code.value().charset.contains(&self) {
+        if code.value().charset.contains(self) {
             *self = *code.value().recode.get(*self as usize)?;
             Some(self)
         } else {

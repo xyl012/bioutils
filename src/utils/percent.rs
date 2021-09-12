@@ -14,7 +14,7 @@ impl PercentAsRefU8 for u8
 {
     /// Returns the percent of u8s as u8
     fn percent_u8(&self, denominator: &u8) -> Result<u8> {
-    let percent = (100 * u8::from(*self) + denominator / 2) / denominator;
+    let percent = (100 * (*self) + denominator / 2) / denominator;
     match PercentU8::try_from(percent) {
         Ok(_) => Ok(percent),
         Err(_) => bail!("Percent not valid or within the range 0-100"),

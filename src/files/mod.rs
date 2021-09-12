@@ -10,10 +10,10 @@ pub fn is_gz(path: &Path) -> bool {
 
 /// Use the Infer crate to get the mime type and extension
 pub fn infer_kind(path: &Path) -> infer::Type {
-    let kind = infer::get_from_path(path)
+    
+    infer::get_from_path(path)
     .expect("file read successfully")
-    .expect("file type is known");
-    kind
+    .expect("file type is known")
 }
 
 

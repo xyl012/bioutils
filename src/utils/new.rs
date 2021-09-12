@@ -57,7 +57,7 @@ impl<T> RandomBioVec<T> for T
 mod tests {
     use super::*;
     use crate::utils::new::RandomBioVec;
-    use crate::charsets::bioutils::*;
+    
     
     #[test]
     fn test() {

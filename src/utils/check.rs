@@ -1,8 +1,8 @@
 use super::*;
-use crate::utils::percent::*;
-use crate::utils::tryfrom::*;
-use crate::utils::count::*;
-use crate::utils::arithmetic::*;
+
+
+
+
 
 pub trait AllAsRefSlice<T> {
     /// Checks if all elements in the slice are contained in a character set (bool).
@@ -316,9 +316,9 @@ where
 #[cfg(test)]
 mod tests {
     use super::*;
-    use crate::utils::check::*;
+    
     use crate::utils::check::AllAsRefSlice;
-    use crate::BioUtilsCharSet::*;
+    
     #[test]
     fn checking_slice() {
         let test = &[67,67,67,67];

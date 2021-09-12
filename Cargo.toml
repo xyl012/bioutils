@@ -26,6 +26,6 @@ infer = "0.5.0"
 anyhow = "1.0.42"
 memchr = "2.4.0"
 memmem = "0.1.1"
-noodles = { version = "*", features = ["bam"] }
+#noodles = { version = "*", features = ["bam"] }
 [features]
 

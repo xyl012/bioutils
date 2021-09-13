@@ -1,10 +1,7 @@
 # Bioutils
 
-New and updated! (but still a work in progress)
-
 For a related bioinformatics resource:
 [Bioinformatics in Rust](https://kana4.github.io/bioinformatics_rust_book/)
-
 
     // Downloading reference files
     // Download grch38 fasta gz and gtf gz to current directory

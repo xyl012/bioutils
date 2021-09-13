@@ -2,9 +2,10 @@
 //! ```
 //! use bioutils::utils::new::RandomBioVec;
 //! use bioutils::charsets::bioutils::*;
-//! // let vec = vec![];
-//! let test = Vec::<u8>::random_vec(&12, BioUtilsCharSet::Dna);
-//! println!("{:?}", test);
+//! let new_vec = Vec::<u8>::random_vec(&12, BioUtilsCharSet::Dna);
+//! let new_vec_2 = Vec::<u8>::random_vec_with(&12, &[1u8,2u8,3u8]);
+//! println!("{:?}", new_vec);
+//! println!("{:?}", new_vec2);
 //! ```
 
 use super::*;

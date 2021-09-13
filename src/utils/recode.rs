@@ -1,7 +1,13 @@
 //! ```
 //! use crate::bioutils::utils::recode::BioUtilsRecodeU8;
 //! use crate::bioutils::utils::recode::BioUtilsRecodeAsMutSlice;
+//! use crate::bioutils::utils::recode::BioUtilsAsMutDoubleEndedIterator;
 //! use bioutils::charsets::bioutils::*;
+//! 
+//! // Get the reverse complement of the sequence. Other options for finding the complement are available.
+//! let mut reverse_complement = b"ACTG".to_owned();
+//! reverse_complement.mut_rev_recode(BioUtilsRecodeSet::DnaComplement);
+//! println!("{:?}", reverse_complement);
 //! 
 //! let mut phred33_score = 12u8;
 //! phred33_score.recode_u8(BioUtilsRecodeSet::Phred33Encode);
@@ -93,7 +99,6 @@ pub trait BioUtilsAsMutDoubleEndedIterator<T> {
 
 impl<T> BioUtilsAsMutDoubleEndedIterator<T> for T where
 T: AsMut<[u8]>,
-T: DoubleEndedIterator,
 {
     /// Recode the reverse of self, commonly for generating the reverse complement.
     fn mut_rev_recode(&mut self, code: BioUtilsRecodeSet) -> Option<&mut Self> {
@@ -114,7 +119,6 @@ pub trait BioUtilsAsRefDoubleEndedIterator<T> {
 
 impl<T> BioUtilsAsRefDoubleEndedIterator<T> for T where
 T: AsRef<[u8]>,
-T: DoubleEndedIterator,
 {
     /// Recode the reverse of self, commonly for generating the reverse complement.
     fn rev_recode(&self, code: BioUtilsRecodeSet) -> Option<Vec<u8>> {

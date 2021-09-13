@@ -22,6 +22,7 @@ pub enum BioUtilsCharSet {
     GcMixCase,
     AminoAcid,
     DnaComplement,
+    DnaComplementMixCase,
     Phred33Encode,
     Phred33Decode,
     Phred64Encode,
@@ -57,6 +58,7 @@ impl BioUtilsCharSet {
             BioUtilsCharSet::GcMixCase => &GC_MIX_CASE,
             BioUtilsCharSet::AminoAcid => &AMINO_ACID,
             BioUtilsCharSet::DnaComplement => &DNA_COMPLEMENT,
+            BioUtilsCharSet::DnaComplementMixCase => &DNA_COMPLEMENT_MIX_CASE,
             BioUtilsCharSet::Phred33Encode => &PHRED33_ENCODE,
             BioUtilsCharSet::Phred33Decode => &PHRED33_DECODE,
             BioUtilsCharSet::Phred33Score => &PHRED33_SCORE,
@@ -101,8 +103,8 @@ pub enum BioUtilsRecodeSet {
     Phred64Decode,
     DnaComplement,
     DnanComplement,
-    // Sanger,
-    // Solexa,
+    DnaComplementMixCase,
+    DnanComplementMixCase,
 }
 
 pub struct BioUtilsRecodeStruct<'a> {
@@ -119,6 +121,8 @@ impl BioUtilsRecodeSet {
             BioUtilsRecodeSet::Phred64Decode => BioUtilsRecodeStruct{ charset: BioUtilsCharSet::Phred64Encode.value(), recode: BioUtilsCharSet::Phred64Decode.value(), },
             BioUtilsRecodeSet::DnaComplement => BioUtilsRecodeStruct{ charset: BioUtilsCharSet::Dna.value(), recode: BioUtilsCharSet::DnaComplement.value(), },
             BioUtilsRecodeSet::DnanComplement => BioUtilsRecodeStruct{ charset: BioUtilsCharSet::Dnan.value(), recode: BioUtilsCharSet::DnaComplement.value(), },
+            BioUtilsRecodeSet::DnaComplementMixCase => BioUtilsRecodeStruct{ charset: BioUtilsCharSet::DnaMixCase.value(), recode: BioUtilsCharSet::DnaComplementMixCase.value(), },
+            BioUtilsRecodeSet::DnanComplementMixCase => BioUtilsRecodeStruct{ charset: BioUtilsCharSet::DnanMixCase.value(), recode: BioUtilsCharSet::DnaComplementMixCase.value(), },
         }
     }
 }

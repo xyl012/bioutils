@@ -11,6 +11,12 @@ use std::iter::FromIterator;
 use std::cmp::Ordering;
 use std::path::Path;
 
+
+use std::io::Read;
+
+use std::io::Write;
+use std::io::BufWriter;
+
 use crate::charsets::bioutils::*;
 use crate::charsets::iupac::*;
 use crate::charsets::quality::*;

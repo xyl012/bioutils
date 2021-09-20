@@ -1,7 +1,6 @@
+//! General helper functions for other utilities
+
 use super::*;
-
-
-
 
 pub trait ArithmeticAsRefSlice<T> {
     /// Returns the mean of the slice as u8

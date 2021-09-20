@@ -1,6 +1,13 @@
 
-//! Functions to curl/download ENA or other files. Currently, these are downloaded into the bioutils directory.
-
+//! Uses Easy Curl to download files such as fastq from ENA into a directory.
+//! ```
+//! // use std::path::Path;
+//! // use bioutils::files::http::bioutils_curl;
+//! // let fastq_ftp = "ftp://ftp.sra.ebi.ac.uk/vol1/fastq/SRR170/009/SRR1700869/";
+//! // let fastq_gz = "SRR1700869.fastq.gz";
+//! // let out_directory = Path::new("./");
+//! // bioutils_curl(fastq_ftp, fastq_gz, &out_directory);    
+//! ```
 
 use std::path::Path;
 use std::io::{Write};
@@ -18,8 +25,7 @@ pub fn build_url(url: &str, filename: &str) -> Result<Url, ParseError> {
     Ok(joined)
 }
 
-
-/// Curl (download) a file from a base url.
+/// Download a file from a base url.
 pub fn curl_url(url: &str, output_directory: &std::path::Path) {
     // Generate url to get file
     let mut easy = Easy::new();
@@ -40,8 +46,8 @@ pub fn curl_url(url: &str, output_directory: &std::path::Path) {
     // println!("{}", easy.response_code().unwrap());
 }
 
-/// Curl (download) a file from a base url and a filename.
-pub fn curl(url: &str, filename: &str, output_directory: &std::path::Path) {
+/// Download a file from a base url and a filename.
+pub fn bioutils_curl(url: &str, filename: &str, output_directory: &std::path::Path) {
     // Generate url to get file
     let mut easy = Easy::new();
     let file_url = build_url(url, filename).expect("Cannot build file url").to_string();

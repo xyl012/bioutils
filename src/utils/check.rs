@@ -1,8 +1,6 @@
+//! Check whether input is related to a character set and return a boolean, result, or option.
+
 use super::*;
-
-
-
-
 
 pub trait AllAsRefSlice<T> {
     /// Checks if all elements in the slice are contained in a character set (bool).

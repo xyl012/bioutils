@@ -1,11 +1,9 @@
-
 //! Trait to random characters with pseudorandom bases (Nn->{AC{TU}G}, IUPAC R to {AG}).
 //! Clean up (replace) non-target characters in a slice with target random characters.
 //! # Examples
 //! ```
 //! extern crate rand;
 //! use rand::rngs::ThreadRng;
-//! use std::string::String;
 //! use std::str;
 //! use rand::seq::SliceRandom;
 //! use crate::bioutils::utils::replace::CleanAsMutSlice;
@@ -21,6 +19,7 @@
 
 use super::*;
 
+/// Takes a BioUtilsCharSet and a ThreadRng and replaces any character not in the charset with a random character from the characterset.
 pub trait CleanAsMutSlice<T> {
     /// Takes a BioUtilsCharSet and a ThreadRng and replaces any character not in the charset with a random character from the characterset.
     fn mut_clean(&mut self, charset: BioUtilsCharSet, rng: ThreadRng) -> Result<&mut Self>;
@@ -28,13 +27,16 @@ pub trait CleanAsMutSlice<T> {
     fn mut_clean_with(&mut self, charset: &[u8], rng: ThreadRng) -> Result<&mut Self>;
 }
 
+/// Takes a BioUtilsCharSet and a ThreadRng and replaces any character not in the charset with a random character from the characterset.
 impl<T> CleanAsMutSlice<T> for T where 
 T: AsMut<[u8]>,
 {
+    /// Takes a BioUtilsCharSet and a ThreadRng and replaces any character not in the charset with a random character from the characterset.
     fn mut_clean(&mut self, charset: BioUtilsCharSet, mut rng: ThreadRng) -> Result<&mut Self> {
         self.as_mut().iter_mut().for_each(|c| if charset.value().contains(c) {} else {*c = *charset.value().choose(&mut rng).expect("Could not choose character")});
         Ok(self)
     }
+    /// Takes a character slice and a ThreadRng and replaces any character not in the charset with a random character from the characterset.
     fn mut_clean_with(&mut self, charset: &[u8], mut rng: ThreadRng) -> Result<&mut Self> {
         self.as_mut().iter_mut().for_each(|c| if charset.contains(c) {} else {*c = *charset.choose(&mut rng).expect("Could not choose character")});
         Ok(self)

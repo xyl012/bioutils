@@ -1,6 +1,15 @@
 
-//! Downloads the latest Gencode reference files. In addition to functions for downloading reference files, this file includes the gencode file names and base url as an array. 
+//! Download the latest Gencode reference files or specify a version to download.
 //! Each function downloads a specific file, the most popular being FASTA and GFF/GTF files related to GRCh38 primary assembly or GRCh38 reference chromosomes.
+//! // Download grch38 fasta gz and gtf gz to current directory
+//! # Examples
+//! ```
+//! // use std::path::Path;
+//! // let path = Path::new("./");
+//! // Downloads the latest file versions
+//! // download_grch38_primary_assembly_genome_fa_gz(&path);
+//! // download_gencode_vxx_primary_assembly_annotation_gtf_gz(&path);
+//! ```
 
 // Gencode files downloaded and their descriptions.
 
@@ -48,17 +57,19 @@
 extern crate ftp;
 extern crate regex;
 
-use std::io::Read;
-
-use std::io::Write;
-use std::io::BufWriter;
-
-use std::path::Path;
-use std::fs::File;
-use std::str;
+use super::*;
 
 use ftp::FtpStream;
 use regex::Regex;
+
+// use std::io::Read;
+
+// use std::io::Write;
+// use std::io::BufWriter;
+
+// use std::path::Path;
+// use std::fs::File;
+// use std::str;
 
 pub const FTP_SITE: &str = "ftp.ebi.ac.uk:21";
 pub const HUMAN_RELEASE_DIRECTORY: &str = "/pub/databases/gencode/Gencode_human/latest_release/";

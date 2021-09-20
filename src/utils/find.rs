@@ -1,12 +1,12 @@
-//! Convenience wrapper around the memmem crates find_iter to find b"CG"
-//! ```
-//! use memchr::memmem;
-//! use memchr::memmem::FindIter;
-//! use bioutils::utils::find::*;
-//! let test = b"ACGA";
-//! let mut iter = test.iter_cg();
-//! 
-//! ```
+// //! Convenience wrapper around the memmem crates find_iter to find b"CG"
+// //! ```
+// //! use memchr::memmem;
+// //! use memchr::memmem::FindIter;
+// //! use bioutils::utils::find::*;
+// //! let test = b"ACGA";
+// //! let mut iter = test.iter_cg();
+// //! 
+// //! ```
 
 use super::*;
 use memchr::memmem;

@@ -1,18 +1,5 @@
-
-//! Functions that do not fall into the general categories of checking, mutating, or generating a new sequence. Generally includes statistics and transformations.
+//! Counting
 //! # Examples
-//! ``
-//! use crate::bioutils::get::value;
-//! use crate::bioutils::utils::new::random_dna;
-//! use rand::rngs::ThreadRng;
-//! use std::string::String;
-//! use rand::seq::SliceRandom;
-//! 
-//! let mut rng = rand::thread_rng(); //create a random number generator
-//! let dna = random_dna(4,rng);
-//! let distance = dna.hamming_distance(b"AAAA");
-//! println!("{:?}", distance);
-// ! ``
 
 use super::*;
 

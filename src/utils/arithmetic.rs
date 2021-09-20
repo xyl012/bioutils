@@ -16,17 +16,14 @@ pub trait ArithmeticAsRefSlice<T> {
 impl<T> ArithmeticAsRefSlice<T> for T where
 T: AsRef<[u8]>,
 {
-
     /// Returns the mean of u8s as u8
     fn u8_mean(&self) -> Result<u8, TryFromIntError> {
         u8::try_from(self.as_ref().iter().map(|x| *x as u64).sum::<u64>() / self.as_ref().len() as u64)
     }
-    
     /// Returns the mean of u8s as usize
     fn usize_mean(&self) -> usize {
         self.as_ref().iter().map(|x| *x as usize).sum::<usize>() / (self.as_ref().len() as usize)
     }
-
     /// Returns the mode of u8s
     fn u8_mode(&self)-> Option<u8> {
         let mut counts = BTreeMap::new();

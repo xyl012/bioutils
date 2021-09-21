@@ -1,5 +1,7 @@
 # Bioutils
 
+Open for feature requests and edits!
+
 For a related bioinformatics resource:
 [Bioinformatics in Rust](https://kana4.github.io/bioinformatics_rust_book/)
 

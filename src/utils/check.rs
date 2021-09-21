@@ -1,4 +1,16 @@
 //! Check whether input is related to a character set and return a boolean, result, or option.
+//! Checks if all elements in the slice are contained in a character set. Boolean version shown, but also available in result and option.
+//! ```
+//! use bioutils::utils::check::AllAsRefSlice;
+//! use bioutils::charsets::bioutils::*;
+//! let dna_reference = &[67u8,67u8,67u8,67u8];
+//! println!("{:?}", dna_reference.result_is_all_charset(BioUtilsCharSet::Dna));
+//! // Also possible to use a custom &[u8] to check if all elements are contained in the character set.
+//! let dna_reference_2 = &[67u8,68u8,67u8,68u8];
+//! println!("{:?}", dna_reference_2.result_is_all_charset_with(&[67u8, 68u8]));
+//! let dna_reference_3 = &[67u8,68u8,67u8,67u8];
+//! println!("{:?}", dna_reference_3.result_is_all_charset_with(&[67u8,68u8]).unwrap().is_all_charset_with(&[5u8,6u8,7u8]));
+//! ```
 
 use super::*;
 

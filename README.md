@@ -22,6 +22,7 @@ For a related bioinformatics resource:
     use bioutils::charsets::bioutils::*;
     let dna_reference = &[67u8,67u8,67u8,67u8];
     println!("{:?}", dna_reference.result_is_all_charset(BioUtilsCharSet::Dna));
+
     // Also possible to use a custom &[u8] to check if all elements are contained in the character set.
     let dna_reference_2 = &[67u8,68u8,67u8,68u8];
     println!("{:?}", dna_reference_2.result_is_all_charset_with(&[67u8, 68u8]));
@@ -62,3 +63,12 @@ For a related bioinformatics resource:
     phred33_score_2.mut_recode(BioUtilsRecodeSet::Phred33Encode);
     println!("{:?}", phred33_score_2);
 
+    // Wrapper around memchr that returns an iterator over cg sites
+    use memchr::memmem;
+    use memchr::memmem::FindIter;
+    use bioutils::utils::find::*;
+    let seqcg = b"ACGA";
+    // Returns an iterator over the cg sites
+    let mut iter = seqcg.iter_cg();
+    // Returns all cpg sites in a vector
+    let cgpos = b"ACGA".all_positions_cg();

@@ -1,3 +1,5 @@
+//! Recoding functions. Main uses include finding the complement and reverse complement and converting scores to encodings
+//! Examples
 //! ```
 //! use crate::bioutils::utils::recode::BioUtilsRecodeU8;
 //! use crate::bioutils::utils::recode::BioUtilsRecodeAsMutSlice;

@@ -1,12 +1,14 @@
 //! Convenience wrapper around the memmem crates find_iter to find b"CG"
 //! ```
+//! // Wrapper around memchr that returns an iterator over cg sites
 //! use memchr::memmem;
 //! use memchr::memmem::FindIter;
 //! use bioutils::utils::find::*;
-//! let test = b"ACGA";
+//! let seqcg = b"ACGA";
 //! // Returns an iterator over the cg sites
-//! let mut iter = test.iter_cg();
-//! 
+//! let mut iter = seqcg.iter_cg();
+//! // Returns all cpg sites in a vector
+//! let cgpos = b"ACGA".all_positions_cg();
 //! ```
 
 use super::*;

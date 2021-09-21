@@ -43,6 +43,8 @@ T: AsMut<[u8]>,
     }
 }
 
+/// Other replacement functions that are a little more specific.
+/// Probably not to be used directly..
 pub trait XnaCleanAsMutSlice {
     /// Random all other than ACG(T/U)acg(t/u) with pseudorandom nucleotides ACG(T/U). Should be used last after other functions or for cleanup of unknown characters.
     fn mut_xna_clean(&mut self, xna: &str, rng: ThreadRng) -> Result<&mut Self>;

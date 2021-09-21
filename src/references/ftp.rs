@@ -574,7 +574,7 @@ pub fn download_reference_file(regex: &str, ftp_directory: &str, output_director
 }
 
 // For use within download_reference_file to search all files within the directory for a file name matching the regex and return the index in the vector that matches.
-pub fn search_files(file_names: &Vec<&std::ffi::OsStr>, regex: &str)-> usize {
+pub fn search_files(file_names: &[&std::ffi::OsStr], regex: &str)-> usize {
     let re = Regex::new(regex).unwrap();
     let target_index: usize = file_names.iter().position(|&x| re.is_match(x.to_str().expect("Cannot convert file name to UTF8"))).expect("Regex cannot match a target file");
     target_index

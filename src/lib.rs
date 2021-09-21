@@ -14,7 +14,7 @@ use std::path::Path;
 
 use std::io::Read;
 
-use std::io::Write;
+
 use std::io::BufWriter;
 
 use crate::charsets::bioutils::*;

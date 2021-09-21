@@ -1,5 +1,12 @@
 //! Counting
 //! # Examples
+//! ```
+//! // Counts the number of elements greater, less, and equal to the given value in the item
+//! // Use this to count the number of elements that pass (greater than or equal to) a threshold value
+//! 
+//! ```
+//! 
+//! 
 
 use super::*;
 
